@@ -599,7 +599,9 @@ L.Map.SmoothWheelZoom = L.Handler.extend({
   },
   _onWheeling: function (e) {
     var map = this._map;
-    this._goalZoom = this._goalZoom + L.DomEvent.getWheelDelta(e) * 0.003 * map.options.smoothSensitivity;
+    // trackpad pinch arrives as ctrl+wheel with tiny deltas — boost it or pinching barely zooms
+    var mult = e.ctrlKey ? 4 : 1;
+    this._goalZoom = this._goalZoom + L.DomEvent.getWheelDelta(e) * 0.003 * map.options.smoothSensitivity * mult;
     if (this._goalZoom < map.getMinZoom() || this._goalZoom > map.getMaxZoom()) {
       this._goalZoom = map._limitZoom(this._goalZoom);
     }
@@ -643,8 +645,7 @@ const M = {
     this._o = o;
     this.map = L.map('map', {
       zoomControl: false, minZoom: 5, zoomSnap: 0.25,
-      preferCanvas: true,
-      scrollWheelZoom: false, smoothWheelZoom: !o.reduced, smoothSensitivity: 1,
+      scrollWheelZoom: false, smoothWheelZoom: !o.reduced, smoothSensitivity: 2,
       tapTolerance: 40, attributionControl: false,
       zoomAnimation: !o.reduced, markerZoomAnimation: !o.reduced
     }).setView(o.center, o.zoom);
@@ -699,7 +700,7 @@ const M = {
     if (this.cl) this.map.removeLayer(this.cl);
     this._clientMarkers = {};
     this.cl = L.markerClusterGroup({
-      maxClusterRadius: 55, showCoverageOnHover: false,
+      maxClusterRadius: 55, showCoverageOnHover: false, animate: true,
       iconCreateFunction: c => {
         // number = client count; bubble size + ring weight = summed room demand
         const rooms = c.getAllChildMarkers().reduce((s, m) => s + (m.options.rooms || 0), 0);
@@ -757,8 +758,10 @@ const M = {
   /* ---- hex demand layer ---- */
   renderHex(cells) {
     this.clearHex();
+    // hex cells stay on the shared canvas renderer: ~90 non-interactive fills with no
+    // animation value — keeping them out of the SVG pane keeps zoom frames cheap
     this.hexL = L.layerGroup(cells.map(c =>
-      L.polygon(c.boundary, { color: c.color, weight: 1, opacity: 0.75, fillColor: c.color, fillOpacity: 0.55, interactive: false })
+      L.polygon(c.boundary, { renderer: this._canvas, color: c.color, weight: 1, opacity: 0.75, fillColor: c.color, fillOpacity: 0.55, interactive: false })
     ));
     if (this._hexOn !== false) this.hexL.addTo(this.map);
   },
