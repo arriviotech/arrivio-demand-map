@@ -323,11 +323,11 @@
     presenting = on == null ? !presenting : on;
     document.body.classList.toggle('presenting', presenting);
     if (presenting) {
-      try { document.documentElement.requestFullscreen && document.documentElement.requestFullscreen(); } catch (e) { }
+      try { const fp = document.documentElement.requestFullscreen && document.documentElement.requestFullscreen(); if (fp && fp.catch) fp.catch(() => { }); } catch (e) { }
       toast('Present mode — ←/→ saved views · Home fit · B black · Esc exit');
       $('spot').style.display = 'block';
     } else {
-      try { document.fullscreenElement && document.exitFullscreen(); } catch (e) { }
+      try { const xp = document.fullscreenElement && document.exitFullscreen(); if (xp && xp.catch) xp.catch(() => { }); } catch (e) { }
       $('spot').style.display = 'none'; $('black').style.display = 'none';
     }
     setTimeout(() => M.map.invalidateSize(), 350);
