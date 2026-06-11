@@ -1,0 +1,306 @@
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+<script src="https://unpkg.com/h3-js@4.4.0/dist/h3-js.umd.js"></script>
+<script src="https://unpkg.com/leaflet-simple-map-screenshoter@0.5.0"></script>
+<script>
+/* ============ Leaflet.SmoothWheelZoom (inlined) ============
+   Source: https://github.com/mutsuyuki/Leaflet.SmoothWheelZoom (MIT) — continuous
+   Google-Maps-style wheel zoom instead of stepped zoom animations. */
+L.Map.mergeOptions({ smoothWheelZoom: true, smoothSensitivity: 1 });
+L.Map.SmoothWheelZoom = L.Handler.extend({
+  addHooks: function () { L.DomEvent.on(this._map._container, 'wheel', this._onWheelScroll, this); },
+  removeHooks: function () { L.DomEvent.off(this._map._container, 'wheel', this._onWheelScroll, this); },
+  _onWheelScroll: function (e) { if (!this._isWheeling) { this._onWheelStart(e); } this._onWheeling(e); },
+  _onWheelStart: function (e) {
+    var map = this._map;
+    this._isWheeling = true;
+    this._wheelMousePosition = map.mouseEventToContainerPoint(e);
+    this._centerPoint = map.getSize()._divideBy(2);
+    this._startLatLng = map.containerPointToLatLng(this._centerPoint);
+    this._wheelMouseLatLng = map.containerPointToLatLng(this._wheelMousePosition);
+    this._startZoom = map.getZoom();
+    this._moved = false;
+    this._zooming = true;
+    map._stop();
+    if (map._panAnim) map._panAnim.stop();
+    this._goalZoom = map.getZoom();
+    this._prevCenter = map.getCenter();
+    this._prevZoom = map.getZoom();
+    this._zoomAnimationId = requestAnimationFrame(this._updateWheelZoom.bind(this));
+  },
+  _onWheeling: function (e) {
+    var map = this._map;
+    // trackpad pinch arrives as ctrl+wheel with tiny deltas — boost it or pinching barely zooms
+    var mult = e.ctrlKey ? 4 : 1;
+    this._goalZoom = this._goalZoom + L.DomEvent.getWheelDelta(e) * 0.003 * map.options.smoothSensitivity * mult;
+    if (this._goalZoom < map.getMinZoom() || this._goalZoom > map.getMaxZoom()) {
+      this._goalZoom = map._limitZoom(this._goalZoom);
+    }
+    this._wheelMousePosition = this._map.mouseEventToContainerPoint(e);
+    this._wheelMouseLatLng = map.containerPointToLatLng(this._wheelMousePosition);
+    clearTimeout(this._timeoutId);
+    this._timeoutId = setTimeout(this._onWheelEnd.bind(this), 200);
+    L.DomEvent.preventDefault(e);
+    L.DomEvent.stopPropagation(e);
+  },
+  _onWheelEnd: function () {
+    this._isWheeling = false;
+    cancelAnimationFrame(this._zoomAnimationId);
+    this._map._moveEnd(true);
+  },
+  _updateWheelZoom: function () {
+    var map = this._map;
+    if ((!map.getCenter().equals(this._prevCenter)) || map.getZoom() != this._prevZoom) return;
+    this._zoom = map.getZoom() + (this._goalZoom - map.getZoom()) * 0.3;
+    this._zoom = Math.floor(this._zoom * 100) / 100;
+    var delta = this._wheelMousePosition.subtract(this._centerPoint);
+    if (delta.x === 0 && delta.y === 0) return;
+    if (map.options.smoothWheelZoom === 'center') {
+      this._center = this._startLatLng;
+    } else {
+      this._center = map.unproject(map.project(this._wheelMouseLatLng, this._zoom).subtract(delta), this._zoom);
+    }
+    if (!this._moved) { map._moveStart(true, false); this._moved = true; }
+    map._move(this._center, this._zoom);
+    this._prevCenter = map.getCenter();
+    this._prevZoom = map.getZoom();
+    this._zoomAnimationId = requestAnimationFrame(this._updateWheelZoom.bind(this));
+  }
+});
+L.Map.addInitHook('addHandler', 'smoothWheelZoom', L.Map.SmoothWheelZoom);
+
+/* ============ Map adapter (Leaflet) ============ */
+const M = {
+  areas: [], _aid: 1, _labels: true, geoDelay: 300, _clientMarkers: {}, _selClient: null,
+  init(o) {
+    this._o = o;
+    this.map = L.map('map', {
+      zoomControl: false, minZoom: 5, zoomSnap: 0.25,
+      scrollWheelZoom: false, smoothWheelZoom: !o.reduced, smoothSensitivity: 2,
+      tapTolerance: 40, attributionControl: false,
+      zoomAnimation: !o.reduced, markerZoomAnimation: !o.reduced
+    }).setView(o.center, o.zoom);
+    if (o.reduced) this.map.scrollWheelZoom.enable();
+    // pause expensive chrome effects (backdrop blur) while the map is animating
+    this.map.on('movestart zoomstart', () => document.body.classList.add('map-moving'));
+    this.map.on('moveend zoomend', () => document.body.classList.remove('map-moving'));
+    L.control.attribution({ position: 'bottomleft', prefix: false }).addTo(this.map);
+    const t = (url, attr, opts) => L.tileLayer(url, Object.assign({ maxZoom: 20, attribution: attr, crossOrigin: 'anonymous', keepBuffer: 3 }, opts));
+    this.bases = {
+      dark:     t('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', '&copy; OpenStreetMap &copy; CARTO', { subdomains: 'abcd' }),
+      voyager:  t('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', '&copy; OpenStreetMap &copy; CARTO', { subdomains: 'abcd' }),
+      positron: t('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', '&copy; OpenStreetMap &copy; CARTO', { subdomains: 'abcd' }),
+      osm:      t('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', '&copy; OpenStreetMap', { maxZoom: 19 }),
+      sat:      t('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', 'Tiles &copy; Esri', { maxZoom: 19 })
+    };
+    this._base = null;
+    this._canvas = L.canvas({ padding: 0.3 });
+    this.map.on('click', e => o.onClick && o.onClick([e.latlng.lat, e.latlng.lng]));
+    this.map.on('zoomend', () => { this._applyLabels(); o.onZoom && o.onZoom(this.map.getZoom()); });
+    this.map.on('moveend', () => o.onMove && o.onMove());
+    o.onReady && o.onReady();
+  },
+  setBase(key) {
+    if (this._base) this.map.removeLayer(this.bases[this._base]);
+    this._base = key; this.bases[key].addTo(this.map); this.bases[key].bringToBack();
+  },
+  getZoom() { return this.map.getZoom(); },
+  getCenter() { const c = this.map.getCenter(); return [c.lat, c.lng]; },
+  flyTo(ll, zoom, reduced) { reduced ? this.map.setView(ll, zoom) : this.map.flyTo(ll, zoom, { duration: 1.2 }); },
+  fitAll(pts, reduced) {
+    if (!pts.length) return; const b = L.latLngBounds(pts.map(p => [p.lat, p.lng]));
+    reduced ? this.map.fitBounds(b, { padding: [50, 50] }) : this.map.flyToBounds(b, { padding: [50, 50], duration: 1.5 });
+  },
+  panInsets(tl, br) { this._padTL = tl; this._padBR = br; },
+  setLabels(b) { this._labels = b; this._applyLabels(); },
+  _applyLabels() {
+    const on = this._labels && this.map.getZoom() >= 11;
+    document.body.classList.toggle('show-labels', on);
+    // bind the permanent name tooltips lazily — 185 always-present tooltip nodes
+    // cost real frame time during zoom/pan at country scale where they can't show
+    if (on === this._labelsBound) return;
+    this._labelsBound = on;
+    Object.values(this._clientMarkers).forEach(e => {
+      if (on && this._labelFn) e.m.bindTooltip(this._labelFn(e.c), { permanent: true, direction: 'top', className: 'client-label', offset: [0, -3], interactive: false });
+      else e.m.unbindTooltip();
+    });
+  },
+
+  /* ---- clients ---- */
+  renderClients(list, styleFn, onClick, labelFn) {
+    if (this.cl) this.map.removeLayer(this.cl);
+    this._clientMarkers = {};
+    this.cl = L.markerClusterGroup({
+      maxClusterRadius: 55, showCoverageOnHover: false, animate: true,
+      iconCreateFunction: c => {
+        // number = client count; bubble size + ring weight = summed room demand
+        const rooms = c.getAllChildMarkers().reduce((s, m) => s + (m.options.rooms || 0), 0);
+        const n = c.getChildCount();
+        const sc = this.sizeScale || 1;
+        const size = Math.round((rooms < 120 ? 38 : rooms < 600 ? 46 : 54) * sc);
+        const ring = rooms < 120 ? 3 : rooms < 600 ? 4 : 5;
+        const r = size / 2 - 3;
+        const fs = Math.max(13, Math.round(size * 0.3));
+        return L.divIcon({
+          html: `<div class="dcl"><svg viewBox="0 0 ${size} ${size}"><circle class="cdisc" cx="${size / 2}" cy="${size / 2}" r="${r}" stroke-width="${ring}"/></svg><b style="font-size:${fs}px">${n}</b></div>`,
+          className: '', iconSize: [size, size]
+        });
+      }
+    });
+    this.cl.on('clustermouseover', e => {
+      const ms = e.propagatedFrom.getAllChildMarkers();
+      const rooms = ms.reduce((s, m) => s + (m.options.rooms || 0), 0);
+      const rl = rooms >= 1000 ? ((Math.round(rooms / 100) / 10).toLocaleString('de-DE') + 'k') : Math.round(rooms).toLocaleString('de-DE');
+      e.propagatedFrom.bindTooltip(ms.length + ' clients · ≈' + rl + ' rooms', { direction: 'top', offset: [0, -8] }).openTooltip();
+    });
+    list.forEach(c => {
+      const s = styleFn(c);
+      const m = L.circleMarker([c.lat, c.lng], {
+        radius: s.radiusPx, color: s.exact ? '#ffffff' : s.color, weight: s.exact ? 1.6 : 2,
+        fillColor: s.color, fillOpacity: s.exact ? 0.92 : 0.15, dashArray: s.exact ? null : '3,3',
+        rooms: c.rooms_mid || 0
+      });
+      m._cid = c.id;
+      m.on('click', () => onClick(c));
+      m.on('mouseover', () => { if (this._selClient !== c.id) { m.setStyle({ weight: 3 }); m.setRadius(s.radiusPx * 1.2); } m.bringToFront(); });
+      m.on('mouseout', () => { if (this._selClient !== c.id) { m.setStyle({ weight: s.exact ? 1.6 : 2 }); m.setRadius(s.radiusPx); } });
+      this._clientMarkers[c.id] = { m, s, c };
+      this.cl.addLayer(m);
+    });
+    this._labelFn = labelFn;
+    if (this._clientsOn !== false) this.map.addLayer(this.cl);
+    this._labelsBound = false;
+    this._applyLabels();
+  },
+  setClientsVisible(b) {
+    this._clientsOn = b;
+    if (!this.cl) return;
+    if (b && !this.map.hasLayer(this.cl)) this.map.addLayer(this.cl);
+    if (!b && this.map.hasLayer(this.cl)) this.map.removeLayer(this.cl);
+  },
+  setSelectedClient(id) {
+    const prev = this._clientMarkers[this._selClient];
+    if (prev) { prev.m.setStyle({ weight: prev.s.exact ? 1.6 : 2, color: prev.s.exact ? '#ffffff' : prev.s.color }); prev.m.setRadius(prev.s.radiusPx); }
+    this._selClient = id;
+    const cur = this._clientMarkers[id];
+    if (cur) { cur.m.setStyle({ weight: 3.5, color: '#ff7ac9' }); cur.m.setRadius(cur.s.radiusPx * 1.25); cur.m.bringToFront(); }
+  },
+
+  /* ---- hex demand layer ---- */
+  renderHex(cells) {
+    this.clearHex();
+    // hex cells stay on the shared canvas renderer: ~90 non-interactive fills with no
+    // animation value — keeping them out of the SVG pane keeps zoom frames cheap
+    this.hexL = L.layerGroup(cells.map(c =>
+      L.polygon(c.boundary, { renderer: this._canvas, color: c.color, weight: 1, opacity: 0.75, fillColor: c.color, fillOpacity: 0.55, interactive: false })
+    ));
+    if (this._hexOn !== false) this.hexL.addTo(this.map);
+  },
+  clearHex() { if (this.hexL) { this.map.removeLayer(this.hexL); this.hexL = null; } },
+  setHexVisible(b) {
+    this._hexOn = b;
+    if (!this.hexL) return;
+    if (b && !this.map.hasLayer(this.hexL)) this.map.addLayer(this.hexL);
+    if (!b && this.map.hasLayer(this.hexL)) this.map.removeLayer(this.hexL);
+  },
+
+  /* ---- proposed areas ---- */
+  _pinSvg() {
+    return '<svg viewBox="0 0 24 32"><path d="M12 1C6.2 1 1.5 5.7 1.5 11.5 1.5 19 12 31 12 31s10.5-12 10.5-19.5C22.5 5.7 17.8 1 12 1z" fill="#d6219b" stroke="#fff" stroke-width="2"/><circle cx="12" cy="11.5" r="4" fill="#fff"/></svg>';
+  },
+  addArea(lat, lng, km, name) {
+    const id = this._aid++;
+    const icon = L.divIcon({ className: '', html: `<div class="apin">${this._pinSvg()}<div class="atag">${name}</div></div>`, iconSize: [26, 56], iconAnchor: [13, 34] });
+    const mk = L.marker([lat, lng], { draggable: true, icon, zIndexOffset: 1000, alt: 'Proposed area ' + name }).addTo(this.map);
+    const ci = L.circle([lat, lng], { radius: km * 1000, color: '#ff7ac9', weight: 2, fillColor: '#d6219b', fillOpacity: 0.10 }).addTo(this.map);
+    mk.on('drag', e => { const ll = e.target.getLatLng(); ci.setLatLng(ll); ci.setStyle({ fillOpacity: 0.18 }); this._o.onAreaDrag && this._o.onAreaDrag(id, [ll.lat, ll.lng], e.target); });
+    mk.on('dragend', () => { ci.setStyle({ fillOpacity: 0.10 }); this._o.onAreaMoved && this._o.onAreaMoved(id); });
+    mk.on('click', () => this._o.onAreaClick && this._o.onAreaClick(id));
+    this.areas.push({ id, marker: mk, circle: ci, km, name });
+    return id;
+  },
+  areaLatLng(id) { const a = this._area(id); if (!a) return null; const ll = a.marker.getLatLng(); return [ll.lat, ll.lng]; },
+  _area(id) { return this.areas.find(a => a.id === id); },
+  setAreaName(id, name) { const a = this._area(id); if (!a) return; a.name = name; const el = a.marker.getElement(); if (el) { const tag = el.querySelector('.atag'); if (tag) tag.textContent = name; } },
+  setAreaRadius(id, km) { const a = this._area(id); if (!a) return; a.km = km; a.circle.setRadius(km * 1000); },
+  setAreaSelected(id, on) { const a = this._area(id); if (!a) return; a.circle.setStyle({ weight: on ? 3.5 : 2, fillOpacity: on ? 0.16 : 0.10 }); },
+  removeArea(id) { const i = this.areas.findIndex(a => a.id === id); if (i < 0) return; this.map.removeLayer(this.areas[i].marker); this.map.removeLayer(this.areas[i].circle); this.areas.splice(i, 1); },
+  clearAreas() { this.areas.forEach(a => { this.map.removeLayer(a.marker); this.map.removeLayer(a.circle); }); this.areas = []; },
+  getAreas() { return this.areas.map(a => { const ll = a.marker.getLatLng(); return { id: a.id, lat: ll.lat, lng: ll.lng, km: a.km, name: a.name }; }); },
+  markerPoint(id) { const a = this._area(id); if (!a) return null; return this.map.latLngToContainerPoint(a.marker.getLatLng()); },
+
+  /* ---- reachability ---- */
+  drawReach(gj, color) {
+    this.clearReach();
+    const feats = (gj.features || []).slice().sort((a, b) => (b.properties.value || 0) - (a.properties.value || 0));
+    const n = feats.length;
+    this.reachL = L.layerGroup(feats.map((f, i) => {
+      const fill = n === 1 ? 0.18 : [0.10, 0.18, 0.30][Math.min(i, 2)];
+      return L.geoJSON(f, { style: { color, weight: 2, opacity: 0.9, fillColor: color, fillOpacity: fill, dashArray: i === 0 ? '4,4' : null } });
+    })).addTo(this.map);
+  },
+  drawReachHull(pts, color) {
+    this.clearReach();
+    if (pts.length < 3) {
+      this.reachL = L.layerGroup(pts.map(p => L.circle(p, { radius: 700, color, fillColor: color, fillOpacity: 0.15 }))).addTo(this.map);
+      return;
+    }
+    this.reachL = L.polygon(pts, { color, weight: 2, dashArray: '5,5', fillColor: color, fillOpacity: 0.14 }).addTo(this.map);
+  },
+  clearReach() { if (this.reachL) { this.map.removeLayer(this.reachL); this.reachL = null; } },
+
+  /* ---- stations & hotels ---- */
+  showStations(list) {
+    this.clearStations();
+    this.stationL = L.layerGroup(list.map(s => L.circleMarker([s.lat, s.lng], { renderer: this._canvas, radius: 3, color: '#0a7d6a', weight: 1, fillColor: '#2dd4bf', fillOpacity: 0.85 }))).addTo(this.map);
+  },
+  clearStations() { if (this.stationL) { this.map.removeLayer(this.stationL); this.stationL = null; } },
+  renderHotels(list, colorFn, onClick) {
+    if (this.hotelL) this.map.removeLayer(this.hotelL);
+    const hs = Math.max(9, Math.round(13 * (this.sizeScale || 1)));
+    this.hotelL = L.layerGroup(list.map(h => {
+      const m = L.marker([h.lat, h.lng], {
+        icon: L.divIcon({ className: '', html: `<div class="hsq" style="background:${colorFn(h)}"></div>`, iconSize: [hs, hs] }),
+        keyboard: false, alt: h.name
+      });
+      m.on('click', () => onClick(h));
+      m.bindTooltip(h.name, { direction: 'top', className: 'client-label' });
+      return m;
+    })).addTo(this.map);
+  },
+
+  /* ---- geocoding (Photon + Nominatim fallback) ---- */
+  async geocode(c, REGION) {
+    const reg = REGION[c.state] || '';
+    const inDE = (la, ln) => la >= 47.2 && la <= 55.1 && ln >= 5.8 && ln <= 15.1;
+    const vars = nameVars(c.name);
+    for (const nm of vars) {
+      const qs = [reg ? nm + ', ' + reg + ', Germany' : null, nm + ', Germany'].filter(Boolean);
+      for (const q of qs) {
+        try {
+          const u = 'https://photon.komoot.io/api/?limit=1&lang=de&bbox=5.8,47.2,15.1,55.1&q=' + encodeURIComponent(q);
+          const r = await fetch(u); if (!r.ok) continue;
+          const j = await r.json(); const f = j && j.features && j.features[0];
+          if (f && f.geometry && f.geometry.coordinates) {
+            const ln = f.geometry.coordinates[0], la = f.geometry.coordinates[1];
+            if (inDE(la, ln)) return { lat: la, lng: ln, source: 'OpenStreetMap' };
+          }
+        } catch (e) { }
+      }
+    }
+    try {
+      const u = 'https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&countrycodes=de&q=' + encodeURIComponent(c.name + (reg ? ', ' + reg : '') + ', Germany');
+      const r = await fetch(u, { headers: { 'Accept-Language': 'de' } });
+      if (r.ok) { const j = await r.json(); if (j && j[0]) { const la = +j[0].lat, ln = +j[0].lon; const ok = la >= 47.2 && la <= 55.1 && ln >= 5.8 && ln <= 15.1; if (ok) return { lat: la, lng: ln, source: 'OpenStreetMap' }; } }
+    } catch (e) { }
+    return null;
+  }
+};
+function nameVars(n) {
+  const v = [n];
+  const g = n.replace(/University Hospital/ig, 'Universitätsklinikum'); if (g !== n) v.push(g);
+  const s = n.replace(/\b(gGmbH|gAG|GmbH|UG|mbH|e\.?V\.?|AG)\b/ig, '').replace(/\s{2,}/g, ' ').trim();
+  if (s && s !== n && v.indexOf(s) < 0) v.push(s);
+  return v.slice(0, 3);
+}
+</script>
