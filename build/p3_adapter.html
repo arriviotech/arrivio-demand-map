@@ -52,16 +52,25 @@ const M = {
     this.cl = L.markerClusterGroup({
       maxClusterRadius: 55, showCoverageOnHover: false,
       iconCreateFunction: c => {
+        // number = client count; bubble size + ring weight = summed room demand
         const rooms = c.getAllChildMarkers().reduce((s, m) => s + (m.options.rooms || 0), 0);
         const n = c.getChildCount();
-        const size = rooms < 120 ? 38 : rooms < 600 ? 46 : 54;
-        const lab = rooms >= 1000 ? (Math.round(rooms / 100) / 10) + 'k' : Math.round(rooms);
+        const sc = this.sizeScale || 1;
+        const size = Math.round((rooms < 120 ? 38 : rooms < 600 ? 46 : 54) * sc);
+        const ring = rooms < 120 ? 3 : rooms < 600 ? 4 : 5;
         const r = size / 2 - 3;
+        const fs = Math.max(13, Math.round(size * 0.3));
         return L.divIcon({
-          html: `<div class="dcl"><svg viewBox="0 0 ${size} ${size}"><circle cx="${size/2}" cy="${size/2}" r="${r}" fill="rgba(20,24,32,.85)" stroke="#d6219b" stroke-width="3.5"/></svg><b>${lab}</b></div>`,
+          html: `<div class="dcl"><svg viewBox="0 0 ${size} ${size}"><circle class="cdisc" cx="${size / 2}" cy="${size / 2}" r="${r}" stroke-width="${ring}"/></svg><b style="font-size:${fs}px">${n}</b></div>`,
           className: '', iconSize: [size, size]
         });
       }
+    });
+    this.cl.on('clustermouseover', e => {
+      const ms = e.propagatedFrom.getAllChildMarkers();
+      const rooms = ms.reduce((s, m) => s + (m.options.rooms || 0), 0);
+      const rl = rooms >= 1000 ? ((Math.round(rooms / 100) / 10).toLocaleString('de-DE') + 'k') : Math.round(rooms).toLocaleString('de-DE');
+      e.propagatedFrom.bindTooltip(ms.length + ' clients · ≈' + rl + ' rooms', { direction: 'top', offset: [0, -8] }).openTooltip();
     });
     list.forEach(c => {
       const s = styleFn(c);
@@ -164,9 +173,10 @@ const M = {
   clearStations() { if (this.stationL) { this.map.removeLayer(this.stationL); this.stationL = null; } },
   renderHotels(list, colorFn, onClick) {
     if (this.hotelL) this.map.removeLayer(this.hotelL);
+    const hs = Math.max(9, Math.round(13 * (this.sizeScale || 1)));
     this.hotelL = L.layerGroup(list.map(h => {
       const m = L.marker([h.lat, h.lng], {
-        icon: L.divIcon({ className: '', html: `<div class="hsq" style="background:${colorFn(h)}"></div>`, iconSize: [13, 13] }),
+        icon: L.divIcon({ className: '', html: `<div class="hsq" style="background:${colorFn(h)}"></div>`, iconSize: [hs, hs] }),
         keyboard: false, alt: h.name
       });
       m.on('click', () => onClick(h));

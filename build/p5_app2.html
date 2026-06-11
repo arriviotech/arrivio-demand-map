@@ -262,6 +262,7 @@
   function setBase(key) {
     S.base = key;
     M.setBase(key);
+    document.body.classList.toggle('light-map', key === 'voyager' || key === 'positron' || key === 'osm');
     document.querySelectorAll('[data-base]').forEach(b => b.setAttribute('aria-pressed', b.dataset.base === key));
     writeHash();
   }
@@ -269,7 +270,7 @@
   /* ============ legend ============ */
   function updateLegend() {
     const size = $('legend-size');
-    size.innerHTML = [10, 100, 300].map(v => { const r = Math.max(5, Math.min(26, 4 + Math.sqrt(v) * 2.1)); return `<i style="width:${r}px;height:${r}px"></i>`; }).join('') + `<span style="font-size:10px;color:var(--t3);margin-left:4px">10 → 300+ rooms</span>`;
+    size.innerHTML = [10, 100, 300].map(v => { const r = Math.round(Math.max(5, Math.min(26, 4 + Math.sqrt(v) * 2.1)) * (M.sizeScale || 1)); return `<i style="width:${r}px;height:${r}px"></i>`; }).join('') + `<span style="font-size:10px;color:var(--t3);margin-left:4px">10 → 300+ rooms</span>`;
     const cats = [];
     if (S.layers.clients) cats.push(`<div class="lg"><span class="sw" style="background:var(--client)"></span>Client (size = rooms)</div>`);
     if (S.areas.length) cats.push(`<div class="lg"><span class="sw" style="background:var(--acc)"></span>Arrivio proposed area</div>`);
@@ -471,6 +472,15 @@
       else setLayer(k, !S.layers[k]);
     });
     document.querySelectorAll('[data-base]').forEach(b => b.onclick = () => { setBase(b.dataset.base); closePops(); });
+    // symbol size
+    const applySym = throttle(() => { renderClientsNow(); renderHotelsNow(); updateLegend(); }, 200);
+    $('sym-size').oninput = e => {
+      const v = +e.target.value;
+      M.sizeScale = v / 100;
+      $('sym-size-val').textContent = v + '%';
+      localStorage.setItem('arrivio.symscale', v);
+      applySym();
+    };
     // reach
     document.querySelectorAll('.seg [data-mode]').forEach(b => b.onclick = () => {
       S.reach.mode = b.dataset.mode;
@@ -535,6 +545,10 @@
     document.querySelectorAll(`[data-lrow="${k}"]`).forEach(r => r.classList.toggle('off', !S.layers[k]));
   });
   if (localStorage.getItem('arrivio.panel') === 'closed' && !MOBILE()) document.body.classList.add('panel-collapsed');
+  const symSaved = Math.min(170, Math.max(60, +localStorage.getItem('arrivio.symscale') || 100));
+  M.sizeScale = symSaved / 100;
+  $('sym-size').value = symSaved;
+  $('sym-size-val').textContent = symSaved + '%';
   const used = applyCache();
   if (used) { $('geo-clear').style.display = 'block'; $('geo-export').disabled = false; }
   $('geo-prog').innerHTML = `<b>${CLIENTS.filter(located).length}/${CLIENTS.length}</b> clients pinned exactly${used ? ' (incl. locally saved)' : ' (baked in)'}.`;

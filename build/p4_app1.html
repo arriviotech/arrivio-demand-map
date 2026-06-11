@@ -115,7 +115,7 @@
 
   /* ============ data calc ============ */
   const located = c => c.precision === 'exact' || c.precision === 'city' || c.precision === 'district';
-  const styleOf = c => ({ color: cssVar('--client'), radiusPx: Math.max(5, Math.min(26, 4 + Math.sqrt(Math.max(0, c.rooms_mid)) * 2.1)), exact: located(c) });
+  const styleOf = c => ({ color: cssVar('--client'), radiusPx: Math.max(5, Math.min(26, 4 + Math.sqrt(Math.max(0, c.rooms_mid)) * 2.1)) * (M.sizeScale || 1), exact: located(c) });
   const shortName = n => n.length > 30 ? n.slice(0, 28) + '…' : n;
   const labelOf = c => esc(shortName(c.name)) + ' · ' + esc(c.rooms_disp);
   function visible() { return CLIENTS.filter(c => S.layers.approx || located(c)); }

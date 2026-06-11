@@ -38,6 +38,7 @@ html[data-theme="dark"]{
   --glass:rgba(22,25,31,.86);--glass-bd:rgba(255,255,255,.08);
   --shadow-sm:0 1px 2px rgba(0,0,0,.4);--shadow-lg:0 8px 24px rgba(0,0,0,.45);
   --ok:#34d399;--warn:#fbbf24;--err:#f87171;
+  --cl-disc:rgba(20,24,32,.88);--cl-text:#ffffff;
 }
 html[data-theme="light"]{
   --bg:#f3f4f6;--s1:#ffffff;--s2:#f7f8fa;--s3:#eef0f3;
@@ -49,6 +50,7 @@ html[data-theme="light"]{
   --glass:rgba(255,255,255,.85);--glass-bd:rgba(29,39,51,.10);
   --shadow-sm:0 1px 2px rgba(29,39,51,.12);--shadow-lg:0 8px 24px rgba(29,39,51,.18);
   --ok:#15803d;--warn:#b45309;--err:#dc2626;
+  --cl-disc:rgba(255,255,255,.94);--cl-text:#1d2733;
 }
 /* ================= BASE ================= */
 *{box-sizing:border-box}
@@ -75,9 +77,11 @@ body.show-labels .leaflet-tooltip.client-label{display:block}
 .leaflet-interactive{cursor:pointer}
 body.armed .leaflet-container{cursor:crosshair!important}
 /* cluster donut */
+body.light-map{--cl-disc:rgba(255,255,255,.97);--cl-text:#111827}
 .dcl{position:relative;display:flex;align-items:center;justify-content:center;width:100%;height:100%}
-.dcl svg{position:absolute;inset:0;width:100%;height:100%}
-.dcl b{position:relative;color:#fff;font-size:calc(12px * var(--ui-scale));font-weight:700;text-shadow:0 1px 2px rgba(0,0,0,.6)}
+.dcl svg{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+.dcl .cdisc{fill:var(--cl-disc);stroke:#d6219b}
+.dcl b{position:relative;z-index:1;color:var(--cl-text);font-weight:800;font-variant-numeric:tabular-nums;line-height:1}
 /* area pin */
 .apin{position:relative;display:flex;flex-direction:column;align-items:center;cursor:grab}
 .apin svg{filter:drop-shadow(0 2px 4px rgba(0,0,0,.45));width:calc(26px * var(--ui-scale));height:calc(34px * var(--ui-scale))}
@@ -450,6 +454,11 @@ body.presenting .cbtn .ic{width:22px;height:22px}
           <button class="bm b-osm" data-base="osm" aria-pressed="false">Detail</button>
           <button class="bm b-sat" data-base="sat" aria-pressed="false">Sat</button>
         </div>
+        <div class="subhead">Symbol size</div>
+        <div class="row" style="margin-top:4px">
+          <input type="range" id="sym-size" min="60" max="170" step="10" value="100" aria-label="Map symbol size">
+          <output id="sym-size-val" class="num" style="font-size:11px;font-weight:700;min-width:42px;text-align:right">100%</output>
+        </div>
       </div>
     </details>
 
@@ -610,16 +619,25 @@ const M = {
     this.cl = L.markerClusterGroup({
       maxClusterRadius: 55, showCoverageOnHover: false,
       iconCreateFunction: c => {
+        // number = client count; bubble size + ring weight = summed room demand
         const rooms = c.getAllChildMarkers().reduce((s, m) => s + (m.options.rooms || 0), 0);
         const n = c.getChildCount();
-        const size = rooms < 120 ? 38 : rooms < 600 ? 46 : 54;
-        const lab = rooms >= 1000 ? (Math.round(rooms / 100) / 10) + 'k' : Math.round(rooms);
+        const sc = this.sizeScale || 1;
+        const size = Math.round((rooms < 120 ? 38 : rooms < 600 ? 46 : 54) * sc);
+        const ring = rooms < 120 ? 3 : rooms < 600 ? 4 : 5;
         const r = size / 2 - 3;
+        const fs = Math.max(13, Math.round(size * 0.3));
         return L.divIcon({
-          html: `<div class="dcl"><svg viewBox="0 0 ${size} ${size}"><circle cx="${size/2}" cy="${size/2}" r="${r}" fill="rgba(20,24,32,.85)" stroke="#d6219b" stroke-width="3.5"/></svg><b>${lab}</b></div>`,
+          html: `<div class="dcl"><svg viewBox="0 0 ${size} ${size}"><circle class="cdisc" cx="${size / 2}" cy="${size / 2}" r="${r}" stroke-width="${ring}"/></svg><b style="font-size:${fs}px">${n}</b></div>`,
           className: '', iconSize: [size, size]
         });
       }
+    });
+    this.cl.on('clustermouseover', e => {
+      const ms = e.propagatedFrom.getAllChildMarkers();
+      const rooms = ms.reduce((s, m) => s + (m.options.rooms || 0), 0);
+      const rl = rooms >= 1000 ? ((Math.round(rooms / 100) / 10).toLocaleString('de-DE') + 'k') : Math.round(rooms).toLocaleString('de-DE');
+      e.propagatedFrom.bindTooltip(ms.length + ' clients · ≈' + rl + ' rooms', { direction: 'top', offset: [0, -8] }).openTooltip();
     });
     list.forEach(c => {
       const s = styleFn(c);
@@ -722,9 +740,10 @@ const M = {
   clearStations() { if (this.stationL) { this.map.removeLayer(this.stationL); this.stationL = null; } },
   renderHotels(list, colorFn, onClick) {
     if (this.hotelL) this.map.removeLayer(this.hotelL);
+    const hs = Math.max(9, Math.round(13 * (this.sizeScale || 1)));
     this.hotelL = L.layerGroup(list.map(h => {
       const m = L.marker([h.lat, h.lng], {
-        icon: L.divIcon({ className: '', html: `<div class="hsq" style="background:${colorFn(h)}"></div>`, iconSize: [13, 13] }),
+        icon: L.divIcon({ className: '', html: `<div class="hsq" style="background:${colorFn(h)}"></div>`, iconSize: [hs, hs] }),
         keyboard: false, alt: h.name
       });
       m.on('click', () => onClick(h));
@@ -886,7 +905,7 @@ function nameVars(n) {
 
   /* ============ data calc ============ */
   const located = c => c.precision === 'exact' || c.precision === 'city' || c.precision === 'district';
-  const styleOf = c => ({ color: cssVar('--client'), radiusPx: Math.max(5, Math.min(26, 4 + Math.sqrt(Math.max(0, c.rooms_mid)) * 2.1)), exact: located(c) });
+  const styleOf = c => ({ color: cssVar('--client'), radiusPx: Math.max(5, Math.min(26, 4 + Math.sqrt(Math.max(0, c.rooms_mid)) * 2.1)) * (M.sizeScale || 1), exact: located(c) });
   const shortName = n => n.length > 30 ? n.slice(0, 28) + '…' : n;
   const labelOf = c => esc(shortName(c.name)) + ' · ' + esc(c.rooms_disp);
   function visible() { return CLIENTS.filter(c => S.layers.approx || located(c)); }
@@ -1371,6 +1390,7 @@ function nameVars(n) {
   function setBase(key) {
     S.base = key;
     M.setBase(key);
+    document.body.classList.toggle('light-map', key === 'voyager' || key === 'positron' || key === 'osm');
     document.querySelectorAll('[data-base]').forEach(b => b.setAttribute('aria-pressed', b.dataset.base === key));
     writeHash();
   }
@@ -1378,7 +1398,7 @@ function nameVars(n) {
   /* ============ legend ============ */
   function updateLegend() {
     const size = $('legend-size');
-    size.innerHTML = [10, 100, 300].map(v => { const r = Math.max(5, Math.min(26, 4 + Math.sqrt(v) * 2.1)); return `<i style="width:${r}px;height:${r}px"></i>`; }).join('') + `<span style="font-size:10px;color:var(--t3);margin-left:4px">10 → 300+ rooms</span>`;
+    size.innerHTML = [10, 100, 300].map(v => { const r = Math.round(Math.max(5, Math.min(26, 4 + Math.sqrt(v) * 2.1)) * (M.sizeScale || 1)); return `<i style="width:${r}px;height:${r}px"></i>`; }).join('') + `<span style="font-size:10px;color:var(--t3);margin-left:4px">10 → 300+ rooms</span>`;
     const cats = [];
     if (S.layers.clients) cats.push(`<div class="lg"><span class="sw" style="background:var(--client)"></span>Client (size = rooms)</div>`);
     if (S.areas.length) cats.push(`<div class="lg"><span class="sw" style="background:var(--acc)"></span>Arrivio proposed area</div>`);
@@ -1580,6 +1600,15 @@ function nameVars(n) {
       else setLayer(k, !S.layers[k]);
     });
     document.querySelectorAll('[data-base]').forEach(b => b.onclick = () => { setBase(b.dataset.base); closePops(); });
+    // symbol size
+    const applySym = throttle(() => { renderClientsNow(); renderHotelsNow(); updateLegend(); }, 200);
+    $('sym-size').oninput = e => {
+      const v = +e.target.value;
+      M.sizeScale = v / 100;
+      $('sym-size-val').textContent = v + '%';
+      localStorage.setItem('arrivio.symscale', v);
+      applySym();
+    };
     // reach
     document.querySelectorAll('.seg [data-mode]').forEach(b => b.onclick = () => {
       S.reach.mode = b.dataset.mode;
@@ -1644,6 +1673,10 @@ function nameVars(n) {
     document.querySelectorAll(`[data-lrow="${k}"]`).forEach(r => r.classList.toggle('off', !S.layers[k]));
   });
   if (localStorage.getItem('arrivio.panel') === 'closed' && !MOBILE()) document.body.classList.add('panel-collapsed');
+  const symSaved = Math.min(170, Math.max(60, +localStorage.getItem('arrivio.symscale') || 100));
+  M.sizeScale = symSaved / 100;
+  $('sym-size').value = symSaved;
+  $('sym-size-val').textContent = symSaved + '%';
   const used = applyCache();
   if (used) { $('geo-clear').style.display = 'block'; $('geo-export').disabled = false; }
   $('geo-prog').innerHTML = `<b>${CLIENTS.filter(located).length}/${CLIENTS.length}</b> clients pinned exactly${used ? ' (incl. locally saved)' : ' (baked in)'}.`;
