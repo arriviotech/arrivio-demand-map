@@ -185,7 +185,7 @@
     $('geo-missing').innerHTML = missing.length ? `<ul class="mini">${missing.map(c => '<li>' + esc(c.name) + '</li>').join('')}</ul>` : '';
     $('geo-clear').style.display = 'block'; $('geo-export').disabled = false; btn.disabled = false; $('geo-cancel').hidden = true;
     announce(exact + ' of ' + CLIENTS.length + ' clients located');
-    renderClientsNow(); updateKPIs(); computeHex();
+    renderClientsNow(); updateKPIs(); computeHex(true);
   }
   function exportJSON() {
     const out = CLIENTS.map(c => ({ id: c.id, name: c.name, state: c.state, lat: c.lat, lng: c.lng, precision: c.precision, source: c.source || null, rooms: c.rooms_disp }));
@@ -254,7 +254,7 @@
     if (key === 'hex') computeHex();
     if (key === 'clients') syncClientVisibility();
     if (key === 'labels') M.setLabels(on);
-    if (key === 'approx') { renderClientsNow(); updateKPIs(); computeHex(); renderAreaList(); }
+    if (key === 'approx') { renderClientsNow(); updateKPIs(); computeHex(true); renderAreaList(); }
     if (key === 'gch' || key === 'sem') renderHotelsNow();
     if (key === 'stations') loadStations(on);
     updateLegend(); writeHash();

@@ -3,19 +3,88 @@
 <script src="https://unpkg.com/h3-js@4.4.0/dist/h3-js.umd.js"></script>
 <script src="https://unpkg.com/leaflet-simple-map-screenshoter@0.5.0"></script>
 <script>
+/* ============ Leaflet.SmoothWheelZoom (inlined) ============
+   Source: https://github.com/mutsuyuki/Leaflet.SmoothWheelZoom (MIT) — continuous
+   Google-Maps-style wheel zoom instead of stepped zoom animations. */
+L.Map.mergeOptions({ smoothWheelZoom: true, smoothSensitivity: 1 });
+L.Map.SmoothWheelZoom = L.Handler.extend({
+  addHooks: function () { L.DomEvent.on(this._map._container, 'wheel', this._onWheelScroll, this); },
+  removeHooks: function () { L.DomEvent.off(this._map._container, 'wheel', this._onWheelScroll, this); },
+  _onWheelScroll: function (e) { if (!this._isWheeling) { this._onWheelStart(e); } this._onWheeling(e); },
+  _onWheelStart: function (e) {
+    var map = this._map;
+    this._isWheeling = true;
+    this._wheelMousePosition = map.mouseEventToContainerPoint(e);
+    this._centerPoint = map.getSize()._divideBy(2);
+    this._startLatLng = map.containerPointToLatLng(this._centerPoint);
+    this._wheelMouseLatLng = map.containerPointToLatLng(this._wheelMousePosition);
+    this._startZoom = map.getZoom();
+    this._moved = false;
+    this._zooming = true;
+    map._stop();
+    if (map._panAnim) map._panAnim.stop();
+    this._goalZoom = map.getZoom();
+    this._prevCenter = map.getCenter();
+    this._prevZoom = map.getZoom();
+    this._zoomAnimationId = requestAnimationFrame(this._updateWheelZoom.bind(this));
+  },
+  _onWheeling: function (e) {
+    var map = this._map;
+    this._goalZoom = this._goalZoom + L.DomEvent.getWheelDelta(e) * 0.003 * map.options.smoothSensitivity;
+    if (this._goalZoom < map.getMinZoom() || this._goalZoom > map.getMaxZoom()) {
+      this._goalZoom = map._limitZoom(this._goalZoom);
+    }
+    this._wheelMousePosition = this._map.mouseEventToContainerPoint(e);
+    this._wheelMouseLatLng = map.containerPointToLatLng(this._wheelMousePosition);
+    clearTimeout(this._timeoutId);
+    this._timeoutId = setTimeout(this._onWheelEnd.bind(this), 200);
+    L.DomEvent.preventDefault(e);
+    L.DomEvent.stopPropagation(e);
+  },
+  _onWheelEnd: function () {
+    this._isWheeling = false;
+    cancelAnimationFrame(this._zoomAnimationId);
+    this._map._moveEnd(true);
+  },
+  _updateWheelZoom: function () {
+    var map = this._map;
+    if ((!map.getCenter().equals(this._prevCenter)) || map.getZoom() != this._prevZoom) return;
+    this._zoom = map.getZoom() + (this._goalZoom - map.getZoom()) * 0.3;
+    this._zoom = Math.floor(this._zoom * 100) / 100;
+    var delta = this._wheelMousePosition.subtract(this._centerPoint);
+    if (delta.x === 0 && delta.y === 0) return;
+    if (map.options.smoothWheelZoom === 'center') {
+      this._center = this._startLatLng;
+    } else {
+      this._center = map.unproject(map.project(this._wheelMouseLatLng, this._zoom).subtract(delta), this._zoom);
+    }
+    if (!this._moved) { map._moveStart(true, false); this._moved = true; }
+    map._move(this._center, this._zoom);
+    this._prevCenter = map.getCenter();
+    this._prevZoom = map.getZoom();
+    this._zoomAnimationId = requestAnimationFrame(this._updateWheelZoom.bind(this));
+  }
+});
+L.Map.addInitHook('addHandler', 'smoothWheelZoom', L.Map.SmoothWheelZoom);
+
 /* ============ Map adapter (Leaflet) ============ */
 const M = {
   areas: [], _aid: 1, _labels: true, geoDelay: 300, _clientMarkers: {}, _selClient: null,
   init(o) {
     this._o = o;
     this.map = L.map('map', {
-      zoomControl: false, minZoom: 5, zoomSnap: 0.25, zoomDelta: 0.5,
-      wheelPxPerZoomLevel: 120, wheelDebounceTime: 25,
+      zoomControl: false, minZoom: 5, zoomSnap: 0.25,
+      preferCanvas: true,
+      scrollWheelZoom: false, smoothWheelZoom: !o.reduced, smoothSensitivity: 1,
       tapTolerance: 40, attributionControl: false,
       zoomAnimation: !o.reduced, markerZoomAnimation: !o.reduced
     }).setView(o.center, o.zoom);
+    if (o.reduced) this.map.scrollWheelZoom.enable();
+    // pause expensive chrome effects (backdrop blur) while the map is animating
+    this.map.on('movestart zoomstart', () => document.body.classList.add('map-moving'));
+    this.map.on('moveend zoomend', () => document.body.classList.remove('map-moving'));
     L.control.attribution({ position: 'bottomleft', prefix: false }).addTo(this.map);
-    const t = (url, attr, opts) => L.tileLayer(url, Object.assign({ maxZoom: 20, attribution: attr, crossOrigin: 'anonymous' }, opts));
+    const t = (url, attr, opts) => L.tileLayer(url, Object.assign({ maxZoom: 20, attribution: attr, crossOrigin: 'anonymous', keepBuffer: 3 }, opts));
     this.bases = {
       dark:     t('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', '&copy; OpenStreetMap &copy; CARTO', { subdomains: 'abcd' }),
       voyager:  t('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', '&copy; OpenStreetMap &copy; CARTO', { subdomains: 'abcd' }),
@@ -43,7 +112,18 @@ const M = {
   },
   panInsets(tl, br) { this._padTL = tl; this._padBR = br; },
   setLabels(b) { this._labels = b; this._applyLabels(); },
-  _applyLabels() { document.body.classList.toggle('show-labels', this._labels && this.map.getZoom() >= 11); },
+  _applyLabels() {
+    const on = this._labels && this.map.getZoom() >= 11;
+    document.body.classList.toggle('show-labels', on);
+    // bind the permanent name tooltips lazily — 185 always-present tooltip nodes
+    // cost real frame time during zoom/pan at country scale where they can't show
+    if (on === this._labelsBound) return;
+    this._labelsBound = on;
+    Object.values(this._clientMarkers).forEach(e => {
+      if (on && this._labelFn) e.m.bindTooltip(this._labelFn(e.c), { permanent: true, direction: 'top', className: 'client-label', offset: [0, -3], interactive: false });
+      else e.m.unbindTooltip();
+    });
+  },
 
   /* ---- clients ---- */
   renderClients(list, styleFn, onClick, labelFn) {
@@ -83,11 +163,12 @@ const M = {
       m.on('click', () => onClick(c));
       m.on('mouseover', () => { if (this._selClient !== c.id) { m.setStyle({ weight: 3 }); m.setRadius(s.radiusPx * 1.2); } m.bringToFront(); });
       m.on('mouseout', () => { if (this._selClient !== c.id) { m.setStyle({ weight: s.exact ? 1.6 : 2 }); m.setRadius(s.radiusPx); } });
-      if (labelFn) m.bindTooltip(labelFn(c), { permanent: true, direction: 'top', className: 'client-label', offset: [0, -3], interactive: false });
-      this._clientMarkers[c.id] = { m, s };
+      this._clientMarkers[c.id] = { m, s, c };
       this.cl.addLayer(m);
     });
+    this._labelFn = labelFn;
     if (this._clientsOn !== false) this.map.addLayer(this.cl);
+    this._labelsBound = false;
     this._applyLabels();
   },
   setClientsVisible(b) {

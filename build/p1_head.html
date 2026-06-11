@@ -207,6 +207,8 @@ ul.mini li b{color:var(--t1)}
 #sel-card .approx{margin-top:6px;font-size:11px;color:var(--warn);background:rgba(251,191,36,.12);border-radius:var(--r-sm);padding:5px 8px}
 /* ================= FLOATING CHROME ================= */
 .glass{background:var(--glass);backdrop-filter:blur(12px) saturate(140%);-webkit-backdrop-filter:blur(12px) saturate(140%);border:1px solid var(--glass-bd);box-shadow:var(--shadow-lg)}
+/* re-blurring the chrome over a moving map costs frames — pause it during interaction */
+body.map-moving .glass{backdrop-filter:none;-webkit-backdrop-filter:none}
 #search-wrap{position:fixed;top:calc(env(safe-area-inset-top,0px) + 14px);left:16px;width:min(380px,calc(100vw - var(--panel-off) - 32px));z-index:var(--z-chrome)}
 #search-pill{display:flex;align-items:center;gap:9px;height:44px;border-radius:22px;padding:0 8px 0 15px}
 #search-pill .ic{color:var(--t3)}
