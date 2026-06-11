@@ -1,0 +1,208 @@
+<body>
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.2" y2="16.2"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+<symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+<symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></symbol>
+<symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M17.9 17.9C16.2 19.2 14.2 20 12 20c-6.5 0-10-8-10-8a18.5 18.5 0 0 1 5.1-5.9M9.9 4.2A9.5 9.5 0 0 1 12 4c6.5 0 10 8 10 8a18.5 18.5 0 0 1-2.2 3.2"/><line x1="3" y1="3" x2="21" y2="21"/></symbol>
+<symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 2 2 8.5 12 15l10-6.5L12 2z"/><path d="m2 15.5 10 6.5 10-6.5"/></symbol>
+<symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></symbol>
+<symbol id="i-chev" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+<symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6M10 11v6M14 11v6"/></symbol>
+<symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+<symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/></symbol>
+<symbol id="i-cam" viewBox="0 0 24 24"><path d="M3 8a2 2 0 0 1 2-2h2l2-3h6l2 3h2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8z"/><circle cx="12" cy="13" r="4"/></symbol>
+<symbol id="i-fit" viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M16 21h3a2 2 0 0 0 2-2v-3M8 21H5a2 2 0 0 1-2-2v-3"/></symbol>
+<symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.5 19 12 7 19.5v-15z"/></symbol>
+<symbol id="i-cross" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></symbol>
+<symbol id="i-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></symbol>
+<symbol id="i-fly" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2a10 10 0 1 0 10 10"/><path d="M22 2l-6 6M22 2h-5M22 2v5"/></symbol>
+<symbol id="i-reach" viewBox="0 0 24 24"><circle cx="12" cy="12" r="2.5"/><circle cx="12" cy="12" r="6.5"/><circle cx="12" cy="12" r="10" stroke-dasharray="3 3"/></symbol>
+<symbol id="i-save" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></symbol>
+<symbol id="i-panel" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="15" y1="3" x2="15" y2="21"/></symbol>
+</svg>
+
+<div id="map" role="application" aria-label="Map of Germany with client demand"></div>
+
+<!-- floating search -->
+<div id="search-wrap">
+  <div id="search-pill" class="glass">
+    <svg class="ic"><use href="#i-search"/></svg>
+    <input id="search" type="text" placeholder="Search clients, places, or lat,lng…" autocomplete="off" aria-label="Search clients and places">
+    <button id="search-clear" class="ibtn" aria-label="Clear search"><svg class="ic"><use href="#i-x"/></svg></button>
+  </div>
+  <div id="search-results" class="glass" role="listbox"></div>
+  <div id="chips">
+    <button class="chipb glass" data-chip="hex" aria-pressed="true"><span class="sw" style="background:#ea4f88"></span>Demand</button>
+    <button class="chipb glass" data-chip="clients" aria-pressed="true"><span class="sw" style="background:var(--client)"></span>Clients</button>
+    <button class="chipb glass" data-chip="hotels" aria-pressed="true"><span class="sw" style="background:var(--gch)"></span>Hotels</button>
+    <button class="chipb glass" data-chip="labels" aria-pressed="true">Labels</button>
+  </div>
+</div>
+
+<!-- helper pill for armed placement -->
+<div id="helper" class="glass"><svg class="ic" style="color:var(--acct)"><use href="#i-cross"/></svg><span>Click the map to place the area</span><kbd>Esc</kbd></div>
+
+<!-- panel -->
+<button id="panel-tab" aria-label="Open panel"><svg class="ic" style="transform:rotate(90deg)"><use href="#i-chev"/></svg></button>
+<aside id="panel" aria-label="Analysis panel">
+  <div id="grip" aria-hidden="true"><i></i></div>
+  <header class="phead">
+    <div class="brand"><b>arrivio</b><span>site selection</span></div>
+    <button id="btn-theme" class="ibtn" aria-label="Toggle dark / light theme"><svg class="ic"><use href="#i-sun"/></svg></button>
+    <button id="btn-collapse" class="ibtn" aria-label="Collapse panel"><svg class="ic"><use href="#i-panel"/></svg></button>
+  </header>
+  <div id="panel-body">
+    <div id="sel-card" hidden></div>
+
+    <details class="sec" id="sec-areas" open>
+      <summary><h2>Proposed areas</h2><span class="ssum" id="sum-areas"></span><svg class="ic chev"><use href="#i-chev"/></svg></summary>
+      <div class="secb">
+        <div id="area-empty" class="empty" hidden>
+          <svg class="ic"><use href="#i-pin"/></svg>
+          No areas yet.<br>Add one to see how many clients &amp; rooms a location covers.
+        </div>
+        <ul id="area-list"></ul>
+        <div class="btnrow">
+          <button class="btn primary" id="btn-add-area" aria-pressed="false"><svg class="ic" style="width:15px;height:15px"><use href="#i-plus"/></svg>Add area</button>
+          <button class="btn" id="btn-clear-areas">Clear all</button>
+        </div>
+        <div class="btnrow">
+          <button class="btn" id="btn-copy-link"><svg class="ic" style="width:14px;height:14px"><use href="#i-link"/></svg>Copy link</button>
+          <button class="btn" id="btn-compare">Compare</button>
+        </div>
+      </div>
+    </details>
+
+    <details class="sec" id="sec-demand" open>
+      <summary><h2>Demand</h2><span class="ssum" id="sum-demand"></span><svg class="ic chev"><use href="#i-chev"/></svg></summary>
+      <div class="secb">
+        <div class="kpis">
+          <div class="kpi"><div class="n num" id="kpi-clients">0</div><div class="l">clients shown</div></div>
+          <div class="kpi"><div class="n num" id="kpi-rooms">0</div><div class="l">rooms (sum)</div></div>
+          <div class="kpi hi"><div class="n num" id="kpi-cov">0%</div><div class="l" id="kpi-cov-sub">rooms covered</div></div>
+        </div>
+      </div>
+    </details>
+
+    <details class="sec" id="sec-layers" open>
+      <summary><h2>Layers</h2><span class="ssum"></span><svg class="ic chev"><use href="#i-chev"/></svg></summary>
+      <div class="secb">
+        <div class="lrow" data-lrow="hex"><span class="sw grad"></span><span class="lname">Demand hexmap</span>
+          <button class="eye" data-layer="hex" aria-pressed="true" aria-label="Toggle demand hexmap"><svg class="ic"><use href="#i-eye"/></svg></button></div>
+        <div class="lrow" data-lrow="clients"><span class="sw" style="background:var(--client)"></span><span class="lname">Clients</span><span class="lcount num" id="n-clients">185</span>
+          <button class="eye" data-layer="clients" aria-pressed="true" aria-label="Toggle clients"><svg class="ic"><use href="#i-eye"/></svg></button></div>
+        <div class="lrow indent" data-lrow="labels"><span class="sw" style="background:none;border-style:dashed"></span><span class="lname">Names &amp; rooms on zoom</span>
+          <button class="eye" data-layer="labels" aria-pressed="true" aria-label="Toggle labels"><svg class="ic"><use href="#i-eye"/></svg></button></div>
+        <div class="lrow indent" data-lrow="approx"><span class="sw" style="background:none"></span><span class="lname">Region-level pins</span>
+          <button class="eye" data-layer="approx" aria-pressed="true" aria-label="Toggle approximate pins"><svg class="ic"><use href="#i-eye"/></svg></button></div>
+        <div class="lrow" data-lrow="gch"><span class="sw sq" style="background:var(--gch)"></span><span class="lname">GCH hotels</span><span class="lcount num" id="n-gch">0</span>
+          <button class="eye" data-layer="gch" aria-pressed="true" aria-label="Toggle GCH hotels"><svg class="ic"><use href="#i-eye"/></svg></button></div>
+        <div class="lrow" data-lrow="sem"><span class="sw sq" style="background:var(--sem)"></span><span class="lname">Seminaris hotels</span><span class="lcount num" id="n-sem">0</span>
+          <button class="eye" data-layer="sem" aria-pressed="true" aria-label="Toggle Seminaris hotels"><svg class="ic"><use href="#i-eye"/></svg></button></div>
+        <div class="lrow" data-lrow="stations"><span class="sw" style="background:var(--bike)"></span><span class="lname">Bike-share stations</span>
+          <button class="eye" data-layer="stations" aria-pressed="false" aria-label="Toggle bike stations"><svg class="ic"><use href="#i-eye-off"/></svg></button></div>
+        <div class="subhead">Basemap</div>
+        <div class="bmrow">
+          <button class="bm b-dark" data-base="dark" aria-pressed="true">Dark</button>
+          <button class="bm b-voyager" data-base="voyager" aria-pressed="false">Clean</button>
+          <button class="bm b-positron" data-base="positron" aria-pressed="false">Light</button>
+          <button class="bm b-osm" data-base="osm" aria-pressed="false">Detail</button>
+          <button class="bm b-sat" data-base="sat" aria-pressed="false">Sat</button>
+        </div>
+      </div>
+    </details>
+
+    <details class="sec" id="sec-reach">
+      <summary><h2>Reachability</h2><span class="ssum" id="sum-reach"></span><svg class="ic chev"><use href="#i-chev"/></svg></summary>
+      <div class="secb">
+        <div class="seg" role="group" aria-label="Travel mode">
+          <button data-mode="bike-share" aria-pressed="true">Bike</button>
+          <button data-mode="walking" aria-pressed="false">Walk</button>
+          <button data-mode="transit" aria-pressed="false">Transit</button>
+        </div>
+        <div class="row"><label for="reach-min">Time</label><input type="range" id="reach-min" min="5" max="60" step="5" value="20"><output id="reach-min-val" class="num" style="font-size:11.5px;font-weight:700;min-width:48px;text-align:right">20 min</output></div>
+        <div class="row" style="margin-bottom:0"><span class="hint" style="margin:0;flex:1">Origin: <b id="reach-origin" style="color:var(--t1)">none — select a client or area</b></span></div>
+        <div class="btnrow">
+          <button class="btn primary" id="btn-reach-run" disabled>Show reach</button>
+          <button class="btn" id="btn-reach-clear">Clear</button>
+        </div>
+        <div id="reach-out"></div>
+      </div>
+    </details>
+
+    <details class="sec" id="sec-data">
+      <summary><h2>Data &amp; advanced</h2><span class="ssum"></span><svg class="ic chev"><use href="#i-chev"/></svg></summary>
+      <div class="secb">
+        <div class="subhead" style="margin-top:4px">Exact coordinates</div>
+        <p class="hint" style="margin-top:0" id="geo-prog">Coordinates are baked in.</p>
+        <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="185" aria-valuenow="0"><i id="geo-fill"></i></div>
+        <div class="btnrow">
+          <button class="btn" id="geo-run">Resolve coordinates</button>
+          <button class="btn" id="geo-cancel" hidden>Cancel</button>
+          <button class="btn" id="geo-export" disabled>Export JSON</button>
+        </div>
+        <div id="geo-missing"></div>
+        <button class="btn" id="geo-clear" style="margin-top:8px;width:100%;display:none">Clear saved coordinates…</button>
+        <div class="subhead">Routing key (OpenRouteService)</div>
+        <div class="row" style="margin-top:4px"><input type="text" id="ors-key" placeholder="Paste key — free at openrouteservice.org" aria-label="OpenRouteService key"><button class="btn" id="ors-save" style="flex:none">Save</button></div>
+        <p class="hint" id="ors-status"></p>
+        <div class="subhead">Add area by coordinates</div>
+        <div class="row" style="margin-top:4px">
+          <input type="number" id="a-lat" placeholder="lat" step="0.0001" aria-label="Latitude">
+          <input type="number" id="a-lng" placeholder="lng" step="0.0001" aria-label="Longitude">
+          <button class="btn" id="add-coord" style="flex:none">Add</button>
+        </div>
+        <p class="hint" id="hotel-status"></p>
+      </div>
+    </details>
+  </div>
+</aside>
+
+<!-- map controls -->
+<div id="ctrls">
+  <button class="cbtn glass" id="btn-present" aria-label="Presentation mode (P)" title="Present (P)"><svg class="ic"><use href="#i-play"/></svg></button>
+  <button class="cbtn glass" id="btn-shot" aria-label="Screenshot map" title="Screenshot"><svg class="ic"><use href="#i-cam"/></svg></button>
+  <button class="cbtn glass" id="btn-views" aria-label="Saved views" title="Saved views"><svg class="ic"><use href="#i-save"/></svg></button>
+  <button class="cbtn glass" id="btn-base" aria-label="Basemap" title="Basemap"><svg class="ic"><use href="#i-layers"/></svg></button>
+  <button class="cbtn glass" id="btn-fit" aria-label="Fit Germany (Home)" title="Fit all (Home)"><svg class="ic"><use href="#i-fit"/></svg></button>
+  <div class="cgroup glass">
+    <button class="cbtn" id="z-in" aria-label="Zoom in"><svg class="ic"><use href="#i-plus"/></svg></button>
+    <button class="cbtn" id="z-out" aria-label="Zoom out"><svg class="ic"><use href="#i-minus"/></svg></button>
+  </div>
+</div>
+<div class="pop glass" id="base-pop"><h3>Basemap</h3><div class="bmrow" style="grid-template-columns:repeat(2,1fr);min-width:180px">
+  <button class="bm b-dark" data-base="dark">Dark</button>
+  <button class="bm b-voyager" data-base="voyager">Clean</button>
+  <button class="bm b-positron" data-base="positron">Light</button>
+  <button class="bm b-osm" data-base="osm">Detail</button>
+  <button class="bm b-sat" data-base="sat">Sat</button>
+</div></div>
+<div class="pop glass" id="views-pop"><h3>Saved views</h3>
+  <ul id="views-list"></ul>
+  <button class="btn" id="btn-save-view" style="width:100%;margin-top:8px"><svg class="ic" style="width:14px;height:14px"><use href="#i-plus"/></svg>Save current view</button>
+  <p class="hint">In Present mode: ←/→ step through views, Home fits Germany, B blacks the screen, Esc exits.</p>
+</div>
+
+<!-- legend -->
+<div id="legend" class="glass">
+  <h3>Room demand</h3>
+  <div class="gbar"></div>
+  <div class="glab"><span>low</span><span id="legend-max">high</span></div>
+  <div class="sizekey" id="legend-size"></div>
+  <div id="legend-cats"></div>
+</div>
+
+<!-- overview -->
+<button id="ov-pill" class="glass num" aria-expanded="false"></button>
+<div id="ov-panel" class="glass"><h3>Coverage by area</h3><table id="ov-table"></table></div>
+
+<!-- FAB (mobile) -->
+<button id="fab" aria-label="Add area" aria-pressed="false"><svg class="ic"><use href="#i-plus"/></svg></button>
+
+<div id="toasts" role="presentation"></div>
+<div id="sr-live" class="vh" role="status" aria-live="polite" aria-atomic="true"></div>
+<div id="drag-tip" class="glass num"></div>
+<div id="black"></div>
+<div id="spot"></div>

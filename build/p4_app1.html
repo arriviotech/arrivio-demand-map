@@ -1,0 +1,337 @@
+<script>
+(function () {
+  'use strict';
+  /* ============ helpers ============ */
+  const $ = id => document.getElementById(id);
+  const NF = new Intl.NumberFormat('de-DE');
+  const fmt = n => NF.format(Math.round(n));
+  const kfmt = n => n >= 1000 ? NF.format(Math.round(n / 100) / 10) + 'k' : fmt(n);
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]));
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+  const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const MOBILE = () => matchMedia('(max-width: 640px)').matches;
+  function hav(a, b) {
+    const R = 6371, r = x => x * Math.PI / 180;
+    const dLa = r(b[0] - a[0]), dLn = r(b[1] - a[1]);
+    const s = Math.sin(dLa / 2) ** 2 + Math.cos(r(a[0])) * Math.cos(r(b[0])) * Math.sin(dLn / 2) ** 2;
+    return 2 * R * Math.asin(Math.sqrt(s));
+  }
+  const debounce = (fn, ms) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; };
+  const throttle = (fn, ms) => { let last = 0, t; return (...a) => { const now = Date.now(); if (now - last >= ms) { last = now; fn(...a); } else { clearTimeout(t); t = setTimeout(() => { last = Date.now(); fn(...a); }, ms - (now - last)); } }; };
+  const RAMP = ['#4b2991', '#872ca2', '#c0369d', '#ea4f88', '#fa7876', '#f6a97a', '#edd9a3'];
+  const MODE_COLOR = { 'bike-share': '#2dd4bf', 'walking': '#a78bfa', 'transit': '#fbbf24' };
+  const MODE_LABEL = { 'bike-share': 'bike-share', 'walking': 'walking', 'transit': 'public transport' };
+  const REGION = { 'NRW': 'Nordrhein-Westfalen', 'NRW+Lower Saxony': 'Nordrhein-Westfalen', 'NRW, Berlin': 'Nordrhein-Westfalen', 'Bavaria': 'Bayern', 'Berlin': 'Berlin', 'Bremen': 'Bremen', 'Saxony': 'Sachsen', 'Baden-Württember': 'Baden-Württemberg', 'multiple cities': '' };
+  const CHAIN_COLOR = () => ({ GCH: cssVar('--gch'), Seminaris: cssVar('--sem') });
+  const cssVar = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+
+  /* ============ state ============ */
+  const S = {
+    theme: localStorage.getItem('arrivio.theme') || 'dark',
+    base: 'dark',
+    layers: { hex: true, clients: true, labels: true, approx: true, gch: true, sem: true, stations: false },
+    reach: { mode: 'bike-share', min: 20, origin: null, active: false },
+    sel: null, selArea: null, armed: false,
+    areas: []   // {id, name, km}
+  };
+  let areaSeq = 0;
+  const nextName = () => String.fromCharCode(65 + (areaSeq++ % 26));
+
+  /* ============ URL hash state ============ */
+  function writeHashNow() {
+    const parts = ['v=1'];
+    const A = M.getAreas();
+    if (A.length) parts.push('areas=' + A.map(a => `${a.lat.toFixed(4)},${a.lng.toFixed(4)},${a.km},${encodeURIComponent(a.name)}`).join(';'));
+    parts.push('base=' + S.base);
+    const off = Object.keys(S.layers).filter(k => !S.layers[k]);
+    if (off.length) parts.push('off=' + off.join(','));
+    history.replaceState(null, '', '#' + parts.join('&'));
+  }
+  const writeHash = debounce(writeHashNow, 500);
+  function parseHash() {
+    const out = { areas: [], base: null, off: [] };
+    const h = location.hash.replace(/^#/, '');
+    if (!h) return out;
+    for (const kv of h.split('&')) {
+      const i = kv.indexOf('='); if (i < 0) continue;
+      const k = kv.slice(0, i), v = kv.slice(i + 1);
+      if (k === 'areas') v.split(';').forEach(s => {
+        const p = s.split(','); const lat = +p[0], lng = +p[1], km = +p[2] || 50;
+        if (isFinite(lat) && isFinite(lng)) out.areas.push({ lat, lng, km, name: decodeURIComponent(p[3] || '') });
+      });
+      if (k === 'base') out.base = v;
+      if (k === 'off') out.off = v.split(',');
+    }
+    return out;
+  }
+
+  /* ============ theme ============ */
+  function applyTheme(t, swapBase) {
+    S.theme = t;
+    document.documentElement.dataset.theme = t;
+    localStorage.setItem('arrivio.theme', t);
+    $('btn-theme').querySelector('use').setAttribute('href', t === 'dark' ? '#i-sun' : '#i-moon');
+    const meta = document.querySelector('meta[name=theme-color]');
+    if (meta) meta.content = t === 'dark' ? '#16191f' : '#ffffff';
+    if (swapBase) {
+      if (t === 'light' && S.base === 'dark') setBase('voyager');
+      else if (t === 'dark' && (S.base === 'voyager' || S.base === 'positron')) setBase('dark');
+    }
+    renderHotelsNow(); // chain colors are theme-dependent
+  }
+
+  /* ============ toasts + live region ============ */
+  function toast(msg, kind, action) {
+    const stack = $('toasts');
+    while (stack.children.length >= 3) stack.firstChild.remove();
+    const el = document.createElement('div');
+    el.className = 'toast glass' + (kind === 'error' ? ' error' : '');
+    el.setAttribute('role', kind === 'error' ? 'alert' : 'status');
+    el.innerHTML = `<span>${esc(msg)}</span>`;
+    if (action) {
+      const b = document.createElement('button'); b.className = 'ta'; b.textContent = action.label;
+      b.onclick = () => { el.remove(); action.fn(); };
+      el.appendChild(b);
+    }
+    stack.appendChild(el);
+    if (kind !== 'error') setTimeout(() => el.remove(), 3000 + Math.ceil(msg.split(' ').length / 3) * 1000);
+    else { const x = document.createElement('button'); x.className = 'ta'; x.textContent = '✕'; x.onclick = () => el.remove(); el.appendChild(x); }
+  }
+  const announce = m => { $('sr-live').textContent = m; };
+
+  /* ============ count-up ============ */
+  function animateNumber(el, to, format) {
+    format = format || fmt;
+    const from = el._v || 0; el._v = to;
+    if (REDUCED || document.hidden || Math.abs(to - from) < 2) { el.textContent = format(to); return; }
+    const t0 = performance.now();
+    const step = now => {
+      const t = Math.min(1, (now - t0) / 400), e = 1 - Math.pow(1 - t, 3);
+      el.textContent = format(from + (to - from) * e);
+      if (t < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+
+  /* ============ data calc ============ */
+  const located = c => c.precision === 'exact' || c.precision === 'city' || c.precision === 'district';
+  const styleOf = c => ({ color: cssVar('--client'), radiusPx: Math.max(5, Math.min(26, 4 + Math.sqrt(Math.max(0, c.rooms_mid)) * 2.1)), exact: located(c) });
+  const shortName = n => n.length > 30 ? n.slice(0, 28) + '…' : n;
+  const labelOf = c => esc(shortName(c.name)) + ' · ' + esc(c.rooms_disp);
+  function visible() { return CLIENTS.filter(c => S.layers.approx || located(c)); }
+  function coverageOf(lat, lng, km, list) {
+    let n = 0, rooms = 0;
+    list.forEach(c => { if (hav([lat, lng], [c.lat, c.lng]) <= km) { n++; rooms += (c.rooms_mid || 0); } });
+    return { n, rooms };
+  }
+  function combinedCoverage(list) {
+    const A = M.getAreas(); const ids = new Set(); let rooms = 0;
+    list.forEach(c => { for (const a of A) { if (hav([a.lat, a.lng], [c.lat, c.lng]) <= a.km) { ids.add(c.id); rooms += (c.rooms_mid || 0); break; } } });
+    return { n: ids.size, rooms };
+  }
+
+  /* ============ render pipeline ============ */
+  function renderClientsNow() {
+    M.renderClients(visible(), styleOf, selectClient, labelOf);
+    if (S.sel && S.sel.type === 'client') M.setSelectedClient(S.sel.id);
+  }
+  function updateKPIs() {
+    const list = visible();
+    const rooms = list.reduce((a, c) => a + (c.rooms_mid || 0), 0);
+    const cov = combinedCoverage(list);
+    const pct = rooms ? Math.round(cov.rooms / rooms * 100) : 0;
+    animateNumber($('kpi-clients'), list.length);
+    animateNumber($('kpi-rooms'), rooms, n => '≈' + kfmt(n));
+    animateNumber($('kpi-cov'), pct, n => Math.round(n) + '%');
+    $('kpi-cov-sub').textContent = '≈' + kfmt(cov.rooms) + ' rooms covered';
+    $('sum-demand').textContent = fmt(list.length) + ' clients · ≈' + kfmt(rooms) + ' rooms';
+    updateOverview(list, cov, rooms);
+    updateAreaStats(list);
+  }
+  function updateOverview(list, cov, totalRooms) {
+    const A = M.getAreas();
+    const pill = $('ov-pill');
+    if (!A.length) {
+      pill.innerHTML = `<span class="num"><b>${fmt(list.length)}</b> clients</span><span class="sep"></span><span class="num">≈<b>${kfmt(totalRooms)}</b> rooms</span><span style="color:var(--t3)">· add an area</span>`;
+    } else {
+      const pct = totalRooms ? Math.round(cov.rooms / totalRooms * 100) : 0;
+      pill.innerHTML = `<span class="num"><b>${A.length}</b> area${A.length > 1 ? 's' : ''}</span><span class="sep"></span><span class="num"><b>${fmt(cov.n)}</b> clients</span><span class="sep"></span><span class="num">≈<b>${kfmt(cov.rooms)}</b> rooms</span><span class="sep"></span><span class="num"><b>${pct}%</b> covered</span>`;
+    }
+    // table
+    const rows = A.map(a => ({ a, c: coverageOf(a.lat, a.lng, a.km, list) }));
+    const best = { n: Math.max(0, ...rows.map(r => r.c.n)), rooms: Math.max(0, ...rows.map(r => r.c.rooms)) };
+    $('ov-table').innerHTML =
+      `<tr><th>Area</th><th>Radius</th><th>Clients</th><th>Rooms</th><th>% of rooms</th></tr>` +
+      rows.map(r => `<tr><td>${esc(r.a.name)}</td><td class="num">${r.a.km} km</td>` +
+        `<td class="num${rows.length > 1 && r.c.n === best.n ? ' win' : ''}">${fmt(r.c.n)}</td>` +
+        `<td class="num${rows.length > 1 && r.c.rooms === best.rooms ? ' win' : ''}">≈${kfmt(r.c.rooms)}</td>` +
+        `<td class="num">${totalRooms ? Math.round(r.c.rooms / totalRooms * 100) : 0}%</td></tr>`).join('') +
+      (rows.length > 1 ? `<tr class="tot"><td>Combined (unique)</td><td></td><td class="num">${fmt(cov.n)}</td><td class="num">≈${kfmt(cov.rooms)}</td><td class="num">${totalRooms ? Math.round(cov.rooms / totalRooms * 100) : 0}%</td></tr>` : '');
+  }
+
+  /* ============ hex demand layer ============ */
+  function hexRes() { const z = M.getZoom(); return z <= 5 ? 4 : z <= 7 ? 5 : 6; }
+  function computeHex() {
+    if (typeof h3 === 'undefined') return;
+    if (!S.layers.hex || M.getZoom() >= 9) { M.setHexVisible(false); syncClientVisibility(); return; }
+    const res = hexRes();
+    const cells = {};
+    visible().forEach(c => {
+      try { const cell = h3.latLngToCell(c.lat, c.lng, res); cells[cell] = (cells[cell] || 0) + (c.rooms_mid || 0); } catch (e) { }
+    });
+    const vals = Object.values(cells);
+    if (!vals.length) { M.clearHex(); return; }
+    const max = Math.max(...vals);
+    $('legend-max').textContent = '≈' + kfmt(max) + ' rooms';
+    const out = Object.entries(cells).map(([cell, v]) => {
+      const t = Math.sqrt(v / max);
+      const color = RAMP[Math.min(RAMP.length - 1, Math.floor(t * RAMP.length))];
+      return { boundary: h3.cellToBoundary(cell), color, v };
+    });
+    M.renderHex(out);
+    M.setHexVisible(true);
+    syncClientVisibility();
+  }
+  function syncClientVisibility() {
+    const hexShowing = S.layers.hex && M.getZoom() < 9;
+    M.setClientsVisible(S.layers.clients && !hexShowing);
+  }
+
+  /* ============ areas ============ */
+  function addAreaAt(ll, km, name, silent) {
+    name = name || ('Area ' + nextName());
+    km = km || 50;
+    const id = M.addArea(ll[0], ll[1], km, name);
+    S.areas.push({ id, name, km });
+    renderAreaList();
+    updateKPIs();
+    writeHash();
+    if (!silent) { announce(name + ' added'); selectArea(id); }
+    return id;
+  }
+  function areaRowHTML(a, stats) {
+    return `<div class="top"><span class="dot"></span><input class="aname" value="${esc(a.name)}" aria-label="Area name" maxlength="24">
+      <div class="acts">
+        <button class="abtn fly" title="Zoom to area" aria-label="Zoom to ${esc(a.name)}"><svg class="ic" style="width:15px;height:15px"><use href="#i-fit"/></svg></button>
+        <button class="abtn reach" title="Reachability from here" aria-label="Reach from ${esc(a.name)}"><svg class="ic" style="width:15px;height:15px"><use href="#i-reach"/></svg></button>
+        <button class="abtn danger del" title="Remove area" aria-label="Remove ${esc(a.name)}"><svg class="ic" style="width:15px;height:15px"><use href="#i-trash"/></svg></button>
+      </div></div>
+      <div class="stats num">${stats}</div>
+      <div class="rrow"><input type="range" class="arad" min="10" max="200" step="5" value="${a.km}" aria-label="Radius of ${esc(a.name)}"><output class="num">${a.km} km</output></div>`;
+  }
+  function areaStatsText(a, list) {
+    const ll = M.areaLatLng(a.id); if (!ll) return '';
+    const c = coverageOf(ll[0], ll[1], a.km, list);
+    return `<b>${fmt(c.n)} clients</b> · ≈${kfmt(c.rooms)} rooms in ${a.km} km`;
+  }
+  function renderAreaList() {
+    const list = visible();
+    const ul = $('area-list');
+    $('area-empty').hidden = S.areas.length > 0;
+    $('sum-areas').textContent = S.areas.length ? S.areas.length + ' area' + (S.areas.length > 1 ? 's' : '') : 'none';
+    ul.innerHTML = '';
+    S.areas.forEach(a => {
+      const li = document.createElement('li');
+      li.className = 'arow' + (S.selArea === a.id ? ' sel' : '');
+      li.dataset.id = a.id;
+      li.innerHTML = areaRowHTML(a, areaStatsText(a, list));
+      const name = li.querySelector('.aname');
+      name.onchange = () => { a.name = name.value.trim() || a.name; name.value = a.name; M.setAreaName(a.id, a.name); updateKPIs(); writeHash(); };
+      li.querySelector('.fly').onclick = () => { const ll = M.areaLatLng(a.id); if (ll) M.flyTo(ll, Math.max(M.getZoom(), 9), REDUCED); selectArea(a.id); };
+      li.querySelector('.reach').onclick = () => { setReachOrigin({ type: 'area', id: a.id }); runReach(); };
+      li.querySelector('.del').onclick = () => removeAreaWithUndo(a.id);
+      const rad = li.querySelector('.arad'), out = li.querySelector('.rrow output');
+      rad.oninput = () => { a.km = +rad.value; out.textContent = a.km + ' km'; M.setAreaRadius(a.id, a.km); throttledKPIs(); writeHash(); };
+      li.onclick = e => { if (e.target.closest('button,input')) return; selectArea(a.id); };
+      ul.appendChild(li);
+    });
+  }
+  function updateAreaStats(list) {
+    list = list || visible();
+    document.querySelectorAll('#area-list .arow').forEach(li => {
+      const a = S.areas.find(x => x.id === +li.dataset.id);
+      if (a) li.querySelector('.stats').innerHTML = areaStatsText(a, list);
+    });
+  }
+  const throttledKPIs = throttle(updateKPIs, 120);
+  function removeAreaWithUndo(id) {
+    const a = S.areas.find(x => x.id === id); if (!a) return;
+    const ll = M.areaLatLng(id);
+    M.removeArea(id);
+    S.areas = S.areas.filter(x => x.id !== id);
+    if (S.selArea === id) { S.selArea = null; closeSel(); }
+    renderAreaList(); updateKPIs(); writeHash();
+    toast(a.name + ' removed', 'info', { label: 'Undo', fn: () => addAreaAt(ll, a.km, a.name) });
+  }
+  function selectArea(id) {
+    if (S.selArea) M.setAreaSelected(S.selArea, false);
+    S.selArea = id; S.sel = null; M.setSelectedClient(null);
+    M.setAreaSelected(id, true);
+    document.querySelectorAll('#area-list .arow').forEach(li => li.classList.toggle('sel', +li.dataset.id === id));
+    const a = S.areas.find(x => x.id === id); if (!a) return;
+    setReachOrigin({ type: 'area', id });
+    const list = visible(); const ll = M.areaLatLng(id);
+    const c = coverageOf(ll[0], ll[1], a.km, list);
+    const hotels = HOTELS.filter(h => hav(ll, [h.lat, h.lng]) <= a.km).length;
+    showSelCard(`
+      <div class="sname">${esc(a.name)}</div>
+      <div class="splace">Proposed Arrivio location · ${a.km} km radius</div>
+      <table>
+        <tr><td>Clients</td><td class="num"><b>${fmt(c.n)}</b></td></tr>
+        <tr><td>Rooms</td><td class="num"><b style="color:var(--acct)">≈${kfmt(c.rooms)}</b></td></tr>
+        <tr><td>Partner hotels</td><td class="num">${hotels}</td></tr>
+      </table>
+      <div class="btnrow">
+        <button class="btn primary" id="sc-reach">Reachability</button>
+        <button class="btn" id="sc-del">Remove</button>
+      </div>`);
+    $('sc-reach').onclick = () => runReach();
+    $('sc-del').onclick = () => removeAreaWithUndo(id);
+  }
+
+  /* ============ selection card ============ */
+  function showSelCard(html) {
+    const el = $('sel-card');
+    el.innerHTML = `<button class="ibtn close" aria-label="Close"><svg class="ic"><use href="#i-x"/></svg></button>` + html;
+    el.hidden = false;
+    el.querySelector('.close').onclick = closeSel;
+    if (MOBILE()) sheetTo('half');
+    $('panel-body').scrollTop = 0;
+  }
+  function closeSel() {
+    $('sel-card').hidden = true;
+    if (S.sel && S.sel.type === 'client') M.setSelectedClient(null);
+    if (S.selArea) { M.setAreaSelected(S.selArea, false); document.querySelectorAll('#area-list .arow.sel').forEach(li => li.classList.remove('sel')); }
+    S.sel = null; S.selArea = null;
+  }
+  function selectClient(c) {
+    S.sel = { type: 'client', id: c.id }; S.selArea = null;
+    M.setSelectedClient(c.id);
+    setReachOrigin({ type: 'client', id: c.id });
+    const A = M.getAreas();
+    let nearest = null;
+    A.forEach(a => { const d = hav([a.lat, a.lng], [c.lat, c.lng]); if (!nearest || d < nearest.d) nearest = { d, name: a.name }; });
+    const ap = located(c) ? '' : `<div class="approx">Region-level position — not yet resolved to an exact address.</div>`;
+    showSelCard(`
+      <div class="sname">${esc(c.name)}</div>
+      <div class="splace">${esc(c.place)} · ${esc(c.state)}</div>
+      <span class="chip num">Rooms: ${esc(c.rooms_disp)}</span>
+      <table>
+        <tr><td>Talents / yr</td><td>${esc(c.talents_disp || '—')}</td></tr>
+        <tr><td>Needs</td><td>${esc(c.req || '—')}</td></tr>
+        ${nearest ? `<tr><td>Nearest area</td><td class="num"><b style="color:var(--acct)">${NF.format(Math.round(nearest.d * 10) / 10)} km</b> · ${esc(nearest.name)}</td></tr>` : ''}
+      </table>
+      <div class="btnrow">
+        <button class="btn primary" id="sc-reach">Reachability</button>
+        <button class="btn" id="sc-area">+ Area here</button>
+      </div>${ap}`);
+    $('sc-reach').onclick = () => runReach();
+    $('sc-area').onclick = () => addAreaAt([c.lat, c.lng]);
+  }
+  function selectHotel(h) {
+    showSelCard(`
+      <div class="sname">${esc(h.name)}</div>
+      <div class="splace">${esc(h.city)} · ${esc(h.chain)} partner hotel${h.resolved ? '' : ' · locating…'}</div>
+      <div class="btnrow"><button class="btn" id="sc-area">+ Area here</button></div>`);
+    $('sc-area').onclick = () => addAreaAt([h.lat, h.lng]);
+  }
