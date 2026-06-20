@@ -660,7 +660,7 @@ const M = {
     this.map = L.map('map', {
       zoomControl: false, minZoom: 5, zoomSnap: 0.25,
       scrollWheelZoom: false, smoothWheelZoom: !o.reduced, smoothSensitivity: 2,
-      tapTolerance: 40, attributionControl: false,
+      tapTolerance: 40, attributionControl: false, closePopupOnClick: false,
       zoomAnimation: !o.reduced, markerZoomAnimation: !o.reduced
     }).setView(o.center, o.zoom);
     if (o.reduced) this.map.scrollWheelZoom.enable();
@@ -679,7 +679,7 @@ const M = {
     };
     this._base = null;
     this._canvas = L.canvas({ padding: 0.3 });
-    this.map.on('click', e => o.onClick && o.onClick([e.latlng.lat, e.latlng.lng]));
+    this.map.on('click', e => { if (this._skipMapClick) { this._skipMapClick = false; return; } o.onClick && o.onClick([e.latlng.lat, e.latlng.lng]); });
     this.map.on('zoomend', () => { this._applyLabels(); o.onZoom && o.onZoom(this.map.getZoom()); });
     this.map.on('moveend', () => o.onMove && o.onMove());
     o.onReady && o.onReady();
@@ -702,6 +702,9 @@ const M = {
     L.popup({ maxWidth: 300, minWidth: 230, className: 'arrivio-pop', autoPanPadding: [60, 90], autoClose: true, closeOnClick: false }).setLatLng(ll).setContent(html).openOn(this.map);
   },
   closeInfo() { if (this.map) this.map.closePopup(); },
+  // a click on a marker also bubbles to the map 'click'; flag it so the map handler
+  // doesn't immediately close the popup/selection we just opened
+  _markerHit() { this._skipMapClick = true; setTimeout(() => { this._skipMapClick = false; }, 0); },
   setLabels(b) { this._labels = b; this._applyLabels(); },
   _applyLabels() {
     const on = this._labels && this.map.getZoom() >= 11;
@@ -751,7 +754,7 @@ const M = {
         rooms: c.rooms_mid || 0
       });
       m._cid = c.id;
-      m.on('click', () => onClick(c));
+      m.on('click', () => { this._markerHit(); onClick(c); });
       m.on('mouseover', () => { if (this._selClient !== c.id) { m.setStyle({ weight: 3 }); m.setRadius(s.radiusPx * 1.2); } m.bringToFront(); });
       m.on('mouseout', () => { if (this._selClient !== c.id) { m.setStyle({ weight: s.exact ? 1.6 : 2 }); m.setRadius(s.radiusPx); } });
       this._clientMarkers[c.id] = { m, s, c };
@@ -805,7 +808,7 @@ const M = {
     const ci = L.circle([lat, lng], { radius: km * 1000, color: '#ff7ac9', weight: 2, fillColor: '#d6219b', fillOpacity: 0.10 }).addTo(this.map);
     mk.on('drag', e => { const ll = e.target.getLatLng(); ci.setLatLng(ll); ci.setStyle({ fillOpacity: 0.18 }); this._o.onAreaDrag && this._o.onAreaDrag(id, [ll.lat, ll.lng], e.target); });
     mk.on('dragend', () => { ci.setStyle({ fillOpacity: 0.10 }); this._o.onAreaMoved && this._o.onAreaMoved(id); });
-    mk.on('click', () => this._o.onAreaClick && this._o.onAreaClick(id));
+    mk.on('click', () => { this._markerHit(); this._o.onAreaClick && this._o.onAreaClick(id); });
     this.areas.push({ id, marker: mk, circle: ci, km, name });
     return id;
   },
@@ -853,7 +856,7 @@ const M = {
         icon: L.divIcon({ className: '', html: `<div class="hsq" style="background:${colorFn(h)}"></div>`, iconSize: [hs, hs] }),
         keyboard: false, alt: h.name
       });
-      m.on('click', () => onClick(h));
+      m.on('click', () => { this._markerHit(); onClick(h); });
       m.bindTooltip(h.name, { direction: 'top', className: 'client-label' });
       return m;
     })).addTo(this.map);
