@@ -170,8 +170,9 @@ See the chat prompt for the crisp version; the detail is here.
 
 ---
 
-## 10. Sourcing log (filled in after approval — currently empty)
+## 10. Sourcing log → see ARRIVIO_DATA_SOURCES.md
 
-> Each dataset will be recorded here as: **source name · URL · access date · exact table/query · license · transformation applied · resulting file**. This is the audit trail that makes the heatmaps defensible.
+The research is **done** and compiled, with every figure tagged [FIRM] / [EST] / [PROXY], the
+computed TAM + SAM per state, the pricing model with real anchors, and the full source list, in:
 
-*(pending your go-ahead)*
+➡️ **[ARRIVIO_DATA_SOURCES.md](ARRIVIO_DATA_SOURCES.md)** — please verify this before I build the map layers.
