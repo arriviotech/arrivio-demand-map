@@ -195,6 +195,15 @@ when I build the data/ folder after your approval.)*
 
 ---
 
+## 7b. Built so far (on the map)
+- **States basemap + TAM/SAM card** — LIVE. State boundaries from
+  [isellsoap/deutschlandGeoJSON](https://github.com/isellsoap/deutschlandGeoJSON) (`2_bundeslaender/4_niedrig`,
+  public, simplified to 3-decimal precision = 36 KB inlined). Choropleth colored by TAM; toggle
+  International vs +Domestic; click a state → population, inflow, **TAM (intl & total)**, nurse-
+  recognition proxy, **SAM**, and the national inflow-mix footnote. The **+Domestic** figure uses
+  `DOMESTIC_FACTOR = 1.36` (total/from-abroad ratio, derived from NRW 2023 516,904/378,360 = 1.366
+  and Bayern 2023 455,877/335,582 = 1.358) and is labeled "(est.)".
+
 ## 8. Honest gaps (so there are no surprises)
 - **Per-state healthcare** is a population proxy until I pull the hospital-nursing-staff Excel.
 - **Per-hotel** occupancy/price/rooms are **modeled** — real per-property data isn't public.

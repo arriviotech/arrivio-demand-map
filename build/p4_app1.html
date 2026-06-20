@@ -29,6 +29,7 @@
   const S = {
     theme: localStorage.getItem('arrivio.theme') || 'dark',
     base: 'voyager',
+    stateMetric: 'intl',
     layers: { hex: true, clients: true, labels: true, approx: true, gch: true, sem: true, stations: false },
     reach: { mode: 'bike-share', min: 20, origin: null, active: false },
     sel: null, selArea: null, armed: false,
@@ -344,4 +345,31 @@
     const wire = root => { const ab = root.querySelector('[data-act="area"]'); if (ab) ab.onclick = () => addAreaAt([h.lat, h.lng]); };
     if (MOBILE()) { showSelCard(html); wire($('sel-card')); }
     else M.openInfo([h.lat, h.lng], html, wire);
+  }
+
+  /* ============ states / TAM ============ */
+  const eurShort = v => v >= 1e9 ? '€' + (v / 1e9).toFixed(2).replace('.', ',') + ' bn' : '€' + fmt(v / 1e6) + ' m';
+  const stateIntl = name => (STATES_DATA[name] || {}).intl || 0;
+  const stateTotal = name => Math.round(stateIntl(name) * DOMESTIC_FACTOR);
+  const stateInflow = (name, metric) => metric === 'total' ? stateTotal(name) : stateIntl(name);
+  const stateTAM = (name, metric) => stateInflow(name, metric) * TAM_PER_PERSON;
+  const stateSAM = name => ((STATES_DATA[name] || {}).hc || 0) * TAM_PER_PERSON;
+  const statesValueFn = () => (name => stateTAM(name, S.stateMetric));
+  function selectState(name) {
+    const d = STATES_DATA[name]; if (!d) return;
+    const comp = INFLOW_COMPOSITION.map(c => `${c.label} ${c.pct}%`).join(' · ');
+    showSelCard(`
+      <div class="sname">${esc(name)}</div>
+      <div class="splace">Total Addressable Market · €${TAM_PER_PERSON / 1000}k per person / year</div>
+      <table>
+        <tr><td>Population</td><td class="num">${fmt(d.pop)}</td></tr>
+        <tr><td>International inflow / yr</td><td class="num">${fmt(d.intl)}</td></tr>
+        <tr><td>+ Domestic (est.)</td><td class="num">${fmt(stateTotal(name))}</td></tr>
+        <tr><td><b>TAM</b> · international</td><td class="num"><b style="color:var(--acct)">${eurShort(stateIntl(name) * TAM_PER_PERSON)}</b></td></tr>
+        <tr><td><b>TAM</b> · + domestic (est.)</td><td class="num"><b style="color:var(--acct)">${eurShort(stateTotal(name) * TAM_PER_PERSON)}</b></td></tr>
+        <tr><td>Nurse recognitions / yr (proxy)</td><td class="num">≈${fmt(d.hc)}</td></tr>
+        <tr><td><b>SAM</b> · healthcare</td><td class="num"><b style="color:var(--acct)">${eurShort(stateSAM(name))}</b></td></tr>
+      </table>
+      <p class="hint" style="margin-top:8px">National inflow mix: ${esc(comp)}.</p>
+      <p class="hint" style="margin-top:4px">Top origins: ${esc(INFLOW_TOP_ORIGINS)}. TAM = inflow × €${TAM_PER_PERSON / 1000}k/yr; SAM = nurse recognitions × €${TAM_PER_PERSON / 1000}k. Sources: ARRIVIO_DATA_SOURCES.md.</p>`);
   }

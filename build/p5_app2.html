@@ -261,10 +261,27 @@
   }
   function setBase(key) {
     S.base = key;
-    M.setBase(key);
-    document.body.classList.toggle('light-map', key === 'voyager' || key === 'positron' || key === 'osm');
+    const states = key === 'states';
+    document.body.classList.toggle('states-mode', states);
+    if (states) {
+      M.setBase('positron');
+      M.setHexVisible(false);
+      M.showStates(statesValueFn(), selectState);
+      document.body.classList.add('light-map');
+      updateStatesLegend();
+    } else {
+      M.hideStates();
+      M.setBase(key);
+      document.body.classList.toggle('light-map', key === 'voyager' || key === 'positron' || key === 'osm');
+      computeHex();
+    }
+    $('states-legend').hidden = !states;
     document.querySelectorAll('[data-base]').forEach(b => b.setAttribute('aria-pressed', b.dataset.base === key));
     writeHash();
+  }
+  function updateStatesLegend() {
+    const max = M.statesMax();
+    $('states-legend-max').textContent = max >= 1e9 ? '€' + (max / 1e9).toFixed(1) + ' bn' : '€' + Math.round(max / 1e6) + ' m';
   }
 
   /* ============ legend ============ */
@@ -472,6 +489,12 @@
       else setLayer(k, !S.layers[k]);
     });
     document.querySelectorAll('[data-base]').forEach(b => b.onclick = () => { setBase(b.dataset.base); closePops(); });
+    // states TAM metric toggle
+    document.querySelectorAll('#state-metric [data-metric]').forEach(b => b.onclick = () => {
+      S.stateMetric = b.dataset.metric;
+      document.querySelectorAll('#state-metric [data-metric]').forEach(x => x.setAttribute('aria-pressed', x === b));
+      if (S.base === 'states') { M.restyleStates(statesValueFn()); updateStatesLegend(); }
+    });
     // symbol size
     const applySym = throttle(() => { renderClientsNow(); renderHotelsNow(); updateLegend(); }, 200);
     $('sym-size').oninput = e => {

@@ -69,6 +69,10 @@ L.Map.SmoothWheelZoom = L.Handler.extend({
 });
 L.Map.addInitHook('addHandler', 'smoothWheelZoom', L.Map.SmoothWheelZoom);
 
+/* ============ sunset ramp (shared by hex + states choropleth) ============ */
+const RAMP7 = ['#4b2991', '#872ca2', '#c0369d', '#ea4f88', '#fa7876', '#f6a97a', '#edd9a3'];
+function rampColor(t) { t = t < 0 ? 0 : t > 1 ? 1 : t; return RAMP7[Math.min(6, Math.floor(t * 7))]; }
+
 /* ============ Map adapter (Leaflet) ============ */
 const M = {
   areas: [], _aid: 1, _labels: true, geoDelay: 300, _clientMarkers: {}, _selClient: null,
@@ -213,6 +217,28 @@ const M = {
     if (b && !this.map.hasLayer(this.hexL)) this.map.addLayer(this.hexL);
     if (!b && this.map.hasLayer(this.hexL)) this.map.removeLayer(this.hexL);
   },
+
+  /* ---- States choropleth (TAM) ---- */
+  showStates(valueFn, onClick) {
+    this.hideStates();
+    this._statesOnClick = onClick;
+    const vals = DE_STATES_GEO.features.map(f => valueFn(f.properties.name)).filter(v => v > 0);
+    this._statesMax = Math.max.apply(null, vals.concat([1]));
+    const self = this;
+    this.statesL = L.geoJSON(DE_STATES_GEO, {
+      style: f => ({ color: '#ffffff', weight: 1.2, fillColor: rampColor(Math.sqrt((valueFn(f.properties.name) || 0) / self._statesMax)), fillOpacity: 0.8 }),
+      onEachFeature: (f, layer) => {
+        const nm = f.properties.name;
+        layer.on('click', () => { self._markerHit(); onClick(nm); });
+        layer.on('mouseover', () => layer.setStyle({ weight: 3, color: '#d6219b' }));
+        layer.on('mouseout', () => layer.setStyle({ weight: 1.2, color: '#ffffff' }));
+        layer.bindTooltip(nm, { sticky: true, className: 'client-label' });
+      }
+    }).addTo(this.map);
+  },
+  restyleStates(valueFn) { if (this.statesL) this.showStates(valueFn, this._statesOnClick); },
+  hideStates() { if (this.statesL) { this.map.removeLayer(this.statesL); this.statesL = null; } },
+  statesMax() { return this._statesMax || 1; },
 
   /* ---- proposed areas ---- */
   _pinSvg() {

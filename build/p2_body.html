@@ -104,12 +104,13 @@
         <div class="lrow" data-lrow="stations"><span class="sw" style="background:var(--bike)"></span><span class="lname">Bike-share stations</span>
           <button class="eye" data-layer="stations" aria-pressed="false" aria-label="Toggle bike stations"><svg class="ic"><use href="#i-eye-off"/></svg></button></div>
         <div class="subhead">Basemap</div>
-        <div class="bmrow">
-          <button class="bm b-dark" data-base="dark" aria-pressed="true">Dark</button>
-          <button class="bm b-voyager" data-base="voyager" aria-pressed="false">Clean</button>
+        <div class="bmrow" style="grid-template-columns:repeat(3,1fr)">
+          <button class="bm b-voyager" data-base="voyager" aria-pressed="true">Clean</button>
+          <button class="bm b-dark" data-base="dark" aria-pressed="false">Dark</button>
           <button class="bm b-positron" data-base="positron" aria-pressed="false">Light</button>
           <button class="bm b-osm" data-base="osm" aria-pressed="false">Detail</button>
           <button class="bm b-sat" data-base="sat" aria-pressed="false">Sat</button>
+          <button class="bm b-states" data-base="states" aria-pressed="false">States · TAM</button>
         </div>
         <div class="subhead">Symbol size</div>
         <div class="row" style="margin-top:4px">
@@ -177,12 +178,13 @@
     <button class="cbtn" id="z-out" aria-label="Zoom out"><svg class="ic"><use href="#i-minus"/></svg></button>
   </div>
 </div>
-<div class="pop glass" id="base-pop"><h3>Basemap</h3><div class="bmrow" style="grid-template-columns:repeat(2,1fr);min-width:180px">
-  <button class="bm b-dark" data-base="dark">Dark</button>
+<div class="pop glass" id="base-pop"><h3>Basemap</h3><div class="bmrow" style="grid-template-columns:repeat(2,1fr);min-width:190px">
   <button class="bm b-voyager" data-base="voyager">Clean</button>
+  <button class="bm b-dark" data-base="dark">Dark</button>
   <button class="bm b-positron" data-base="positron">Light</button>
   <button class="bm b-osm" data-base="osm">Detail</button>
   <button class="bm b-sat" data-base="sat">Sat</button>
+  <button class="bm b-states" data-base="states">States · TAM</button>
 </div></div>
 <div class="pop glass" id="views-pop"><h3>Saved views</h3>
   <ul id="views-list"></ul>
@@ -197,6 +199,18 @@
   <div class="glab"><span>low</span><span id="legend-max">high</span></div>
   <div class="sizekey" id="legend-size"></div>
   <div id="legend-cats"></div>
+</div>
+
+<!-- states TAM legend -->
+<div id="states-legend" class="glass" hidden>
+  <h3>Total Addressable Market</h3>
+  <div class="seg" id="state-metric" role="group" aria-label="Inflow basis">
+    <button data-metric="intl" aria-pressed="true">International</button>
+    <button data-metric="total" aria-pressed="false">+ Domestic</button>
+  </div>
+  <div class="gbar" style="margin-top:8px"></div>
+  <div class="glab"><span>lower</span><span id="states-legend-max">higher</span></div>
+  <p class="hint" style="margin:6px 0 0">Color = TAM (inflow × €15k/yr). Click a state for the full breakdown.</p>
 </div>
 
 <!-- overview -->

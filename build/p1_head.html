@@ -182,6 +182,7 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;bac
 .bm.b-positron{background:linear-gradient(160deg,#f4f4f2,#dcdee0);color:#555;text-shadow:none}
 .bm.b-osm{background:linear-gradient(160deg,#aad3df,#f2efe9);color:#444;text-shadow:none}
 .bm.b-sat{background:linear-gradient(160deg,#2b3d28,#13301f)}
+.bm.b-states{background:linear-gradient(160deg,#872ca2,#ea4f88,#f6a97a);color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.5)}
 /* segmented */
 .seg{display:flex;border:1px solid var(--bd2);border-radius:var(--r-md);overflow:hidden}
 .seg button{flex:1;min-height:32px;font-size:11.5px;font-weight:600;color:var(--t2);background:var(--s1)}
@@ -270,6 +271,13 @@ body.map-moving .glass{backdrop-filter:none;-webkit-backdrop-filter:none}
 #legend .lg .sw.sq{border-radius:3px}
 #legend .sizekey{display:flex;align-items:flex-end;gap:6px;margin:6px 0 2px}
 #legend .sizekey i{display:block;border-radius:50%;background:var(--client);opacity:.85;border:1px solid #fff}
+/* states TAM legend */
+#states-legend{position:fixed;left:16px;bottom:calc(env(safe-area-inset-bottom,0px) + 34px);z-index:var(--z-chrome);border-radius:var(--r-lg);padding:11px 14px;width:200px}
+#states-legend h3{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--t3);margin:0 0 8px}
+#states-legend .gbar{width:100%;height:calc(8px * var(--ui-scale));border-radius:4px;background:var(--ramp)}
+#states-legend .glab{display:flex;justify-content:space-between;font-size:10px;color:var(--t3);margin:3px 0 0;font-weight:600}
+body.states-mode #legend{display:none}
+@media(max-width:640px){#states-legend{display:none}body.states-mode.presenting #states-legend{display:block}}
 /* overview pill */
 #ov-pill{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 24px);z-index:var(--z-chrome);
   height:44px;border-radius:22px;display:flex;align-items:center;gap:10px;padding:0 18px;font-size:calc(12.5px * var(--ui-scale));font-weight:600;color:var(--t1);cursor:pointer;white-space:nowrap}

@@ -7,10 +7,14 @@ import { fileURLToPath } from 'node:url';
 const b = dirname(fileURLToPath(import.meta.url));
 const read = f => readFileSync(join(b, f), 'utf8').replace(/^﻿/, '');
 
+const statesGeo = read('de_states.geojson').trim();
+const statesPart = read('p_states.html').replace('__STATES_GEO__', () => statesGeo);
+
 const out = [
   read('p1_head.html'),
   read('p2_body.html'),
   '<script>\n' + read('data.js').trimEnd() + '\n</script>\n',
+  statesPart,
   read('p3_adapter.html'),
   read('p4_app1.html'),
   read('p5_app2.html'),
