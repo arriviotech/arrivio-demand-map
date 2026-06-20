@@ -251,7 +251,7 @@
     document.querySelectorAll(`[data-layer="${key}"]`).forEach(b => eyeIcon(b, on));
     document.querySelectorAll(`[data-lrow="${key}"]`).forEach(r => r.classList.toggle('off', !on));
     document.querySelectorAll(`[data-chip="${key === 'gch' || key === 'sem' ? 'hotels' : key}"]`).forEach(c => c.setAttribute('aria-pressed', key === 'gch' || key === 'sem' ? (S.layers.gch || S.layers.sem) : on));
-    if (key === 'hex') computeHex();
+    if (key === 'hex') { computeHex(); if (S.base === 'states') M.restyleStates(statesValueFn(), stateLabelFn(), statesFillOpacity()); }
     if (key === 'clients') { syncClientVisibility(); if (S.base === 'states') M.restyleStates(statesValueFn(), stateLabelFn(), statesFillOpacity()); }
     if (key === 'labels') M.setLabels(on);
     if (key === 'approx') { renderClientsNow(); updateKPIs(); computeHex(true); renderAreaList(); }
@@ -265,9 +265,9 @@
     document.body.classList.toggle('states-mode', states);
     if (states) {
       M.setBase('positron');
-      M.setHexVisible(false);
       M.clearStateSelection();
       M.showStates({ valueFn: statesValueFn(), labelFn: stateLabelFn(), onClick: selectState, fillOpacity: statesFillOpacity() });
+      computeHex(); // respect the hexmap toggle; it overlays on top of the softened choropleth
       document.body.classList.add('light-map');
       updateStatesLegend();
     } else {
