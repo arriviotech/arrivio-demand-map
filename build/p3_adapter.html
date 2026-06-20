@@ -84,6 +84,7 @@ const M = {
     // pause expensive chrome effects (backdrop blur) while the map is animating
     this.map.on('movestart zoomstart', () => document.body.classList.add('map-moving'));
     this.map.on('moveend zoomend', () => document.body.classList.remove('map-moving'));
+    this.map.on('popupclose', () => { if (this._infoOpen) { this._infoOpen = false; this._o.onInfoClose && this._o.onInfoClose(); } });
     L.control.attribution({ position: 'bottomleft', prefix: false }).addTo(this.map);
     const t = (url, attr, opts) => L.tileLayer(url, Object.assign({ maxZoom: 20, attribution: attr, crossOrigin: 'anonymous', keepBuffer: 3 }, opts));
     this.bases = {
@@ -112,6 +113,12 @@ const M = {
     reduced ? this.map.fitBounds(b, { padding: [50, 50] }) : this.map.flyToBounds(b, { padding: [50, 50], duration: 1.5 });
   },
   panInsets(tl, br) { this._padTL = tl; this._padBR = br; },
+  openInfo(ll, html, onOpen) {
+    this._infoOpen = true;
+    this.map.once('popupopen', e => { if (onOpen) { try { onOpen(e.popup.getElement().querySelector('.leaflet-popup-content')); } catch (_) { } } });
+    L.popup({ maxWidth: 300, minWidth: 230, className: 'arrivio-pop', autoPanPadding: [60, 90], autoClose: true, closeOnClick: false }).setLatLng(ll).setContent(html).openOn(this.map);
+  },
+  closeInfo() { if (this.map) this.map.closePopup(); },
   setLabels(b) { this._labels = b; this._applyLabels(); },
   _applyLabels() {
     const on = this._labels && this.map.getZoom() >= 11;

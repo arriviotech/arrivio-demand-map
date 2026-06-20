@@ -205,6 +205,20 @@ ul.mini li b{color:var(--t1)}
 #sel-card td{padding:3px 0;vertical-align:top;color:var(--t1)}
 #sel-card td:first-child{color:var(--t3);padding-right:10px;white-space:nowrap;width:1%}
 #sel-card .approx{margin-top:6px;font-size:11px;color:var(--warn);background:rgba(251,191,36,.12);border-radius:var(--r-sm);padding:5px 8px}
+/* on-map detail popup (shares the card's look) */
+.arrivio-pop .leaflet-popup-content-wrapper{padding:2px 4px}
+.arrivio-pop .leaflet-popup-content{margin:12px 14px;font-size:calc(13px * var(--ui-scale));line-height:1.4}
+.arrivio-pop .sname{font-weight:700;font-size:calc(14px * var(--ui-scale));padding-right:18px}
+.arrivio-pop .splace{font-size:11.5px;color:var(--t2);margin:2px 0 8px}
+.arrivio-pop .chip{display:inline-block;font-size:calc(12px * var(--ui-scale));padding:4px 10px;border-radius:var(--r-sm);background:rgba(90,169,255,.14);color:var(--client);font-weight:700;margin-bottom:8px}
+.arrivio-pop table{font-size:11.5px;border-collapse:collapse;width:100%;margin-bottom:4px}
+.arrivio-pop td{padding:3px 0;vertical-align:top;color:var(--t1)}
+.arrivio-pop td:first-child{color:var(--t3);padding-right:10px;white-space:nowrap;width:1%}
+.arrivio-pop .btnrow{display:flex;gap:8px;margin-top:8px}
+.arrivio-pop .btnrow .btn{flex:1}
+.arrivio-pop .approx{margin-top:6px;font-size:11px;color:var(--warn);background:rgba(251,191,36,.12);border-radius:var(--r-sm);padding:5px 8px}
+.leaflet-popup-close-button{color:var(--t3)!important;width:26px!important;height:26px!important;font-size:20px!important;padding:4px 0 0!important}
+.leaflet-popup-close-button:hover{color:var(--t1)!important;background:transparent!important}
 /* ================= FLOATING CHROME ================= */
 .glass{background:var(--glass);backdrop-filter:blur(12px) saturate(140%);-webkit-backdrop-filter:blur(12px) saturate(140%);border:1px solid var(--glass-bd);box-shadow:var(--shadow-lg)}
 /* re-blurring the chrome over a moving map costs frames — pause it during interaction */
@@ -394,7 +408,7 @@ body.presenting .cbtn .ic{width:22px;height:22px}
 <aside id="panel" aria-label="Analysis panel">
   <div id="grip" aria-hidden="true"><i></i></div>
   <header class="phead">
-    <div class="brand"><b>arrivio</b><span>site selection</span></div>
+    <div class="brand"><b>Arrivio</b><span>site selection</span></div>
     <button id="btn-theme" class="ibtn" aria-label="Toggle dark / light theme"><svg class="ic"><use href="#i-sun"/></svg></button>
     <button id="btn-collapse" class="ibtn" aria-label="Collapse panel"><svg class="ic"><use href="#i-panel"/></svg></button>
   </header>
@@ -653,6 +667,7 @@ const M = {
     // pause expensive chrome effects (backdrop blur) while the map is animating
     this.map.on('movestart zoomstart', () => document.body.classList.add('map-moving'));
     this.map.on('moveend zoomend', () => document.body.classList.remove('map-moving'));
+    this.map.on('popupclose', () => { if (this._infoOpen) { this._infoOpen = false; this._o.onInfoClose && this._o.onInfoClose(); } });
     L.control.attribution({ position: 'bottomleft', prefix: false }).addTo(this.map);
     const t = (url, attr, opts) => L.tileLayer(url, Object.assign({ maxZoom: 20, attribution: attr, crossOrigin: 'anonymous', keepBuffer: 3 }, opts));
     this.bases = {
@@ -681,6 +696,12 @@ const M = {
     reduced ? this.map.fitBounds(b, { padding: [50, 50] }) : this.map.flyToBounds(b, { padding: [50, 50], duration: 1.5 });
   },
   panInsets(tl, br) { this._padTL = tl; this._padBR = br; },
+  openInfo(ll, html, onOpen) {
+    this._infoOpen = true;
+    this.map.once('popupopen', e => { if (onOpen) { try { onOpen(e.popup.getElement().querySelector('.leaflet-popup-content')); } catch (_) { } } });
+    L.popup({ maxWidth: 300, minWidth: 230, className: 'arrivio-pop', autoPanPadding: [60, 90], autoClose: true, closeOnClick: false }).setLatLng(ll).setContent(html).openOn(this.map);
+  },
+  closeInfo() { if (this.map) this.map.closePopup(); },
   setLabels(b) { this._labels = b; this._applyLabels(); },
   _applyLabels() {
     const on = this._labels && this.map.getZoom() >= 11;
@@ -904,7 +925,7 @@ function nameVars(n) {
   /* ============ state ============ */
   const S = {
     theme: localStorage.getItem('arrivio.theme') || 'dark',
-    base: 'dark',
+    base: 'voyager',
     layers: { hex: true, clients: true, labels: true, approx: true, gch: true, sem: true, stations: false },
     reach: { mode: 'bike-share', min: 20, origin: null, active: false },
     sel: null, selArea: null, armed: false,
@@ -1143,6 +1164,7 @@ function nameVars(n) {
     toast(a.name + ' removed', 'info', { label: 'Undo', fn: () => addAreaAt(ll, a.km, a.name) });
   }
   function selectArea(id) {
+    M.closeInfo();
     if (S.selArea) M.setAreaSelected(S.selArea, false);
     S.selArea = id; S.sel = null; M.setSelectedClient(null);
     M.setAreaSelected(id, true);
@@ -1178,6 +1200,7 @@ function nameVars(n) {
     $('panel-body').scrollTop = 0;
   }
   function closeSel() {
+    M.closeInfo();
     $('sel-card').hidden = true;
     if (S.sel && S.sel.type === 'client') M.setSelectedClient(null);
     if (S.selArea) { M.setAreaSelected(S.selArea, false); document.querySelectorAll('#area-list .arow.sel').forEach(li => li.classList.remove('sel')); }
@@ -1185,13 +1208,12 @@ function nameVars(n) {
   }
   function selectClient(c) {
     S.sel = { type: 'client', id: c.id }; S.selArea = null;
-    M.setSelectedClient(c.id);
     setReachOrigin({ type: 'client', id: c.id });
     const A = M.getAreas();
     let nearest = null;
     A.forEach(a => { const d = hav([a.lat, a.lng], [c.lat, c.lng]); if (!nearest || d < nearest.d) nearest = { d, name: a.name }; });
     const ap = located(c) ? '' : `<div class="approx">Region-level position — not yet resolved to an exact address.</div>`;
-    showSelCard(`
+    const html = `
       <div class="sname">${esc(c.name)}</div>
       <div class="splace">${esc(c.place)} · ${esc(c.state)}</div>
       <span class="chip num">Rooms: ${esc(c.rooms_disp)}</span>
@@ -1201,18 +1223,24 @@ function nameVars(n) {
         ${nearest ? `<tr><td>Nearest area</td><td class="num"><b style="color:var(--acct)">${NF.format(Math.round(nearest.d * 10) / 10)} km</b> · ${esc(nearest.name)}</td></tr>` : ''}
       </table>
       <div class="btnrow">
-        <button class="btn primary" id="sc-reach">Reachability</button>
-        <button class="btn" id="sc-area">+ Area here</button>
-      </div>${ap}`);
-    $('sc-reach').onclick = () => runReach();
-    $('sc-area').onclick = () => addAreaAt([c.lat, c.lng]);
+        <button class="btn primary" data-act="reach">Reachability</button>
+        <button class="btn" data-act="area">+ Area here</button>
+      </div>${ap}`;
+    const wire = root => {
+      const rb = root.querySelector('[data-act="reach"]'); if (rb) rb.onclick = () => runReach();
+      const ab = root.querySelector('[data-act="area"]'); if (ab) ab.onclick = () => addAreaAt([c.lat, c.lng]);
+    };
+    if (MOBILE()) { showSelCard(html); wire($('sel-card')); M.setSelectedClient(c.id); }
+    else { M.openInfo([c.lat, c.lng], html, wire); M.setSelectedClient(c.id); }
   }
   function selectHotel(h) {
-    showSelCard(`
+    const html = `
       <div class="sname">${esc(h.name)}</div>
       <div class="splace">${esc(h.city)} · ${esc(h.chain)} partner hotel${h.resolved ? '' : ' · locating…'}</div>
-      <div class="btnrow"><button class="btn" id="sc-area">+ Area here</button></div>`);
-    $('sc-area').onclick = () => addAreaAt([h.lat, h.lng]);
+      <div class="btnrow"><button class="btn" data-act="area">+ Area here</button></div>`;
+    const wire = root => { const ab = root.querySelector('[data-act="area"]'); if (ab) ab.onclick = () => addAreaAt([h.lat, h.lng]); };
+    if (MOBILE()) { showSelCard(html); wire($('sel-card')); }
+    else M.openInfo([h.lat, h.lng], html, wire);
   }
 
 
@@ -1348,7 +1376,7 @@ function nameVars(n) {
     for (const q of cand) {
       if (reachAbort) break;
       done++;
-      $('reach-out').innerHTML = `<p class="hint">Checking transit ${done}/${cand.length}…</p><div class="skel" style="width:${30 + done * 3}%"></div>`;
+      $('reach-out').innerHTML = `<p class="hint">Public transport (bus, tram, U/S-Bahn, regional rail via Deutsche Bahn) — checking travel time to nearby client ${done} of ${cand.length}…</p><div class="skel" style="width:${30 + done * 3}%"></div>`;
       try {
         const u = 'https://v6.db.transport.rest/journeys?from.latitude=' + o.ll[0] + '&from.longitude=' + o.ll[1] + '&from.address=Origin&to.latitude=' + q.x.lat + '&to.longitude=' + q.x.lng + '&to.address=Dest&results=1';
         const r = await fetch(u);
@@ -1753,7 +1781,8 @@ function nameVars(n) {
       if (a) { const ll = M.areaLatLng(id); const c = coverageOf(ll[0], ll[1], a.km, visible()); announce(a.name + ': ' + c.n + ' clients, about ' + Math.round(c.rooms) + ' rooms in radius'); }
       if (S.selArea === id) selectArea(id);
     },
-    onAreaClick(id) { selectArea(id); }
+    onAreaClick(id) { selectArea(id); },
+    onInfoClose() { M.setSelectedClient(null); }
   });
   applyTheme(S.theme, false);
   setBase(S.base);

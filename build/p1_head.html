@@ -205,6 +205,20 @@ ul.mini li b{color:var(--t1)}
 #sel-card td{padding:3px 0;vertical-align:top;color:var(--t1)}
 #sel-card td:first-child{color:var(--t3);padding-right:10px;white-space:nowrap;width:1%}
 #sel-card .approx{margin-top:6px;font-size:11px;color:var(--warn);background:rgba(251,191,36,.12);border-radius:var(--r-sm);padding:5px 8px}
+/* on-map detail popup (shares the card's look) */
+.arrivio-pop .leaflet-popup-content-wrapper{padding:2px 4px}
+.arrivio-pop .leaflet-popup-content{margin:12px 14px;font-size:calc(13px * var(--ui-scale));line-height:1.4}
+.arrivio-pop .sname{font-weight:700;font-size:calc(14px * var(--ui-scale));padding-right:18px}
+.arrivio-pop .splace{font-size:11.5px;color:var(--t2);margin:2px 0 8px}
+.arrivio-pop .chip{display:inline-block;font-size:calc(12px * var(--ui-scale));padding:4px 10px;border-radius:var(--r-sm);background:rgba(90,169,255,.14);color:var(--client);font-weight:700;margin-bottom:8px}
+.arrivio-pop table{font-size:11.5px;border-collapse:collapse;width:100%;margin-bottom:4px}
+.arrivio-pop td{padding:3px 0;vertical-align:top;color:var(--t1)}
+.arrivio-pop td:first-child{color:var(--t3);padding-right:10px;white-space:nowrap;width:1%}
+.arrivio-pop .btnrow{display:flex;gap:8px;margin-top:8px}
+.arrivio-pop .btnrow .btn{flex:1}
+.arrivio-pop .approx{margin-top:6px;font-size:11px;color:var(--warn);background:rgba(251,191,36,.12);border-radius:var(--r-sm);padding:5px 8px}
+.leaflet-popup-close-button{color:var(--t3)!important;width:26px!important;height:26px!important;font-size:20px!important;padding:4px 0 0!important}
+.leaflet-popup-close-button:hover{color:var(--t1)!important;background:transparent!important}
 /* ================= FLOATING CHROME ================= */
 .glass{background:var(--glass);backdrop-filter:blur(12px) saturate(140%);-webkit-backdrop-filter:blur(12px) saturate(140%);border:1px solid var(--glass-bd);box-shadow:var(--shadow-lg)}
 /* re-blurring the chrome over a moving map costs frames — pause it during interaction */

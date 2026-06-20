@@ -131,7 +131,7 @@
     for (const q of cand) {
       if (reachAbort) break;
       done++;
-      $('reach-out').innerHTML = `<p class="hint">Checking transit ${done}/${cand.length}…</p><div class="skel" style="width:${30 + done * 3}%"></div>`;
+      $('reach-out').innerHTML = `<p class="hint">Public transport (bus, tram, U/S-Bahn, regional rail via Deutsche Bahn) — checking travel time to nearby client ${done} of ${cand.length}…</p><div class="skel" style="width:${30 + done * 3}%"></div>`;
       try {
         const u = 'https://v6.db.transport.rest/journeys?from.latitude=' + o.ll[0] + '&from.longitude=' + o.ll[1] + '&from.address=Origin&to.latitude=' + q.x.lat + '&to.longitude=' + q.x.lng + '&to.address=Dest&results=1';
         const r = await fetch(u);
@@ -536,7 +536,8 @@
       if (a) { const ll = M.areaLatLng(id); const c = coverageOf(ll[0], ll[1], a.km, visible()); announce(a.name + ': ' + c.n + ' clients, about ' + Math.round(c.rooms) + ' rooms in radius'); }
       if (S.selArea === id) selectArea(id);
     },
-    onAreaClick(id) { selectArea(id); }
+    onAreaClick(id) { selectArea(id); },
+    onInfoClose() { M.setSelectedClient(null); }
   });
   applyTheme(S.theme, false);
   setBase(S.base);
