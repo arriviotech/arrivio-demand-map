@@ -206,6 +206,59 @@ when I build the data/ folder after your approval.)*
 
 ---
 
+## 9b. Targomo Loop — can we populate our dataset from it? (assessment)
+
+I opened your premium map (`loop.targomo.com/x/323a3ae3…`, titled "Arrivio") and inspected what it
+actually serves. Findings and the blunt verdict:
+
+**What your Targomo premium provides:**
+- **Statistical data = infas360 (2025)** — a *commercial, licensed* dataset: total population,
+  household income, households by income band (e.g. "Households 5000+ € net"), purchasing power,
+  demographics — at hexagon / **PLZ** (postcode) / **Gemeinde** (municipality) / **state**
+  granularity.
+- **POI API** (amenities, competitors), **Reachability/Isochrone API** (true multi-modal
+  travel-time polygons — Targomo's core strength), and boundary layers (PLZ, Gemeinden, states).
+- All served from **`api.targomo.com` with an API key** tied to your account. Basemaps via MapTiler.
+- **It is demand/demographics + travel-time. It does NOT contain our supply-side data** (family
+  hotels for acquisition, office vacancy/rents, hotel occupancy). Targomo *complements* the Destatis/
+  broker research above; it does not replace it.
+
+**Three paths, with verdicts:**
+
+| Path | Verdict | Why |
+|---|---|---|
+| **A. Export infas360 data → bake into our public file** | ❌ **No** | infas360 is licensed third-party data; Targomo ToS + infas360 licence prohibit extraction/redistribution. Publishing it on our public GitHub Pages would breach both and expose Arrivio. The map being public makes this unambiguous. |
+| **B. Live Targomo API layers (your key, fetched at runtime)** | ✅ **Yes — the real unlock** | Licensed, intended use. Add infas360 demographic hexagons + **real travel-time isochrones** + POIs as live layers. Data stays Targomo's (not redistributed). This makes the map genuinely Targomo-grade with *real* demographics and replaces our approximate transit hull with true isochrones. |
+| **C. Cross-validate our numbers against Targomo** | ✅ **Yes — always fine** | Use your Loop account (as intended) to sanity-check our Destatis figures (population/income by area). Record agreement here as a confidence boost. No redistribution. |
+
+**Recommendation:**
+1. **Keep our Destatis/broker layers** for everything Targomo lacks: immigrant inflow, TAM/SAM,
+   hotel occupancy, office vacancy/rents, supply pins. (This is most of the new build.)
+2. **Add Targomo as live API layers** for what it does best — **real reachability isochrones** (the
+   single biggest upgrade; replaces the approximate transit area) and **infas360 demographic
+   heatmaps** (population/income/purchasing-power) as an optional toggle — **only if** you have a
+   **developer API key** (next point).
+3. **Cross-validate** a few of our numbers vs infas360 and note it here.
+
+**What I need from you for Path B (and the honest caveats):**
+- A **Targomo developer API key** for *your own* use. The key embedded in the Loop web app is
+  provisioned for `loop.targomo.com` (almost certainly domain-locked) — reusing it in our app would
+  likely breach ToS and I can't read it anyway (the browser masks it, correctly). Ask your Targomo
+  account manager whether your premium plan includes **API access** and a key usable on your own
+  domain, plus the **monthly request quota**.
+- **Key security:** like the OpenRouteService key, a Targomo key in a public single-file app is
+  exposed. We'd domain-restrict it (Targomo supports referrer restriction) and/or proxy it; otherwise
+  anyone could spend your quota. Confirm before we ship it publicly.
+- **Licence for display:** confirm your plan permits showing infas360 data to your audience in your
+  own app (not just inside Loop). Reachability is normally fine; third-party statistics may be
+  Loop-only on some plans.
+
+**Bottom line:** we should NOT copy Targomo/infas360 data into our files, but if your plan gives a
+usable API key we can wire Targomo in *live* — real isochrones + real demographics — which is better
+than copied data anyway (always current, fully licensed). Tell me about the API key and I'll add it.
+
+---
+
 ## 9. What happens after you say "research is fine"
 1. I build `data/` files: `inflow_states.json`, `states.geojson`, `hotels_osm.json`,
    `commercial_markets.json`, each with its sources inlined.
