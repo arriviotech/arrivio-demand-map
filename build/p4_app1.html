@@ -189,7 +189,7 @@
     $('legend-max').textContent = '≈' + kfmt(max) + ' rooms';
     const out = Object.entries(cells).map(([cell, v]) => {
       const t = Math.sqrt(v / max);
-      const color = RAMP[Math.min(RAMP.length - 1, Math.floor(t * RAMP.length))];
+      const color = rampColor(t);
       return { boundary: h3.cellToBoundary(cell), color, v };
     });
     M.renderHex(out);
@@ -308,6 +308,7 @@
     $('sel-card').hidden = true;
     if (S.sel && S.sel.type === 'client') M.setSelectedClient(null);
     if (S.selArea) { M.setAreaSelected(S.selArea, false); document.querySelectorAll('#area-list .arow.sel').forEach(li => li.classList.remove('sel')); }
+    if (S.selStateName) { S.selStateName = null; M.clearStateSelection(); }
     S.sel = null; S.selArea = null;
   }
   function selectClient(c) {
@@ -348,28 +349,48 @@
   }
 
   /* ============ states / TAM ============ */
+  const STATE_SHORT = {
+    "Nordrhein-Westfalen": "NRW", "Bayern": "Bayern", "Baden-Württemberg": "Baden-Württ.",
+    "Niedersachsen": "Niedersachsen", "Hessen": "Hessen", "Berlin": "Berlin",
+    "Rheinland-Pfalz": "Rhld-Pfalz", "Sachsen": "Sachsen", "Schleswig-Holstein": "Schl.-Holstein",
+    "Hamburg": "Hamburg", "Brandenburg": "Brandenburg", "Sachsen-Anhalt": "Sa.-Anhalt",
+    "Thüringen": "Thüringen", "Mecklenburg-Vorpommern": "Meckl.-Vorp.", "Bremen": "Bremen", "Saarland": "Saarland"
+  };
   const eurShort = v => v >= 1e9 ? '€' + (v / 1e9).toFixed(2).replace('.', ',') + ' bn' : '€' + fmt(v / 1e6) + ' m';
   const stateIntl = name => (STATES_DATA[name] || {}).intl || 0;
-  const stateTotal = name => Math.round(stateIntl(name) * DOMESTIC_FACTOR);
+  const stateTotal = name => (STATES_DATA[name] || {}).total || 0;
   const stateInflow = (name, metric) => metric === 'total' ? stateTotal(name) : stateIntl(name);
   const stateTAM = (name, metric) => stateInflow(name, metric) * TAM_PER_PERSON;
-  const stateSAM = name => ((STATES_DATA[name] || {}).hc || 0) * TAM_PER_PERSON;
   const statesValueFn = () => (name => stateTAM(name, S.stateMetric));
+  const stateLabelFn = () => (name => `<b>${esc(STATE_SHORT[name] || name)}</b><span>${eurShort(stateTAM(name, S.stateMetric))}</span>`);
+  const statesFillOpacity = () => (S.layers.clients ? 0.34 : 0.62);
+  function setStateMetric(metric) {
+    S.stateMetric = metric;
+    document.querySelectorAll('#state-metric [data-metric], #card-metric [data-metric]').forEach(x => x.setAttribute('aria-pressed', x.dataset.metric === metric));
+    if (S.base === 'states') { M.restyleStates(statesValueFn(), stateLabelFn(), statesFillOpacity()); updateStatesLegend(); }
+    if (S.selStateName) selectState(S.selStateName);
+  }
   function selectState(name) {
     const d = STATES_DATA[name]; if (!d) return;
+    S.selStateName = name;
+    const metric = S.stateMetric, isT = metric === 'total';
+    const tamI = stateIntl(name) * TAM_PER_PERSON, tamT = stateTotal(name) * TAM_PER_PERSON;
     const comp = INFLOW_COMPOSITION.map(c => `${c.label} ${c.pct}%`).join(' · ');
     showSelCard(`
       <div class="sname">${esc(name)}</div>
       <div class="splace">Total Addressable Market · €${TAM_PER_PERSON / 1000}k per person / year</div>
+      <div class="seg" id="card-metric" role="group" aria-label="Inflow basis" style="margin:2px 0 10px">
+        <button data-metric="intl" aria-pressed="${!isT}">International</button>
+        <button data-metric="total" aria-pressed="${isT}">+ Domestic</button>
+      </div>
       <table>
         <tr><td>Population</td><td class="num">${fmt(d.pop)}</td></tr>
-        <tr><td>International inflow / yr</td><td class="num">${fmt(d.intl)}</td></tr>
-        <tr><td>+ Domestic (est.)</td><td class="num">${fmt(stateTotal(name))}</td></tr>
-        <tr><td><b>TAM</b> · international</td><td class="num"><b style="color:var(--acct)">${eurShort(stateIntl(name) * TAM_PER_PERSON)}</b></td></tr>
-        <tr><td><b>TAM</b> · + domestic (est.)</td><td class="num"><b style="color:var(--acct)">${eurShort(stateTotal(name) * TAM_PER_PERSON)}</b></td></tr>
-        <tr><td>Nurse recognitions / yr (proxy)</td><td class="num">≈${fmt(d.hc)}</td></tr>
-        <tr><td><b>SAM</b> · healthcare</td><td class="num"><b style="color:var(--acct)">${eurShort(stateSAM(name))}</b></td></tr>
+        <tr><td>Inflow / yr (${isT ? 'total' : 'international'})</td><td class="num">${fmt(stateInflow(name, metric))}</td></tr>
+        <tr><td><b>TAM · ${isT ? '+ domestic' : 'international'}</b></td><td class="num"><b style="color:var(--acct);font-size:1.15em">${eurShort(isT ? tamT : tamI)}</b></td></tr>
+        <tr><td style="color:var(--t3)">· international</td><td class="num" style="color:var(--t2)">${eurShort(tamI)}</td></tr>
+        <tr><td style="color:var(--t3)">· + domestic</td><td class="num" style="color:var(--t2)">${eurShort(tamT)}</td></tr>
       </table>
       <p class="hint" style="margin-top:8px">National inflow mix: ${esc(comp)}.</p>
-      <p class="hint" style="margin-top:4px">Top origins: ${esc(INFLOW_TOP_ORIGINS)}. TAM = inflow × €${TAM_PER_PERSON / 1000}k/yr; SAM = nurse recognitions × €${TAM_PER_PERSON / 1000}k. Sources: ARRIVIO_DATA_SOURCES.md.</p>`);
+      <p class="hint" style="margin-top:4px">Top origins: ${esc(INFLOW_TOP_ORIGINS)}. TAM = inflow × €${TAM_PER_PERSON / 1000}k/yr. Source: Destatis 2024 (ARRIVIO_DATA_SOURCES.md).</p>`);
+    document.querySelectorAll('#card-metric [data-metric]').forEach(b => b.onclick = () => setStateMetric(b.dataset.metric));
   }

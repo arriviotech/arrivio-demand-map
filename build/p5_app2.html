@@ -252,7 +252,7 @@
     document.querySelectorAll(`[data-lrow="${key}"]`).forEach(r => r.classList.toggle('off', !on));
     document.querySelectorAll(`[data-chip="${key === 'gch' || key === 'sem' ? 'hotels' : key}"]`).forEach(c => c.setAttribute('aria-pressed', key === 'gch' || key === 'sem' ? (S.layers.gch || S.layers.sem) : on));
     if (key === 'hex') computeHex();
-    if (key === 'clients') syncClientVisibility();
+    if (key === 'clients') { syncClientVisibility(); if (S.base === 'states') M.restyleStates(statesValueFn(), stateLabelFn(), statesFillOpacity()); }
     if (key === 'labels') M.setLabels(on);
     if (key === 'approx') { renderClientsNow(); updateKPIs(); computeHex(true); renderAreaList(); }
     if (key === 'gch' || key === 'sem') renderHotelsNow();
@@ -266,7 +266,8 @@
     if (states) {
       M.setBase('positron');
       M.setHexVisible(false);
-      M.showStates(statesValueFn(), selectState);
+      M.clearStateSelection();
+      M.showStates({ valueFn: statesValueFn(), labelFn: stateLabelFn(), onClick: selectState, fillOpacity: statesFillOpacity() });
       document.body.classList.add('light-map');
       updateStatesLegend();
     } else {
@@ -489,12 +490,8 @@
       else setLayer(k, !S.layers[k]);
     });
     document.querySelectorAll('[data-base]').forEach(b => b.onclick = () => { setBase(b.dataset.base); closePops(); });
-    // states TAM metric toggle
-    document.querySelectorAll('#state-metric [data-metric]').forEach(b => b.onclick = () => {
-      S.stateMetric = b.dataset.metric;
-      document.querySelectorAll('#state-metric [data-metric]').forEach(x => x.setAttribute('aria-pressed', x === b));
-      if (S.base === 'states') { M.restyleStates(statesValueFn()); updateStatesLegend(); }
-    });
+    // states TAM metric toggle (legend) — shares setStateMetric with the in-card toggle
+    document.querySelectorAll('#state-metric [data-metric]').forEach(b => b.onclick = () => setStateMetric(b.dataset.metric));
     // symbol size
     const applySym = throttle(() => { renderClientsNow(); renderHotelsNow(); updateLegend(); }, 200);
     $('sym-size').oninput = e => {

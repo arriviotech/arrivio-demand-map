@@ -1,31 +1,29 @@
 <script>
 /* ============ States layer data (see ARRIVIO_DATA_SOURCES.md) ============
-   intl = gross immigration from abroad 2025 (Destatis, FIRM)
-   pop  = population 31.12.2024 (Destatis, FIRM)
-   hc   = foreign nursing recognitions, per-state population proxy of the national 32,500 (PROXY)
-   TAM  = inflow x EUR 15,000/person/yr ; SAM = hc x EUR 15,000
-   "Total" inflow (domestic + international) is estimated as intl x DOMESTIC_FACTOR. */
+   intl  = gross immigration from abroad, 2024 (Destatis 12711-12, FIRM)
+   total = total in-migration incl. from other German states, 2024 (Destatis 12711-12, FIRM)
+   pop   = population 31.12.2024 (Destatis, FIRM)
+   TAM   = inflow x EUR 15,000/person/yr (intl or total per the toggle). */
 const DE_STATES_GEO = __STATES_GEO__;
 const STATES_DATA = {
-  "Nordrhein-Westfalen":      { intl: 291143, pop: 18034454, hc: 7000 },
-  "Bayern":                   { intl: 254779, pop: 13248928, hc: 5150 },
-  "Baden-Württemberg":        { intl: 212190, pop: 11245898, hc: 4400 },
-  "Niedersachsen":            { intl: 136920, pop: 8004489,  hc: 3150 },
-  "Hessen":                   { intl: 121947, pop: 6280793,  hc: 2500 },
-  "Berlin":                   { intl: 111064, pop: 3685265,  hc: 1500 },
-  "Rheinland-Pfalz":          { intl: 72282,  pop: 4129569,  hc: 1600 },
-  "Sachsen":                  { intl: 54044,  pop: 4042422,  hc: 1600 },
-  "Schleswig-Holstein":       { intl: 43723,  pop: 2959517,  hc: 1150 },
-  "Hamburg":                  { intl: 40093,  pop: 1862565,  hc: 745 },
-  "Sachsen-Anhalt":           { intl: 32838,  pop: 2135597,  hc: 840 },
-  "Brandenburg":              { intl: 30531,  pop: 2556747,  hc: 1000 },
-  "Thüringen":                { intl: 27176,  pop: 2100277,  hc: 820 },
-  "Mecklenburg-Vorpommern":   { intl: 20282,  pop: 1573597,  hc: 625 },
-  "Saarland":                 { intl: 15693,  pop: 1012141,  hc: 385 },
-  "Bremen":                   { intl: 15237,  pop: 704881,   hc: 275 }
+  "Nordrhein-Westfalen":      { intl: 344489, total: 479893, pop: 18034454 },
+  "Bayern":                   { intl: 298332, total: 416582, pop: 13248928 },
+  "Baden-Württemberg":        { intl: 239602, total: 353071, pop: 11245898 },
+  "Niedersachsen":            { intl: 150474, total: 259802, pop: 8004489 },
+  "Hessen":                   { intl: 141353, total: 225314, pop: 6280793 },
+  "Berlin":                   { intl: 121711, total: 186222, pop: 3685265 },
+  "Rheinland-Pfalz":          { intl: 83355,  total: 149544, pop: 4129569 },
+  "Sachsen":                  { intl: 59732,  total: 105680, pop: 4042422 },
+  "Schleswig-Holstein":       { intl: 50394,  total: 105561, pop: 2959517 },
+  "Hamburg":                  { intl: 44698,  total: 95603,  pop: 1862565 },
+  "Brandenburg":              { intl: 32521,  total: 86342,  pop: 2556747 },
+  "Sachsen-Anhalt":           { intl: 36368,  total: 66166,  pop: 2135597 },
+  "Thüringen":                { intl: 33760,  total: 57787,  pop: 2100277 },
+  "Mecklenburg-Vorpommern":   { intl: 22574,  total: 47514,  pop: 1573597 },
+  "Bremen":                   { intl: 16585,  total: 34299,  pop: 704881 },
+  "Saarland":                 { intl: 18244,  total: 29308,  pop: 1012141 }
 };
 const TAM_PER_PERSON = 15000;          // EUR/person/yr (annual furnished-housing revenue assumption)
-const DOMESTIC_FACTOR = 1.36;          // total/from-abroad ratio, est. from NRW & Bayern 2023 (516,904/378,360; 455,877/335,582)
 // national composition of immigration (FIRM, 2023/2024) — shown in the state card footer
 const INFLOW_COMPOSITION = [
   { label: "EU free movement", pct: 33 },

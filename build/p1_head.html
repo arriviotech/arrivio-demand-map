@@ -26,7 +26,7 @@
   --panel-w:360px;--panel-off:calc(var(--panel-w) + 16px);
   --z-chrome:1100;--z-sheet:1200;--z-toast:1500;--z-top:2000;
   --ui-scale:1;
-  --ramp:linear-gradient(90deg,#4b2991,#872ca2,#c0369d,#ea4f88,#fa7876,#f6a97a,#edd9a3);
+  --ramp:linear-gradient(90deg,#fbe0ef,#f3a9d6,#e96fb6,#d6219b,#a51777,#6f0f55,#3d0a33);
 }
 html[data-theme="dark"]{
   --bg:#0b0d10;--s1:#16191f;--s2:#1e2229;--s3:#262b33;
@@ -75,7 +75,14 @@ button:disabled{opacity:.45;cursor:default}
 .leaflet-tooltip.client-label{display:none;background:var(--glass);backdrop-filter:blur(4px)}
 body.show-labels .leaflet-tooltip.client-label{display:block}
 .leaflet-interactive{cursor:pointer}
+.leaflet-interactive:focus{outline:none}
 body.armed .leaflet-container{cursor:crosshair!important}
+/* state name + TAM labels on the States choropleth */
+.leaflet-tooltip.state-label{background:none;border:none;box-shadow:none;color:#1d2733;font-weight:700;
+  font-size:calc(11px * var(--ui-scale));line-height:1.15;text-align:center;padding:0;white-space:nowrap;
+  text-shadow:0 0 3px #fff,0 1px 2px #fff,0 0 6px #fff,-1px 0 2px #fff,1px 0 2px #fff}
+.leaflet-tooltip.state-label b{display:block;font-size:calc(12px * var(--ui-scale))}
+.leaflet-tooltip.state-label span{font-weight:700;color:var(--acc)}
 /* cluster donut */
 body.light-map{--cl-disc:rgba(255,255,255,.97);--cl-text:#111827}
 .dcl{position:relative;display:flex;align-items:center;justify-content:center;width:100%;height:100%}

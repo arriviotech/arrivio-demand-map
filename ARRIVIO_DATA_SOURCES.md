@@ -196,13 +196,21 @@ when I build the data/ folder after your approval.)*
 ---
 
 ## 7b. Built so far (on the map)
-- **States basemap + TAM/SAM card** — LIVE. State boundaries from
+- **States basemap + TAM card** — LIVE. State boundaries from
   [isellsoap/deutschlandGeoJSON](https://github.com/isellsoap/deutschlandGeoJSON) (`2_bundeslaender/4_niedrig`,
-  public, simplified to 3-decimal precision = 36 KB inlined). Choropleth colored by TAM; toggle
-  International vs +Domestic; click a state → population, inflow, **TAM (intl & total)**, nurse-
-  recognition proxy, **SAM**, and the national inflow-mix footnote. The **+Domestic** figure uses
-  `DOMESTIC_FACTOR = 1.36` (total/from-abroad ratio, derived from NRW 2023 516,904/378,360 = 1.366
-  and Bayern 2023 455,877/335,582 = 1.358) and is labeled "(est.)".
+  public, simplified to 3-decimal precision = 36 KB inlined). Choropleth colored by **TAM**, with
+  state-name + TAM labels and an International ⇄ +Domestic toggle (legend and in-card, synced).
+  Click a state → population, inflow, **TAM (international & +domestic)** + national inflow-mix
+  footnote. **SAM was removed per request — TAM only.**
+- **Data updated to firm 2024 figures** from a single authoritative table — Destatis *Statistischer
+  Bericht Wanderungen 2024*, table **12711-12 "Wanderungen über die Grenzen der Bundesländer nach
+  Reichweite der Wanderung 2024"**: per state, `intl` = arrivals from abroad, `total` = arrivals
+  incl. from other German states (both FIRM; the 16 reconcile exactly to the national 1,694,192 /
+  2,698,688). This **replaced the earlier 2025-abroad + ×1.36 estimate**, so the International vs
+  +Domestic toggle now reflects real per-state differences (e.g. Brandenburg total/abroad = 2.66,
+  Hamburg 2.14, NRW 1.39 — domestic-heavy states genuinely re-rank under +Domestic).
+- **Heatmap palette** — all heatmaps (states choropleth + client demand hexmap) now share one
+  sequential brand-pink ramp where **light = less, dark = more**.
 
 ## 8. Honest gaps (so there are no surprises)
 - **Per-state healthcare** is a population proxy until I pull the hospital-nursing-staff Excel.

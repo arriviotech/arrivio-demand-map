@@ -69,8 +69,9 @@ L.Map.SmoothWheelZoom = L.Handler.extend({
 });
 L.Map.addInitHook('addHandler', 'smoothWheelZoom', L.Map.SmoothWheelZoom);
 
-/* ============ sunset ramp (shared by hex + states choropleth) ============ */
-const RAMP7 = ['#4b2991', '#872ca2', '#c0369d', '#ea4f88', '#fa7876', '#f6a97a', '#edd9a3'];
+/* ============ sequential ramp (shared by hex + states choropleth) ============
+   light = low / less, dark = high / more — brand-pink family, blends with the UI accent. */
+const RAMP7 = ['#fbe0ef', '#f3a9d6', '#e96fb6', '#d6219b', '#a51777', '#6f0f55', '#3d0a33'];
 function rampColor(t) { t = t < 0 ? 0 : t > 1 ? 1 : t; return RAMP7[Math.min(6, Math.floor(t * 7))]; }
 
 /* ============ Map adapter (Leaflet) ============ */
@@ -219,25 +220,43 @@ const M = {
   },
 
   /* ---- States choropleth (TAM) ---- */
-  showStates(valueFn, onClick) {
+  showStates(opts) {
+    // opts: { valueFn, labelFn, onClick, fillOpacity }
+    const o = opts || this._statesOpts; this._statesOpts = o;
     this.hideStates();
-    this._statesOnClick = onClick;
-    const vals = DE_STATES_GEO.features.map(f => valueFn(f.properties.name)).filter(v => v > 0);
+    const vals = DE_STATES_GEO.features.map(f => o.valueFn(f.properties.name)).filter(v => v > 0);
     this._statesMax = Math.max.apply(null, vals.concat([1]));
+    const fill = o.fillOpacity == null ? 0.6 : o.fillOpacity;
     const self = this;
+    this._baseStyle = nm => ({ color: '#ffffff', weight: 1.2, fillColor: rampColor(Math.sqrt((o.valueFn(nm) || 0) / self._statesMax)), fillOpacity: fill });
     this.statesL = L.geoJSON(DE_STATES_GEO, {
-      style: f => ({ color: '#ffffff', weight: 1.2, fillColor: rampColor(Math.sqrt((valueFn(f.properties.name) || 0) / self._statesMax)), fillOpacity: 0.8 }),
+      style: f => self._baseStyle(f.properties.name),
       onEachFeature: (f, layer) => {
         const nm = f.properties.name;
-        layer.on('click', () => { self._markerHit(); onClick(nm); });
-        layer.on('mouseover', () => layer.setStyle({ weight: 3, color: '#d6219b' }));
-        layer.on('mouseout', () => layer.setStyle({ weight: 1.2, color: '#ffffff' }));
-        layer.bindTooltip(nm, { sticky: true, className: 'client-label' });
+        layer._stateName = nm;
+        layer.on('click', () => { self._markerHit(); self._selectStateLayer(layer); o.onClick(nm); });
+        layer.on('mouseover', () => { if (layer !== self._selStateLayer) layer.setStyle({ weight: 2.6, color: '#d6219b' }); layer.bringToFront(); if (self._selStateLayer) self._selStateLayer.bringToFront(); });
+        layer.on('mouseout', () => { if (layer !== self._selStateLayer) layer.setStyle({ weight: 1.2, color: '#ffffff' }); });
+        if (o.labelFn) layer.bindTooltip(o.labelFn(nm), { permanent: true, direction: 'center', className: 'state-label', interactive: false });
       }
     }).addTo(this.map);
+    // re-apply persistent selection (e.g. after a metric toggle rebuild)
+    if (this._selStateName) {
+      this.statesL.eachLayer(l => { if (l._stateName === this._selStateName) { this._selStateLayer = l; l.setStyle({ weight: 4, color: '#d6219b' }); l.bringToFront(); } });
+    }
   },
-  restyleStates(valueFn) { if (this.statesL) this.showStates(valueFn, this._statesOnClick); },
+  _selectStateLayer(layer) {
+    if (this._selStateLayer && this._selStateLayer !== layer) this._selStateLayer.setStyle(this._baseStyle(this._selStateLayer._stateName));
+    this._selStateLayer = layer; this._selStateName = layer._stateName;
+    layer.setStyle({ weight: 4, color: '#d6219b' }); layer.bringToFront();
+  },
+  restyleStates(valueFn, labelFn, fillOpacity) {
+    if (!this.statesL) return;
+    const o = this._statesOpts; o.valueFn = valueFn || o.valueFn; if (labelFn) o.labelFn = labelFn; if (fillOpacity != null) o.fillOpacity = fillOpacity;
+    this.showStates(o);
+  },
   hideStates() { if (this.statesL) { this.map.removeLayer(this.statesL); this.statesL = null; } },
+  clearStateSelection() { this._selStateLayer = null; this._selStateName = null; },
   statesMax() { return this._statesMax || 1; },
 
   /* ---- proposed areas ---- */
