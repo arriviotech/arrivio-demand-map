@@ -29,7 +29,7 @@
   const S = {
     theme: localStorage.getItem('arrivio.theme') || 'dark',
     base: 'voyager',
-    stateMetric: 'intl',
+    stateMetric: 'intl', stateMulti: false, selStates: [],
     layers: { hex: true, clients: true, labels: true, approx: true, gch: true, sem: true, stations: false },
     reach: { mode: 'bike-share', min: 20, origin: null, active: false },
     sel: null, selArea: null, armed: false,
@@ -308,7 +308,7 @@
     $('sel-card').hidden = true;
     if (S.sel && S.sel.type === 'client') M.setSelectedClient(null);
     if (S.selArea) { M.setAreaSelected(S.selArea, false); document.querySelectorAll('#area-list .arow.sel').forEach(li => li.classList.remove('sel')); }
-    if (S.selStateName) { S.selStateName = null; M.clearStateSelection(); }
+    if (S.selStates.length) { S.selStates = []; S.stateMulti = false; M.clearStateSelection(); }
     S.sel = null; S.selArea = null;
   }
   function selectClient(c) {
@@ -362,35 +362,62 @@
   const stateInflow = (name, metric) => metric === 'total' ? stateTotal(name) : stateIntl(name);
   const stateTAM = (name, metric) => stateInflow(name, metric) * TAM_PER_PERSON;
   const statesValueFn = () => (name => stateTAM(name, S.stateMetric));
-  const stateLabelFn = () => (name => `<b>${esc(STATE_SHORT[name] || name)}</b><span>${eurShort(stateTAM(name, S.stateMetric))}</span>`);
+  const stateLabelFn = () => (name => esc(STATE_SHORT[name] || name)); // name only — keeps labels compact, no overlap
   const statesFillOpacity = () => ((S.layers.clients || S.layers.hex) ? 0.3 : 0.62);
   function setStateMetric(metric) {
     S.stateMetric = metric;
     document.querySelectorAll('#state-metric [data-metric], #card-metric [data-metric]').forEach(x => x.setAttribute('aria-pressed', x.dataset.metric === metric));
     if (S.base === 'states') { M.restyleStates(statesValueFn(), stateLabelFn(), statesFillOpacity()); updateStatesLegend(); }
-    if (S.selStateName) selectState(S.selStateName);
+    if (S.selStates.length) renderStateCard();
   }
   function selectState(name) {
-    const d = STATES_DATA[name]; if (!d) return;
-    S.selStateName = name;
+    if (!STATES_DATA[name]) return;
+    if (S.stateMulti) { const i = S.selStates.indexOf(name); if (i >= 0) S.selStates.splice(i, 1); else S.selStates.push(name); }
+    else S.selStates = [name];
+    M.setSelectedStates(S.selStates);
+    if (S.selStates.length) renderStateCard(); else closeSel();
+  }
+  function renderStateCard() {
     const metric = S.stateMetric, isT = metric === 'total';
-    const tamI = stateIntl(name) * TAM_PER_PERSON, tamT = stateTotal(name) * TAM_PER_PERSON;
-    const comp = INFLOW_COMPOSITION.map(c => `${c.label} ${c.pct}%`).join(' · ');
-    showSelCard(`
-      <div class="sname">${esc(name)}</div>
-      <div class="splace">Total Addressable Market · €${TAM_PER_PERSON / 1000}k per person / year</div>
-      <div class="seg" id="card-metric" role="group" aria-label="Inflow basis" style="margin:2px 0 10px">
+    const seg = `<div class="seg" id="card-metric" role="group" aria-label="Inflow basis" style="margin:2px 0 10px">
         <button data-metric="intl" aria-pressed="${!isT}">International</button>
-        <button data-metric="total" aria-pressed="${isT}">+ Domestic</button>
-      </div>
-      <table>
-        <tr><td>Population</td><td class="num">${fmt(d.pop)}</td></tr>
+        <button data-metric="total" aria-pressed="${isT}">+ Domestic</button></div>`;
+    const multiBtn = `<button class="btn" id="state-multi" aria-pressed="${S.stateMulti}" style="width:100%;margin-top:8px">${S.stateMulti ? '✓ Comparing — click states to add/remove' : '+ Compare multiple states'}</button>`;
+    let html;
+    if (S.selStates.length > 1) {
+      const sorted = S.selStates.slice().sort((a, b) => stateTAM(b, metric) - stateTAM(a, metric));
+      const total = sorted.reduce((s, n) => s + stateTAM(n, metric), 0);
+      const rows = sorted.map(n => `<tr><td>${esc(STATE_SHORT[n] || n)}</td><td class="num">${eurShort(stateTAM(n, metric))}</td></tr>`).join('');
+      html = `
+        <div class="sname">${S.selStates.length} states · combined TAM</div>
+        <div class="splace">${isT ? 'Total (incl. domestic)' : 'International'} inflow · €${TAM_PER_PERSON / 1000}k per person / year</div>
+        ${seg}
+        <table>
+          <tr><td><b>Combined TAM</b></td><td class="num"><b style="color:var(--acct);font-size:1.18em">${eurShort(total)}</b></td></tr>
+          ${rows}
+        </table>
+        ${multiBtn}
+        <p class="hint" style="margin-top:8px">Click states on the map to add or remove. TAM = inflow × €${TAM_PER_PERSON / 1000}k/yr.</p>`;
+    } else {
+      const name = S.selStates[0], d = STATES_DATA[name];
+      const tam = stateTAM(name, metric), intlTAM = stateIntl(name) * TAM_PER_PERSON, totTAM = stateTotal(name) * TAM_PER_PERSON;
+      const comp = INFLOW_COMPOSITION.map(c => `${c.label} ${c.pct}%`).join(' · ');
+      let rows = `<tr><td>Population</td><td class="num">${fmt(d.pop)}</td></tr>
         <tr><td>Inflow / yr (${isT ? 'total' : 'international'})</td><td class="num">${fmt(stateInflow(name, metric))}</td></tr>
-        <tr><td><b>TAM · ${isT ? '+ domestic' : 'international'}</b></td><td class="num"><b style="color:var(--acct);font-size:1.15em">${eurShort(isT ? tamT : tamI)}</b></td></tr>
-        <tr><td style="color:var(--t3)">· international</td><td class="num" style="color:var(--t2)">${eurShort(tamI)}</td></tr>
-        <tr><td style="color:var(--t3)">· + domestic</td><td class="num" style="color:var(--t2)">${eurShort(tamT)}</td></tr>
-      </table>
-      <p class="hint" style="margin-top:8px">National inflow mix: ${esc(comp)}.</p>
-      <p class="hint" style="margin-top:4px">Top origins: ${esc(INFLOW_TOP_ORIGINS)}. TAM = inflow × €${TAM_PER_PERSON / 1000}k/yr. Source: Destatis 2024 (ARRIVIO_DATA_SOURCES.md).</p>`);
+        <tr><td><b>TAM · ${isT ? '+ domestic' : 'international'}</b></td><td class="num"><b style="color:var(--acct);font-size:1.15em">${eurShort(tam)}</b></td></tr>`;
+      if (isT) rows += `<tr><td style="color:var(--t3)">· of which international</td><td class="num" style="color:var(--t2)">${eurShort(intlTAM)}</td></tr>
+        <tr><td style="color:var(--t3)">· of which domestic</td><td class="num" style="color:var(--t2)">${eurShort(totTAM - intlTAM)}</td></tr>`;
+      html = `
+        <div class="sname">${esc(name)}</div>
+        <div class="splace">Total Addressable Market · €${TAM_PER_PERSON / 1000}k per person / year</div>
+        ${seg}
+        <table>${rows}</table>
+        ${multiBtn}
+        <p class="hint" style="margin-top:8px">National inflow mix: ${esc(comp)}.</p>
+        <p class="hint" style="margin-top:4px">Top origins: ${esc(INFLOW_TOP_ORIGINS)}. TAM = inflow × €${TAM_PER_PERSON / 1000}k/yr. Source: Destatis 2024.</p>`;
+    }
+    showSelCard(html);
     document.querySelectorAll('#card-metric [data-metric]').forEach(b => b.onclick = () => setStateMetric(b.dataset.metric));
+    const mb = document.getElementById('state-multi');
+    if (mb) mb.onclick = () => { S.stateMulti = !S.stateMulti; renderStateCard(); };
   }

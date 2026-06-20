@@ -228,35 +228,37 @@ const M = {
     this._statesMax = Math.max.apply(null, vals.concat([1]));
     const fill = o.fillOpacity == null ? 0.6 : o.fillOpacity;
     const self = this;
+    this._selStates = this._selStates || [];
     this._baseStyle = nm => ({ color: '#ffffff', weight: 1.2, fillColor: rampColor(Math.sqrt((o.valueFn(nm) || 0) / self._statesMax)), fillOpacity: fill });
     this.statesL = L.geoJSON(DE_STATES_GEO, {
       style: f => self._baseStyle(f.properties.name),
       onEachFeature: (f, layer) => {
         const nm = f.properties.name;
         layer._stateName = nm;
-        layer.on('click', () => { self._markerHit(); self._selectStateLayer(layer); o.onClick(nm); });
-        layer.on('mouseover', () => { if (layer !== self._selStateLayer) layer.setStyle({ weight: 2.6, color: '#d6219b' }); layer.bringToFront(); if (self._selStateLayer) self._selStateLayer.bringToFront(); });
-        layer.on('mouseout', () => { if (layer !== self._selStateLayer) layer.setStyle({ weight: 1.2, color: '#ffffff' }); });
+        layer.on('click', () => { self._markerHit(); o.onClick(nm); });
+        // hover is transient only (NO bringToFront — that reorders the SVG and makes
+        // Leaflet miss mouseout, which is what made hovered states look "selected")
+        layer.on('mouseover', () => { if (self._selStates.indexOf(nm) < 0) layer.setStyle({ weight: 2.4, color: '#d6219b' }); });
+        layer.on('mouseout', () => self._applyStateStyle(layer));
         if (o.labelFn) layer.bindTooltip(o.labelFn(nm), { permanent: true, direction: 'center', className: 'state-label', interactive: false });
       }
     }).addTo(this.map);
-    // re-apply persistent selection (e.g. after a metric toggle rebuild)
-    if (this._selStateName) {
-      this.statesL.eachLayer(l => { if (l._stateName === this._selStateName) { this._selStateLayer = l; l.setStyle({ weight: 4, color: '#d6219b' }); l.bringToFront(); } });
-    }
+    this.statesL.eachLayer(l => self._applyStateStyle(l)); // re-apply the selection set after a rebuild
+    this._bringSelectedFront();
   },
-  _selectStateLayer(layer) {
-    if (this._selStateLayer && this._selStateLayer !== layer) this._selStateLayer.setStyle(this._baseStyle(this._selStateLayer._stateName));
-    this._selStateLayer = layer; this._selStateName = layer._stateName;
-    layer.setStyle({ weight: 4, color: '#d6219b' }); layer.bringToFront();
+  _applyStateStyle(layer) {
+    if (this._selStates && this._selStates.indexOf(layer._stateName) >= 0) layer.setStyle({ weight: 4, color: '#d6219b' });
+    else layer.setStyle(this._baseStyle(layer._stateName));
   },
+  _bringSelectedFront() { if (this.statesL) this.statesL.eachLayer(l => { if (this._selStates.indexOf(l._stateName) >= 0) l.bringToFront(); }); },
+  setSelectedStates(names) { this._selStates = names || []; if (this.statesL) { this.statesL.eachLayer(l => this._applyStateStyle(l)); this._bringSelectedFront(); } },
   restyleStates(valueFn, labelFn, fillOpacity) {
     if (!this.statesL) return;
     const o = this._statesOpts; o.valueFn = valueFn || o.valueFn; if (labelFn) o.labelFn = labelFn; if (fillOpacity != null) o.fillOpacity = fillOpacity;
     this.showStates(o);
   },
   hideStates() { if (this.statesL) { this.map.removeLayer(this.statesL); this.statesL = null; } },
-  clearStateSelection() { this._selStateLayer = null; this._selStateName = null; },
+  clearStateSelection() { this._selStates = []; if (this.statesL) this.statesL.eachLayer(l => this._applyStateStyle(l)); },
   statesMax() { return this._statesMax || 1; },
 
   /* ---- proposed areas ---- */

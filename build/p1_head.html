@@ -77,12 +77,11 @@ body.show-labels .leaflet-tooltip.client-label{display:block}
 .leaflet-interactive{cursor:pointer}
 .leaflet-interactive:focus{outline:none}
 body.armed .leaflet-container{cursor:crosshair!important}
-/* state name + TAM labels on the States choropleth */
-.leaflet-tooltip.state-label{background:none;border:none;box-shadow:none;color:#1d2733;font-weight:700;
-  font-size:calc(11px * var(--ui-scale));line-height:1.15;text-align:center;padding:0;white-space:nowrap;
-  text-shadow:0 0 3px #fff,0 1px 2px #fff,0 0 6px #fff,-1px 0 2px #fff,1px 0 2px #fff}
-.leaflet-tooltip.state-label b{display:block;font-size:calc(12px * var(--ui-scale))}
-.leaflet-tooltip.state-label span{font-weight:700;color:var(--acc)}
+/* state name labels on the States choropleth — compact, fixed-size so they never balloon/overlap */
+.leaflet-tooltip.state-label{background:none;border:none;box-shadow:none;color:#15202b;font-weight:700;
+  font-size:11px;line-height:1.1;text-align:center;padding:0;white-space:nowrap;
+  text-shadow:0 0 2px #fff,0 0 4px #fff,-1px 0 1px #fff,1px 0 1px #fff,0 1px 1px #fff}
+body.presenting .leaflet-tooltip.state-label{font-size:14px}
 /* cluster donut */
 body.light-map{--cl-disc:rgba(255,255,255,.97);--cl-text:#111827}
 .dcl{position:relative;display:flex;align-items:center;justify-content:center;width:100%;height:100%}

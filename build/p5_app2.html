@@ -265,7 +265,7 @@
     document.body.classList.toggle('states-mode', states);
     if (states) {
       M.setBase('positron');
-      M.clearStateSelection();
+      S.selStates = []; S.stateMulti = false; M.clearStateSelection();
       M.showStates({ valueFn: statesValueFn(), labelFn: stateLabelFn(), onClick: selectState, fillOpacity: statesFillOpacity() });
       computeHex(); // respect the hexmap toggle; it overlays on top of the softened choropleth
       document.body.classList.add('light-map');
