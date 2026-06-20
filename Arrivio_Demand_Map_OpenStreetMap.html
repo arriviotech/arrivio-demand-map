@@ -476,6 +476,9 @@ body.presenting .cbtn .ic{width:22px;height:22px}
           <button class="eye" data-layer="sem" aria-pressed="true" aria-label="Toggle Seminaris hotels"><svg class="ic"><use href="#i-eye"/></svg></button></div>
         <div class="lrow" data-lrow="stations"><span class="sw" style="background:var(--bike)"></span><span class="lname">Bike-share stations</span>
           <button class="eye" data-layer="stations" aria-pressed="false" aria-label="Toggle bike stations"><svg class="ic"><use href="#i-eye-off"/></svg></button></div>
+        <div class="subhead">Supply &amp; market</div>
+        <div class="lrow off" data-lrow="commercial"><span class="sw grad"></span><span class="lname">Office market <span style="color:var(--t3);font-weight:400">· size=m², color=rent</span></span>
+          <button class="eye" data-layer="commercial" aria-pressed="false" aria-label="Toggle office market"><svg class="ic"><use href="#i-eye-off"/></svg></button></div>
         <div class="subhead">Basemap</div>
         <div class="bmrow" style="grid-template-columns:repeat(3,1fr)">
           <button class="bm b-voyager" data-base="voyager" aria-pressed="true">Clean</button>
@@ -646,6 +649,32 @@ const INFLOW_COMPOSITION = [
   { label: "Other", pct: 8 }
 ];
 const INFLOW_TOP_ORIGINS = "Ukraine, Romania, Turkey, Syria, Poland, India";
+
+/* ============ Office / commercial market (see ARRIVIO_DATA_SOURCES.md) ============
+   prime/avg = EUR/m²/month, vac = vacancy %, m2 = vacant office space (m²). FIRM from broker
+   reports (BNP Paribas RE Buromarkt DE Q4 2025; Colliers Top-7 Q2 2025; JLL/C&W). "est" flags
+   modeled values. Bubble SIZE = vacant m² (availability), COLOR = prime rent. */
+const COMMERCIAL_DATA = [
+  { city: "Berlin",      lat: 52.520, lng: 13.405, prime: 47.0, avg: 27.0, vac: 8.9,  m2: 1931000 },
+  { city: "München",     lat: 48.137, lng: 11.575, prime: 58.0, avg: 26.6, vac: 7.9,  m2: 1824000 },
+  { city: "Frankfurt",   lat: 50.110, lng: 8.682,  prime: 54.0, avg: 29.0, vac: 12.1, m2: 1879000 },
+  { city: "Hamburg",     lat: 53.551, lng: 9.993,  prime: 38.0, avg: 21.3, vac: 6.3,  m2: 924000 },
+  { city: "Düsseldorf",  lat: 51.227, lng: 6.773,  prime: 46.0, avg: 19.4, vac: 12.7, m2: 1275000 },
+  { city: "Köln",        lat: 50.937, lng: 6.960,  prime: 33.5, avg: 21.7, vac: 6.3,  m2: 497000 },
+  { city: "Stuttgart",   lat: 48.776, lng: 9.182,  prime: 37.0, avg: 21.1, vac: 6.4,  m2: 581000, est: "m²" },
+  { city: "Leipzig",     lat: 51.340, lng: 12.375, prime: 21.0, avg: null, vac: 5.7,  m2: 230000 },
+  { city: "Essen",       lat: 51.456, lng: 7.012,  prime: 20.0, avg: null, vac: 8.9,  m2: 287000 },
+  { city: "Hannover",    lat: 52.376, lng: 9.732,  prime: 24.5, avg: null, vac: 6.3,  m2: 341100 },
+  { city: "Nürnberg",    lat: 49.452, lng: 11.077, prime: 19.5, avg: 12.5, vac: 8.9,  m2: 373200 },
+  { city: "Dresden",     lat: 51.050, lng: 13.737, prime: 23.0, avg: 13.4, vac: 4.3,  m2: 130000 },
+  { city: "Dortmund",    lat: 51.514, lng: 7.466,  prime: 23.0, avg: 14.6, vac: 4.2,  m2: 136000 },
+  { city: "Bonn",        lat: 50.737, lng: 7.098,  prime: 24.0, avg: null, vac: 3.5,  m2: 140960 },
+  { city: "Münster",     lat: 51.960, lng: 7.626,  prime: 22.0, avg: 14.7, vac: 2.9,  m2: 68600 },
+  { city: "Mannheim",    lat: 49.488, lng: 8.466,  prime: 22.0, avg: null, vac: 6.4,  m2: 120000, est: "m²" },
+  { city: "Bochum",      lat: 51.482, lng: 7.216,  prime: 16.5, avg: null, vac: 6.0,  m2: 72000, est: "m²" },
+  { city: "Bremen",      lat: 53.079, lng: 8.802,  prime: 16.5, avg: null, vac: 3.0,  m2: 30000, est: "rent, m²" },
+  { city: "Karlsruhe",   lat: 49.007, lng: 8.404,  prime: 16.5, avg: null, vac: 3.5,  m2: 110000, est: "rent, vac" }
+];
 </script>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -911,6 +940,26 @@ const M = {
   clearStateSelection() { this._selStates = []; if (this.statesL) this.statesL.eachLayer(l => this._applyStateStyle(l)); },
   statesMax() { return this._statesMax || 1; },
 
+  /* ---- Office / commercial market bubbles (size = vacant m², color = rent) ---- */
+  renderCommercial(list, onClick) {
+    if (this.commL) this.map.removeLayer(this.commL);
+    const rents = list.map(c => c.prime), rMin = Math.min.apply(null, rents), rMax = Math.max.apply(null, rents);
+    const mMax = Math.max.apply(null, list.map(c => c.m2 || 0).concat([1]));
+    const sc = this.sizeScale || 1, self = this;
+    this.commL = L.layerGroup(list.map(c => {
+      const t = (c.prime - rMin) / (rMax - rMin || 1);
+      const r = (6 + Math.sqrt((c.m2 || 0) / mMax) * 22) * sc;
+      const m = L.circleMarker([c.lat, c.lng], { radius: r, color: '#ffffff', weight: 1.4, fillColor: rampColor(t), fillOpacity: 0.85 });
+      m.on('click', () => { self._markerHit(); onClick(c); });
+      m.on('mouseover', () => m.setStyle({ weight: 2.6 }));
+      m.on('mouseout', () => m.setStyle({ weight: 1.4 }));
+      m.bindTooltip(c.city + ' · €' + c.prime + '/m²', { direction: 'top', className: 'client-label' });
+      return m;
+    }));
+    if (this._commOn) this.commL.addTo(this.map);
+  },
+  setCommercialVisible(b) { this._commOn = b; if (!this.commL) return; if (b && !this.map.hasLayer(this.commL)) this.map.addLayer(this.commL); if (!b && this.map.hasLayer(this.commL)) this.map.removeLayer(this.commL); },
+
   /* ---- proposed areas ---- */
   _pinSvg() {
     return '<svg viewBox="0 0 24 32"><path d="M12 1C6.2 1 1.5 5.7 1.5 11.5 1.5 19 12 31 12 31s10.5-12 10.5-19.5C22.5 5.7 17.8 1 12 1z" fill="#d6219b" stroke="#fff" stroke-width="2"/><circle cx="12" cy="11.5" r="4" fill="#fff"/></svg>';
@@ -1044,7 +1093,7 @@ function nameVars(n) {
     theme: localStorage.getItem('arrivio.theme') || 'dark',
     base: 'voyager',
     stateMetric: 'intl', stateMulti: false, selStates: [],
-    layers: { hex: true, clients: true, labels: true, approx: true, gch: true, sem: true, stations: false },
+    layers: { hex: true, clients: true, labels: true, approx: true, gch: true, sem: true, stations: false, commercial: false },
     reach: { mode: 'bike-share', min: 20, origin: null, active: false },
     sel: null, selArea: null, armed: false,
     areas: []   // {id, name, km}
@@ -1361,6 +1410,24 @@ function nameVars(n) {
     if (MOBILE()) { showSelCard(html); wire($('sel-card')); }
     else M.openInfo([h.lat, h.lng], html, wire);
   }
+  function selectCommercial(c) {
+    const est = c.est ? ` · <span style="color:var(--warn)">est: ${esc(c.est)}</span>` : '';
+    const html = `
+      <div class="sname">${esc(c.city)}</div>
+      <div class="splace">Office / commercial market${est}</div>
+      <table>
+        <tr><td>Prime rent</td><td class="num"><b>€${NF.format(c.prime)}</b> /m²·mo</td></tr>
+        ${c.avg != null ? `<tr><td>Average rent</td><td class="num">€${NF.format(c.avg)} /m²·mo</td></tr>` : ''}
+        <tr><td>Vacancy</td><td class="num">${NF.format(c.vac)}%</td></tr>
+        <tr><td>Vacant space</td><td class="num"><b style="color:var(--acct)">${fmt(c.m2)}</b> m²</td></tr>
+      </table>
+      <div class="btnrow"><button class="btn" data-act="area">+ Area here</button></div>
+      <p class="hint" style="margin-top:6px">Office market, FY/Q4 2025 (broker reports). Source: ARRIVIO_DATA_SOURCES.md.</p>`;
+    const wire = root => { const ab = root.querySelector('[data-act="area"]'); if (ab) ab.onclick = () => addAreaAt([c.lat, c.lng]); };
+    if (MOBILE()) { showSelCard(html); wire($('sel-card')); }
+    else M.openInfo([c.lat, c.lng], html, wire);
+  }
+  function renderCommercialNow() { M.renderCommercial(COMMERCIAL_DATA, selectCommercial); }
 
   /* ============ states / TAM ============ */
   const STATE_SHORT = {
@@ -1695,6 +1762,7 @@ function nameVars(n) {
     if (key === 'approx') { renderClientsNow(); updateKPIs(); computeHex(true); renderAreaList(); }
     if (key === 'gch' || key === 'sem') renderHotelsNow();
     if (key === 'stations') loadStations(on);
+    if (key === 'commercial') M.setCommercialVisible(on);
     updateLegend(); writeHash();
   }
   function setBase(key) {
@@ -1732,6 +1800,7 @@ function nameVars(n) {
     if (S.areas.length) cats.push(`<div class="lg"><span class="sw" style="background:var(--acc)"></span>Arrivio proposed area</div>`);
     if (S.layers.gch) cats.push(`<div class="lg"><span class="sw sq" style="background:var(--gch)"></span>GCH hotel</div>`);
     if (S.layers.sem) cats.push(`<div class="lg"><span class="sw sq" style="background:var(--sem)"></span>Seminaris hotel</div>`);
+    if (S.layers.commercial) cats.push(`<div class="lg"><span class="sw grad"></span>Office: size = vacant m², color = rent</div>`);
     if (S.reach.active) cats.push(`<div class="lg"><span class="sw" style="background:${MODE_COLOR[S.reach.mode]}"></span>Reach ≤ ${S.reach.min} min (${MODE_LABEL[S.reach.mode]})</div>`);
     $('legend-cats').innerHTML = cats.join('');
     const gv = $('legend').querySelector('.gbar'); gv.style.display = S.layers.hex ? 'block' : 'none';
@@ -1931,7 +2000,7 @@ function nameVars(n) {
     // states TAM metric toggle (legend) — shares setStateMetric with the in-card toggle
     document.querySelectorAll('#state-metric [data-metric]').forEach(b => b.onclick = () => setStateMetric(b.dataset.metric));
     // symbol size
-    const applySym = throttle(() => { renderClientsNow(); renderHotelsNow(); updateLegend(); }, 200);
+    const applySym = throttle(() => { renderClientsNow(); renderHotelsNow(); renderCommercialNow(); updateLegend(); }, 200);
     $('sym-size').oninput = e => {
       const v = +e.target.value;
       M.sizeScale = v / 100;
@@ -2026,6 +2095,7 @@ function nameVars(n) {
   setReachOrigin(null);
   applyHotelCache();
   renderHotelsNow();
+  renderCommercialNow();
   setTimeout(geocodeHotels, 2500);
   initShot();
   if (MOBILE()) sheetTo('peek');

@@ -35,4 +35,30 @@ const INFLOW_COMPOSITION = [
   { label: "Other", pct: 8 }
 ];
 const INFLOW_TOP_ORIGINS = "Ukraine, Romania, Turkey, Syria, Poland, India";
+
+/* ============ Office / commercial market (see ARRIVIO_DATA_SOURCES.md) ============
+   prime/avg = EUR/m²/month, vac = vacancy %, m2 = vacant office space (m²). FIRM from broker
+   reports (BNP Paribas RE Buromarkt DE Q4 2025; Colliers Top-7 Q2 2025; JLL/C&W). "est" flags
+   modeled values. Bubble SIZE = vacant m² (availability), COLOR = prime rent. */
+const COMMERCIAL_DATA = [
+  { city: "Berlin",      lat: 52.520, lng: 13.405, prime: 47.0, avg: 27.0, vac: 8.9,  m2: 1931000 },
+  { city: "München",     lat: 48.137, lng: 11.575, prime: 58.0, avg: 26.6, vac: 7.9,  m2: 1824000 },
+  { city: "Frankfurt",   lat: 50.110, lng: 8.682,  prime: 54.0, avg: 29.0, vac: 12.1, m2: 1879000 },
+  { city: "Hamburg",     lat: 53.551, lng: 9.993,  prime: 38.0, avg: 21.3, vac: 6.3,  m2: 924000 },
+  { city: "Düsseldorf",  lat: 51.227, lng: 6.773,  prime: 46.0, avg: 19.4, vac: 12.7, m2: 1275000 },
+  { city: "Köln",        lat: 50.937, lng: 6.960,  prime: 33.5, avg: 21.7, vac: 6.3,  m2: 497000 },
+  { city: "Stuttgart",   lat: 48.776, lng: 9.182,  prime: 37.0, avg: 21.1, vac: 6.4,  m2: 581000, est: "m²" },
+  { city: "Leipzig",     lat: 51.340, lng: 12.375, prime: 21.0, avg: null, vac: 5.7,  m2: 230000 },
+  { city: "Essen",       lat: 51.456, lng: 7.012,  prime: 20.0, avg: null, vac: 8.9,  m2: 287000 },
+  { city: "Hannover",    lat: 52.376, lng: 9.732,  prime: 24.5, avg: null, vac: 6.3,  m2: 341100 },
+  { city: "Nürnberg",    lat: 49.452, lng: 11.077, prime: 19.5, avg: 12.5, vac: 8.9,  m2: 373200 },
+  { city: "Dresden",     lat: 51.050, lng: 13.737, prime: 23.0, avg: 13.4, vac: 4.3,  m2: 130000 },
+  { city: "Dortmund",    lat: 51.514, lng: 7.466,  prime: 23.0, avg: 14.6, vac: 4.2,  m2: 136000 },
+  { city: "Bonn",        lat: 50.737, lng: 7.098,  prime: 24.0, avg: null, vac: 3.5,  m2: 140960 },
+  { city: "Münster",     lat: 51.960, lng: 7.626,  prime: 22.0, avg: 14.7, vac: 2.9,  m2: 68600 },
+  { city: "Mannheim",    lat: 49.488, lng: 8.466,  prime: 22.0, avg: null, vac: 6.4,  m2: 120000, est: "m²" },
+  { city: "Bochum",      lat: 51.482, lng: 7.216,  prime: 16.5, avg: null, vac: 6.0,  m2: 72000, est: "m²" },
+  { city: "Bremen",      lat: 53.079, lng: 8.802,  prime: 16.5, avg: null, vac: 3.0,  m2: 30000, est: "rent, m²" },
+  { city: "Karlsruhe",   lat: 49.007, lng: 8.404,  prime: 16.5, avg: null, vac: 3.5,  m2: 110000, est: "rent, vac" }
+];
 </script>

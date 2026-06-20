@@ -257,6 +257,7 @@
     if (key === 'approx') { renderClientsNow(); updateKPIs(); computeHex(true); renderAreaList(); }
     if (key === 'gch' || key === 'sem') renderHotelsNow();
     if (key === 'stations') loadStations(on);
+    if (key === 'commercial') M.setCommercialVisible(on);
     updateLegend(); writeHash();
   }
   function setBase(key) {
@@ -294,6 +295,7 @@
     if (S.areas.length) cats.push(`<div class="lg"><span class="sw" style="background:var(--acc)"></span>Arrivio proposed area</div>`);
     if (S.layers.gch) cats.push(`<div class="lg"><span class="sw sq" style="background:var(--gch)"></span>GCH hotel</div>`);
     if (S.layers.sem) cats.push(`<div class="lg"><span class="sw sq" style="background:var(--sem)"></span>Seminaris hotel</div>`);
+    if (S.layers.commercial) cats.push(`<div class="lg"><span class="sw grad"></span>Office: size = vacant m², color = rent</div>`);
     if (S.reach.active) cats.push(`<div class="lg"><span class="sw" style="background:${MODE_COLOR[S.reach.mode]}"></span>Reach ≤ ${S.reach.min} min (${MODE_LABEL[S.reach.mode]})</div>`);
     $('legend-cats').innerHTML = cats.join('');
     const gv = $('legend').querySelector('.gbar'); gv.style.display = S.layers.hex ? 'block' : 'none';
@@ -493,7 +495,7 @@
     // states TAM metric toggle (legend) — shares setStateMetric with the in-card toggle
     document.querySelectorAll('#state-metric [data-metric]').forEach(b => b.onclick = () => setStateMetric(b.dataset.metric));
     // symbol size
-    const applySym = throttle(() => { renderClientsNow(); renderHotelsNow(); updateLegend(); }, 200);
+    const applySym = throttle(() => { renderClientsNow(); renderHotelsNow(); renderCommercialNow(); updateLegend(); }, 200);
     $('sym-size').oninput = e => {
       const v = +e.target.value;
       M.sizeScale = v / 100;
@@ -588,6 +590,7 @@
   setReachOrigin(null);
   applyHotelCache();
   renderHotelsNow();
+  renderCommercialNow();
   setTimeout(geocodeHotels, 2500);
   initShot();
   if (MOBILE()) sheetTo('peek');

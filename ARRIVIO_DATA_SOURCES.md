@@ -211,6 +211,13 @@ when I build the data/ folder after your approval.)*
   Hamburg 2.14, NRW 1.39 — domestic-heavy states genuinely re-rank under +Domestic).
 - **Heatmap palette** — all heatmaps (states choropleth + client demand hexmap) now share one
   sequential brand-pink ramp where **light = less, dark = more**.
+- **Office / commercial market layer** — LIVE (eye toggle "Office market"). 19 cities as bubbles
+  where **size = vacant office m²** (availability) and **color = prime rent €/m²/mo**; click a city →
+  prime rent, average rent, vacancy %, vacant m². FIRM from broker reports (BNP Paribas RE Büromarkt
+  Deutschland Q4 2025; Colliers Top-7 Q2 2025; JLL/C&W) — see §4. City coordinates are standard
+  centroids; the 4 cities without a published vacant-m² (Stuttgart/Mannheim/Bochum/Bremen/Karlsruhe
+  partials) are flagged "est" in the card. This delivers two of the requested heatmaps (availability
+  + rents) in one layer. **Note: this is city-level — per-building data is not public (see §2).**
 
 ## 8. Honest gaps (so there are no surprises)
 - **Per-state healthcare** is a population proxy until I pull the hospital-nursing-staff Excel.

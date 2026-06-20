@@ -261,6 +261,26 @@ const M = {
   clearStateSelection() { this._selStates = []; if (this.statesL) this.statesL.eachLayer(l => this._applyStateStyle(l)); },
   statesMax() { return this._statesMax || 1; },
 
+  /* ---- Office / commercial market bubbles (size = vacant m², color = rent) ---- */
+  renderCommercial(list, onClick) {
+    if (this.commL) this.map.removeLayer(this.commL);
+    const rents = list.map(c => c.prime), rMin = Math.min.apply(null, rents), rMax = Math.max.apply(null, rents);
+    const mMax = Math.max.apply(null, list.map(c => c.m2 || 0).concat([1]));
+    const sc = this.sizeScale || 1, self = this;
+    this.commL = L.layerGroup(list.map(c => {
+      const t = (c.prime - rMin) / (rMax - rMin || 1);
+      const r = (6 + Math.sqrt((c.m2 || 0) / mMax) * 22) * sc;
+      const m = L.circleMarker([c.lat, c.lng], { radius: r, color: '#ffffff', weight: 1.4, fillColor: rampColor(t), fillOpacity: 0.85 });
+      m.on('click', () => { self._markerHit(); onClick(c); });
+      m.on('mouseover', () => m.setStyle({ weight: 2.6 }));
+      m.on('mouseout', () => m.setStyle({ weight: 1.4 }));
+      m.bindTooltip(c.city + ' · €' + c.prime + '/m²', { direction: 'top', className: 'client-label' });
+      return m;
+    }));
+    if (this._commOn) this.commL.addTo(this.map);
+  },
+  setCommercialVisible(b) { this._commOn = b; if (!this.commL) return; if (b && !this.map.hasLayer(this.commL)) this.map.addLayer(this.commL); if (!b && this.map.hasLayer(this.commL)) this.map.removeLayer(this.commL); },
+
   /* ---- proposed areas ---- */
   _pinSvg() {
     return '<svg viewBox="0 0 24 32"><path d="M12 1C6.2 1 1.5 5.7 1.5 11.5 1.5 19 12 31 12 31s10.5-12 10.5-19.5C22.5 5.7 17.8 1 12 1z" fill="#d6219b" stroke="#fff" stroke-width="2"/><circle cx="12" cy="11.5" r="4" fill="#fff"/></svg>';

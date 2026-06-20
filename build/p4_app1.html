@@ -30,7 +30,7 @@
     theme: localStorage.getItem('arrivio.theme') || 'dark',
     base: 'voyager',
     stateMetric: 'intl', stateMulti: false, selStates: [],
-    layers: { hex: true, clients: true, labels: true, approx: true, gch: true, sem: true, stations: false },
+    layers: { hex: true, clients: true, labels: true, approx: true, gch: true, sem: true, stations: false, commercial: false },
     reach: { mode: 'bike-share', min: 20, origin: null, active: false },
     sel: null, selArea: null, armed: false,
     areas: []   // {id, name, km}
@@ -347,6 +347,24 @@
     if (MOBILE()) { showSelCard(html); wire($('sel-card')); }
     else M.openInfo([h.lat, h.lng], html, wire);
   }
+  function selectCommercial(c) {
+    const est = c.est ? ` · <span style="color:var(--warn)">est: ${esc(c.est)}</span>` : '';
+    const html = `
+      <div class="sname">${esc(c.city)}</div>
+      <div class="splace">Office / commercial market${est}</div>
+      <table>
+        <tr><td>Prime rent</td><td class="num"><b>€${NF.format(c.prime)}</b> /m²·mo</td></tr>
+        ${c.avg != null ? `<tr><td>Average rent</td><td class="num">€${NF.format(c.avg)} /m²·mo</td></tr>` : ''}
+        <tr><td>Vacancy</td><td class="num">${NF.format(c.vac)}%</td></tr>
+        <tr><td>Vacant space</td><td class="num"><b style="color:var(--acct)">${fmt(c.m2)}</b> m²</td></tr>
+      </table>
+      <div class="btnrow"><button class="btn" data-act="area">+ Area here</button></div>
+      <p class="hint" style="margin-top:6px">Office market, FY/Q4 2025 (broker reports). Source: ARRIVIO_DATA_SOURCES.md.</p>`;
+    const wire = root => { const ab = root.querySelector('[data-act="area"]'); if (ab) ab.onclick = () => addAreaAt([c.lat, c.lng]); };
+    if (MOBILE()) { showSelCard(html); wire($('sel-card')); }
+    else M.openInfo([c.lat, c.lng], html, wire);
+  }
+  function renderCommercialNow() { M.renderCommercial(COMMERCIAL_DATA, selectCommercial); }
 
   /* ============ states / TAM ============ */
   const STATE_SHORT = {
