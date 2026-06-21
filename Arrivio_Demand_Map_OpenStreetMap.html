@@ -6,8 +6,8 @@
 <meta name="theme-color" content="#16191f">
 <meta name="description" content="Arrivio location intelligence — German healthcare housing demand & site selection">
 <title>Arrivio — Site Selection &amp; Demand Map</title>
-<link rel="icon" href="icon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="icon.svg">
+<link rel="icon" href="logo.png" type="image/png">
+<link rel="apple-touch-icon" href="logo.png">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="preconnect" href="https://unpkg.com" crossorigin>
 <link rel="preconnect" href="https://basemaps.cartocdn.com" crossorigin>
@@ -108,9 +108,10 @@ body.panel-collapsed #panel-tab{display:flex}
 #grip{display:none;padding:8px 0 4px;cursor:grab;touch-action:none}
 #grip i{display:block;width:36px;height:4px;border-radius:2px;background:var(--bd2);margin:0 auto}
 .phead{display:flex;align-items:center;gap:8px;padding:14px 16px 10px;flex:none}
-.brand{display:flex;align-items:baseline;gap:6px;margin-right:auto}
-.brand b{font-size:calc(17px * var(--ui-scale));font-weight:800;letter-spacing:-.02em}
-.brand b::after{content:'';display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--acc);margin-left:3px}
+.brand{display:flex;align-items:center;gap:7px;margin-right:auto}
+.brand .brand-logo{width:28px;height:28px;border-radius:7px;flex:none;object-fit:contain;background:#fff;padding:2px}
+.brand b{font-size:calc(17px * var(--ui-scale));font-weight:800;letter-spacing:-.02em;align-self:center}
+.brand span{align-self:center}
 .brand span{font-size:11px;color:var(--t3);font-weight:600;text-transform:uppercase;letter-spacing:.06em}
 .ibtn{width:32px;height:32px;border-radius:var(--r-md);display:flex;align-items:center;justify-content:center;color:var(--t2);transition:background var(--dur-fast)}
 .ibtn:hover{background:var(--s3);color:var(--t1)}
@@ -424,7 +425,7 @@ body.presenting .cbtn .ic{width:22px;height:22px}
 <aside id="panel" aria-label="Analysis panel">
   <div id="grip" aria-hidden="true"><i></i></div>
   <header class="phead">
-    <div class="brand"><b>Arrivio</b><span>site selection</span></div>
+    <div class="brand"><img src="logo.png" class="brand-logo" alt="Arrivio"><b>Arrivio</b><span>site selection</span></div>
     <button id="btn-theme" class="ibtn" aria-label="Toggle dark / light theme"><svg class="ic"><use href="#i-sun"/></svg></button>
     <button id="btn-collapse" class="ibtn" aria-label="Collapse panel"><svg class="ic"><use href="#i-panel"/></svg></button>
   </header>
@@ -1548,7 +1549,7 @@ function nameVars(n) {
   const stateTAM = (name, metric) => stateInflow(name, metric) * TAM_PER_PERSON;
   const statesValueFn = () => (name => stateTAM(name, S.stateMetric));
   const stateLabelFn = () => (name => esc(STATE_SHORT[name] || name)); // name only — keeps labels compact, no overlap
-  const statesFillOpacity = () => ((S.layers.clients || S.layers.hex) ? 0.3 : 0.62);
+  const statesFillOpacity = () => ((S.layers.clients || S.layers.hex || S.layers.commercial || S.layers.hotels) ? 0.32 : 0.8);
   function setStateMetric(metric) {
     S.stateMetric = metric;
     document.querySelectorAll('#state-metric [data-metric], #card-metric [data-metric]').forEach(x => x.setAttribute('aria-pressed', x.dataset.metric === metric));
@@ -1875,21 +1876,27 @@ function nameVars(n) {
     if (key === 'hotels') { $('hotel-metric').hidden = !on; computeHotels(); }
     updateLegend(); writeHash();
   }
+  const STATE_HIDE_LAYERS = ['hex', 'clients', 'labels', 'approx', 'gch', 'sem', 'stations', 'commercial', 'hotels'];
   function setBase(key) {
+    const wasStates = S.base === 'states';
     S.base = key;
     const states = key === 'states';
     document.body.classList.toggle('states-mode', states);
+    if (states && !wasStates) { // entering States: hide overlays so the choropleth is clean + bold (restored on leave)
+      S._preStates = Object.assign({}, S.layers);
+      STATE_HIDE_LAYERS.forEach(k => { if (S.layers[k]) setLayer(k, false); });
+    }
     if (states) {
       M.setBase('positron');
       S.selStates = []; S.stateMulti = false; M.clearStateSelection();
       M.showStates({ valueFn: statesValueFn(), labelFn: stateLabelFn(), onClick: selectState, fillOpacity: statesFillOpacity() });
-      computeHex(); // respect the hexmap toggle; it overlays on top of the softened choropleth
       document.body.classList.add('light-map');
       updateStatesLegend();
     } else {
       M.hideStates();
       M.setBase(key);
       document.body.classList.toggle('light-map', key === 'voyager' || key === 'positron' || key === 'osm');
+      if (wasStates && S._preStates) { const snap = S._preStates; S._preStates = null; STATE_HIDE_LAYERS.forEach(k => { if (!!snap[k] !== !!S.layers[k]) setLayer(k, snap[k]); }); }
       computeHex();
     }
     $('states-legend').hidden = !states;
