@@ -245,7 +245,7 @@
       li.querySelector('.reach').onclick = () => { setReachOrigin({ type: 'area', id: a.id }); runReach(); };
       li.querySelector('.del').onclick = () => removeAreaWithUndo(a.id);
       const rad = li.querySelector('.arad'), out = li.querySelector('.rrow output');
-      rad.oninput = () => { a.km = +rad.value; out.textContent = a.km + ' km'; M.setAreaRadius(a.id, a.km); throttledKPIs(); writeHash(); };
+      rad.oninput = () => { a.km = +rad.value; out.textContent = a.km + ' km'; M.setAreaRadius(a.id, a.km); throttledKPIs(); if (S.selArea === a.id) throttledAreaCard(a.id); writeHash(); };
       li.onclick = e => { if (e.target.closest('button,input')) return; selectArea(a.id); };
       ul.appendChild(li);
     });
@@ -258,6 +258,7 @@
     });
   }
   const throttledKPIs = throttle(updateKPIs, 120);
+  const throttledAreaCard = throttle(id => { if (S.selArea === id) selectArea(id); }, 130); // keep the open area card in sync while dragging its radius
   function removeAreaWithUndo(id) {
     const a = S.areas.find(x => x.id === id); if (!a) return;
     const ll = M.areaLatLng(id);
