@@ -314,7 +314,7 @@
     // gradient scale for whichever heatmap is active (light = less, dark = more)
     let lTitle = 'Legend', lLo = '', lHi = '', lBar = false;
     if (S.layers.hex) { lTitle = 'Client room demand'; lLo = 'low'; lHi = '≈' + kfmt(demandMaxRooms) + ' rooms'; lBar = true; }
-    else if (S.layers.inflow) { const vv = Object.keys(STATES_DATA).map(n => stateInflow(n, S.inflowMetric)); lTitle = 'Immigrant inflow / yr (' + (S.inflowMetric === 'total' ? 'intl + domestic' : 'international') + ')'; lLo = 'low'; lHi = '≈' + kfmt(Math.max.apply(null, vv)) + '/yr'; lBar = true; }
+    else if (S.layers.inflow) { const fld = S.inflowMetric === 'total' ? 'total' : 'intl'; lTitle = 'Immigrant settlement · net /1,000 (' + (S.inflowMetric === 'total' ? 'incl. domestic' : 'international') + ')'; lLo = 'net loss / low'; lHi = '≈+' + Math.round(INFLOW_CAP[fld]) + '/1.000'; lBar = true; }
     else if (S.layers.commercial) {
       lBar = true;
       if (S.commMetric === 'rent') { const v = COMMERCIAL_DATA.map(c => c.prime); lTitle = 'Office prime rent'; lLo = '€' + Math.min.apply(null, v) + '/m²'; lHi = '€' + Math.max.apply(null, v) + '/m²'; }

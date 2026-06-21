@@ -445,39 +445,52 @@
   const statesValueFn = () => (name => stateTAM(name, S.stateMetric));
   const stateLabelFn = () => (name => esc(STATE_SHORT[name] || name)); // name only — keeps labels compact, no overlap
   const statesFillOpacity = () => ((S.layers.clients || S.layers.hex || S.layers.commercial || S.layers.hotels) ? 0.32 : 0.8);
-  /* ---- immigrant-inflow OVERLAY (people count per state; mixable with point layers) ---- */
-  const inflowValueFn = () => (name => stateInflow(name, S.inflowMetric));
+  /* ---- immigrant-inflow OVERLAY — DISTRICT (Kreis) choropleth, mixable with point layers ----
+     INKAR/BBSR 2023: net migration saldo per 1,000 inhabitants per Kreis (can be negative). */
+  const KREIS = {}; (INFLOW_KREISE || []).forEach(r => { KREIS[r.ags] = r; });
+  const INFLOW_CAP = {};
+  ['intl', 'total'].forEach(m => { const v = (INFLOW_KREISE || []).map(r => r[m]).filter(x => typeof x === 'number' && x > 0).sort((a, b) => a - b); INFLOW_CAP[m] = v.length ? v[Math.floor(v.length * 0.95)] : 1; });
+  const inflowField = () => (S.inflowMetric === 'total' ? 'total' : 'intl');
+  function inflowColor(f) {
+    const r = KREIS[f.properties.AGS], fld = inflowField(), v = r ? r[fld] : null;
+    if (v == null) return '#e9e6ee';
+    return rampColor(Math.min(1, Math.max(0, v) / (INFLOW_CAP[fld] || 1)));
+  }
+  function inflowTip(f) {
+    const r = KREIS[f.properties.AGS]; if (!r) return esc(f.properties.GEN || 'Kreis');
+    const v = r[inflowField()];
+    return esc(r.name) + ' · ' + (v > 0 ? '+' : '') + NF.format(v) + '/1.000';
+  }
   function computeInflow() {
     if (!S.layers.inflow) { M.hideInflow(); return; }
-    M.renderInflow({ valueFn: inflowValueFn(), labelFn: stateLabelFn(), onClick: selectInflowRegion, fillOpacity: 0.55 });
+    M.renderInflow({ geo: DE_KREISE_GEO, colorFn: inflowColor, tipFn: inflowTip, onClick: f => selectInflowRegion(f.properties.AGS), fillOpacity: 0.62 });
     M.setInflowClickable(!S.armed);
   }
   function setInflowMetric(metric) {
     S.inflowMetric = metric;
     document.querySelectorAll('#inflow-metric [data-im], #ic-metric [data-im]').forEach(x => x.setAttribute('aria-pressed', x.dataset.im === metric));
-    if (S.layers.inflow) { M.restyleInflow(inflowValueFn(), stateLabelFn(), 0.55); updateLegend(); }
-    if (S.selInflow) renderInflowCard();
+    if (S.layers.inflow) { computeInflow(); updateLegend(); }
+    if (S.selInflow) selectInflowRegion(S.selInflow);
   }
-  function selectInflowRegion(name) { S.selInflow = name; renderInflowCard(); }
-  function renderInflowCard() {
-    const name = S.selInflow, d = STATES_DATA[name]; if (!d) return;
-    const isT = S.inflowMetric === 'total';
-    const comp = INFLOW_COMPOSITION.map(c => `${c.label} ${c.pct}%`).join(' · ');
+  function selectInflowRegion(ags) {
+    const r = KREIS[ags]; if (!r) return;
+    S.selInflow = ags;
+    const isT = S.inflowMetric === 'total', sgn = x => (x > 0 ? '+' : '') + NF.format(x);
     showSelCard(`
-      <div class="sname">${esc(name)}</div>
-      <div class="splace">Immigrant inflow · people settling per year</div>
+      <div class="sname">${esc(r.name)}</div>
+      <div class="splace">Immigrant settlement · net migration per 1,000 residents (2023)</div>
       <div class="seg" id="ic-metric" role="group" aria-label="Inflow visibility" style="margin:2px 0 10px">
         <button data-im="intl" aria-pressed="${!isT}">International only</button>
         <button data-im="total" aria-pressed="${isT}">Intl + domestic</button>
       </div>
       <table>
-        <tr><td>Population</td><td class="num">${fmt(d.pop)}</td></tr>
-        <tr><td><b>Inflow / yr (${isT ? 'intl + domestic' : 'international'})</b></td><td class="num"><b style="color:var(--acct);font-size:1.15em">${fmt(stateInflow(name, S.inflowMetric))}</b></td></tr>
-        <tr><td style="color:var(--t3)">· international (abroad)</td><td class="num" style="color:var(--t2)">${fmt(stateIntl(name))}</td></tr>
-        <tr><td style="color:var(--t3)">· + domestic (other states)</td><td class="num" style="color:var(--t2)">${fmt(stateTotal(name) - stateIntl(name))}</td></tr>
+        <tr><td><b>${isT ? 'Total' : 'International'} net /1,000</b></td><td class="num"><b style="color:var(--acct);font-size:1.15em">${sgn(r[isT ? 'total' : 'intl'])}</b></td></tr>
+        <tr><td style="color:var(--t3)">· international (abroad)</td><td class="num" style="color:var(--t2)">${sgn(r.intl)}</td></tr>
+        <tr><td style="color:var(--t3)">· domestic (other districts)</td><td class="num" style="color:var(--t2)">${sgn(r.domestic)}</td></tr>
+        <tr><td>Foreign-population share</td><td class="num">${NF.format(r.auslaenderanteil)}%</td></tr>
       </table>
-      <p class="hint" style="margin-top:8px">National inflow mix: ${esc(comp)}.</p>
-      <p class="hint" style="margin-top:4px">Top origins: ${esc(INFLOW_TOP_ORIGINS)}. Source: Destatis 2024 (Wanderungen über die Grenzen der Bundesländer).</p>`);
+      <p class="hint" style="margin-top:8px">Net migration saldo per 1,000 inhabitants (arrivals − departures), 2023 — positive = net settling here.</p>
+      <p class="hint" style="margin-top:4px">Source: INKAR / BBSR. National inflow mix: ${esc(INFLOW_COMPOSITION.map(c => c.label + ' ' + c.pct + '%').join(' · '))}.</p>`);
     document.querySelectorAll('#ic-metric [data-im]').forEach(b => b.onclick = () => setInflowMetric(b.dataset.im));
   }
   function setStateMetric(metric) {
