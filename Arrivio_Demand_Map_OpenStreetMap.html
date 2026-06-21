@@ -583,9 +583,9 @@ body.presenting .cbtn .ic{width:22px;height:22px}
 
 <!-- legend -->
 <div id="legend" class="glass">
-  <h3>Room demand</h3>
+  <h3 id="legend-title">Room demand</h3>
   <div class="gbar"></div>
-  <div class="glab"><span>low</span><span id="legend-max">high</span></div>
+  <div class="glab"><span id="legend-min">low</span><span id="legend-max">high</span></div>
   <div class="sizekey" id="legend-size"></div>
   <div id="legend-cats"></div>
 </div>
@@ -1278,6 +1278,7 @@ function nameVars(n) {
   /* ============ hex demand layer ============ */
   let lastHexRes = 0;
   function hexRes() { const z = M.getZoom(); return z <= 5 ? 4 : z <= 7 ? 5 : 6; }
+  let demandMaxRooms = 0;
   function computeHex(force) {
     if (typeof h3 === 'undefined') return;
     if (!S.layers.hex || M.getZoom() >= 9) { M.setHexVisible(false); syncClientVisibility(); return; }
@@ -1291,7 +1292,7 @@ function nameVars(n) {
     const vals = Object.values(cells);
     if (!vals.length) { M.clearHex(); return; }
     const max = Math.max(...vals);
-    $('legend-max').textContent = '≈' + kfmt(max) + ' rooms';
+    demandMaxRooms = max; updateLegend();
     const out = Object.entries(cells).map(([cell, v]) => {
       const t = Math.sqrt(v / max);
       const color = rampColor(t);
@@ -1480,22 +1481,23 @@ function nameVars(n) {
   const _commMax = {}, _hotelMax = {};
   const _pp = (HOTEL_PRICE_GRID && HOTEL_PRICE_GRID.length) ? HOTEL_PRICE_GRID.map(p => p[2]) : [80, 180];
   const PRICE_LO = Math.min.apply(null, _pp), PRICE_HI = Math.max.apply(null, _pp);
-  function commDotStyle(metric) {
-    const rents = COMMERCIAL_DATA.map(c => c.prime), rLo = Math.min.apply(null, rents), rHi = Math.max.apply(null, rents);
-    const mMax = Math.max.apply(null, COMMERCIAL_DATA.map(c => c.m2 || 0).concat([1]));
-    return c => {
-      if (metric === 'rent') { const t = (c.prime - rLo) / (rHi - rLo || 1); return { radius: 10 + t * 16, color: rampColor(t), opacity: 0.6 }; }
-      if (metric === 'vacant') { const t = (c.m2 || 0) / mMax; return { radius: 10 + Math.sqrt(t) * 26, color: rampColor(t), opacity: 0.55 }; }
-      return { radius: 5, color: '#1d2733', opacity: 0.92 }; // density: small detail dot for click
-    };
-  }
-  function renderCommDots() { M.renderCommercialDots(COMMERCIAL_DATA, commDotStyle(S.commMetric), selectCommercial, S.layers.commercial); }
+  // inverse-distance-weighted interpolation from the city market anchors → fills rent/vacancy
+  // across all office locations (modeled, anchored to real broker figures)
+  function idw(la, ln, anchors) { let num = 0, den = 0; for (const a of anchors) { const dx = (la - a.lat) * 111, dy = (ln - a.lng) * 70, d2 = dx * dx + dy * dy; if (d2 < 1) return a.v; const w = 1 / (d2 * d2); num += w * a.v; den += w; } return den ? num / den : 0; }
+  function commAnchors(metric) { return COMMERCIAL_DATA.map(c => ({ lat: c.lat, lng: c.lng, v: metric === 'vacant' ? (c.m2 || 0) : c.prime })); }
+  function renderCommDots() { M.renderCommercialDots(COMMERCIAL_DATA, () => ({ radius: 5, color: '#1d2733', opacity: 0.9 }), selectCommercial, S.layers.commercial); }
   function computeCommercial() {
     if (typeof h3 === 'undefined') return;
     if (!S.layers.commercial) { M.setHexLayerVisible('commercial', false); M.setCommercialDotsVisible(false); return; }
     renderCommDots(); M.setCommercialDotsVisible(true);
-    if (S.commMetric === 'density') { const res = supplyRes(); M.renderHexLayer('commercial', hexPolys(aggHex(inViewPts(COMMERCIAL_GRID), res), globalMaxFor(COMMERCIAL_GRID, res, _commMax)), true); }
-    else M.setHexLayerVisible('commercial', false);
+    const res = supplyRes(), cells = aggHex(inViewPts(COMMERCIAL_GRID), res);
+    if (S.commMetric === 'density') {
+      M.renderHexLayer('commercial', hexPolys(cells, globalMaxFor(COMMERCIAL_GRID, res, _commMax)), true);
+    } else {
+      const anchors = commAnchors(S.commMetric), vals = anchors.map(a => a.v), lo = Math.min.apply(null, vals), hi = Math.max.apply(null, vals), d = (hi - lo) || 1;
+      const polys = Object.keys(cells).map(cell => { const ctr = h3.cellToLatLng(cell); return { boundary: h3.cellToBoundary(cell), color: rampColor((idw(ctr[0], ctr[1], anchors) - lo) / d) }; });
+      M.renderHexLayer('commercial', polys, true);
+    }
   }
   function initCommercialDots() { renderCommDots(); }
   // hotels (OSM small / independent) — room-availability hexmap + individual points on zoom-in
@@ -1908,20 +1910,27 @@ function nameVars(n) {
     if (S.areas.length) cats.push(`<div class="lg"><span class="sw" style="background:var(--acc)"></span>Arrivio proposed area</div>`);
     if (S.layers.gch) cats.push(`<div class="lg"><span class="sw sq" style="background:var(--gch)"></span>GCH hotel</div>`);
     if (S.layers.sem) cats.push(`<div class="lg"><span class="sw sq" style="background:var(--sem)"></span>Seminaris hotel</div>`);
-    if (S.layers.commercial) {
-      const m = S.commMetric;
-      if (m === 'rent') cats.push(`<div class="lg"><span class="sw grad"></span>Office prime rent (light → dark = cheaper → pricier €/m²)</div>`);
-      else if (m === 'vacant') cats.push(`<div class="lg"><span class="sw grad"></span>Office vacant space (bigger &amp; darker = more m² free)</div>`);
-      else cats.push(`<div class="lg"><span class="sw grad"></span>Commercial density (light → dark = fewer → more sites)</div><div class="lg"><span class="sw" style="background:#1d2733"></span>City dot — click for rent / vacancy</div>`);
-    }
-    if (S.layers.hotels) cats.push(S.hotelMetric === 'price'
-      ? `<div class="lg"><span class="sw grad"></span>Hotel nightly rate, small/family (light → dark = cheaper → pricier)</div>`
-      : `<div class="lg"><span class="sw grad"></span>Hotel rooms, small/family (light → dark = fewer → more)</div>`);
-    if (S.reach.active) cats.push(`<div class="lg"><span class="sw" style="background:${MODE_COLOR[S.reach.mode]}"></span>Reach ≤ ${S.reach.min} min (${MODE_LABEL[S.reach.mode]})</div>`);
+    if (S.layers.commercial && S.commMetric !== 'density') cats.push(`<div class="lg"><span class="sw" style="background:#1d2733"></span>City dot — click for exact rent / vacancy</div>`);
+    if (S.reach.active) cats.push(`<div class="lg"><span class="sw" style="background:${MODE_COLOR[S.reach.mode]}"></span>Reach within ${S.reach.min} min (${MODE_LABEL[S.reach.mode]})</div>`);
     $('legend-cats').innerHTML = cats.join('');
-    const gv = $('legend').querySelector('.gbar'); gv.style.display = S.layers.hex ? 'block' : 'none';
-    $('legend').querySelector('.glab').style.display = S.layers.hex ? 'flex' : 'none';
-    $('legend').querySelector('h3').textContent = S.layers.hex ? 'Room demand' : 'Legend';
+    // gradient scale for whichever heatmap is active (light = less, dark = more)
+    let lTitle = 'Legend', lLo = '', lHi = '', lBar = false;
+    if (S.layers.hex) { lTitle = 'Client room demand'; lLo = 'low'; lHi = '≈' + kfmt(demandMaxRooms) + ' rooms'; lBar = true; }
+    else if (S.layers.commercial) {
+      lBar = true;
+      if (S.commMetric === 'rent') { const v = COMMERCIAL_DATA.map(c => c.prime); lTitle = 'Office prime rent'; lLo = '€' + Math.min.apply(null, v) + '/m²'; lHi = '€' + Math.max.apply(null, v) + '/m²'; }
+      else if (S.commMetric === 'vacant') { const v = COMMERCIAL_DATA.map(c => c.m2 || 0); lTitle = 'Vacant office space'; lLo = 'low'; lHi = '≈' + fmt(Math.max.apply(null, v)) + ' m²'; }
+      else { lTitle = 'Office / commercial sites'; lLo = 'fewer'; lHi = 'more'; }
+    }
+    else if (S.layers.hotels) {
+      lBar = true;
+      if (S.hotelMetric === 'price') { lTitle = 'Hotel nightly rate'; lLo = '≈€' + PRICE_LO; lHi = '≈€' + PRICE_HI; }
+      else { lTitle = 'Hotel rooms (small / family)'; lLo = 'fewer'; lHi = 'more'; }
+    }
+    $('legend-title').textContent = lTitle;
+    $('legend-min').textContent = lLo; $('legend-max').textContent = lHi;
+    $('legend').querySelector('.gbar').style.display = lBar ? 'block' : 'none';
+    $('legend').querySelector('.glab').style.display = lBar ? 'flex' : 'none';
   }
 
   /* ============ placement arming ============ */

@@ -33,10 +33,10 @@ So everything client-side traces back to your spreadsheet; only the *pin coordin
 | Metric | What it shows | Source | Confidence |
 |---|---|---|---|
 | **Density** (default) | All-Germany hexmap of office/commercial *site concentration* | **OpenStreetMap** `office=*`, fetched country-wide via **Overpass** in 25 tiles → ~2 km grid (22,230 cells) → hexes in-browser | FIRM locations (OSM coverage varies) |
-| **Rent** | City circles colored by prime office rent (€/m²/mo) | **Broker reports** — BNP Paribas RE Q4 2025, Colliers Q2 2025, JLL/C&W (Big-7 + ~12 cities) | FIRM (per city; per-building not public) |
-| **Vacant m²** | City circles sized/colored by vacant office space available | Same broker reports | FIRM (per city) |
-| (click any city dot) | Full card: prime rent, average rent, vacancy %, vacant m² | Broker reports | FIRM |
-| Rent/vacancy are **city-level by nature** — they're market statistics, not per-building, so they're shown as graduated city symbols (only major markets have published figures). | | | |
+| **Rent** | **Filled hexmap** of prime office rent — the real city values interpolated (inverse-distance) across all office locations | Anchors: broker reports (Big-7 + ~12 cities); fill: IDW model | FIRM anchors / MODELED fill |
+| **Vacant m²** | **Filled hexmap** of vacant office space, same IDW fill from the city anchors | Same | FIRM anchors / MODELED fill |
+| (click any city dot) | Full card with the *measured* figures: prime rent, average rent, vacancy %, vacant m² | Broker reports | FIRM |
+| Rent & vacancy are **published only per major city** (market statistics, not per-building). The hexmap *fills* the map by interpolating those real anchors across the office locations we have from OSM, so it reads as a heatmap — values away from a measured city are modeled; click the nearest city dot for the firm figure. | | | |
 
 ### 4. Small / family hotels (layer has a metric toggle: Rooms / Price)
 | Metric | What it shows | Source | Confidence |

@@ -301,20 +301,27 @@
     if (S.areas.length) cats.push(`<div class="lg"><span class="sw" style="background:var(--acc)"></span>Arrivio proposed area</div>`);
     if (S.layers.gch) cats.push(`<div class="lg"><span class="sw sq" style="background:var(--gch)"></span>GCH hotel</div>`);
     if (S.layers.sem) cats.push(`<div class="lg"><span class="sw sq" style="background:var(--sem)"></span>Seminaris hotel</div>`);
-    if (S.layers.commercial) {
-      const m = S.commMetric;
-      if (m === 'rent') cats.push(`<div class="lg"><span class="sw grad"></span>Office prime rent (light → dark = cheaper → pricier €/m²)</div>`);
-      else if (m === 'vacant') cats.push(`<div class="lg"><span class="sw grad"></span>Office vacant space (bigger &amp; darker = more m² free)</div>`);
-      else cats.push(`<div class="lg"><span class="sw grad"></span>Commercial density (light → dark = fewer → more sites)</div><div class="lg"><span class="sw" style="background:#1d2733"></span>City dot — click for rent / vacancy</div>`);
-    }
-    if (S.layers.hotels) cats.push(S.hotelMetric === 'price'
-      ? `<div class="lg"><span class="sw grad"></span>Hotel nightly rate, small/family (light → dark = cheaper → pricier)</div>`
-      : `<div class="lg"><span class="sw grad"></span>Hotel rooms, small/family (light → dark = fewer → more)</div>`);
-    if (S.reach.active) cats.push(`<div class="lg"><span class="sw" style="background:${MODE_COLOR[S.reach.mode]}"></span>Reach ≤ ${S.reach.min} min (${MODE_LABEL[S.reach.mode]})</div>`);
+    if (S.layers.commercial && S.commMetric !== 'density') cats.push(`<div class="lg"><span class="sw" style="background:#1d2733"></span>City dot — click for exact rent / vacancy</div>`);
+    if (S.reach.active) cats.push(`<div class="lg"><span class="sw" style="background:${MODE_COLOR[S.reach.mode]}"></span>Reach within ${S.reach.min} min (${MODE_LABEL[S.reach.mode]})</div>`);
     $('legend-cats').innerHTML = cats.join('');
-    const gv = $('legend').querySelector('.gbar'); gv.style.display = S.layers.hex ? 'block' : 'none';
-    $('legend').querySelector('.glab').style.display = S.layers.hex ? 'flex' : 'none';
-    $('legend').querySelector('h3').textContent = S.layers.hex ? 'Room demand' : 'Legend';
+    // gradient scale for whichever heatmap is active (light = less, dark = more)
+    let lTitle = 'Legend', lLo = '', lHi = '', lBar = false;
+    if (S.layers.hex) { lTitle = 'Client room demand'; lLo = 'low'; lHi = '≈' + kfmt(demandMaxRooms) + ' rooms'; lBar = true; }
+    else if (S.layers.commercial) {
+      lBar = true;
+      if (S.commMetric === 'rent') { const v = COMMERCIAL_DATA.map(c => c.prime); lTitle = 'Office prime rent'; lLo = '€' + Math.min.apply(null, v) + '/m²'; lHi = '€' + Math.max.apply(null, v) + '/m²'; }
+      else if (S.commMetric === 'vacant') { const v = COMMERCIAL_DATA.map(c => c.m2 || 0); lTitle = 'Vacant office space'; lLo = 'low'; lHi = '≈' + fmt(Math.max.apply(null, v)) + ' m²'; }
+      else { lTitle = 'Office / commercial sites'; lLo = 'fewer'; lHi = 'more'; }
+    }
+    else if (S.layers.hotels) {
+      lBar = true;
+      if (S.hotelMetric === 'price') { lTitle = 'Hotel nightly rate'; lLo = '≈€' + PRICE_LO; lHi = '≈€' + PRICE_HI; }
+      else { lTitle = 'Hotel rooms (small / family)'; lLo = 'fewer'; lHi = 'more'; }
+    }
+    $('legend-title').textContent = lTitle;
+    $('legend-min').textContent = lLo; $('legend-max').textContent = lHi;
+    $('legend').querySelector('.gbar').style.display = lBar ? 'block' : 'none';
+    $('legend').querySelector('.glab').style.display = lBar ? 'flex' : 'none';
   }
 
   /* ============ placement arming ============ */
