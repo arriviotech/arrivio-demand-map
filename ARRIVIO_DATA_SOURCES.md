@@ -3,7 +3,7 @@
 This is the audit trail behind every number that will go on the map. **Please read and confirm
 ("research is fine") before I wire any of it in.** Decisions locked with you: all-immigration
 headline + composition breakdown; heatmaps + labeled estimates; TAM **and** SAM on the States card
-(€15,000 = annual housing revenue per person); state-level, all Germany first.
+(€15,000 = housing value per person — one-time, NOT annual); state-level, all Germany first.
 
 Legend: **[FIRM]** = taken directly from an official table / broker report · **[EST]** = modeled,
 with the method shown · **[PROXY]** = a stand-in because the real per-unit data isn't public.
@@ -17,7 +17,7 @@ nationalities). Most recent fully-consistent year = **2025** (the 16 values reco
 national total 1,479,944). National context: 2023 = 1,932,509; 2024 = 1,694,192; 2025 = 1,479,944
 (2023–24 were higher due to the Ukraine/asylum peak).
 
-**TAM = immigration × €15,000/person/yr.**
+**TAM = immigration × €15,000 per person.**
 
 | Bundesland | Immigration 2025 | Population | **TAM (€)** |
 |---|---:|---:|---:|

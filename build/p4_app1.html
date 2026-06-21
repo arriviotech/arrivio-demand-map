@@ -519,14 +519,14 @@
       const rows = sorted.map(n => `<tr><td>${esc(STATE_SHORT[n] || n)}</td><td class="num">${eurShort(stateTAM(n, metric))}</td></tr>`).join('');
       html = `
         <div class="sname">${S.selStates.length} states · combined TAM</div>
-        <div class="splace">${isT ? 'Total (incl. domestic)' : 'International'} inflow · €${TAM_PER_PERSON / 1000}k per person / year</div>
+        <div class="splace">${isT ? 'Total (incl. domestic)' : 'International'} inflow · €${TAM_PER_PERSON / 1000}k per person</div>
         ${seg}
         <table>
           <tr><td><b>Combined TAM</b></td><td class="num"><b style="color:var(--acct);font-size:1.18em">${eurShort(total)}</b></td></tr>
           ${rows}
         </table>
         ${multiBtn}
-        <p class="hint" style="margin-top:8px">Click states on the map to add or remove. TAM = inflow × €${TAM_PER_PERSON / 1000}k/yr.</p>`;
+        <p class="hint" style="margin-top:8px">Click states on the map to add or remove. TAM = inflow × €${TAM_PER_PERSON / 1000}k.</p>`;
     } else {
       const name = S.selStates[0], d = STATES_DATA[name];
       const tam = stateTAM(name, metric), intlTAM = stateIntl(name) * TAM_PER_PERSON, totTAM = stateTotal(name) * TAM_PER_PERSON;
@@ -538,12 +538,12 @@
         <tr><td style="color:var(--t3)">· of which domestic</td><td class="num" style="color:var(--t2)">${eurShort(totTAM - intlTAM)}</td></tr>`;
       html = `
         <div class="sname">${esc(name)}</div>
-        <div class="splace">Total Addressable Market · €${TAM_PER_PERSON / 1000}k per person / year</div>
+        <div class="splace">Total Addressable Market · €${TAM_PER_PERSON / 1000}k per person</div>
         ${seg}
         <table>${rows}</table>
         ${multiBtn}
         <p class="hint" style="margin-top:8px">National inflow mix: ${esc(comp)}.</p>
-        <p class="hint" style="margin-top:4px">Top origins: ${esc(INFLOW_TOP_ORIGINS)}. TAM = inflow × €${TAM_PER_PERSON / 1000}k/yr. Source: Destatis 2024.</p>`;
+        <p class="hint" style="margin-top:4px">Top origins: ${esc(INFLOW_TOP_ORIGINS)}. TAM = inflow × €${TAM_PER_PERSON / 1000}k. Source: Destatis 2024.</p>`;
     }
     showSelCard(html);
     document.querySelectorAll('#card-metric [data-metric]').forEach(b => b.onclick = () => setStateMetric(b.dataset.metric));

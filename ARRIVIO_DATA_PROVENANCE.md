@@ -27,7 +27,7 @@ So everything client-side traces back to your spreadsheet; only the *pin coordin
 | International inflow per state (2024) | **Destatis** table 12711-12 "Wanderungen über die Grenzen der Bundesländer 2024" — arrivals from abroad | FIRM |
 | Total inflow per state (incl. domestic, 2024) | Same Destatis table — arrivals from abroad **+** from other German states | FIRM |
 | Population per state | **Destatis** (31.12.2024) | FIRM |
-| **TAM** = inflow × €15,000/person/yr | Your assumption (annual furnished-housing revenue per person); the €15k is the only modeled input | FIRM data × your assumption |
+| **TAM** = inflow × €15,000 per person | Your assumption (housing value per person — NOT annual); the €15k is the only modeled input | FIRM data × your assumption |
 
 ### 2b. Immigrant inflow (DISTRICT-level overlay — mixable with point layers)
 A toggleable **overlay** (Layers → "Immigrant inflow") that colors each of the **~400 German
