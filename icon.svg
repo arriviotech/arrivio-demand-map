@@ -1,5 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" rx="104" fill="#16191f"/>
-  <path d="M256 96c-66 0-120 53-120 119 0 86 120 201 120 201s120-115 120-201c0-66-54-119-120-119z" fill="#d6219b" stroke="#fff" stroke-width="20"/>
-  <circle cx="256" cy="212" r="46" fill="#fff"/>
+  <rect width="512" height="512" rx="116" fill="#3c6e51"/>
+  <!-- house body -->
+  <path d="M256 150 L378 252 V374 a16 16 0 0 1-16 16 H150 a16 16 0 0 1-16-16 V252 Z" fill="#ffffff"/>
+  <!-- leaf roof tip -->
+  <path d="M256 158 C 248 98 300 70 352 62 C 346 120 312 156 266 166 Z" fill="#ffffff"/>
+  <!-- leaf vein -->
+  <path d="M298 150 C 312 118 332 92 348 66" stroke="#3c6e51" stroke-width="10" fill="none" stroke-linecap="round"/>
+  <!-- door -->
+  <rect x="230" y="300" width="52" height="90" rx="9" fill="#3c6e51"/>
 </svg>

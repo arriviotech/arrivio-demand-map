@@ -266,21 +266,27 @@
     if (key === 'hotels') { $('hotel-metric').hidden = !on; computeHotels(); }
     updateLegend(); writeHash();
   }
+  const STATE_HIDE_LAYERS = ['hex', 'clients', 'labels', 'approx', 'gch', 'sem', 'stations', 'commercial', 'hotels'];
   function setBase(key) {
+    const wasStates = S.base === 'states';
     S.base = key;
     const states = key === 'states';
     document.body.classList.toggle('states-mode', states);
+    if (states && !wasStates) { // entering States: hide overlays so the choropleth is clean + bold (restored on leave)
+      S._preStates = Object.assign({}, S.layers);
+      STATE_HIDE_LAYERS.forEach(k => { if (S.layers[k]) setLayer(k, false); });
+    }
     if (states) {
       M.setBase('positron');
       S.selStates = []; S.stateMulti = false; M.clearStateSelection();
       M.showStates({ valueFn: statesValueFn(), labelFn: stateLabelFn(), onClick: selectState, fillOpacity: statesFillOpacity() });
-      computeHex(); // respect the hexmap toggle; it overlays on top of the softened choropleth
       document.body.classList.add('light-map');
       updateStatesLegend();
     } else {
       M.hideStates();
       M.setBase(key);
       document.body.classList.toggle('light-map', key === 'voyager' || key === 'positron' || key === 'osm');
+      if (wasStates && S._preStates) { const snap = S._preStates; S._preStates = null; STATE_HIDE_LAYERS.forEach(k => { if (!!snap[k] !== !!S.layers[k]) setLayer(k, snap[k]); }); }
       computeHex();
     }
     $('states-legend').hidden = !states;

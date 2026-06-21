@@ -108,9 +108,10 @@ body.panel-collapsed #panel-tab{display:flex}
 #grip{display:none;padding:8px 0 4px;cursor:grab;touch-action:none}
 #grip i{display:block;width:36px;height:4px;border-radius:2px;background:var(--bd2);margin:0 auto}
 .phead{display:flex;align-items:center;gap:8px;padding:14px 16px 10px;flex:none}
-.brand{display:flex;align-items:baseline;gap:6px;margin-right:auto}
-.brand b{font-size:calc(17px * var(--ui-scale));font-weight:800;letter-spacing:-.02em}
-.brand b::after{content:'';display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--acc);margin-left:3px}
+.brand{display:flex;align-items:center;gap:7px;margin-right:auto}
+.brand .brand-logo{width:26px;height:26px;border-radius:7px;flex:none}
+.brand b{font-size:calc(17px * var(--ui-scale));font-weight:800;letter-spacing:-.02em;align-self:center}
+.brand span{align-self:center}
 .brand span{font-size:11px;color:var(--t3);font-weight:600;text-transform:uppercase;letter-spacing:.06em}
 .ibtn{width:32px;height:32px;border-radius:var(--r-md);display:flex;align-items:center;justify-content:center;color:var(--t2);transition:background var(--dur-fast)}
 .ibtn:hover{background:var(--s3);color:var(--t1)}
