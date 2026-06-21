@@ -1,2 +1,3 @@
 .claude/
 node_modules/
+build/osm_tiles/

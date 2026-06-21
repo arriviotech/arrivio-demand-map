@@ -211,7 +211,25 @@ when I build the data/ folder after your approval.)*
   Hamburg 2.14, NRW 1.39 — domestic-heavy states genuinely re-rank under +Domestic).
 - **Heatmap palette** — all heatmaps (states choropleth + client demand hexmap) now share one
   sequential brand-pink ramp where **light = less, dark = more**.
-- **Office / commercial market layer** — LIVE (eye toggle "Office market"). 19 cities as bubbles
+- **Commercial concentration layer** (replaces the old office bubbles) — LIVE. An OpenStreetMap-
+  derived **density hexmap across all of Germany**: every `office=*` site (≈ all 25 country tiles,
+  fetched via Overpass API and aggregated to a ~2 km grid at build time → `build/commercial_grid.json`,
+  22,230 weighted cells) is binned into H3 hexes client-side and colored light→dark = fewer→more
+  sites. Resolution coarsens with zoom; aggregation is viewport-filtered and colors use a cached
+  global max, so it stays smooth. The 19-city broker rent/vacancy data is preserved as **clickable
+  city dots** on top (prime rent, average rent, vacancy %, vacant m²). Source: OpenStreetMap (ODbL);
+  broker reports (§4). Fetch/aggregate script: `build/fetch_osm.mjs` (resumable, tiles cached in
+  `build/osm_tiles/`, gitignored).
+- **Hotel rooms (small / family) layer** — LIVE. OSM `tourism=hotel|guest_house` across Germany,
+  **filtered to small / independent** (major chains excluded by brand/operator/name), 51,541 found.
+  Rendered as a **room-availability density hexmap** (rooms summed per H3 cell, light→dark = fewer→
+  more rooms; `build/hotel_grid.json`, 23,521 cells) at country/regional zoom, switching to
+  **individual clickable hotels** when zoomed in (top 6,000 by room count baked → `hotels_osm.json`,
+  viewport-capped to 1,500 on screen). Per-hotel rooms = OSM `rooms` tag where present, else modeled
+  from stars; nightly rate = modeled from stars (both flagged "est"). Source: OpenStreetMap (ODbL).
+  **All three density heatmaps (demand / commercial / hotels) are mutually exclusive** — only one
+  renders at a time, for clarity and performance.
+- *(superseded)* ~~Office / commercial market bubble layer~~ — LIVE (eye toggle "Office market"). 19 cities as bubbles
   where **size = vacant office m²** (availability) and **color = prime rent €/m²/mo**; click a city →
   prime rent, average rent, vacancy %, vacant m². FIRM from broker reports (BNP Paribas RE Büromarkt
   Deutschland Q4 2025; Colliers Top-7 Q2 2025; JLL/C&W) — see §4. City coordinates are standard

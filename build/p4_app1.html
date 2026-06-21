@@ -30,7 +30,7 @@
     theme: localStorage.getItem('arrivio.theme') || 'dark',
     base: 'voyager',
     stateMetric: 'intl', stateMulti: false, selStates: [],
-    layers: { hex: true, clients: true, labels: true, approx: true, gch: true, sem: true, stations: false, commercial: false },
+    layers: { hex: true, clients: true, labels: true, approx: true, gch: true, sem: true, stations: false, commercial: false, hotels: false },
     reach: { mode: 'bike-share', min: 20, origin: null, active: false },
     sel: null, selArea: null, armed: false,
     areas: []   // {id, name, km}
@@ -351,20 +351,64 @@
     const est = c.est ? ` · <span style="color:var(--warn)">est: ${esc(c.est)}</span>` : '';
     const html = `
       <div class="sname">${esc(c.city)}</div>
-      <div class="splace">Office / commercial market${est}</div>
+      <div class="splace">Office market${est}</div>
       <table>
         <tr><td>Prime rent</td><td class="num"><b>€${NF.format(c.prime)}</b> /m²·mo</td></tr>
         ${c.avg != null ? `<tr><td>Average rent</td><td class="num">€${NF.format(c.avg)} /m²·mo</td></tr>` : ''}
         <tr><td>Vacancy</td><td class="num">${NF.format(c.vac)}%</td></tr>
-        <tr><td>Vacant space</td><td class="num"><b style="color:var(--acct)">${fmt(c.m2)}</b> m²</td></tr>
+        <tr><td>Vacant office space</td><td class="num"><b style="color:var(--acct)">${fmt(c.m2)}</b> m²</td></tr>
       </table>
-      <div class="btnrow"><button class="btn" data-act="area">+ Area here</button></div>
-      <p class="hint" style="margin-top:6px">Office market, FY/Q4 2025 (broker reports). Source: ARRIVIO_DATA_SOURCES.md.</p>`;
+      <div class="btnrow"><button class="btn" data-act="area">+ Area here</button></div>`;
     const wire = root => { const ab = root.querySelector('[data-act="area"]'); if (ab) ab.onclick = () => addAreaAt([c.lat, c.lng]); };
     if (MOBILE()) { showSelCard(html); wire($('sel-card')); }
     else M.openInfo([c.lat, c.lng], html, wire);
   }
-  function renderCommercialNow() { M.renderCommercial(COMMERCIAL_DATA, selectCommercial); }
+  // shared hex aggregation for the OSM density layers (light = less, dark = more)
+  function aggHex(points, res) { const cells = {}; for (const p of points) { try { const c = h3.latLngToCell(p[0], p[1], res); cells[c] = (cells[c] || 0) + p[2]; } catch (e) { } } return cells; }
+  function hexPolys(cells, max) { if (max == null) { const vals = Object.values(cells); if (!vals.length) return []; max = Math.max.apply(null, vals); } if (max <= 0) return []; return Object.entries(cells).map(([c, v]) => ({ boundary: h3.cellToBoundary(c), color: rampColor(Math.sqrt(v / max)), v })); }
+  function inViewPts(points) { const b = M.map.getBounds().pad(0.3), s = b.getSouth(), n = b.getNorth(), w = b.getWest(), e = b.getEast(); const out = []; for (const p of points) if (p[0] >= s && p[0] <= n && p[1] >= w && p[1] <= e) out.push(p); return out; }
+  function supplyRes() { const z = M.getZoom(); return z <= 6 ? 4 : z <= 8 ? 5 : z <= 10 ? 6 : 7; } // coarser than demand hex (these layers have ~22k pts)
+  function globalMaxFor(points, res, cache) { if (cache[res] != null) return cache[res]; const v = Object.values(aggHex(points, res)); return cache[res] = v.length ? Math.max.apply(null, v) : 1; }
+  const _commMax = {}, _hotelMax = {};
+  function computeCommercial() {
+    if (typeof h3 === 'undefined') return;
+    if (!S.layers.commercial) { M.setHexLayerVisible('commercial', false); M.setCommercialDotsVisible(false); return; }
+    const res = supplyRes();
+    M.renderHexLayer('commercial', hexPolys(aggHex(inViewPts(COMMERCIAL_GRID), res), globalMaxFor(COMMERCIAL_GRID, res, _commMax)), true);
+    M.setCommercialDotsVisible(true);
+  }
+  function initCommercialDots() { M.renderCommercialDots(COMMERCIAL_DATA, selectCommercial, S.layers.commercial); }
+  // hotels (OSM small / independent) — room-availability hexmap + individual points on zoom-in
+  const estAdr = h => (h.s >= 5 ? 250 : h.s >= 4 ? 135 : h.s >= 3 ? 105 : h.s >= 1 ? 72 : 95);
+  function selectHotelOsm(h) {
+    const html = `
+      <div class="sname">${esc(h.n)}</div>
+      <div class="splace">${h.c ? esc(h.c) + ' · ' : ''}small / independent hotel</div>
+      <table>
+        <tr><td>Rooms</td><td class="num">≈${fmt(h.r)}${h.s ? '' : ' <span style="color:var(--t3)">(est)</span>'}</td></tr>
+        ${h.s ? `<tr><td>Stars</td><td class="num">${NF.format(h.s)}★</td></tr>` : ''}
+        <tr><td>Est. room rate</td><td class="num"><b style="color:var(--acct)">≈€${fmt(estAdr(h))}</b>/night</td></tr>
+      </table>
+      <div class="btnrow"><button class="btn" data-act="area">+ Area here</button></div>
+      <p class="hint" style="margin-top:6px">Location: OpenStreetMap. Rooms/rate are modeled estimates.</p>`;
+    const wire = root => { const ab = root.querySelector('[data-act="area"]'); if (ab) ab.onclick = () => addAreaAt([h.lat, h.lng]); };
+    if (MOBILE()) { showSelCard(html); wire($('sel-card')); }
+    else M.openInfo([h.lat, h.lng], html, wire);
+  }
+  function computeHotels() {
+    if (typeof h3 === 'undefined') return;
+    if (!S.layers.hotels) { M.setHexLayerVisible('hotelrooms', false); M.clearHotelPoints(); return; }
+    if (M.getZoom() >= 10) {
+      M.setHexLayerVisible('hotelrooms', false);
+      const b = M.map.getBounds();
+      const pts = HOTELS_OSM.filter(h => b.contains([h.lat, h.lng])).slice(0, 1500);
+      M.renderHotelPoints(pts, selectHotelOsm, true);
+    } else {
+      M.clearHotelPoints();
+      const res = supplyRes();
+      M.renderHexLayer('hotelrooms', hexPolys(aggHex(inViewPts(HOTEL_GRID), res), globalMaxFor(HOTEL_GRID, res, _hotelMax)), true);
+    }
+  }
 
   /* ============ states / TAM ============ */
   const STATE_SHORT = {

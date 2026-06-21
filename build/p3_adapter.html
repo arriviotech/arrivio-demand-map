@@ -261,25 +261,45 @@ const M = {
   clearStateSelection() { this._selStates = []; if (this.statesL) this.statesL.eachLayer(l => this._applyStateStyle(l)); },
   statesMax() { return this._statesMax || 1; },
 
-  /* ---- Office / commercial market bubbles (size = vacant m², color = rent) ---- */
-  renderCommercial(list, onClick) {
-    if (this.commL) this.map.removeLayer(this.commL);
-    const rents = list.map(c => c.prime), rMin = Math.min.apply(null, rents), rMax = Math.max.apply(null, rents);
-    const mMax = Math.max.apply(null, list.map(c => c.m2 || 0).concat([1]));
-    const sc = this.sizeScale || 1, self = this;
-    this.commL = L.layerGroup(list.map(c => {
-      const t = (c.prime - rMin) / (rMax - rMin || 1);
-      const r = (6 + Math.sqrt((c.m2 || 0) / mMax) * 22) * sc;
-      const m = L.circleMarker([c.lat, c.lng], { radius: r, color: '#ffffff', weight: 1.4, fillColor: rampColor(t), fillOpacity: 0.85 });
+  /* ---- generic named hex layers (commercial concentration, hotel rooms) ---- */
+  renderHexLayer(key, cells, visible) {
+    this._hx = this._hx || {};
+    if (this._hx[key]) this.map.removeLayer(this._hx[key]);
+    this._hx[key] = L.layerGroup(cells.map(c => L.polygon(c.boundary, { renderer: this._canvas, color: c.color, weight: 1, opacity: 0.65, fillColor: c.color, fillOpacity: 0.5, interactive: false })));
+    if (visible) this._hx[key].addTo(this.map);
+  },
+  setHexLayerVisible(key, b) { if (!this._hx || !this._hx[key]) return; if (b && !this.map.hasLayer(this._hx[key])) this.map.addLayer(this._hx[key]); if (!b && this.map.hasLayer(this._hx[key])) this.map.removeLayer(this._hx[key]); },
+  hexLayerExists(key) { return !!(this._hx && this._hx[key]); },
+
+  /* ---- office market dots (rent/vacancy detail, click) ---- */
+  renderCommercialDots(list, onClick, visible) {
+    if (this.commDotL) this.map.removeLayer(this.commDotL);
+    const self = this;
+    this.commDotL = L.layerGroup(list.map(c => {
+      const m = L.circleMarker([c.lat, c.lng], { radius: 5, color: '#fff', weight: 1.4, fillColor: '#1d2733', fillOpacity: 0.92 });
       m.on('click', () => { self._markerHit(); onClick(c); });
-      m.on('mouseover', () => m.setStyle({ weight: 2.6 }));
-      m.on('mouseout', () => m.setStyle({ weight: 1.4 }));
-      m.bindTooltip(c.city + ' · €' + c.prime + '/m²', { direction: 'top', className: 'client-label' });
+      m.on('mouseover', () => m.setStyle({ radius: 7 }));
+      m.on('mouseout', () => m.setStyle({ radius: 5 }));
+      m.bindTooltip(c.city + ' · office rent €' + c.prime + '/m²', { direction: 'top', className: 'client-label' });
       return m;
     }));
-    if (this._commOn) this.commL.addTo(this.map);
+    if (visible) this.commDotL.addTo(this.map);
   },
-  setCommercialVisible(b) { this._commOn = b; if (!this.commL) return; if (b && !this.map.hasLayer(this.commL)) this.map.addLayer(this.commL); if (!b && this.map.hasLayer(this.commL)) this.map.removeLayer(this.commL); },
+  setCommercialDotsVisible(b) { if (!this.commDotL) return; if (b && !this.map.hasLayer(this.commDotL)) this.map.addLayer(this.commDotL); if (!b && this.map.hasLayer(this.commDotL)) this.map.removeLayer(this.commDotL); },
+
+  /* ---- individual hotel points (shown when zoomed in) ---- */
+  renderHotelPoints(list, onClick, visible) {
+    if (this.hotelPtL) this.map.removeLayer(this.hotelPtL);
+    const self = this, rend = this._canvas;
+    this.hotelPtL = L.layerGroup(list.map(h => {
+      const m = L.circleMarker([h.lat, h.lng], { renderer: rend, radius: 4, color: '#fff', weight: 1, fillColor: '#a51777', fillOpacity: 0.9 });
+      m.on('click', () => { self._markerHit(); onClick(h); });
+      m.bindTooltip(h.n, { direction: 'top', className: 'client-label' });
+      return m;
+    }));
+    if (visible) this.hotelPtL.addTo(this.map);
+  },
+  clearHotelPoints() { if (this.hotelPtL) { this.map.removeLayer(this.hotelPtL); this.hotelPtL = null; } },
 
   /* ---- proposed areas ---- */
   _pinSvg() {
