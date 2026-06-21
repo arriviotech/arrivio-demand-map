@@ -101,6 +101,8 @@ const M = {
     };
     this._base = null;
     this._canvas = L.canvas({ padding: 0.3 });
+    this.map.createPane('inflow'); this.map.getPane('inflow').style.zIndex = 250; // below markers/overlays so it sits under pins
+    this._inflowRenderer = L.svg({ pane: 'inflow' });
     this.map.on('click', e => { if (this._skipMapClick) { this._skipMapClick = false; return; } o.onClick && o.onClick([e.latlng.lat, e.latlng.lng]); });
     this.map.on('zoomend', () => { this._applyLabels(); o.onZoom && o.onZoom(this.map.getZoom()); });
     this.map.on('moveend', () => o.onMove && o.onMove());
@@ -260,6 +262,31 @@ const M = {
   hideStates() { if (this.statesL) { this.map.removeLayer(this.statesL); this.statesL = null; } },
   clearStateSelection() { this._selStates = []; if (this.statesL) this.statesL.eachLayer(l => this._applyStateStyle(l)); },
   statesMax() { return this._statesMax || 1; },
+
+  /* ---- Immigrant-inflow choropleth OVERLAY (semi-transparent, under the markers) ---- */
+  renderInflow(opts) {
+    const o = opts || this._inflowOpts; this._inflowOpts = o;
+    this.hideInflow();
+    const vals = DE_STATES_GEO.features.map(f => o.valueFn(f.properties.name)).filter(v => v > 0);
+    this._inflowMax = Math.max.apply(null, vals.concat([1]));
+    const self = this, fill = o.fillOpacity == null ? 0.55 : o.fillOpacity;
+    this._inflowBase = nm => ({ color: '#ffffff', weight: 1, fillColor: rampColor(Math.sqrt((o.valueFn(nm) || 0) / self._inflowMax)), fillOpacity: fill });
+    this.inflowL = L.geoJSON(DE_STATES_GEO, {
+      renderer: this._inflowRenderer, pane: 'inflow',
+      style: f => self._inflowBase(f.properties.name),
+      onEachFeature: (f, layer) => {
+        const nm = f.properties.name; layer._nm = nm;
+        layer.on('click', e => { L.DomEvent.stop(e); self._markerHit(); o.onClick(nm); });
+        layer.on('mouseover', () => layer.setStyle({ weight: 2.4, color: '#d6219b' }));
+        layer.on('mouseout', () => layer.setStyle(self._inflowBase(nm)));
+        if (o.labelFn) layer.bindTooltip(o.labelFn(nm), { permanent: true, direction: 'center', className: 'state-label', interactive: false });
+      }
+    }).addTo(this.map);
+  },
+  restyleInflow(valueFn, labelFn, fillOpacity) { if (!this.inflowL) return; const o = this._inflowOpts; if (valueFn) o.valueFn = valueFn; if (labelFn) o.labelFn = labelFn; if (fillOpacity != null) o.fillOpacity = fillOpacity; this.renderInflow(o); },
+  hideInflow() { if (this.inflowL) { this.map.removeLayer(this.inflowL); this.inflowL = null; } },
+  inflowMax() { return this._inflowMax || 1; },
+  setInflowClickable(b) { const p = this.map.getPane('inflow'); if (p) p.style.pointerEvents = b ? 'auto' : 'none'; },
 
   /* ---- generic named hex layers (commercial concentration, hotel rooms) ---- */
   renderHexLayer(key, cells, visible) {

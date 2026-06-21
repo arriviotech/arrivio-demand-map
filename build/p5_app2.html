@@ -249,8 +249,8 @@
   function setLayer(key, on) {
     // the three density heatmaps are mutually exclusive — only one renders at a time
     // (avoids stacking same-colored dense layers, and keeps the map smooth)
-    if (on && (key === 'hex' || key === 'commercial' || key === 'hotels')) {
-      ['hex', 'commercial', 'hotels'].forEach(k => { if (k !== key && S.layers[k]) setLayer(k, false); });
+    if (on && (key === 'hex' || key === 'commercial' || key === 'hotels' || key === 'inflow')) {
+      ['hex', 'commercial', 'hotels', 'inflow'].forEach(k => { if (k !== key && S.layers[k]) setLayer(k, false); });
     }
     S.layers[key] = on;
     document.querySelectorAll(`[data-layer="${key}"]`).forEach(b => eyeIcon(b, on));
@@ -264,9 +264,10 @@
     if (key === 'stations') loadStations(on);
     if (key === 'commercial') { $('comm-metric').hidden = !on; computeCommercial(); }
     if (key === 'hotels') { $('hotel-metric').hidden = !on; computeHotels(); }
+    if (key === 'inflow') { $('inflow-metric').hidden = !on; computeInflow(); }
     updateLegend(); writeHash();
   }
-  const STATE_HIDE_LAYERS = ['hex', 'clients', 'labels', 'approx', 'gch', 'sem', 'stations', 'commercial', 'hotels'];
+  const STATE_HIDE_LAYERS = ['hex', 'clients', 'labels', 'approx', 'gch', 'sem', 'stations', 'commercial', 'hotels', 'inflow'];
   function setBase(key) {
     const wasStates = S.base === 'states';
     S.base = key;
@@ -313,6 +314,7 @@
     // gradient scale for whichever heatmap is active (light = less, dark = more)
     let lTitle = 'Legend', lLo = '', lHi = '', lBar = false;
     if (S.layers.hex) { lTitle = 'Client room demand'; lLo = 'low'; lHi = '≈' + kfmt(demandMaxRooms) + ' rooms'; lBar = true; }
+    else if (S.layers.inflow) { const vv = Object.keys(STATES_DATA).map(n => stateInflow(n, S.inflowMetric)); lTitle = 'Immigrant inflow / yr (' + (S.inflowMetric === 'total' ? 'intl + domestic' : 'international') + ')'; lLo = 'low'; lHi = '≈' + kfmt(Math.max.apply(null, vv)) + '/yr'; lBar = true; }
     else if (S.layers.commercial) {
       lBar = true;
       if (S.commMetric === 'rent') { const v = COMMERCIAL_DATA.map(c => c.prime); lTitle = 'Office prime rent'; lLo = '€' + Math.min.apply(null, v) + '/m²'; lHi = '€' + Math.max.apply(null, v) + '/m²'; }
@@ -337,6 +339,7 @@
     $('helper').style.display = on ? 'flex' : 'none';
     $('btn-add-area').setAttribute('aria-pressed', on);
     $('fab').setAttribute('aria-pressed', on);
+    M.setInflowClickable(!on); // while placing an area, let clicks pass through the inflow overlay
     if (on && MOBILE()) sheetTo('peek');
   }
 
@@ -522,6 +525,7 @@
     // office & hotel metric toggles
     document.querySelectorAll('#comm-metric [data-cm]').forEach(b => b.onclick = () => { S.commMetric = b.dataset.cm; document.querySelectorAll('#comm-metric [data-cm]').forEach(x => x.setAttribute('aria-pressed', x === b)); computeCommercial(); updateLegend(); });
     document.querySelectorAll('#hotel-metric [data-hm]').forEach(b => b.onclick = () => { S.hotelMetric = b.dataset.hm; document.querySelectorAll('#hotel-metric [data-hm]').forEach(x => x.setAttribute('aria-pressed', x === b)); computeHotels(); updateLegend(); });
+    document.querySelectorAll('#inflow-metric [data-im]').forEach(b => b.onclick = () => setInflowMetric(b.dataset.im));
     // states TAM metric toggle (legend) — shares setStateMetric with the in-card toggle
     document.querySelectorAll('#state-metric [data-metric]').forEach(b => b.onclick = () => setStateMetric(b.dataset.metric));
     // symbol size

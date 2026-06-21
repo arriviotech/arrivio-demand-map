@@ -29,6 +29,16 @@ So everything client-side traces back to your spreadsheet; only the *pin coordin
 | Population per state | **Destatis** (31.12.2024) | FIRM |
 | **TAM** = inflow × €15,000/person/yr | Your assumption (annual furnished-housing revenue per person); the €15k is the only modeled input | FIRM data × your assumption |
 
+### 2b. Immigrant inflow (overlay layer — mixable with point layers)
+A toggleable **overlay** (Layers → "Immigrant inflow") that colors each state by the **number of
+people settling there per year**, semi-transparent and rendered *under* the pins so you can combine
+it with clients, proposed areas, hotels, etc. Has an **International only ⇄ Intl + domestic** toggle
+(panel + in the click card), and clicking a state opens those 2 visibility options with the actual
+inflow numbers + national composition. Same FIRM Destatis 2024 data as the TAM view (international =
+arrivals from abroad; +domestic = incl. arrivals from other German states). It shares the pink scale
+and swaps with the other area heatmaps (one at a time); distinct from the "States · TAM" basemap,
+which is the full-screen €-value view.
+
 ### 3. Office & commercial (layer has a 3-way metric toggle: Density / Rent / Vacant m²)
 | Metric | What it shows | Source | Confidence |
 |---|---|---|---|

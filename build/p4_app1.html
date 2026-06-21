@@ -30,8 +30,8 @@
     theme: localStorage.getItem('arrivio.theme') || 'dark',
     base: 'voyager',
     stateMetric: 'intl', stateMulti: false, selStates: [],
-    commMetric: 'density', hotelMetric: 'rooms',
-    layers: { hex: true, clients: true, labels: true, approx: true, gch: true, sem: true, stations: false, commercial: false, hotels: false },
+    commMetric: 'density', hotelMetric: 'rooms', inflowMetric: 'intl',
+    layers: { hex: true, clients: true, labels: true, approx: true, gch: true, sem: true, stations: false, commercial: false, hotels: false, inflow: false },
     reach: { mode: 'bike-share', min: 20, origin: null, active: false },
     sel: null, selArea: null, armed: false,
     areas: []   // {id, name, km}
@@ -312,7 +312,7 @@
     if (S.sel && S.sel.type === 'client') M.setSelectedClient(null);
     if (S.selArea) { M.setAreaSelected(S.selArea, false); document.querySelectorAll('#area-list .arow.sel').forEach(li => li.classList.remove('sel')); }
     if (S.selStates.length) { S.selStates = []; S.stateMulti = false; M.clearStateSelection(); }
-    S.sel = null; S.selArea = null;
+    S.sel = null; S.selArea = null; S.selInflow = null;
   }
   function selectClient(c) {
     S.sel = { type: 'client', id: c.id }; S.selArea = null;
@@ -445,6 +445,41 @@
   const statesValueFn = () => (name => stateTAM(name, S.stateMetric));
   const stateLabelFn = () => (name => esc(STATE_SHORT[name] || name)); // name only — keeps labels compact, no overlap
   const statesFillOpacity = () => ((S.layers.clients || S.layers.hex || S.layers.commercial || S.layers.hotels) ? 0.32 : 0.8);
+  /* ---- immigrant-inflow OVERLAY (people count per state; mixable with point layers) ---- */
+  const inflowValueFn = () => (name => stateInflow(name, S.inflowMetric));
+  function computeInflow() {
+    if (!S.layers.inflow) { M.hideInflow(); return; }
+    M.renderInflow({ valueFn: inflowValueFn(), labelFn: stateLabelFn(), onClick: selectInflowRegion, fillOpacity: 0.55 });
+    M.setInflowClickable(!S.armed);
+  }
+  function setInflowMetric(metric) {
+    S.inflowMetric = metric;
+    document.querySelectorAll('#inflow-metric [data-im], #ic-metric [data-im]').forEach(x => x.setAttribute('aria-pressed', x.dataset.im === metric));
+    if (S.layers.inflow) { M.restyleInflow(inflowValueFn(), stateLabelFn(), 0.55); updateLegend(); }
+    if (S.selInflow) renderInflowCard();
+  }
+  function selectInflowRegion(name) { S.selInflow = name; renderInflowCard(); }
+  function renderInflowCard() {
+    const name = S.selInflow, d = STATES_DATA[name]; if (!d) return;
+    const isT = S.inflowMetric === 'total';
+    const comp = INFLOW_COMPOSITION.map(c => `${c.label} ${c.pct}%`).join(' · ');
+    showSelCard(`
+      <div class="sname">${esc(name)}</div>
+      <div class="splace">Immigrant inflow · people settling per year</div>
+      <div class="seg" id="ic-metric" role="group" aria-label="Inflow visibility" style="margin:2px 0 10px">
+        <button data-im="intl" aria-pressed="${!isT}">International only</button>
+        <button data-im="total" aria-pressed="${isT}">Intl + domestic</button>
+      </div>
+      <table>
+        <tr><td>Population</td><td class="num">${fmt(d.pop)}</td></tr>
+        <tr><td><b>Inflow / yr (${isT ? 'intl + domestic' : 'international'})</b></td><td class="num"><b style="color:var(--acct);font-size:1.15em">${fmt(stateInflow(name, S.inflowMetric))}</b></td></tr>
+        <tr><td style="color:var(--t3)">· international (abroad)</td><td class="num" style="color:var(--t2)">${fmt(stateIntl(name))}</td></tr>
+        <tr><td style="color:var(--t3)">· + domestic (other states)</td><td class="num" style="color:var(--t2)">${fmt(stateTotal(name) - stateIntl(name))}</td></tr>
+      </table>
+      <p class="hint" style="margin-top:8px">National inflow mix: ${esc(comp)}.</p>
+      <p class="hint" style="margin-top:4px">Top origins: ${esc(INFLOW_TOP_ORIGINS)}. Source: Destatis 2024 (Wanderungen über die Grenzen der Bundesländer).</p>`);
+    document.querySelectorAll('#ic-metric [data-im]').forEach(b => b.onclick = () => setInflowMetric(b.dataset.im));
+  }
   function setStateMetric(metric) {
     S.stateMetric = metric;
     document.querySelectorAll('#state-metric [data-metric], #card-metric [data-metric]').forEach(x => x.setAttribute('aria-pressed', x.dataset.metric === metric));

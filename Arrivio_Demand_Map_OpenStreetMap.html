@@ -467,6 +467,12 @@ body.presenting .cbtn .ic{width:22px;height:22px}
       <div class="secb">
         <div class="lrow" data-lrow="hex"><span class="sw grad"></span><span class="lname">Demand hexmap</span>
           <button class="eye" data-layer="hex" aria-pressed="true" aria-label="Toggle demand hexmap"><svg class="ic"><use href="#i-eye"/></svg></button></div>
+        <div class="lrow off" data-lrow="inflow"><span class="sw grad"></span><span class="lname">Immigrant inflow</span>
+          <button class="eye" data-layer="inflow" aria-pressed="false" aria-label="Toggle immigrant inflow"><svg class="ic"><use href="#i-eye-off"/></svg></button></div>
+        <div class="seg metric-seg" id="inflow-metric" role="group" aria-label="Inflow visibility" hidden>
+          <button data-im="intl" aria-pressed="true">Intl only</button>
+          <button data-im="total" aria-pressed="false">Intl + domestic</button>
+        </div>
         <div class="lrow" data-lrow="clients"><span class="sw" style="background:var(--client)"></span><span class="lname">Clients</span><span class="lcount num" id="n-clients">185</span>
           <button class="eye" data-layer="clients" aria-pressed="true" aria-label="Toggle clients"><svg class="ic"><use href="#i-eye"/></svg></button></div>
         <div class="lrow indent" data-lrow="labels"><span class="sw" style="background:none;border-style:dashed"></span><span class="lname">Names &amp; rooms on zoom</span>
@@ -801,6 +807,8 @@ const M = {
     };
     this._base = null;
     this._canvas = L.canvas({ padding: 0.3 });
+    this.map.createPane('inflow'); this.map.getPane('inflow').style.zIndex = 250; // below markers/overlays so it sits under pins
+    this._inflowRenderer = L.svg({ pane: 'inflow' });
     this.map.on('click', e => { if (this._skipMapClick) { this._skipMapClick = false; return; } o.onClick && o.onClick([e.latlng.lat, e.latlng.lng]); });
     this.map.on('zoomend', () => { this._applyLabels(); o.onZoom && o.onZoom(this.map.getZoom()); });
     this.map.on('moveend', () => o.onMove && o.onMove());
@@ -960,6 +968,31 @@ const M = {
   hideStates() { if (this.statesL) { this.map.removeLayer(this.statesL); this.statesL = null; } },
   clearStateSelection() { this._selStates = []; if (this.statesL) this.statesL.eachLayer(l => this._applyStateStyle(l)); },
   statesMax() { return this._statesMax || 1; },
+
+  /* ---- Immigrant-inflow choropleth OVERLAY (semi-transparent, under the markers) ---- */
+  renderInflow(opts) {
+    const o = opts || this._inflowOpts; this._inflowOpts = o;
+    this.hideInflow();
+    const vals = DE_STATES_GEO.features.map(f => o.valueFn(f.properties.name)).filter(v => v > 0);
+    this._inflowMax = Math.max.apply(null, vals.concat([1]));
+    const self = this, fill = o.fillOpacity == null ? 0.55 : o.fillOpacity;
+    this._inflowBase = nm => ({ color: '#ffffff', weight: 1, fillColor: rampColor(Math.sqrt((o.valueFn(nm) || 0) / self._inflowMax)), fillOpacity: fill });
+    this.inflowL = L.geoJSON(DE_STATES_GEO, {
+      renderer: this._inflowRenderer, pane: 'inflow',
+      style: f => self._inflowBase(f.properties.name),
+      onEachFeature: (f, layer) => {
+        const nm = f.properties.name; layer._nm = nm;
+        layer.on('click', e => { L.DomEvent.stop(e); self._markerHit(); o.onClick(nm); });
+        layer.on('mouseover', () => layer.setStyle({ weight: 2.4, color: '#d6219b' }));
+        layer.on('mouseout', () => layer.setStyle(self._inflowBase(nm)));
+        if (o.labelFn) layer.bindTooltip(o.labelFn(nm), { permanent: true, direction: 'center', className: 'state-label', interactive: false });
+      }
+    }).addTo(this.map);
+  },
+  restyleInflow(valueFn, labelFn, fillOpacity) { if (!this.inflowL) return; const o = this._inflowOpts; if (valueFn) o.valueFn = valueFn; if (labelFn) o.labelFn = labelFn; if (fillOpacity != null) o.fillOpacity = fillOpacity; this.renderInflow(o); },
+  hideInflow() { if (this.inflowL) { this.map.removeLayer(this.inflowL); this.inflowL = null; } },
+  inflowMax() { return this._inflowMax || 1; },
+  setInflowClickable(b) { const p = this.map.getPane('inflow'); if (p) p.style.pointerEvents = b ? 'auto' : 'none'; },
 
   /* ---- generic named hex layers (commercial concentration, hotel rooms) ---- */
   renderHexLayer(key, cells, visible) {
@@ -1135,8 +1168,8 @@ function nameVars(n) {
     theme: localStorage.getItem('arrivio.theme') || 'dark',
     base: 'voyager',
     stateMetric: 'intl', stateMulti: false, selStates: [],
-    commMetric: 'density', hotelMetric: 'rooms',
-    layers: { hex: true, clients: true, labels: true, approx: true, gch: true, sem: true, stations: false, commercial: false, hotels: false },
+    commMetric: 'density', hotelMetric: 'rooms', inflowMetric: 'intl',
+    layers: { hex: true, clients: true, labels: true, approx: true, gch: true, sem: true, stations: false, commercial: false, hotels: false, inflow: false },
     reach: { mode: 'bike-share', min: 20, origin: null, active: false },
     sel: null, selArea: null, armed: false,
     areas: []   // {id, name, km}
@@ -1417,7 +1450,7 @@ function nameVars(n) {
     if (S.sel && S.sel.type === 'client') M.setSelectedClient(null);
     if (S.selArea) { M.setAreaSelected(S.selArea, false); document.querySelectorAll('#area-list .arow.sel').forEach(li => li.classList.remove('sel')); }
     if (S.selStates.length) { S.selStates = []; S.stateMulti = false; M.clearStateSelection(); }
-    S.sel = null; S.selArea = null;
+    S.sel = null; S.selArea = null; S.selInflow = null;
   }
   function selectClient(c) {
     S.sel = { type: 'client', id: c.id }; S.selArea = null;
@@ -1550,6 +1583,41 @@ function nameVars(n) {
   const statesValueFn = () => (name => stateTAM(name, S.stateMetric));
   const stateLabelFn = () => (name => esc(STATE_SHORT[name] || name)); // name only — keeps labels compact, no overlap
   const statesFillOpacity = () => ((S.layers.clients || S.layers.hex || S.layers.commercial || S.layers.hotels) ? 0.32 : 0.8);
+  /* ---- immigrant-inflow OVERLAY (people count per state; mixable with point layers) ---- */
+  const inflowValueFn = () => (name => stateInflow(name, S.inflowMetric));
+  function computeInflow() {
+    if (!S.layers.inflow) { M.hideInflow(); return; }
+    M.renderInflow({ valueFn: inflowValueFn(), labelFn: stateLabelFn(), onClick: selectInflowRegion, fillOpacity: 0.55 });
+    M.setInflowClickable(!S.armed);
+  }
+  function setInflowMetric(metric) {
+    S.inflowMetric = metric;
+    document.querySelectorAll('#inflow-metric [data-im], #ic-metric [data-im]').forEach(x => x.setAttribute('aria-pressed', x.dataset.im === metric));
+    if (S.layers.inflow) { M.restyleInflow(inflowValueFn(), stateLabelFn(), 0.55); updateLegend(); }
+    if (S.selInflow) renderInflowCard();
+  }
+  function selectInflowRegion(name) { S.selInflow = name; renderInflowCard(); }
+  function renderInflowCard() {
+    const name = S.selInflow, d = STATES_DATA[name]; if (!d) return;
+    const isT = S.inflowMetric === 'total';
+    const comp = INFLOW_COMPOSITION.map(c => `${c.label} ${c.pct}%`).join(' · ');
+    showSelCard(`
+      <div class="sname">${esc(name)}</div>
+      <div class="splace">Immigrant inflow · people settling per year</div>
+      <div class="seg" id="ic-metric" role="group" aria-label="Inflow visibility" style="margin:2px 0 10px">
+        <button data-im="intl" aria-pressed="${!isT}">International only</button>
+        <button data-im="total" aria-pressed="${isT}">Intl + domestic</button>
+      </div>
+      <table>
+        <tr><td>Population</td><td class="num">${fmt(d.pop)}</td></tr>
+        <tr><td><b>Inflow / yr (${isT ? 'intl + domestic' : 'international'})</b></td><td class="num"><b style="color:var(--acct);font-size:1.15em">${fmt(stateInflow(name, S.inflowMetric))}</b></td></tr>
+        <tr><td style="color:var(--t3)">· international (abroad)</td><td class="num" style="color:var(--t2)">${fmt(stateIntl(name))}</td></tr>
+        <tr><td style="color:var(--t3)">· + domestic (other states)</td><td class="num" style="color:var(--t2)">${fmt(stateTotal(name) - stateIntl(name))}</td></tr>
+      </table>
+      <p class="hint" style="margin-top:8px">National inflow mix: ${esc(comp)}.</p>
+      <p class="hint" style="margin-top:4px">Top origins: ${esc(INFLOW_TOP_ORIGINS)}. Source: Destatis 2024 (Wanderungen über die Grenzen der Bundesländer).</p>`);
+    document.querySelectorAll('#ic-metric [data-im]').forEach(b => b.onclick = () => setInflowMetric(b.dataset.im));
+  }
   function setStateMetric(metric) {
     S.stateMetric = metric;
     document.querySelectorAll('#state-metric [data-metric], #card-metric [data-metric]').forEach(x => x.setAttribute('aria-pressed', x.dataset.metric === metric));
@@ -1859,8 +1927,8 @@ function nameVars(n) {
   function setLayer(key, on) {
     // the three density heatmaps are mutually exclusive — only one renders at a time
     // (avoids stacking same-colored dense layers, and keeps the map smooth)
-    if (on && (key === 'hex' || key === 'commercial' || key === 'hotels')) {
-      ['hex', 'commercial', 'hotels'].forEach(k => { if (k !== key && S.layers[k]) setLayer(k, false); });
+    if (on && (key === 'hex' || key === 'commercial' || key === 'hotels' || key === 'inflow')) {
+      ['hex', 'commercial', 'hotels', 'inflow'].forEach(k => { if (k !== key && S.layers[k]) setLayer(k, false); });
     }
     S.layers[key] = on;
     document.querySelectorAll(`[data-layer="${key}"]`).forEach(b => eyeIcon(b, on));
@@ -1874,9 +1942,10 @@ function nameVars(n) {
     if (key === 'stations') loadStations(on);
     if (key === 'commercial') { $('comm-metric').hidden = !on; computeCommercial(); }
     if (key === 'hotels') { $('hotel-metric').hidden = !on; computeHotels(); }
+    if (key === 'inflow') { $('inflow-metric').hidden = !on; computeInflow(); }
     updateLegend(); writeHash();
   }
-  const STATE_HIDE_LAYERS = ['hex', 'clients', 'labels', 'approx', 'gch', 'sem', 'stations', 'commercial', 'hotels'];
+  const STATE_HIDE_LAYERS = ['hex', 'clients', 'labels', 'approx', 'gch', 'sem', 'stations', 'commercial', 'hotels', 'inflow'];
   function setBase(key) {
     const wasStates = S.base === 'states';
     S.base = key;
@@ -1923,6 +1992,7 @@ function nameVars(n) {
     // gradient scale for whichever heatmap is active (light = less, dark = more)
     let lTitle = 'Legend', lLo = '', lHi = '', lBar = false;
     if (S.layers.hex) { lTitle = 'Client room demand'; lLo = 'low'; lHi = '≈' + kfmt(demandMaxRooms) + ' rooms'; lBar = true; }
+    else if (S.layers.inflow) { const vv = Object.keys(STATES_DATA).map(n => stateInflow(n, S.inflowMetric)); lTitle = 'Immigrant inflow / yr (' + (S.inflowMetric === 'total' ? 'intl + domestic' : 'international') + ')'; lLo = 'low'; lHi = '≈' + kfmt(Math.max.apply(null, vv)) + '/yr'; lBar = true; }
     else if (S.layers.commercial) {
       lBar = true;
       if (S.commMetric === 'rent') { const v = COMMERCIAL_DATA.map(c => c.prime); lTitle = 'Office prime rent'; lLo = '€' + Math.min.apply(null, v) + '/m²'; lHi = '€' + Math.max.apply(null, v) + '/m²'; }
@@ -1947,6 +2017,7 @@ function nameVars(n) {
     $('helper').style.display = on ? 'flex' : 'none';
     $('btn-add-area').setAttribute('aria-pressed', on);
     $('fab').setAttribute('aria-pressed', on);
+    M.setInflowClickable(!on); // while placing an area, let clicks pass through the inflow overlay
     if (on && MOBILE()) sheetTo('peek');
   }
 
@@ -2132,6 +2203,7 @@ function nameVars(n) {
     // office & hotel metric toggles
     document.querySelectorAll('#comm-metric [data-cm]').forEach(b => b.onclick = () => { S.commMetric = b.dataset.cm; document.querySelectorAll('#comm-metric [data-cm]').forEach(x => x.setAttribute('aria-pressed', x === b)); computeCommercial(); updateLegend(); });
     document.querySelectorAll('#hotel-metric [data-hm]').forEach(b => b.onclick = () => { S.hotelMetric = b.dataset.hm; document.querySelectorAll('#hotel-metric [data-hm]').forEach(x => x.setAttribute('aria-pressed', x === b)); computeHotels(); updateLegend(); });
+    document.querySelectorAll('#inflow-metric [data-im]').forEach(b => b.onclick = () => setInflowMetric(b.dataset.im));
     // states TAM metric toggle (legend) — shares setStateMetric with the in-card toggle
     document.querySelectorAll('#state-metric [data-metric]').forEach(b => b.onclick = () => setStateMetric(b.dataset.metric));
     // symbol size
