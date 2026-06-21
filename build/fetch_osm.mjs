@@ -72,19 +72,27 @@ const officeGrid = new Map(), hotelGrid = new Map(), hotels = [];
 const gkey = (la, ln) => Math.round(la / 0.02) + '_' + Math.round(ln / 0.02);
 const gll = k => { const [a, b] = k.split('_'); return [Math.round(a * 0.02 * 1e4) / 1e4, Math.round(b * 0.02 * 1e4) / 1e4]; };
 let nTiles = 0;
+const estAdr = s => (s >= 5 ? 250 : s >= 4 ? 135 : s >= 3 ? 105 : s >= 1 ? 72 : 95); // modeled nightly rate from stars
+const hotelPrice = new Map(); // cell -> [sumPrice, count]
 for (const f of readdirSync(TILEDIR)) {
   if (!/^tile_\d+\.json$/.test(f)) continue;
   nTiles++;
   const d = JSON.parse(readFileSync(join(TILEDIR, f), 'utf8'));
   for (const p of d.office) { const k = gkey(p[0], p[1]); officeGrid.set(k, (officeGrid.get(k) || 0) + 1); }
-  for (const h of d.hotels) { const k = gkey(h.lat, h.lng); hotelGrid.set(k, (hotelGrid.get(k) || 0) + h.r); hotels.push(h); }
+  for (const h of d.hotels) {
+    const k = gkey(h.lat, h.lng);
+    hotelGrid.set(k, (hotelGrid.get(k) || 0) + h.r); hotels.push(h);
+    const pe = hotelPrice.get(k) || [0, 0]; pe[0] += estAdr(h.s); pe[1]++; hotelPrice.set(k, pe);
+  }
 }
 const commercialGrid = [...officeGrid.entries()].map(([k, w]) => { const [la, ln] = gll(k); return [la, ln, w]; });
 const hotelGridArr = [...hotelGrid.entries()].map(([k, w]) => { const [la, ln] = gll(k); return [la, ln, w]; });
+const hotelPriceArr = [...hotelPrice.entries()].map(([k, v]) => { const [la, ln] = gll(k); return [la, ln, Math.round(v[0] / v[1])]; });
 hotels.sort((a, b) => b.r - a.r);
 const hotelsCapped = hotels.slice(0, 6000);
 writeFileSync(join(OUT, 'commercial_grid.json'), JSON.stringify(commercialGrid));
 writeFileSync(join(OUT, 'hotel_grid.json'), JSON.stringify(hotelGridArr));
+writeFileSync(join(OUT, 'hotel_price_grid.json'), JSON.stringify(hotelPriceArr));
 writeFileSync(join(OUT, 'hotels_osm.json'), JSON.stringify(hotelsCapped));
 process.stdout.write(`\nCOMBINED from ${nTiles} tiles -> office cells ${commercialGrid.length}, hotel cells ${hotelGridArr.length}, hotels ${hotels.length} (baked ${hotelsCapped.length})\n`);
-process.stdout.write(`bytes: commercial ${JSON.stringify(commercialGrid).length}, hotelGrid ${JSON.stringify(hotelGridArr).length}, hotels ${JSON.stringify(hotelsCapped).length}\n`);
+process.stdout.write(`bytes: commercial ${JSON.stringify(commercialGrid).length}, hotelGrid ${JSON.stringify(hotelGridArr).length}, hotelPrice ${JSON.stringify(hotelPriceArr).length}, hotels ${JSON.stringify(hotelsCapped).length}\n`);

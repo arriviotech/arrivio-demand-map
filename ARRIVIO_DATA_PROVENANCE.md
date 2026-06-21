@@ -29,20 +29,23 @@ So everything client-side traces back to your spreadsheet; only the *pin coordin
 | Population per state | **Destatis** (31.12.2024) | FIRM |
 | **TAM** = inflow × €15,000/person/yr | Your assumption (annual furnished-housing revenue per person); the €15k is the only modeled input | FIRM data × your assumption |
 
-### 3. Commercial concentration (all-Germany density hexmap)
-| Field | Source | Confidence |
-|---|---|---|
-| Where office/commercial sites are | **OpenStreetMap** `office=*` features, fetched country-wide via the **Overpass API** in 25 tiles, aggregated to a ~2 km grid (22,230 cells) → binned to hexes in the browser | FIRM locations (OSM coverage varies by region) |
-| Office rent / vacancy (the clickable city dots) | **Commercial broker market reports** — BNP Paribas RE *Büromarkt Deutschland Q4 2025*, Colliers Top-7 Q2 2025, JLL / Cushman & Wakefield. Covers the Big-7 + ~12 secondary cities | FIRM (per city; per-building is not public) |
+### 3. Office & commercial (layer has a 3-way metric toggle: Density / Rent / Vacant m²)
+| Metric | What it shows | Source | Confidence |
+|---|---|---|---|
+| **Density** (default) | All-Germany hexmap of office/commercial *site concentration* | **OpenStreetMap** `office=*`, fetched country-wide via **Overpass** in 25 tiles → ~2 km grid (22,230 cells) → hexes in-browser | FIRM locations (OSM coverage varies) |
+| **Rent** | City circles colored by prime office rent (€/m²/mo) | **Broker reports** — BNP Paribas RE Q4 2025, Colliers Q2 2025, JLL/C&W (Big-7 + ~12 cities) | FIRM (per city; per-building not public) |
+| **Vacant m²** | City circles sized/colored by vacant office space available | Same broker reports | FIRM (per city) |
+| (click any city dot) | Full card: prime rent, average rent, vacancy %, vacant m² | Broker reports | FIRM |
+| Rent/vacancy are **city-level by nature** — they're market statistics, not per-building, so they're shown as graduated city symbols (only major markets have published figures). | | | |
 
-### 4. Hotel rooms — small / family (all-Germany)
-| Field | Source | Confidence |
-|---|---|---|
-| Hotel locations | **OpenStreetMap** `tourism=hotel` / `guest_house` (51,541 found country-wide via Overpass) | FIRM locations |
-| "Small / independent" classification | **HEURISTIC** — we exclude entries whose brand/operator/name matches major chains; some mid-scale chains can slip through | HEURISTIC |
-| Rooms per hotel | OSM `rooms` tag where present; otherwise **modeled from star rating** | FIRM where tagged, else MODELED |
-| Nightly rate (in the hotel card) | **Modeled** from star rating (regional ADR ladder) | MODELED |
-| Room-availability hexmap | Rooms summed per hex from the above | FIRM+MODELED mix |
+### 4. Small / family hotels (layer has a metric toggle: Rooms / Price)
+| Metric | What it shows | Source | Confidence |
+|---|---|---|---|
+| **Rooms** (default) | All-Germany hexmap of *room availability* (rooms summed per hex) | OSM rooms tag, else modeled from stars | FIRM where tagged, else MODELED |
+| **Price** | All-Germany hexmap of *average nightly rate* per area | Modeled from star rating, averaged per hex | MODELED |
+| Hotel locations | **OpenStreetMap** `tourism=hotel` / `guest_house` (51,541 found via Overpass) | OSM | FIRM locations |
+| "Small / independent" filter | excludes major chains by brand/operator/name; some mid-scale chains slip through | — | HEURISTIC |
+| (zoom in) individual clickable hotels | name, est. rooms, stars, est. nightly rate | OSM + model | FIRM loc / MODELED metrics |
 
 ### 5. Partner hotels (GCH = amber, Seminaris = green)
 | Field | Source | Confidence |

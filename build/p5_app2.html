@@ -262,8 +262,8 @@
     if (key === 'approx') { renderClientsNow(); updateKPIs(); computeHex(true); renderAreaList(); }
     if (key === 'gch' || key === 'sem') renderHotelsNow();
     if (key === 'stations') loadStations(on);
-    if (key === 'commercial') computeCommercial();
-    if (key === 'hotels') computeHotels();
+    if (key === 'commercial') { $('comm-metric').hidden = !on; computeCommercial(); }
+    if (key === 'hotels') { $('hotel-metric').hidden = !on; computeHotels(); }
     updateLegend(); writeHash();
   }
   function setBase(key) {
@@ -301,8 +301,15 @@
     if (S.areas.length) cats.push(`<div class="lg"><span class="sw" style="background:var(--acc)"></span>Arrivio proposed area</div>`);
     if (S.layers.gch) cats.push(`<div class="lg"><span class="sw sq" style="background:var(--gch)"></span>GCH hotel</div>`);
     if (S.layers.sem) cats.push(`<div class="lg"><span class="sw sq" style="background:var(--sem)"></span>Seminaris hotel</div>`);
-    if (S.layers.commercial) cats.push(`<div class="lg"><span class="sw grad"></span>Commercial concentration (light → dark = fewer → more sites)</div><div class="lg"><span class="sw" style="background:#1d2733"></span>Office rent / vacancy — click a city dot</div>`);
-    if (S.layers.hotels) cats.push(`<div class="lg"><span class="sw grad"></span>Hotel rooms, small/family (light → dark = fewer → more)</div>`);
+    if (S.layers.commercial) {
+      const m = S.commMetric;
+      if (m === 'rent') cats.push(`<div class="lg"><span class="sw grad"></span>Office prime rent (light → dark = cheaper → pricier €/m²)</div>`);
+      else if (m === 'vacant') cats.push(`<div class="lg"><span class="sw grad"></span>Office vacant space (bigger &amp; darker = more m² free)</div>`);
+      else cats.push(`<div class="lg"><span class="sw grad"></span>Commercial density (light → dark = fewer → more sites)</div><div class="lg"><span class="sw" style="background:#1d2733"></span>City dot — click for rent / vacancy</div>`);
+    }
+    if (S.layers.hotels) cats.push(S.hotelMetric === 'price'
+      ? `<div class="lg"><span class="sw grad"></span>Hotel nightly rate, small/family (light → dark = cheaper → pricier)</div>`
+      : `<div class="lg"><span class="sw grad"></span>Hotel rooms, small/family (light → dark = fewer → more)</div>`);
     if (S.reach.active) cats.push(`<div class="lg"><span class="sw" style="background:${MODE_COLOR[S.reach.mode]}"></span>Reach ≤ ${S.reach.min} min (${MODE_LABEL[S.reach.mode]})</div>`);
     $('legend-cats').innerHTML = cats.join('');
     const gv = $('legend').querySelector('.gbar'); gv.style.display = S.layers.hex ? 'block' : 'none';
@@ -499,6 +506,9 @@
       else setLayer(k, !S.layers[k]);
     });
     document.querySelectorAll('[data-base]').forEach(b => b.onclick = () => { setBase(b.dataset.base); closePops(); });
+    // office & hotel metric toggles
+    document.querySelectorAll('#comm-metric [data-cm]').forEach(b => b.onclick = () => { S.commMetric = b.dataset.cm; document.querySelectorAll('#comm-metric [data-cm]').forEach(x => x.setAttribute('aria-pressed', x === b)); computeCommercial(); updateLegend(); });
+    document.querySelectorAll('#hotel-metric [data-hm]').forEach(b => b.onclick = () => { S.hotelMetric = b.dataset.hm; document.querySelectorAll('#hotel-metric [data-hm]').forEach(x => x.setAttribute('aria-pressed', x === b)); computeHotels(); updateLegend(); });
     // states TAM metric toggle (legend) — shares setStateMetric with the in-card toggle
     document.querySelectorAll('#state-metric [data-metric]').forEach(b => b.onclick = () => setStateMetric(b.dataset.metric));
     // symbol size

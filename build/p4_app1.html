@@ -30,6 +30,7 @@
     theme: localStorage.getItem('arrivio.theme') || 'dark',
     base: 'voyager',
     stateMetric: 'intl', stateMulti: false, selStates: [],
+    commMetric: 'density', hotelMetric: 'rooms',
     layers: { hex: true, clients: true, labels: true, approx: true, gch: true, sem: true, stations: false, commercial: false, hotels: false },
     reach: { mode: 'bike-share', min: 20, origin: null, active: false },
     sel: null, selArea: null, armed: false,
@@ -370,15 +371,29 @@
   function inViewPts(points) { const b = M.map.getBounds().pad(0.3), s = b.getSouth(), n = b.getNorth(), w = b.getWest(), e = b.getEast(); const out = []; for (const p of points) if (p[0] >= s && p[0] <= n && p[1] >= w && p[1] <= e) out.push(p); return out; }
   function supplyRes() { const z = M.getZoom(); return z <= 6 ? 4 : z <= 8 ? 5 : z <= 10 ? 6 : 7; } // coarser than demand hex (these layers have ~22k pts)
   function globalMaxFor(points, res, cache) { if (cache[res] != null) return cache[res]; const v = Object.values(aggHex(points, res)); return cache[res] = v.length ? Math.max.apply(null, v) : 1; }
+  function aggHexAvg(points, res) { const sum = {}, cnt = {}; for (const p of points) { try { const c = h3.latLngToCell(p[0], p[1], res); sum[c] = (sum[c] || 0) + p[2]; cnt[c] = (cnt[c] || 0) + 1; } catch (e) { } } const out = {}; for (const c in sum) out[c] = sum[c] / cnt[c]; return out; }
+  function hexPolysRange(cells, min, max) { const d = (max - min) || 1; return Object.entries(cells).map(([c, v]) => ({ boundary: h3.cellToBoundary(c), color: rampColor((v - min) / d), v })); }
   const _commMax = {}, _hotelMax = {};
+  const _pp = (HOTEL_PRICE_GRID && HOTEL_PRICE_GRID.length) ? HOTEL_PRICE_GRID.map(p => p[2]) : [80, 180];
+  const PRICE_LO = Math.min.apply(null, _pp), PRICE_HI = Math.max.apply(null, _pp);
+  function commDotStyle(metric) {
+    const rents = COMMERCIAL_DATA.map(c => c.prime), rLo = Math.min.apply(null, rents), rHi = Math.max.apply(null, rents);
+    const mMax = Math.max.apply(null, COMMERCIAL_DATA.map(c => c.m2 || 0).concat([1]));
+    return c => {
+      if (metric === 'rent') { const t = (c.prime - rLo) / (rHi - rLo || 1); return { radius: 10 + t * 16, color: rampColor(t), opacity: 0.6 }; }
+      if (metric === 'vacant') { const t = (c.m2 || 0) / mMax; return { radius: 10 + Math.sqrt(t) * 26, color: rampColor(t), opacity: 0.55 }; }
+      return { radius: 5, color: '#1d2733', opacity: 0.92 }; // density: small detail dot for click
+    };
+  }
+  function renderCommDots() { M.renderCommercialDots(COMMERCIAL_DATA, commDotStyle(S.commMetric), selectCommercial, S.layers.commercial); }
   function computeCommercial() {
     if (typeof h3 === 'undefined') return;
     if (!S.layers.commercial) { M.setHexLayerVisible('commercial', false); M.setCommercialDotsVisible(false); return; }
-    const res = supplyRes();
-    M.renderHexLayer('commercial', hexPolys(aggHex(inViewPts(COMMERCIAL_GRID), res), globalMaxFor(COMMERCIAL_GRID, res, _commMax)), true);
-    M.setCommercialDotsVisible(true);
+    renderCommDots(); M.setCommercialDotsVisible(true);
+    if (S.commMetric === 'density') { const res = supplyRes(); M.renderHexLayer('commercial', hexPolys(aggHex(inViewPts(COMMERCIAL_GRID), res), globalMaxFor(COMMERCIAL_GRID, res, _commMax)), true); }
+    else M.setHexLayerVisible('commercial', false);
   }
-  function initCommercialDots() { M.renderCommercialDots(COMMERCIAL_DATA, selectCommercial, S.layers.commercial); }
+  function initCommercialDots() { renderCommDots(); }
   // hotels (OSM small / independent) — room-availability hexmap + individual points on zoom-in
   const estAdr = h => (h.s >= 5 ? 250 : h.s >= 4 ? 135 : h.s >= 3 ? 105 : h.s >= 1 ? 72 : 95);
   function selectHotelOsm(h) {
@@ -407,7 +422,8 @@
     } else {
       M.clearHotelPoints();
       const res = supplyRes();
-      M.renderHexLayer('hotelrooms', hexPolys(aggHex(inViewPts(HOTEL_GRID), res), globalMaxFor(HOTEL_GRID, res, _hotelMax)), true);
+      if (S.hotelMetric === 'price') M.renderHexLayer('hotelrooms', hexPolysRange(aggHexAvg(inViewPts(HOTEL_PRICE_GRID), res), PRICE_LO, PRICE_HI), true);
+      else M.renderHexLayer('hotelrooms', hexPolys(aggHex(inViewPts(HOTEL_GRID), res), globalMaxFor(HOTEL_GRID, res, _hotelMax)), true);
     }
   }
 

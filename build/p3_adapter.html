@@ -272,14 +272,15 @@ const M = {
   hexLayerExists(key) { return !!(this._hx && this._hx[key]); },
 
   /* ---- office market dots (rent/vacancy detail, click) ---- */
-  renderCommercialDots(list, onClick, visible) {
+  renderCommercialDots(list, styleFn, onClick, visible) {
     if (this.commDotL) this.map.removeLayer(this.commDotL);
-    const self = this;
+    const self = this, sc = this.sizeScale || 1;
     this.commDotL = L.layerGroup(list.map(c => {
-      const m = L.circleMarker([c.lat, c.lng], { radius: 5, color: '#fff', weight: 1.4, fillColor: '#1d2733', fillOpacity: 0.92 });
+      const s = styleFn(c);
+      const m = L.circleMarker([c.lat, c.lng], { radius: s.radius * sc, color: '#fff', weight: 1.4, fillColor: s.color, fillOpacity: s.opacity });
       m.on('click', () => { self._markerHit(); onClick(c); });
-      m.on('mouseover', () => m.setStyle({ radius: 7 }));
-      m.on('mouseout', () => m.setStyle({ radius: 5 }));
+      m.on('mouseover', () => m.setStyle({ weight: 2.8 }));
+      m.on('mouseout', () => m.setStyle({ weight: 1.4 }));
       m.bindTooltip(c.city + ' · office rent €' + c.prime + '/m²', { direction: 'top', className: 'client-label' });
       return m;
     }));

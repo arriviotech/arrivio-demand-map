@@ -14,6 +14,7 @@ const readJson = f => { try { return read(f).trim() || '[]'; } catch (e) { retur
 const osmPart = '<script>\n' +
   'const COMMERCIAL_GRID=' + readJson('commercial_grid.json') + ';\n' +
   'const HOTEL_GRID=' + readJson('hotel_grid.json') + ';\n' +
+  'const HOTEL_PRICE_GRID=' + readJson('hotel_price_grid.json') + ';\n' +
   'const HOTELS_OSM=' + readJson('hotels_osm.json') + ';\n</script>\n';
 
 const out = [

@@ -104,10 +104,19 @@
         <div class="lrow" data-lrow="stations"><span class="sw" style="background:var(--bike)"></span><span class="lname">Bike-share stations</span>
           <button class="eye" data-layer="stations" aria-pressed="false" aria-label="Toggle bike stations"><svg class="ic"><use href="#i-eye-off"/></svg></button></div>
         <div class="subhead">Supply &amp; market</div>
-        <div class="lrow off" data-lrow="commercial"><span class="sw grad"></span><span class="lname">Commercial concentration</span>
-          <button class="eye" data-layer="commercial" aria-pressed="false" aria-label="Toggle commercial concentration"><svg class="ic"><use href="#i-eye-off"/></svg></button></div>
-        <div class="lrow off" data-lrow="hotels"><span class="sw grad"></span><span class="lname">Hotel rooms <span style="color:var(--t3);font-weight:400">· small / family</span></span>
+        <div class="lrow off" data-lrow="commercial"><span class="sw grad"></span><span class="lname">Office &amp; commercial</span>
+          <button class="eye" data-layer="commercial" aria-pressed="false" aria-label="Toggle office & commercial"><svg class="ic"><use href="#i-eye-off"/></svg></button></div>
+        <div class="seg metric-seg" id="comm-metric" role="group" aria-label="Office metric" hidden>
+          <button data-cm="density" aria-pressed="true">Density</button>
+          <button data-cm="rent">Rent</button>
+          <button data-cm="vacant">Vacant m²</button>
+        </div>
+        <div class="lrow off" data-lrow="hotels"><span class="sw grad"></span><span class="lname">Small / family hotels</span>
           <button class="eye" data-layer="hotels" aria-pressed="false" aria-label="Toggle small family hotels"><svg class="ic"><use href="#i-eye-off"/></svg></button></div>
+        <div class="seg metric-seg" id="hotel-metric" role="group" aria-label="Hotel metric" hidden>
+          <button data-hm="rooms" aria-pressed="true">Rooms</button>
+          <button data-hm="price">Price</button>
+        </div>
         <div class="subhead">Basemap</div>
         <div class="bmrow" style="grid-template-columns:repeat(3,1fr)">
           <button class="bm b-voyager" data-base="voyager" aria-pressed="true">Clean</button>
