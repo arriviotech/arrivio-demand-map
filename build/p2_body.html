@@ -91,6 +91,12 @@
       <div class="secb">
         <div class="lrow" data-lrow="hex"><span class="sw grad"></span><span class="lname">Demand hexmap</span>
           <button class="eye" data-layer="hex" aria-pressed="true" aria-label="Toggle demand hexmap"><svg class="ic"><use href="#i-eye"/></svg></button></div>
+        <div class="lrow off" data-lrow="inflow"><span class="sw grad"></span><span class="lname">Immigrant inflow</span>
+          <button class="eye" data-layer="inflow" aria-pressed="false" aria-label="Toggle immigrant inflow"><svg class="ic"><use href="#i-eye-off"/></svg></button></div>
+        <div class="seg metric-seg" id="inflow-metric" role="group" aria-label="Inflow visibility" hidden>
+          <button data-im="intl" aria-pressed="true">Intl only</button>
+          <button data-im="total" aria-pressed="false">Intl + domestic</button>
+        </div>
         <div class="lrow" data-lrow="clients"><span class="sw" style="background:var(--client)"></span><span class="lname">Clients</span><span class="lcount num" id="n-clients">185</span>
           <button class="eye" data-layer="clients" aria-pressed="true" aria-label="Toggle clients"><svg class="ic"><use href="#i-eye"/></svg></button></div>
         <div class="lrow indent" data-lrow="labels"><span class="sw" style="background:none;border-style:dashed"></span><span class="lname">Names &amp; rooms on zoom</span>

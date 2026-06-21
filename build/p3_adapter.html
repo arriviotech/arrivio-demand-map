@@ -101,6 +101,8 @@ const M = {
     };
     this._base = null;
     this._canvas = L.canvas({ padding: 0.3 });
+    this.map.createPane('inflow'); this.map.getPane('inflow').style.zIndex = 250; // below markers/overlays so it sits under pins
+    this._inflowRenderer = L.svg({ pane: 'inflow' });
     this.map.on('click', e => { if (this._skipMapClick) { this._skipMapClick = false; return; } o.onClick && o.onClick([e.latlng.lat, e.latlng.lng]); });
     this.map.on('zoomend', () => { this._applyLabels(); o.onZoom && o.onZoom(this.map.getZoom()); });
     this.map.on('moveend', () => o.onMove && o.onMove());
@@ -260,6 +262,26 @@ const M = {
   hideStates() { if (this.statesL) { this.map.removeLayer(this.statesL); this.statesL = null; } },
   clearStateSelection() { this._selStates = []; if (this.statesL) this.statesL.eachLayer(l => this._applyStateStyle(l)); },
   statesMax() { return this._statesMax || 1; },
+
+  /* ---- Immigrant-inflow choropleth OVERLAY (semi-transparent, under the markers) ---- */
+  renderInflow(o) {
+    this._inflowOpts = o;
+    this.hideInflow();
+    const self = this, fill = o.fillOpacity == null ? 0.6 : o.fillOpacity;
+    const base = f => ({ color: '#ffffff', weight: 0.5, fillColor: o.colorFn(f), fillOpacity: fill });
+    this.inflowL = L.geoJSON(o.geo, {
+      renderer: this._inflowRenderer, pane: 'inflow',
+      style: base,
+      onEachFeature: (f, layer) => {
+        layer.on('click', e => { L.DomEvent.stop(e); self._markerHit(); o.onClick(f); });
+        layer.on('mouseover', () => layer.setStyle({ weight: 2, color: '#d6219b' }));
+        layer.on('mouseout', () => layer.setStyle(base(f)));
+        if (o.tipFn) layer.bindTooltip(o.tipFn(f), { sticky: true, className: 'client-label' });
+      }
+    }).addTo(this.map);
+  },
+  hideInflow() { if (this.inflowL) { this.map.removeLayer(this.inflowL); this.inflowL = null; } },
+  setInflowClickable(b) { const p = this.map.getPane('inflow'); if (p) p.style.pointerEvents = b ? 'auto' : 'none'; },
 
   /* ---- generic named hex layers (commercial concentration, hotel rooms) ---- */
   renderHexLayer(key, cells, visible) {

@@ -29,6 +29,25 @@ So everything client-side traces back to your spreadsheet; only the *pin coordin
 | Population per state | **Destatis** (31.12.2024) | FIRM |
 | **TAM** = inflow × €15,000/person/yr | Your assumption (annual furnished-housing revenue per person); the €15k is the only modeled input | FIRM data × your assumption |
 
+### 2b. Immigrant inflow (DISTRICT-level overlay — mixable with point layers)
+A toggleable **overlay** (Layers → "Immigrant inflow") that colors each of the **~400 German
+districts (Kreise)** by immigrant settlement intensity — fine enough to actually pick a location.
+Semi-transparent, rendered in a dedicated pane *under* the pins so it combines with clients, proposed
+areas, hotels, etc. **International only ⇄ Intl + domestic** toggle (panel + click card); clicking a
+district shows both options plus the international / domestic / foreign-share figures.
+- **Data:** INKAR (BBSR Bonn), 2023, fetched live via its JSON API (`build/fetch_inkar_inflow.mjs`).
+  Values are **net migration saldo per 1,000 inhabitants** (arrivals − departures): `intl` =
+  Außenwanderungssaldo (international), `total` = Gesamtwanderungssaldo (incl. domestic), plus
+  `domestic` and foreign-population share. **FIRM**, all 400 districts.
+- **Boundaries:** opendatalab-de Kreis GeoJSON (BKG VG250, simplified to 448 KB), joined on the
+  5-digit `AGS`. 400/401 join (Eisenach 16056 merged into Wartburgkreis in 2021 → renders neutral).
+- **Honest caveat:** these are **rates (per 1,000), net, not absolute headcounts** — great for
+  "where is settlement intensity highest" (density-normalized), but for absolute "arrivals from
+  abroad" counts per district you'd need Destatis GENESIS table 12711 (registration-gated). Color is
+  capped at the 95th percentile so one outlier district doesn't wash out the map.
+- Shares the pink scale and swaps with the other area heatmaps (one at a time); distinct from the
+  "States · TAM" basemap (full-screen €-value, state-level).
+
 ### 3. Office & commercial (layer has a 3-way metric toggle: Density / Rent / Vacant m²)
 | Metric | What it shows | Source | Confidence |
 |---|---|---|---|
