@@ -26,7 +26,7 @@
   --panel-w:360px;--panel-off:calc(var(--panel-w) + 16px);
   --z-chrome:1100;--z-sheet:1200;--z-toast:1500;--z-top:2000;
   --ui-scale:1;
-  --ramp:linear-gradient(90deg,#4b2991,#872ca2,#c0369d,#ea4f88,#fa7876,#f6a97a,#edd9a3);
+  --ramp:linear-gradient(90deg,#fbe0ef,#f3a9d6,#e96fb6,#d6219b,#a51777,#6f0f55,#3d0a33);
 }
 html[data-theme="dark"]{
   --bg:#0b0d10;--s1:#16191f;--s2:#1e2229;--s3:#262b33;
@@ -75,7 +75,13 @@ button:disabled{opacity:.45;cursor:default}
 .leaflet-tooltip.client-label{display:none;background:var(--glass);backdrop-filter:blur(4px)}
 body.show-labels .leaflet-tooltip.client-label{display:block}
 .leaflet-interactive{cursor:pointer}
+.leaflet-interactive:focus{outline:none}
 body.armed .leaflet-container{cursor:crosshair!important}
+/* state name labels on the States choropleth — compact, fixed-size so they never balloon/overlap */
+.leaflet-tooltip.state-label{background:none;border:none;box-shadow:none;color:#15202b;font-weight:700;
+  font-size:11px;line-height:1.1;text-align:center;padding:0;white-space:nowrap;
+  text-shadow:0 0 2px #fff,0 0 4px #fff,-1px 0 1px #fff,1px 0 1px #fff,0 1px 1px #fff}
+body.presenting .leaflet-tooltip.state-label{font-size:14px}
 /* cluster donut */
 body.light-map{--cl-disc:rgba(255,255,255,.97);--cl-text:#111827}
 .dcl{position:relative;display:flex;align-items:center;justify-content:center;width:100%;height:100%}
@@ -182,11 +188,14 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;bac
 .bm.b-positron{background:linear-gradient(160deg,#f4f4f2,#dcdee0);color:#555;text-shadow:none}
 .bm.b-osm{background:linear-gradient(160deg,#aad3df,#f2efe9);color:#444;text-shadow:none}
 .bm.b-sat{background:linear-gradient(160deg,#2b3d28,#13301f)}
+.bm.b-states{background:linear-gradient(160deg,#872ca2,#ea4f88,#f6a97a);color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.5)}
 /* segmented */
 .seg{display:flex;border:1px solid var(--bd2);border-radius:var(--r-md);overflow:hidden}
 .seg button{flex:1;min-height:32px;font-size:11.5px;font-weight:600;color:var(--t2);background:var(--s1)}
 .seg button[aria-pressed="true"]{background:var(--accs);color:var(--acct)}
 .seg button+button{border-left:1px solid var(--bd)}
+.metric-seg{margin:1px 0 8px 22px}
+.metric-seg button{min-height:28px;font-size:11px}
 .row{display:flex;gap:8px;align-items:center;margin:9px 0}
 .row label{font-size:11.5px;color:var(--t2);white-space:nowrap;font-weight:600}
 /* mini list */
@@ -205,6 +214,20 @@ ul.mini li b{color:var(--t1)}
 #sel-card td{padding:3px 0;vertical-align:top;color:var(--t1)}
 #sel-card td:first-child{color:var(--t3);padding-right:10px;white-space:nowrap;width:1%}
 #sel-card .approx{margin-top:6px;font-size:11px;color:var(--warn);background:rgba(251,191,36,.12);border-radius:var(--r-sm);padding:5px 8px}
+/* on-map detail popup (shares the card's look) */
+.arrivio-pop .leaflet-popup-content-wrapper{padding:2px 4px}
+.arrivio-pop .leaflet-popup-content{margin:12px 14px;font-size:calc(13px * var(--ui-scale));line-height:1.4}
+.arrivio-pop .sname{font-weight:700;font-size:calc(14px * var(--ui-scale));padding-right:18px}
+.arrivio-pop .splace{font-size:11.5px;color:var(--t2);margin:2px 0 8px}
+.arrivio-pop .chip{display:inline-block;font-size:calc(12px * var(--ui-scale));padding:4px 10px;border-radius:var(--r-sm);background:rgba(90,169,255,.14);color:var(--client);font-weight:700;margin-bottom:8px}
+.arrivio-pop table{font-size:11.5px;border-collapse:collapse;width:100%;margin-bottom:4px}
+.arrivio-pop td{padding:3px 0;vertical-align:top;color:var(--t1)}
+.arrivio-pop td:first-child{color:var(--t3);padding-right:10px;white-space:nowrap;width:1%}
+.arrivio-pop .btnrow{display:flex;gap:8px;margin-top:8px}
+.arrivio-pop .btnrow .btn{flex:1}
+.arrivio-pop .approx{margin-top:6px;font-size:11px;color:var(--warn);background:rgba(251,191,36,.12);border-radius:var(--r-sm);padding:5px 8px}
+.leaflet-popup-close-button{color:var(--t3)!important;width:26px!important;height:26px!important;font-size:20px!important;padding:4px 0 0!important}
+.leaflet-popup-close-button:hover{color:var(--t1)!important;background:transparent!important}
 /* ================= FLOATING CHROME ================= */
 .glass{background:var(--glass);backdrop-filter:blur(12px) saturate(140%);-webkit-backdrop-filter:blur(12px) saturate(140%);border:1px solid var(--glass-bd);box-shadow:var(--shadow-lg)}
 /* re-blurring the chrome over a moving map costs frames — pause it during interaction */
@@ -256,6 +279,13 @@ body.map-moving .glass{backdrop-filter:none;-webkit-backdrop-filter:none}
 #legend .lg .sw.sq{border-radius:3px}
 #legend .sizekey{display:flex;align-items:flex-end;gap:6px;margin:6px 0 2px}
 #legend .sizekey i{display:block;border-radius:50%;background:var(--client);opacity:.85;border:1px solid #fff}
+/* states TAM legend */
+#states-legend{position:fixed;left:16px;bottom:calc(env(safe-area-inset-bottom,0px) + 34px);z-index:var(--z-chrome);border-radius:var(--r-lg);padding:11px 14px;width:200px}
+#states-legend h3{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--t3);margin:0 0 8px}
+#states-legend .gbar{width:100%;height:calc(8px * var(--ui-scale));border-radius:4px;background:var(--ramp)}
+#states-legend .glab{display:flex;justify-content:space-between;font-size:10px;color:var(--t3);margin:3px 0 0;font-weight:600}
+body.states-mode #legend{display:none}
+@media(max-width:640px){#states-legend{display:none}body.states-mode.presenting #states-legend{display:block}}
 /* overview pill */
 #ov-pill{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 24px);z-index:var(--z-chrome);
   height:44px;border-radius:22px;display:flex;align-items:center;gap:10px;padding:0 18px;font-size:calc(12.5px * var(--ui-scale));font-weight:600;color:var(--t1);cursor:pointer;white-space:nowrap}

@@ -28,8 +28,10 @@
   /* ============ state ============ */
   const S = {
     theme: localStorage.getItem('arrivio.theme') || 'dark',
-    base: 'dark',
-    layers: { hex: true, clients: true, labels: true, approx: true, gch: true, sem: true, stations: false },
+    base: 'voyager',
+    stateMetric: 'intl', stateMulti: false, selStates: [],
+    commMetric: 'density', hotelMetric: 'rooms',
+    layers: { hex: true, clients: true, labels: true, approx: true, gch: true, sem: true, stations: false, commercial: false, hotels: false },
     reach: { mode: 'bike-share', min: 20, origin: null, active: false },
     sel: null, selArea: null, armed: false,
     areas: []   // {id, name, km}
@@ -172,6 +174,7 @@
   /* ============ hex demand layer ============ */
   let lastHexRes = 0;
   function hexRes() { const z = M.getZoom(); return z <= 5 ? 4 : z <= 7 ? 5 : 6; }
+  let demandMaxRooms = 0;
   function computeHex(force) {
     if (typeof h3 === 'undefined') return;
     if (!S.layers.hex || M.getZoom() >= 9) { M.setHexVisible(false); syncClientVisibility(); return; }
@@ -185,10 +188,10 @@
     const vals = Object.values(cells);
     if (!vals.length) { M.clearHex(); return; }
     const max = Math.max(...vals);
-    $('legend-max').textContent = '≈' + kfmt(max) + ' rooms';
+    demandMaxRooms = max; updateLegend();
     const out = Object.entries(cells).map(([cell, v]) => {
       const t = Math.sqrt(v / max);
-      const color = RAMP[Math.min(RAMP.length - 1, Math.floor(t * RAMP.length))];
+      const color = rampColor(t);
       return { boundary: h3.cellToBoundary(cell), color, v };
     });
     M.renderHex(out);
@@ -244,7 +247,7 @@
       li.querySelector('.reach').onclick = () => { setReachOrigin({ type: 'area', id: a.id }); runReach(); };
       li.querySelector('.del').onclick = () => removeAreaWithUndo(a.id);
       const rad = li.querySelector('.arad'), out = li.querySelector('.rrow output');
-      rad.oninput = () => { a.km = +rad.value; out.textContent = a.km + ' km'; M.setAreaRadius(a.id, a.km); throttledKPIs(); writeHash(); };
+      rad.oninput = () => { a.km = +rad.value; out.textContent = a.km + ' km'; M.setAreaRadius(a.id, a.km); throttledKPIs(); if (S.selArea === a.id) throttledAreaCard(a.id); writeHash(); };
       li.onclick = e => { if (e.target.closest('button,input')) return; selectArea(a.id); };
       ul.appendChild(li);
     });
@@ -257,6 +260,7 @@
     });
   }
   const throttledKPIs = throttle(updateKPIs, 120);
+  const throttledAreaCard = throttle(id => { if (S.selArea === id) selectArea(id); }, 130); // keep the open area card in sync while dragging its radius
   function removeAreaWithUndo(id) {
     const a = S.areas.find(x => x.id === id); if (!a) return;
     const ll = M.areaLatLng(id);
@@ -267,6 +271,7 @@
     toast(a.name + ' removed', 'info', { label: 'Undo', fn: () => addAreaAt(ll, a.km, a.name) });
   }
   function selectArea(id) {
+    M.closeInfo();
     if (S.selArea) M.setAreaSelected(S.selArea, false);
     S.selArea = id; S.sel = null; M.setSelectedClient(null);
     M.setAreaSelected(id, true);
@@ -302,20 +307,21 @@
     $('panel-body').scrollTop = 0;
   }
   function closeSel() {
+    M.closeInfo();
     $('sel-card').hidden = true;
     if (S.sel && S.sel.type === 'client') M.setSelectedClient(null);
     if (S.selArea) { M.setAreaSelected(S.selArea, false); document.querySelectorAll('#area-list .arow.sel').forEach(li => li.classList.remove('sel')); }
+    if (S.selStates.length) { S.selStates = []; S.stateMulti = false; M.clearStateSelection(); }
     S.sel = null; S.selArea = null;
   }
   function selectClient(c) {
     S.sel = { type: 'client', id: c.id }; S.selArea = null;
-    M.setSelectedClient(c.id);
     setReachOrigin({ type: 'client', id: c.id });
     const A = M.getAreas();
     let nearest = null;
     A.forEach(a => { const d = hav([a.lat, a.lng], [c.lat, c.lng]); if (!nearest || d < nearest.d) nearest = { d, name: a.name }; });
     const ap = located(c) ? '' : `<div class="approx">Region-level position — not yet resolved to an exact address.</div>`;
-    showSelCard(`
+    const html = `
       <div class="sname">${esc(c.name)}</div>
       <div class="splace">${esc(c.place)} · ${esc(c.state)}</div>
       <span class="chip num">Rooms: ${esc(c.rooms_disp)}</span>
@@ -325,16 +331,174 @@
         ${nearest ? `<tr><td>Nearest area</td><td class="num"><b style="color:var(--acct)">${NF.format(Math.round(nearest.d * 10) / 10)} km</b> · ${esc(nearest.name)}</td></tr>` : ''}
       </table>
       <div class="btnrow">
-        <button class="btn primary" id="sc-reach">Reachability</button>
-        <button class="btn" id="sc-area">+ Area here</button>
-      </div>${ap}`);
-    $('sc-reach').onclick = () => runReach();
-    $('sc-area').onclick = () => addAreaAt([c.lat, c.lng]);
+        <button class="btn primary" data-act="reach">Reachability</button>
+        <button class="btn" data-act="area">+ Area here</button>
+      </div>${ap}`;
+    const wire = root => {
+      const rb = root.querySelector('[data-act="reach"]'); if (rb) rb.onclick = () => runReach();
+      const ab = root.querySelector('[data-act="area"]'); if (ab) ab.onclick = () => addAreaAt([c.lat, c.lng]);
+    };
+    if (MOBILE()) { showSelCard(html); wire($('sel-card')); M.setSelectedClient(c.id); }
+    else { M.openInfo([c.lat, c.lng], html, wire); M.setSelectedClient(c.id); }
   }
   function selectHotel(h) {
-    showSelCard(`
+    const html = `
       <div class="sname">${esc(h.name)}</div>
       <div class="splace">${esc(h.city)} · ${esc(h.chain)} partner hotel${h.resolved ? '' : ' · locating…'}</div>
-      <div class="btnrow"><button class="btn" id="sc-area">+ Area here</button></div>`);
-    $('sc-area').onclick = () => addAreaAt([h.lat, h.lng]);
+      <div class="btnrow"><button class="btn" data-act="area">+ Area here</button></div>`;
+    const wire = root => { const ab = root.querySelector('[data-act="area"]'); if (ab) ab.onclick = () => addAreaAt([h.lat, h.lng]); };
+    if (MOBILE()) { showSelCard(html); wire($('sel-card')); }
+    else M.openInfo([h.lat, h.lng], html, wire);
+  }
+  function selectCommercial(c) {
+    const est = c.est ? ` · <span style="color:var(--warn)">est: ${esc(c.est)}</span>` : '';
+    const html = `
+      <div class="sname">${esc(c.city)}</div>
+      <div class="splace">Office market${est}</div>
+      <table>
+        <tr><td>Prime rent</td><td class="num"><b>€${NF.format(c.prime)}</b> /m²·mo</td></tr>
+        ${c.avg != null ? `<tr><td>Average rent</td><td class="num">€${NF.format(c.avg)} /m²·mo</td></tr>` : ''}
+        <tr><td>Vacancy</td><td class="num">${NF.format(c.vac)}%</td></tr>
+        <tr><td>Vacant office space</td><td class="num"><b style="color:var(--acct)">${fmt(c.m2)}</b> m²</td></tr>
+      </table>
+      <div class="btnrow"><button class="btn" data-act="area">+ Area here</button></div>`;
+    const wire = root => { const ab = root.querySelector('[data-act="area"]'); if (ab) ab.onclick = () => addAreaAt([c.lat, c.lng]); };
+    if (MOBILE()) { showSelCard(html); wire($('sel-card')); }
+    else M.openInfo([c.lat, c.lng], html, wire);
+  }
+  // shared hex aggregation for the OSM density layers (light = less, dark = more)
+  function aggHex(points, res) { const cells = {}; for (const p of points) { try { const c = h3.latLngToCell(p[0], p[1], res); cells[c] = (cells[c] || 0) + p[2]; } catch (e) { } } return cells; }
+  function hexPolys(cells, max) { if (max == null) { const vals = Object.values(cells); if (!vals.length) return []; max = Math.max.apply(null, vals); } if (max <= 0) return []; return Object.entries(cells).map(([c, v]) => ({ boundary: h3.cellToBoundary(c), color: rampColor(Math.sqrt(v / max)), v })); }
+  function inViewPts(points) { const b = M.map.getBounds().pad(0.3), s = b.getSouth(), n = b.getNorth(), w = b.getWest(), e = b.getEast(); const out = []; for (const p of points) if (p[0] >= s && p[0] <= n && p[1] >= w && p[1] <= e) out.push(p); return out; }
+  function supplyRes() { const z = M.getZoom(); return z <= 6 ? 4 : z <= 8 ? 5 : z <= 10 ? 6 : 7; } // coarser than demand hex (these layers have ~22k pts)
+  function globalMaxFor(points, res, cache) { if (cache[res] != null) return cache[res]; const v = Object.values(aggHex(points, res)); return cache[res] = v.length ? Math.max.apply(null, v) : 1; }
+  function aggHexAvg(points, res) { const sum = {}, cnt = {}; for (const p of points) { try { const c = h3.latLngToCell(p[0], p[1], res); sum[c] = (sum[c] || 0) + p[2]; cnt[c] = (cnt[c] || 0) + 1; } catch (e) { } } const out = {}; for (const c in sum) out[c] = sum[c] / cnt[c]; return out; }
+  function hexPolysRange(cells, min, max) { const d = (max - min) || 1; return Object.entries(cells).map(([c, v]) => ({ boundary: h3.cellToBoundary(c), color: rampColor((v - min) / d), v })); }
+  const _commMax = {}, _hotelMax = {};
+  const _pp = (HOTEL_PRICE_GRID && HOTEL_PRICE_GRID.length) ? HOTEL_PRICE_GRID.map(p => p[2]) : [80, 180];
+  const PRICE_LO = Math.min.apply(null, _pp), PRICE_HI = Math.max.apply(null, _pp);
+  // inverse-distance-weighted interpolation from the city market anchors → fills rent/vacancy
+  // across all office locations (modeled, anchored to real broker figures)
+  function idw(la, ln, anchors) { let num = 0, den = 0; for (const a of anchors) { const dx = (la - a.lat) * 111, dy = (ln - a.lng) * 70, d2 = dx * dx + dy * dy; if (d2 < 1) return a.v; const w = 1 / (d2 * d2); num += w * a.v; den += w; } return den ? num / den : 0; }
+  function commAnchors(metric) { return COMMERCIAL_DATA.map(c => ({ lat: c.lat, lng: c.lng, v: metric === 'vacant' ? (c.m2 || 0) : c.prime })); }
+  function renderCommDots() { M.renderCommercialDots(COMMERCIAL_DATA, () => ({ radius: 5, color: '#1d2733', opacity: 0.9 }), selectCommercial, S.layers.commercial); }
+  function computeCommercial() {
+    if (typeof h3 === 'undefined') return;
+    if (!S.layers.commercial) { M.setHexLayerVisible('commercial', false); M.setCommercialDotsVisible(false); return; }
+    renderCommDots(); M.setCommercialDotsVisible(true);
+    const res = supplyRes(), cells = aggHex(inViewPts(COMMERCIAL_GRID), res);
+    if (S.commMetric === 'density') {
+      M.renderHexLayer('commercial', hexPolys(cells, globalMaxFor(COMMERCIAL_GRID, res, _commMax)), true);
+    } else {
+      const anchors = commAnchors(S.commMetric), vals = anchors.map(a => a.v), lo = Math.min.apply(null, vals), hi = Math.max.apply(null, vals), d = (hi - lo) || 1;
+      const polys = Object.keys(cells).map(cell => { const ctr = h3.cellToLatLng(cell); return { boundary: h3.cellToBoundary(cell), color: rampColor((idw(ctr[0], ctr[1], anchors) - lo) / d) }; });
+      M.renderHexLayer('commercial', polys, true);
+    }
+  }
+  function initCommercialDots() { renderCommDots(); }
+  // hotels (OSM small / independent) — room-availability hexmap + individual points on zoom-in
+  const estAdr = h => (h.s >= 5 ? 250 : h.s >= 4 ? 135 : h.s >= 3 ? 105 : h.s >= 1 ? 72 : 95);
+  function selectHotelOsm(h) {
+    const html = `
+      <div class="sname">${esc(h.n)}</div>
+      <div class="splace">${h.c ? esc(h.c) + ' · ' : ''}small / independent hotel</div>
+      <table>
+        <tr><td>Rooms</td><td class="num">≈${fmt(h.r)}${h.s ? '' : ' <span style="color:var(--t3)">(est)</span>'}</td></tr>
+        ${h.s ? `<tr><td>Stars</td><td class="num">${NF.format(h.s)}★</td></tr>` : ''}
+        <tr><td>Est. room rate</td><td class="num"><b style="color:var(--acct)">≈€${fmt(estAdr(h))}</b>/night</td></tr>
+      </table>
+      <div class="btnrow"><button class="btn" data-act="area">+ Area here</button></div>
+      <p class="hint" style="margin-top:6px">Location: OpenStreetMap. Rooms/rate are modeled estimates.</p>`;
+    const wire = root => { const ab = root.querySelector('[data-act="area"]'); if (ab) ab.onclick = () => addAreaAt([h.lat, h.lng]); };
+    if (MOBILE()) { showSelCard(html); wire($('sel-card')); }
+    else M.openInfo([h.lat, h.lng], html, wire);
+  }
+  function computeHotels() {
+    if (typeof h3 === 'undefined') return;
+    if (!S.layers.hotels) { M.setHexLayerVisible('hotelrooms', false); M.clearHotelPoints(); return; }
+    if (M.getZoom() >= 10) {
+      M.setHexLayerVisible('hotelrooms', false);
+      const b = M.map.getBounds();
+      const pts = HOTELS_OSM.filter(h => b.contains([h.lat, h.lng])).slice(0, 1500);
+      M.renderHotelPoints(pts, selectHotelOsm, true);
+    } else {
+      M.clearHotelPoints();
+      const res = supplyRes();
+      if (S.hotelMetric === 'price') M.renderHexLayer('hotelrooms', hexPolysRange(aggHexAvg(inViewPts(HOTEL_PRICE_GRID), res), PRICE_LO, PRICE_HI), true);
+      else M.renderHexLayer('hotelrooms', hexPolys(aggHex(inViewPts(HOTEL_GRID), res), globalMaxFor(HOTEL_GRID, res, _hotelMax)), true);
+    }
+  }
+
+  /* ============ states / TAM ============ */
+  const STATE_SHORT = {
+    "Nordrhein-Westfalen": "NRW", "Bayern": "Bayern", "Baden-Württemberg": "Baden-Württ.",
+    "Niedersachsen": "Niedersachsen", "Hessen": "Hessen", "Berlin": "Berlin",
+    "Rheinland-Pfalz": "Rhld-Pfalz", "Sachsen": "Sachsen", "Schleswig-Holstein": "Schl.-Holstein",
+    "Hamburg": "Hamburg", "Brandenburg": "Brandenburg", "Sachsen-Anhalt": "Sa.-Anhalt",
+    "Thüringen": "Thüringen", "Mecklenburg-Vorpommern": "Meckl.-Vorp.", "Bremen": "Bremen", "Saarland": "Saarland"
+  };
+  const eurShort = v => v >= 1e9 ? '€' + (v / 1e9).toFixed(2).replace('.', ',') + ' bn' : '€' + fmt(v / 1e6) + ' m';
+  const stateIntl = name => (STATES_DATA[name] || {}).intl || 0;
+  const stateTotal = name => (STATES_DATA[name] || {}).total || 0;
+  const stateInflow = (name, metric) => metric === 'total' ? stateTotal(name) : stateIntl(name);
+  const stateTAM = (name, metric) => stateInflow(name, metric) * TAM_PER_PERSON;
+  const statesValueFn = () => (name => stateTAM(name, S.stateMetric));
+  const stateLabelFn = () => (name => esc(STATE_SHORT[name] || name)); // name only — keeps labels compact, no overlap
+  const statesFillOpacity = () => ((S.layers.clients || S.layers.hex) ? 0.3 : 0.62);
+  function setStateMetric(metric) {
+    S.stateMetric = metric;
+    document.querySelectorAll('#state-metric [data-metric], #card-metric [data-metric]').forEach(x => x.setAttribute('aria-pressed', x.dataset.metric === metric));
+    if (S.base === 'states') { M.restyleStates(statesValueFn(), stateLabelFn(), statesFillOpacity()); updateStatesLegend(); }
+    if (S.selStates.length) renderStateCard();
+  }
+  function selectState(name) {
+    if (!STATES_DATA[name]) return;
+    if (S.stateMulti) { const i = S.selStates.indexOf(name); if (i >= 0) S.selStates.splice(i, 1); else S.selStates.push(name); }
+    else S.selStates = [name];
+    M.setSelectedStates(S.selStates);
+    if (S.selStates.length) renderStateCard(); else closeSel();
+  }
+  function renderStateCard() {
+    const metric = S.stateMetric, isT = metric === 'total';
+    const seg = `<div class="seg" id="card-metric" role="group" aria-label="Inflow basis" style="margin:2px 0 10px">
+        <button data-metric="intl" aria-pressed="${!isT}">International</button>
+        <button data-metric="total" aria-pressed="${isT}">+ Domestic</button></div>`;
+    const multiBtn = `<button class="btn" id="state-multi" aria-pressed="${S.stateMulti}" style="width:100%;margin-top:8px">${S.stateMulti ? '✓ Comparing — click states to add/remove' : '+ Compare multiple states'}</button>`;
+    let html;
+    if (S.selStates.length > 1) {
+      const sorted = S.selStates.slice().sort((a, b) => stateTAM(b, metric) - stateTAM(a, metric));
+      const total = sorted.reduce((s, n) => s + stateTAM(n, metric), 0);
+      const rows = sorted.map(n => `<tr><td>${esc(STATE_SHORT[n] || n)}</td><td class="num">${eurShort(stateTAM(n, metric))}</td></tr>`).join('');
+      html = `
+        <div class="sname">${S.selStates.length} states · combined TAM</div>
+        <div class="splace">${isT ? 'Total (incl. domestic)' : 'International'} inflow · €${TAM_PER_PERSON / 1000}k per person / year</div>
+        ${seg}
+        <table>
+          <tr><td><b>Combined TAM</b></td><td class="num"><b style="color:var(--acct);font-size:1.18em">${eurShort(total)}</b></td></tr>
+          ${rows}
+        </table>
+        ${multiBtn}
+        <p class="hint" style="margin-top:8px">Click states on the map to add or remove. TAM = inflow × €${TAM_PER_PERSON / 1000}k/yr.</p>`;
+    } else {
+      const name = S.selStates[0], d = STATES_DATA[name];
+      const tam = stateTAM(name, metric), intlTAM = stateIntl(name) * TAM_PER_PERSON, totTAM = stateTotal(name) * TAM_PER_PERSON;
+      const comp = INFLOW_COMPOSITION.map(c => `${c.label} ${c.pct}%`).join(' · ');
+      let rows = `<tr><td>Population</td><td class="num">${fmt(d.pop)}</td></tr>
+        <tr><td>Inflow / yr (${isT ? 'total' : 'international'})</td><td class="num">${fmt(stateInflow(name, metric))}</td></tr>
+        <tr><td><b>TAM · ${isT ? '+ domestic' : 'international'}</b></td><td class="num"><b style="color:var(--acct);font-size:1.15em">${eurShort(tam)}</b></td></tr>`;
+      if (isT) rows += `<tr><td style="color:var(--t3)">· of which international</td><td class="num" style="color:var(--t2)">${eurShort(intlTAM)}</td></tr>
+        <tr><td style="color:var(--t3)">· of which domestic</td><td class="num" style="color:var(--t2)">${eurShort(totTAM - intlTAM)}</td></tr>`;
+      html = `
+        <div class="sname">${esc(name)}</div>
+        <div class="splace">Total Addressable Market · €${TAM_PER_PERSON / 1000}k per person / year</div>
+        ${seg}
+        <table>${rows}</table>
+        ${multiBtn}
+        <p class="hint" style="margin-top:8px">National inflow mix: ${esc(comp)}.</p>
+        <p class="hint" style="margin-top:4px">Top origins: ${esc(INFLOW_TOP_ORIGINS)}. TAM = inflow × €${TAM_PER_PERSON / 1000}k/yr. Source: Destatis 2024.</p>`;
+    }
+    showSelCard(html);
+    document.querySelectorAll('#card-metric [data-metric]').forEach(b => b.onclick = () => setStateMetric(b.dataset.metric));
+    const mb = document.getElementById('state-multi');
+    if (mb) mb.onclick = () => { S.stateMulti = !S.stateMulti; renderStateCard(); };
   }

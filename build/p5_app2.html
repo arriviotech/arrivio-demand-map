@@ -131,7 +131,7 @@
     for (const q of cand) {
       if (reachAbort) break;
       done++;
-      $('reach-out').innerHTML = `<p class="hint">Checking transit ${done}/${cand.length}…</p><div class="skel" style="width:${30 + done * 3}%"></div>`;
+      $('reach-out').innerHTML = `<p class="hint">Public transport (bus, tram, U/S-Bahn, regional rail via Deutsche Bahn) — checking travel time to nearby client ${done} of ${cand.length}…</p><div class="skel" style="width:${30 + done * 3}%"></div>`;
       try {
         const u = 'https://v6.db.transport.rest/journeys?from.latitude=' + o.ll[0] + '&from.longitude=' + o.ll[1] + '&from.address=Origin&to.latitude=' + q.x.lat + '&to.longitude=' + q.x.lng + '&to.address=Dest&results=1';
         const r = await fetch(u);
@@ -247,24 +247,49 @@
   /* ============ layers & basemap ============ */
   function eyeIcon(btn, on) { btn.setAttribute('aria-pressed', on); btn.querySelector('use').setAttribute('href', on ? '#i-eye' : '#i-eye-off'); }
   function setLayer(key, on) {
+    // the three density heatmaps are mutually exclusive — only one renders at a time
+    // (avoids stacking same-colored dense layers, and keeps the map smooth)
+    if (on && (key === 'hex' || key === 'commercial' || key === 'hotels')) {
+      ['hex', 'commercial', 'hotels'].forEach(k => { if (k !== key && S.layers[k]) setLayer(k, false); });
+    }
     S.layers[key] = on;
     document.querySelectorAll(`[data-layer="${key}"]`).forEach(b => eyeIcon(b, on));
     document.querySelectorAll(`[data-lrow="${key}"]`).forEach(r => r.classList.toggle('off', !on));
     document.querySelectorAll(`[data-chip="${key === 'gch' || key === 'sem' ? 'hotels' : key}"]`).forEach(c => c.setAttribute('aria-pressed', key === 'gch' || key === 'sem' ? (S.layers.gch || S.layers.sem) : on));
-    if (key === 'hex') computeHex();
-    if (key === 'clients') syncClientVisibility();
+    if (key === 'hex') { computeHex(); if (S.base === 'states') M.restyleStates(statesValueFn(), stateLabelFn(), statesFillOpacity()); }
+    if (key === 'clients') { syncClientVisibility(); if (S.base === 'states') M.restyleStates(statesValueFn(), stateLabelFn(), statesFillOpacity()); }
     if (key === 'labels') M.setLabels(on);
     if (key === 'approx') { renderClientsNow(); updateKPIs(); computeHex(true); renderAreaList(); }
     if (key === 'gch' || key === 'sem') renderHotelsNow();
     if (key === 'stations') loadStations(on);
+    if (key === 'commercial') { $('comm-metric').hidden = !on; computeCommercial(); }
+    if (key === 'hotels') { $('hotel-metric').hidden = !on; computeHotels(); }
     updateLegend(); writeHash();
   }
   function setBase(key) {
     S.base = key;
-    M.setBase(key);
-    document.body.classList.toggle('light-map', key === 'voyager' || key === 'positron' || key === 'osm');
+    const states = key === 'states';
+    document.body.classList.toggle('states-mode', states);
+    if (states) {
+      M.setBase('positron');
+      S.selStates = []; S.stateMulti = false; M.clearStateSelection();
+      M.showStates({ valueFn: statesValueFn(), labelFn: stateLabelFn(), onClick: selectState, fillOpacity: statesFillOpacity() });
+      computeHex(); // respect the hexmap toggle; it overlays on top of the softened choropleth
+      document.body.classList.add('light-map');
+      updateStatesLegend();
+    } else {
+      M.hideStates();
+      M.setBase(key);
+      document.body.classList.toggle('light-map', key === 'voyager' || key === 'positron' || key === 'osm');
+      computeHex();
+    }
+    $('states-legend').hidden = !states;
     document.querySelectorAll('[data-base]').forEach(b => b.setAttribute('aria-pressed', b.dataset.base === key));
     writeHash();
+  }
+  function updateStatesLegend() {
+    const max = M.statesMax();
+    $('states-legend-max').textContent = max >= 1e9 ? '€' + (max / 1e9).toFixed(1) + ' bn' : '€' + Math.round(max / 1e6) + ' m';
   }
 
   /* ============ legend ============ */
@@ -276,11 +301,27 @@
     if (S.areas.length) cats.push(`<div class="lg"><span class="sw" style="background:var(--acc)"></span>Arrivio proposed area</div>`);
     if (S.layers.gch) cats.push(`<div class="lg"><span class="sw sq" style="background:var(--gch)"></span>GCH hotel</div>`);
     if (S.layers.sem) cats.push(`<div class="lg"><span class="sw sq" style="background:var(--sem)"></span>Seminaris hotel</div>`);
-    if (S.reach.active) cats.push(`<div class="lg"><span class="sw" style="background:${MODE_COLOR[S.reach.mode]}"></span>Reach ≤ ${S.reach.min} min (${MODE_LABEL[S.reach.mode]})</div>`);
+    if (S.layers.commercial && S.commMetric !== 'density') cats.push(`<div class="lg"><span class="sw" style="background:#1d2733"></span>City dot — click for exact rent / vacancy</div>`);
+    if (S.reach.active) cats.push(`<div class="lg"><span class="sw" style="background:${MODE_COLOR[S.reach.mode]}"></span>Reach within ${S.reach.min} min (${MODE_LABEL[S.reach.mode]})</div>`);
     $('legend-cats').innerHTML = cats.join('');
-    const gv = $('legend').querySelector('.gbar'); gv.style.display = S.layers.hex ? 'block' : 'none';
-    $('legend').querySelector('.glab').style.display = S.layers.hex ? 'flex' : 'none';
-    $('legend').querySelector('h3').textContent = S.layers.hex ? 'Room demand' : 'Legend';
+    // gradient scale for whichever heatmap is active (light = less, dark = more)
+    let lTitle = 'Legend', lLo = '', lHi = '', lBar = false;
+    if (S.layers.hex) { lTitle = 'Client room demand'; lLo = 'low'; lHi = '≈' + kfmt(demandMaxRooms) + ' rooms'; lBar = true; }
+    else if (S.layers.commercial) {
+      lBar = true;
+      if (S.commMetric === 'rent') { const v = COMMERCIAL_DATA.map(c => c.prime); lTitle = 'Office prime rent'; lLo = '€' + Math.min.apply(null, v) + '/m²'; lHi = '€' + Math.max.apply(null, v) + '/m²'; }
+      else if (S.commMetric === 'vacant') { const v = COMMERCIAL_DATA.map(c => c.m2 || 0); lTitle = 'Vacant office space'; lLo = 'low'; lHi = '≈' + fmt(Math.max.apply(null, v)) + ' m²'; }
+      else { lTitle = 'Office / commercial sites'; lLo = 'fewer'; lHi = 'more'; }
+    }
+    else if (S.layers.hotels) {
+      lBar = true;
+      if (S.hotelMetric === 'price') { lTitle = 'Hotel nightly rate'; lLo = '≈€' + PRICE_LO; lHi = '≈€' + PRICE_HI; }
+      else { lTitle = 'Hotel rooms (small / family)'; lLo = 'fewer'; lHi = 'more'; }
+    }
+    $('legend-title').textContent = lTitle;
+    $('legend-min').textContent = lLo; $('legend-max').textContent = lHi;
+    $('legend').querySelector('.gbar').style.display = lBar ? 'block' : 'none';
+    $('legend').querySelector('.glab').style.display = lBar ? 'flex' : 'none';
   }
 
   /* ============ placement arming ============ */
@@ -472,6 +513,11 @@
       else setLayer(k, !S.layers[k]);
     });
     document.querySelectorAll('[data-base]').forEach(b => b.onclick = () => { setBase(b.dataset.base); closePops(); });
+    // office & hotel metric toggles
+    document.querySelectorAll('#comm-metric [data-cm]').forEach(b => b.onclick = () => { S.commMetric = b.dataset.cm; document.querySelectorAll('#comm-metric [data-cm]').forEach(x => x.setAttribute('aria-pressed', x === b)); computeCommercial(); updateLegend(); });
+    document.querySelectorAll('#hotel-metric [data-hm]').forEach(b => b.onclick = () => { S.hotelMetric = b.dataset.hm; document.querySelectorAll('#hotel-metric [data-hm]').forEach(x => x.setAttribute('aria-pressed', x === b)); computeHotels(); updateLegend(); });
+    // states TAM metric toggle (legend) — shares setStateMetric with the in-card toggle
+    document.querySelectorAll('#state-metric [data-metric]').forEach(b => b.onclick = () => setStateMetric(b.dataset.metric));
     // symbol size
     const applySym = throttle(() => { renderClientsNow(); renderHotelsNow(); updateLegend(); }, 200);
     $('sym-size').oninput = e => {
@@ -519,8 +565,8 @@
       if (S.armed) { addAreaAt(ll); armAdd(false); }
       else { closeSel(); closePops(); }
     },
-    onZoom: debounce(() => computeHex(), 120),
-    onMove() { },
+    onZoom: debounce(() => { computeHex(); computeCommercial(); computeHotels(); }, 120),
+    onMove: throttle(() => { if (S.layers.commercial) computeCommercial(); if (S.layers.hotels) computeHotels(); }, 250),
     onAreaDrag: throttle((id, ll) => {
       const a = S.areas.find(x => x.id === id); if (!a) return;
       const c = coverageOf(ll[0], ll[1], a.km, visible());
@@ -536,7 +582,8 @@
       if (a) { const ll = M.areaLatLng(id); const c = coverageOf(ll[0], ll[1], a.km, visible()); announce(a.name + ': ' + c.n + ' clients, about ' + Math.round(c.rooms) + ' rooms in radius'); }
       if (S.selArea === id) selectArea(id);
     },
-    onAreaClick(id) { selectArea(id); }
+    onAreaClick(id) { selectArea(id); },
+    onInfoClose() { M.setSelectedClient(null); }
   });
   applyTheme(S.theme, false);
   setBase(S.base);
@@ -567,6 +614,9 @@
   setReachOrigin(null);
   applyHotelCache();
   renderHotelsNow();
+  initCommercialDots();
+  computeCommercial();
+  computeHotels();
   setTimeout(geocodeHotels, 2500);
   initShot();
   if (MOBILE()) sheetTo('peek');

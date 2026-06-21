@@ -1,0 +1,64 @@
+<script>
+/* ============ States layer data (see ARRIVIO_DATA_SOURCES.md) ============
+   intl  = gross immigration from abroad, 2024 (Destatis 12711-12, FIRM)
+   total = total in-migration incl. from other German states, 2024 (Destatis 12711-12, FIRM)
+   pop   = population 31.12.2024 (Destatis, FIRM)
+   TAM   = inflow x EUR 15,000/person/yr (intl or total per the toggle). */
+const DE_STATES_GEO = __STATES_GEO__;
+const STATES_DATA = {
+  "Nordrhein-Westfalen":      { intl: 344489, total: 479893, pop: 18034454 },
+  "Bayern":                   { intl: 298332, total: 416582, pop: 13248928 },
+  "Baden-Württemberg":        { intl: 239602, total: 353071, pop: 11245898 },
+  "Niedersachsen":            { intl: 150474, total: 259802, pop: 8004489 },
+  "Hessen":                   { intl: 141353, total: 225314, pop: 6280793 },
+  "Berlin":                   { intl: 121711, total: 186222, pop: 3685265 },
+  "Rheinland-Pfalz":          { intl: 83355,  total: 149544, pop: 4129569 },
+  "Sachsen":                  { intl: 59732,  total: 105680, pop: 4042422 },
+  "Schleswig-Holstein":       { intl: 50394,  total: 105561, pop: 2959517 },
+  "Hamburg":                  { intl: 44698,  total: 95603,  pop: 1862565 },
+  "Brandenburg":              { intl: 32521,  total: 86342,  pop: 2556747 },
+  "Sachsen-Anhalt":           { intl: 36368,  total: 66166,  pop: 2135597 },
+  "Thüringen":                { intl: 33760,  total: 57787,  pop: 2100277 },
+  "Mecklenburg-Vorpommern":   { intl: 22574,  total: 47514,  pop: 1573597 },
+  "Bremen":                   { intl: 16585,  total: 34299,  pop: 704881 },
+  "Saarland":                 { intl: 18244,  total: 29308,  pop: 1012141 }
+};
+const TAM_PER_PERSON = 15000;          // EUR/person/yr (annual furnished-housing revenue assumption)
+// national composition of immigration (FIRM, 2023/2024) — shown in the state card footer
+const INFLOW_COMPOSITION = [
+  { label: "EU free movement", pct: 33 },
+  { label: "Humanitarian (protected)", pct: 21 },
+  { label: "Asylum procedure", pct: 17 },
+  { label: "Family reunification", pct: 10 },
+  { label: "Work / skilled worker", pct: 6 },
+  { label: "Study", pct: 5 },
+  { label: "Other", pct: 8 }
+];
+const INFLOW_TOP_ORIGINS = "Ukraine, Romania, Turkey, Syria, Poland, India";
+
+/* ============ Office / commercial market (see ARRIVIO_DATA_SOURCES.md) ============
+   prime/avg = EUR/m²/month, vac = vacancy %, m2 = vacant office space (m²). FIRM from broker
+   reports (BNP Paribas RE Buromarkt DE Q4 2025; Colliers Top-7 Q2 2025; JLL/C&W). "est" flags
+   modeled values. Bubble SIZE = vacant m² (availability), COLOR = prime rent. */
+const COMMERCIAL_DATA = [
+  { city: "Berlin",      lat: 52.520, lng: 13.405, prime: 47.0, avg: 27.0, vac: 8.9,  m2: 1931000 },
+  { city: "München",     lat: 48.137, lng: 11.575, prime: 58.0, avg: 26.6, vac: 7.9,  m2: 1824000 },
+  { city: "Frankfurt",   lat: 50.110, lng: 8.682,  prime: 54.0, avg: 29.0, vac: 12.1, m2: 1879000 },
+  { city: "Hamburg",     lat: 53.551, lng: 9.993,  prime: 38.0, avg: 21.3, vac: 6.3,  m2: 924000 },
+  { city: "Düsseldorf",  lat: 51.227, lng: 6.773,  prime: 46.0, avg: 19.4, vac: 12.7, m2: 1275000 },
+  { city: "Köln",        lat: 50.937, lng: 6.960,  prime: 33.5, avg: 21.7, vac: 6.3,  m2: 497000 },
+  { city: "Stuttgart",   lat: 48.776, lng: 9.182,  prime: 37.0, avg: 21.1, vac: 6.4,  m2: 581000, est: "m²" },
+  { city: "Leipzig",     lat: 51.340, lng: 12.375, prime: 21.0, avg: null, vac: 5.7,  m2: 230000 },
+  { city: "Essen",       lat: 51.456, lng: 7.012,  prime: 20.0, avg: null, vac: 8.9,  m2: 287000 },
+  { city: "Hannover",    lat: 52.376, lng: 9.732,  prime: 24.5, avg: null, vac: 6.3,  m2: 341100 },
+  { city: "Nürnberg",    lat: 49.452, lng: 11.077, prime: 19.5, avg: 12.5, vac: 8.9,  m2: 373200 },
+  { city: "Dresden",     lat: 51.050, lng: 13.737, prime: 23.0, avg: 13.4, vac: 4.3,  m2: 130000 },
+  { city: "Dortmund",    lat: 51.514, lng: 7.466,  prime: 23.0, avg: 14.6, vac: 4.2,  m2: 136000 },
+  { city: "Bonn",        lat: 50.737, lng: 7.098,  prime: 24.0, avg: null, vac: 3.5,  m2: 140960 },
+  { city: "Münster",     lat: 51.960, lng: 7.626,  prime: 22.0, avg: 14.7, vac: 2.9,  m2: 68600 },
+  { city: "Mannheim",    lat: 49.488, lng: 8.466,  prime: 22.0, avg: null, vac: 6.4,  m2: 120000, est: "m²" },
+  { city: "Bochum",      lat: 51.482, lng: 7.216,  prime: 16.5, avg: null, vac: 6.0,  m2: 72000, est: "m²" },
+  { city: "Bremen",      lat: 53.079, lng: 8.802,  prime: 16.5, avg: null, vac: 3.0,  m2: 30000, est: "rent, m²" },
+  { city: "Karlsruhe",   lat: 49.007, lng: 8.404,  prime: 16.5, avg: null, vac: 3.5,  m2: 110000, est: "rent, vac" }
+];
+</script>

@@ -69,6 +69,11 @@ L.Map.SmoothWheelZoom = L.Handler.extend({
 });
 L.Map.addInitHook('addHandler', 'smoothWheelZoom', L.Map.SmoothWheelZoom);
 
+/* ============ sequential ramp (shared by hex + states choropleth) ============
+   light = low / less, dark = high / more — brand-pink family, blends with the UI accent. */
+const RAMP7 = ['#fbe0ef', '#f3a9d6', '#e96fb6', '#d6219b', '#a51777', '#6f0f55', '#3d0a33'];
+function rampColor(t) { t = t < 0 ? 0 : t > 1 ? 1 : t; return RAMP7[Math.min(6, Math.floor(t * 7))]; }
+
 /* ============ Map adapter (Leaflet) ============ */
 const M = {
   areas: [], _aid: 1, _labels: true, geoDelay: 300, _clientMarkers: {}, _selClient: null,
@@ -77,13 +82,14 @@ const M = {
     this.map = L.map('map', {
       zoomControl: false, minZoom: 5, zoomSnap: 0.25,
       scrollWheelZoom: false, smoothWheelZoom: !o.reduced, smoothSensitivity: 2,
-      tapTolerance: 40, attributionControl: false,
+      tapTolerance: 40, attributionControl: false, closePopupOnClick: false,
       zoomAnimation: !o.reduced, markerZoomAnimation: !o.reduced
     }).setView(o.center, o.zoom);
     if (o.reduced) this.map.scrollWheelZoom.enable();
     // pause expensive chrome effects (backdrop blur) while the map is animating
     this.map.on('movestart zoomstart', () => document.body.classList.add('map-moving'));
     this.map.on('moveend zoomend', () => document.body.classList.remove('map-moving'));
+    this.map.on('popupclose', () => { if (this._infoOpen) { this._infoOpen = false; this._o.onInfoClose && this._o.onInfoClose(); } });
     L.control.attribution({ position: 'bottomleft', prefix: false }).addTo(this.map);
     const t = (url, attr, opts) => L.tileLayer(url, Object.assign({ maxZoom: 20, attribution: attr, crossOrigin: 'anonymous', keepBuffer: 3 }, opts));
     this.bases = {
@@ -95,7 +101,7 @@ const M = {
     };
     this._base = null;
     this._canvas = L.canvas({ padding: 0.3 });
-    this.map.on('click', e => o.onClick && o.onClick([e.latlng.lat, e.latlng.lng]));
+    this.map.on('click', e => { if (this._skipMapClick) { this._skipMapClick = false; return; } o.onClick && o.onClick([e.latlng.lat, e.latlng.lng]); });
     this.map.on('zoomend', () => { this._applyLabels(); o.onZoom && o.onZoom(this.map.getZoom()); });
     this.map.on('moveend', () => o.onMove && o.onMove());
     o.onReady && o.onReady();
@@ -112,6 +118,15 @@ const M = {
     reduced ? this.map.fitBounds(b, { padding: [50, 50] }) : this.map.flyToBounds(b, { padding: [50, 50], duration: 1.5 });
   },
   panInsets(tl, br) { this._padTL = tl; this._padBR = br; },
+  openInfo(ll, html, onOpen) {
+    this._infoOpen = true;
+    this.map.once('popupopen', e => { if (onOpen) { try { onOpen(e.popup.getElement().querySelector('.leaflet-popup-content')); } catch (_) { } } });
+    L.popup({ maxWidth: 300, minWidth: 230, className: 'arrivio-pop', autoPanPadding: [60, 90], autoClose: true, closeOnClick: false }).setLatLng(ll).setContent(html).openOn(this.map);
+  },
+  closeInfo() { if (this.map) this.map.closePopup(); },
+  // a click on a marker also bubbles to the map 'click'; flag it so the map handler
+  // doesn't immediately close the popup/selection we just opened
+  _markerHit() { this._skipMapClick = true; setTimeout(() => { this._skipMapClick = false; }, 0); },
   setLabels(b) { this._labels = b; this._applyLabels(); },
   _applyLabels() {
     const on = this._labels && this.map.getZoom() >= 11;
@@ -161,7 +176,7 @@ const M = {
         rooms: c.rooms_mid || 0
       });
       m._cid = c.id;
-      m.on('click', () => onClick(c));
+      m.on('click', () => { this._markerHit(); onClick(c); });
       m.on('mouseover', () => { if (this._selClient !== c.id) { m.setStyle({ weight: 3 }); m.setRadius(s.radiusPx * 1.2); } m.bringToFront(); });
       m.on('mouseout', () => { if (this._selClient !== c.id) { m.setStyle({ weight: s.exact ? 1.6 : 2 }); m.setRadius(s.radiusPx); } });
       this._clientMarkers[c.id] = { m, s, c };
@@ -204,6 +219,89 @@ const M = {
     if (!b && this.map.hasLayer(this.hexL)) this.map.removeLayer(this.hexL);
   },
 
+  /* ---- States choropleth (TAM) ---- */
+  showStates(opts) {
+    // opts: { valueFn, labelFn, onClick, fillOpacity }
+    const o = opts || this._statesOpts; this._statesOpts = o;
+    this.hideStates();
+    const vals = DE_STATES_GEO.features.map(f => o.valueFn(f.properties.name)).filter(v => v > 0);
+    this._statesMax = Math.max.apply(null, vals.concat([1]));
+    const fill = o.fillOpacity == null ? 0.6 : o.fillOpacity;
+    const self = this;
+    this._selStates = this._selStates || [];
+    this._baseStyle = nm => ({ color: '#ffffff', weight: 1.2, fillColor: rampColor(Math.sqrt((o.valueFn(nm) || 0) / self._statesMax)), fillOpacity: fill });
+    this.statesL = L.geoJSON(DE_STATES_GEO, {
+      style: f => self._baseStyle(f.properties.name),
+      onEachFeature: (f, layer) => {
+        const nm = f.properties.name;
+        layer._stateName = nm;
+        layer.on('click', () => { self._markerHit(); o.onClick(nm); });
+        // hover is transient only (NO bringToFront — that reorders the SVG and makes
+        // Leaflet miss mouseout, which is what made hovered states look "selected")
+        layer.on('mouseover', () => { if (self._selStates.indexOf(nm) < 0) layer.setStyle({ weight: 2.4, color: '#d6219b' }); });
+        layer.on('mouseout', () => self._applyStateStyle(layer));
+        if (o.labelFn) layer.bindTooltip(o.labelFn(nm), { permanent: true, direction: 'center', className: 'state-label', interactive: false });
+      }
+    }).addTo(this.map);
+    this.statesL.eachLayer(l => self._applyStateStyle(l)); // re-apply the selection set after a rebuild
+    this._bringSelectedFront();
+  },
+  _applyStateStyle(layer) {
+    if (this._selStates && this._selStates.indexOf(layer._stateName) >= 0) layer.setStyle({ weight: 4, color: '#d6219b' });
+    else layer.setStyle(this._baseStyle(layer._stateName));
+  },
+  _bringSelectedFront() { if (this.statesL) this.statesL.eachLayer(l => { if (this._selStates.indexOf(l._stateName) >= 0) l.bringToFront(); }); },
+  setSelectedStates(names) { this._selStates = names || []; if (this.statesL) { this.statesL.eachLayer(l => this._applyStateStyle(l)); this._bringSelectedFront(); } },
+  restyleStates(valueFn, labelFn, fillOpacity) {
+    if (!this.statesL) return;
+    const o = this._statesOpts; o.valueFn = valueFn || o.valueFn; if (labelFn) o.labelFn = labelFn; if (fillOpacity != null) o.fillOpacity = fillOpacity;
+    this.showStates(o);
+  },
+  hideStates() { if (this.statesL) { this.map.removeLayer(this.statesL); this.statesL = null; } },
+  clearStateSelection() { this._selStates = []; if (this.statesL) this.statesL.eachLayer(l => this._applyStateStyle(l)); },
+  statesMax() { return this._statesMax || 1; },
+
+  /* ---- generic named hex layers (commercial concentration, hotel rooms) ---- */
+  renderHexLayer(key, cells, visible) {
+    this._hx = this._hx || {};
+    if (this._hx[key]) this.map.removeLayer(this._hx[key]);
+    this._hx[key] = L.layerGroup(cells.map(c => L.polygon(c.boundary, { renderer: this._canvas, color: c.color, weight: 1, opacity: 0.65, fillColor: c.color, fillOpacity: 0.5, interactive: false })));
+    if (visible) this._hx[key].addTo(this.map);
+  },
+  setHexLayerVisible(key, b) { if (!this._hx || !this._hx[key]) return; if (b && !this.map.hasLayer(this._hx[key])) this.map.addLayer(this._hx[key]); if (!b && this.map.hasLayer(this._hx[key])) this.map.removeLayer(this._hx[key]); },
+  hexLayerExists(key) { return !!(this._hx && this._hx[key]); },
+
+  /* ---- office market dots (rent/vacancy detail, click) ---- */
+  renderCommercialDots(list, styleFn, onClick, visible) {
+    if (this.commDotL) this.map.removeLayer(this.commDotL);
+    const self = this, sc = this.sizeScale || 1;
+    this.commDotL = L.layerGroup(list.map(c => {
+      const s = styleFn(c);
+      const m = L.circleMarker([c.lat, c.lng], { radius: s.radius * sc, color: '#fff', weight: 1.4, fillColor: s.color, fillOpacity: s.opacity });
+      m.on('click', () => { self._markerHit(); onClick(c); });
+      m.on('mouseover', () => m.setStyle({ weight: 2.8 }));
+      m.on('mouseout', () => m.setStyle({ weight: 1.4 }));
+      m.bindTooltip(c.city + ' · office rent €' + c.prime + '/m²', { direction: 'top', className: 'client-label' });
+      return m;
+    }));
+    if (visible) this.commDotL.addTo(this.map);
+  },
+  setCommercialDotsVisible(b) { if (!this.commDotL) return; if (b && !this.map.hasLayer(this.commDotL)) this.map.addLayer(this.commDotL); if (!b && this.map.hasLayer(this.commDotL)) this.map.removeLayer(this.commDotL); },
+
+  /* ---- individual hotel points (shown when zoomed in) ---- */
+  renderHotelPoints(list, onClick, visible) {
+    if (this.hotelPtL) this.map.removeLayer(this.hotelPtL);
+    const self = this, rend = this._canvas;
+    this.hotelPtL = L.layerGroup(list.map(h => {
+      const m = L.circleMarker([h.lat, h.lng], { renderer: rend, radius: 4, color: '#fff', weight: 1, fillColor: '#a51777', fillOpacity: 0.9 });
+      m.on('click', () => { self._markerHit(); onClick(h); });
+      m.bindTooltip(h.n, { direction: 'top', className: 'client-label' });
+      return m;
+    }));
+    if (visible) this.hotelPtL.addTo(this.map);
+  },
+  clearHotelPoints() { if (this.hotelPtL) { this.map.removeLayer(this.hotelPtL); this.hotelPtL = null; } },
+
   /* ---- proposed areas ---- */
   _pinSvg() {
     return '<svg viewBox="0 0 24 32"><path d="M12 1C6.2 1 1.5 5.7 1.5 11.5 1.5 19 12 31 12 31s10.5-12 10.5-19.5C22.5 5.7 17.8 1 12 1z" fill="#d6219b" stroke="#fff" stroke-width="2"/><circle cx="12" cy="11.5" r="4" fill="#fff"/></svg>';
@@ -215,7 +313,7 @@ const M = {
     const ci = L.circle([lat, lng], { radius: km * 1000, color: '#ff7ac9', weight: 2, fillColor: '#d6219b', fillOpacity: 0.10 }).addTo(this.map);
     mk.on('drag', e => { const ll = e.target.getLatLng(); ci.setLatLng(ll); ci.setStyle({ fillOpacity: 0.18 }); this._o.onAreaDrag && this._o.onAreaDrag(id, [ll.lat, ll.lng], e.target); });
     mk.on('dragend', () => { ci.setStyle({ fillOpacity: 0.10 }); this._o.onAreaMoved && this._o.onAreaMoved(id); });
-    mk.on('click', () => this._o.onAreaClick && this._o.onAreaClick(id));
+    mk.on('click', () => { this._markerHit(); this._o.onAreaClick && this._o.onAreaClick(id); });
     this.areas.push({ id, marker: mk, circle: ci, km, name });
     return id;
   },
@@ -263,7 +361,7 @@ const M = {
         icon: L.divIcon({ className: '', html: `<div class="hsq" style="background:${colorFn(h)}"></div>`, iconSize: [hs, hs] }),
         keyboard: false, alt: h.name
       });
-      m.on('click', () => onClick(h));
+      m.on('click', () => { this._markerHit(); onClick(h); });
       m.bindTooltip(h.name, { direction: 'top', className: 'client-label' });
       return m;
     })).addTo(this.map);
