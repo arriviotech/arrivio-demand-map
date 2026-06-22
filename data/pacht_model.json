@@ -1,0 +1,215 @@
+{
+  "_meta": {
+    "title": "Arrivio hotel Pacht (lease) deduction model",
+    "purpose": "Estimate the monthly Pacht (net cold lease) for a hotel when no real listing exists, as a RANGE. Real LISTED Pacht always overrides this.",
+    "created": "2026-06-22",
+    "unit": "EUR per month, Nettokaltmiete / Pacht (net cold, excl. Nebenkosten & VAT)",
+    "output": "a low–high range; never a single false-precision number",
+    "note": "Anchored to real ahgzimmo Pacht listings. Bands kept realistic (real Pacht runs cheaper than value x yield)."
+  },
+  "segment": {
+    "definition": "Individualhotellerie (independent/family hotels) + small chains. ~86.6% of German hotels by count, ~53% of room capacity; chains ~65-70% of revenue. Typically <100 rooms.",
+    "source": "IHA Hotelmarkt Deutschland (via hotelbau.de, 2018 structure); user brief 2026-06-22",
+    "target_filter": "exclude large chains (brand/operator) BUT keep small chains; core profile <100 rooms"
+  },
+  "per_room_eur_mo": {
+    "metro": [
+      230,
+      400
+    ],
+    "b_city": [
+      150,
+      270
+    ],
+    "regional": [
+      120,
+      200
+    ],
+    "rural": [
+      90,
+      160
+    ]
+  },
+  "per_m2_eur_mo": {
+    "metro": [
+      6.5,
+      12
+    ],
+    "b_city": [
+      4.5,
+      8
+    ],
+    "regional": [
+      3.2,
+      6
+    ],
+    "rural": [
+      2.8,
+      4.8
+    ]
+  },
+  "size_factor": {
+    "gt_80_rooms_or_2500m2": 0.85,
+    "lt_20_rooms": 1.1,
+    "default": 1
+  },
+  "range_spread": [
+    0.8,
+    1.25
+  ],
+  "nk_pct_of_cold": [
+    0.25,
+    0.45
+  ],
+  "abloese_note": "Many listings add an Ablöse (one-off inventory/goodwill buyout) ~EUR 60k-300k; hotels are often 'keine Ablöse'. Show separately, not part of Pacht.",
+  "tier_assignment": {
+    "metro": [
+      "München",
+      "Frankfurt am Main",
+      "Berlin",
+      "Hamburg",
+      "Düsseldorf",
+      "Stuttgart",
+      "Köln"
+    ],
+    "b_city": [
+      "Hannover",
+      "Nürnberg",
+      "Leipzig",
+      "Dresden",
+      "Bremen",
+      "Essen",
+      "Dortmund",
+      "Bonn",
+      "Münster",
+      "Karlsruhe",
+      "Mannheim",
+      "Wuppertal",
+      "Bielefeld",
+      "Wiesbaden",
+      "Augsburg",
+      "Freiburg",
+      "Mainz",
+      "Aachen",
+      "Kiel",
+      "Lübeck"
+    ],
+    "regional": "other Kreisstädte / mid towns (20k-150k pop or a Kreisstadt)",
+    "rural": "small towns / villages / leisure areas (default when not metro/b_city/regional)"
+  },
+  "method": "tier = lookup(city) else rural. midpoint_room = mean(per_room[tier]) * size_factor. est_mid = rooms * midpoint_room (use per_m2 path when rooms unknown: area_m2 * mean(per_m2[tier]) * size_factor). range = [est_mid*0.80, est_mid*1.25]. nk = est_mid * [0.25,0.45]. Always show real LISTED Pacht instead when the hotel matches a listing in properties.json.",
+  "anchors_real": [
+    {
+      "name": "Top-Hotel Garni 3*, Wuppertal",
+      "tier": "b_city",
+      "rooms": 54,
+      "area_m2": 1670,
+      "pacht_eur_mo": 10000,
+      "eur_per_room_mo": 185,
+      "eur_per_m2_mo": 5.99,
+      "nk_eur_mo": 4500,
+      "abloese": "keine",
+      "source": "ahgzimmo GVL2CD"
+    },
+    {
+      "name": "Vollhotel bei Bremen, Vechta",
+      "tier": "rural",
+      "rooms_est": 40,
+      "beds": 80,
+      "area_m2": 1500,
+      "pacht_eur_mo": 11000,
+      "eur_per_m2_mo": 7.33,
+      "source": "ahgzimmo GP5P8Y"
+    },
+    {
+      "name": "Tagungshotel, Marburg",
+      "tier": "regional",
+      "area_m2": 12600,
+      "pacht_eur_mo": 40500,
+      "eur_per_m2_mo": 3.21,
+      "note": "large -> low EUR/m2",
+      "source": "ahgzimmo GTVMNK"
+    },
+    {
+      "name": "Restaurant+Gästezimmer, Riedlingen",
+      "tier": "rural",
+      "rooms": 3,
+      "area_m2": 390,
+      "pacht_eur_mo": 4000,
+      "eur_per_m2_mo": 10.26,
+      "note": "small mixed gastro",
+      "source": "ahgzimmo GR2354"
+    }
+  ],
+  "worked_examples": [
+    {
+      "case": "40-room hotel, rural/leisure (Schleswig-Holstein)",
+      "calc": "40 x mean(90,160)=125 -> 5000 mid",
+      "range_eur_mo": [
+        4000,
+        6250
+      ],
+      "range_eur_yr": [
+        48000,
+        75000
+      ]
+    },
+    {
+      "case": "54-room Hotel Garni, B-city (Wuppertal-like)",
+      "calc": "54 x mean(150,270)=210 x 1.0 -> 11340 mid",
+      "range_eur_mo": [
+        9072,
+        14175
+      ],
+      "note": "real listing here is 10000 -> within range, LISTED wins"
+    },
+    {
+      "case": "90-room hotel, metro (München)",
+      "calc": "90 x mean(230,400)=315 x 0.85 -> 24098 mid",
+      "range_eur_mo": [
+        19278,
+        30122
+      ]
+    },
+    {
+      "case": "rooms unknown, 1200 m², regional",
+      "calc": "1200 x mean(3.2,6.0)=4.6 -> 5520 mid",
+      "range_eur_mo": [
+        4416,
+        6900
+      ]
+    }
+  ],
+  "observed": {
+    "date": "2026-06-22",
+    "note": "Median observed €/room/mo & €/m²/mo from LISTED ahgzimmo HOTEL leases (regional folded into rural server-side). LISTED always overrides the model.",
+    "eur_per_room_mo": {
+      "metro": {
+        "median": null,
+        "n": 0
+      },
+      "b_city": {
+        "median": 185.19,
+        "n": 1
+      },
+      "rural": {
+        "median": 275,
+        "n": 4
+      }
+    },
+    "eur_per_m2_mo": {
+      "metro": {
+        "median": null,
+        "n": 0
+      },
+      "b_city": {
+        "median": 15,
+        "n": 2
+      },
+      "rural": {
+        "median": 6.67,
+        "n": 6
+      }
+    }
+  }
+}

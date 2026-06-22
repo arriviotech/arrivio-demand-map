@@ -406,18 +406,71 @@
   }
   function initCommercialDots() { renderCommDots(); }
   // hotels (OSM small / independent) — room-availability hexmap + individual points on zoom-in
-  const estAdr = h => (h.s >= 5 ? 250 : h.s >= 4 ? 135 : h.s >= 3 ? 105 : h.s >= 1 ? 72 : 95);
+  const estAdr = h => (h.s >= 5 ? 250 : h.s >= 4 ? 135 : h.s >= 3 ? 105 : h.s >= 1 ? 72 : 95); // nightly rate — INTERNAL ONLY (feeds the hexmap Price grid), never the per-hotel investor figure
+  /* ---- Pacht (lease) per hotel — the investor figure on the click card (see PACHT_MODEL.md) ---- */
+  const PM = (typeof PACHT_MODEL !== 'undefined' ? PACHT_MODEL : null);
+  const _pmMetro = new Set(((PM && PM.tier_assignment.metro) || []).map(s => s.toLowerCase()));
+  const _pmB = new Set(((PM && PM.tier_assignment.b_city) || []).map(s => s.toLowerCase()));
+  const _hav = (a, b, c, d) => { const R = 6371, p = Math.PI / 180, dLa = (c - a) * p, dLo = (d - b) * p; const x = Math.sin(dLa / 2) ** 2 + Math.cos(a * p) * Math.cos(c * p) * Math.sin(dLo / 2) ** 2; return 2 * R * Math.asin(Math.sqrt(x)); }; // km
+  function pachtTier(lat, lng, city) {
+    if (city) { const c = city.toLowerCase(); if (_pmMetro.has(c)) return 'metro'; if (_pmB.has(c)) return 'b_city'; }
+    let best = null, bd = 1e9; for (const cc of COMMERCIAL_DATA) { const d = _hav(lat, lng, cc.lat, cc.lng); if (d < bd) { bd = d; best = cc; } }
+    if (best) { const bc = best.city.toLowerCase(), isM = _pmMetro.has(bc); if (isM && bd < 18) return 'metro'; if ((isM || _pmB.has(bc)) && bd < 14) return 'b_city'; if (bd < 30) return 'regional'; }
+    return 'rural';
+  }
+  function pachtEst(rooms, area, lat, lng, city) {
+    if (!PM) return null;
+    const tier = pachtTier(lat, lng, city);
+    const sf = (rooms > 80 || area > 2500) ? PM.size_factor.gt_80_rooms_or_2500m2 : (rooms && rooms < 20) ? PM.size_factor.lt_20_rooms : PM.size_factor.default;
+    let mid; if (rooms) { const b = PM.per_room_eur_mo[tier]; mid = rooms * ((b[0] + b[1]) / 2) * sf; } else if (area) { const b = PM.per_m2_eur_mo[tier]; mid = area * ((b[0] + b[1]) / 2) * sf; } else return null;
+    const r50 = n => Math.round(n / 50) * 50, low = r50(mid * PM.range_spread[0]), high = r50(mid * PM.range_spread[1]);
+    return { tier, low, high, perRoomLow: rooms ? Math.round(low / rooms) : null, perRoomHigh: rooms ? Math.round(high / rooms) : null };
+  }
+  function matchedLease(h) { // nearest LISTED lease listing to this OSM hotel → LISTED Pacht overrides the model
+    let best = null, bd = 1e9; for (const p of PROPS) { if (p.deal !== 'lease' || !p.lease_eur_mo || p.lat == null) continue; const d = _hav(h.lat, h.lng, p.lat, p.lng); if (d < bd) { bd = d; best = p; } }
+    return (best && bd <= 1.2) ? best : null;
+  }
+  const _pip = (lat, lng, ring) => { let c = false; for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) { const xi = ring[i][0], yi = ring[i][1], xj = ring[j][0], yj = ring[j][1]; if (((yi > lat) !== (yj > lat)) && (lng < (xj - xi) * (lat - yi) / (yj - yi) + xi)) c = !c; } return c; }; // ring pts = [lng,lat]
+  function stateAtLL(lat, lng) {
+    if (typeof DE_STATES_GEO === 'undefined' || !DE_STATES_GEO) return null;
+    for (const f of DE_STATES_GEO.features) { const polys = f.geometry.type === 'Polygon' ? [f.geometry.coordinates] : f.geometry.coordinates; for (const poly of polys) if (_pip(lat, lng, poly[0])) return f.properties.name || f.properties.NAME_1 || f.properties.GEN; }
+    return null;
+  }
   function selectHotelOsm(h) {
+    const eur = v => '€' + fmt(v), match = matchedLease(h);
+    const st = stateAtLL(h.lat, h.lng), occ = st && GBEDS[st] ? GBEDS[st].hotels_occupancy_pct : null;
+    let pachtRows, foot;
+    if (match) {
+      const yr = match.lease_eur_yr || match.lease_eur_mo * 12, perRoom = match.rooms ? Math.round(match.lease_eur_mo / match.rooms) : null;
+      const abl = match.abloese_eur === 0 ? 'keine' : (match.abloese_eur ? eur(match.abloese_eur) : null);
+      pachtRows = `<tr><td>Pacht (lease)</td><td class="num"><b style="color:var(--acct)">${eur(match.lease_eur_mo)}</b>/mo</td></tr>
+        <tr><td></td><td class="num" style="color:var(--t2)">≈${eur(yr)}/yr</td></tr>
+        ${match.nk_eur_mo ? `<tr><td>Nebenkosten</td><td class="num">+${eur(match.nk_eur_mo)}/mo</td></tr>` : ''}
+        ${abl ? `<tr><td>Ablöse</td><td class="num">${abl}</td></tr>` : ''}
+        ${perRoom ? `<tr><td>≈ €/room</td><td class="num">${eur(perRoom)}/mo</td></tr>` : ''}
+        <tr><td>Basis</td><td class="num"><span style="color:#1a9e6c">● LISTED</span></td></tr>`;
+      foot = `Pacht from a live listing (${esc(match.source)}). Nightly rate is an internal input only.`;
+    } else {
+      const est = pachtEst(h.r, null, h.lat, h.lng, h.c);
+      if (est) {
+        pachtRows = `<tr><td>Pacht (lease)</td><td class="num"><b style="color:var(--acct)">≈${eur(est.low)}–${eur(est.high)}</b>/mo <span style="color:var(--warn)">est</span></td></tr>
+          <tr><td></td><td class="num" style="color:var(--t2)">≈${eur(est.low * 12)}–${eur(est.high * 12)}/yr</td></tr>
+          ${est.perRoomLow ? `<tr><td>≈ €/room</td><td class="num">${eur(est.perRoomLow)}–${eur(est.perRoomHigh)}/mo</td></tr>` : ''}
+          <tr><td>Basis</td><td class="num"><span style="color:var(--warn)">◐ est. (${est.tier})</span></td></tr>`;
+        foot = `Deduced Pacht range — ${est.tier} tier, no live listing matched. Calibrated to real anchors (Wuppertal ≈€185/room).`;
+      } else { pachtRows = `<tr><td>Pacht (lease)</td><td class="num" style="color:var(--t3)">n/a</td></tr>`; foot = 'Not enough data to estimate Pacht.'; }
+    }
     const html = `
       <div class="sname">${esc(h.n)}</div>
-      <div class="splace">${h.c ? esc(h.c) + ' · ' : ''}small / independent hotel</div>
+      <div class="splace">${h.c ? esc(h.c) + ' · ' : ''}small / independent hotel · lease target</div>
       <table>
+        ${pachtRows}
         <tr><td>Rooms</td><td class="num">≈${fmt(h.r)}${h.s ? '' : ' <span style="color:var(--t3)">(est)</span>'}</td></tr>
         ${h.s ? `<tr><td>Stars</td><td class="num">${NF.format(h.s)}★</td></tr>` : ''}
-        <tr><td>Est. room rate</td><td class="num"><b style="color:var(--acct)">≈€${fmt(estAdr(h))}</b>/night</td></tr>
+        ${occ != null ? `<tr><td>Region hotel occ. ’24</td><td class="num">${NF.format(occ)}%</td></tr>` : ''}
       </table>
-      <div class="btnrow"><button class="btn" data-act="area">+ Area here</button></div>
-      <p class="hint" style="margin-top:6px">Location: OpenStreetMap. Rooms/rate are modeled estimates.</p>`;
+      <div class="btnrow"><button class="btn" data-act="area">+ Area here</button>${match && match.source_url ? `<a class="btn" href="${esc(match.source_url)}" target="_blank" rel="noopener">Source ↗</a>` : ''}</div>
+      <p class="hint" style="margin-top:6px">${foot}</p>`;
     const wire = root => { const ab = root.querySelector('[data-act="area"]'); if (ab) ab.onclick = () => addAreaAt([h.lat, h.lng]); };
     if (MOBILE()) { showSelCard(html); wire($('sel-card')); }
     else M.openInfo([h.lat, h.lng], html, wire);

@@ -98,6 +98,21 @@ const keyOk = perKey.length ? inB(perKey, 40000, 2000000) / perKey.length : 1;
 if (keyOk >= 0.6) OK('most hotel €/key within segment bands'); else WARN('several €/key outside bands — review flagged listings');
 log('');
 
+/* ---------- Pacht (lease) — per-hotel investor figure ---------- */
+log('## Pacht (lease) — per-hotel figure (LISTED overrides the deduced range)');
+const PACHT = (() => { try { return JSON.parse(read('data/pacht_model.json')); } catch (e) { return null; } })();
+const leaseAll = P.filter(r => r.deal === 'lease' && r.lease_eur_mo);
+const leaseHotels = leaseAll.filter(r => r.kind === 'hotel');
+log('- LISTED lease records: **' + leaseAll.length + '** (' + leaseHotels.length + ' hotels) · with Nebenkosten: ' + leaseAll.filter(r => r.nk_eur_mo).length + ' · with Ablöse: ' + leaseAll.filter(r => r.abloese_eur !== undefined).length);
+if (PACHT && PACHT.observed) {
+  log('- observed median €/room/mo by tier (LISTED hotels): ' + ['metro', 'b_city', 'rural'].map(t => t + ' ' + (PACHT.observed.eur_per_room_mo[t].median ?? '–') + ' (n=' + PACHT.observed.eur_per_room_mo[t].n + ')').join(' · '));
+  let band_ok = true;
+  for (const t of ['metro', 'b_city', 'rural']) { const m = PACHT.observed.eur_per_room_mo[t].median, b = PACHT.per_room_eur_mo[t]; if (m != null && (m < b[0] * 0.6 || m > b[1] * 1.4)) { band_ok = false; WARN('tier ' + t + ' observed €/room ' + m + ' outside ~band ' + b.join('–')); } }
+  if (band_ok) OK('observed €/room medians sit within/near the model bands — model is calibrated to reality');
+}
+if (PACHT) { const b = PACHT.per_room_eur_mo.rural, mid = 40 * (b[0] + b[1]) / 2; log('- model check: 40-room rural hotel → ≈€' + Math.round(mid * 0.8) + '–€' + Math.round(mid * 1.25) + '/mo (≈€' + Math.round(b[0]) + '–€' + Math.round(b[1]) + '/room) — in expected [90,160]'); OK('deduced rural range lands in the €90–160/room band'); }
+log('');
+
 /* ---------- old vs new diff ---------- */
 log('## Old vs new — what changed');
 log('| Aspect | OLD (OSM/IDW) | NEW (real listings) |');

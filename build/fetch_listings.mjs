@@ -107,6 +107,22 @@ const realPrice = v => (v && v >= 5000 && v < 50000000 && !/^9+$/.test(String(v)
 const realLease = v => (v && v >= 200 && v <= 150000 && !/^9+$/.test(String(v))) ? v : null; // monthly Pacht; >150k/mo = annual/sale figure mislabeled in feed
 const cleanArea = (a, kind) => { if (!a || a < 10 || a > 500000) return null; if (kind !== 'hotel' && a > 20000) return null; return a; }; // huge non-hotel area = plot/erroneous
 
+// ---- Pacht (lease) model + ahgzimmo detail-page parse (precise coords, Nebenkosten, Ablöse) ----
+const PACHT = (() => { try { return JSON.parse(readFileSync(join(ROOT, 'data', 'pacht_model.json'), 'utf8')); } catch (e) { return null; } })();
+const _metroSet = new Set(((PACHT && PACHT.tier_assignment.metro) || []).map(s => s.toLowerCase()));
+const _bcitySet = new Set(((PACHT && PACHT.tier_assignment.b_city) || []).map(s => s.toLowerCase()));
+const tierOf = city => { if (!city) return 'rural'; const c = city.toLowerCase(); if (_metroSet.has(c)) return 'metro'; if (_bcitySet.has(c)) return 'b_city'; return 'rural'; };
+function parseDetail(html) {
+  const g = re => { const m = html && html.match(re); return m ? m[1] : null; };
+  const lat = parseFloat(g(/og:latitude["'][^>]*content=["']([-\d.]+)/i) || g(/"lat(?:itude)?"\s*:\s*"?([-\d.]+)/i));
+  const lng = parseFloat(g(/og:longitude["'][^>]*content=["']([-\d.]+)/i) || g(/"l(?:ng|on|ongitude)"\s*:\s*"?([-\d.]+)/i));
+  let nk = null; { const m = html && html.match(/Nebenkosten[\s\S]{0,60}?([\d.]{2,})\s*(?:€|EUR)/i); if (m) nk = intOf(m[1]); }
+  let abloese; { const m = html && html.match(/Abl[öo]se[\s\S]{0,60}?(keine|[\d.]{2,}\s*(?:€|EUR))/i); if (m) abloese = /keine/i.test(m[1]) ? 0 : intOf(m[1]); }
+  return { lat: Number.isFinite(lat) ? round(lat, 5) : null, lng: Number.isFinite(lng) ? round(lng, 5) : null, nk: (nk && nk >= 200 && nk < 100000) ? nk : null, abloese };
+}
+async function fetchDetail(url, id) { const cf = join(CACHE, 'detail_' + id + '.html'); if (existsSync(cf) || COMBINE_ONLY) return; const r = await get(url, { 'User-Agent': UA }); if (r.ok && r.body) { writeFileSync(cf, r.body); await sleep(700); } }
+const readDetail = id => { const cf = join(CACHE, 'detail_' + id + '.html'); return existsSync(cf) ? parseDetail(readFileSync(cf, 'utf8')) : null; };
+
 // ---------- ahgzimmo Atom crawl ----------
 function ahgzId(url) { const m = (url || '').match(/-([A-Z0-9]{5,8})\/?$/); return m ? 'ahgz-' + m[1] : 'ahgz-' + Math.abs([...(url || '')].reduce((a, c) => (a * 31 + c.charCodeAt(0)) | 0, 7)).toString(36); }
 function parseAhgzEntry(xml) {
@@ -177,6 +193,8 @@ function normalizeAhgz(e) {
   const area = cleanArea(e.area, kind);
   const rec = { id: ahgzId(e.url), kind, deal: e.deal, name: e.title, plz: e.plz || null, city: e.city || null, state: state || null, area_m2: area, rooms: e.rooms || null, beds: e.beds || null, source: 'ahgzimmo.de', source_url: e.url, captured: CAPTURED };
   if (ll) { rec.lat = ll[0]; rec.lng = ll[1]; }
+  const det = readDetail(rec.id); // ahgzimmo detail page → precise coords + Nebenkosten + Ablöse
+  if (det) { if (det.lat != null && det.lng != null) { rec.lat = det.lat; rec.lng = det.lng; } if (det.nk != null) rec.nk_eur_mo = det.nk; if (det.abloese !== undefined) rec.abloese_eur = det.abloese; }
   const lm = realLease(e.priceRaw), pe = realPrice(e.priceRaw);
   if (e.deal === 'lease' && lm) { rec.lease_eur_mo = lm; rec.lease_eur_yr = lm * 12; rec.price_basis = 'LISTED'; }
   else if (e.deal !== 'lease' && pe) {
@@ -199,6 +217,10 @@ const ahgzLease = await crawlAhgz('lease', 'https://www.ahgzimmo.de/suche.atom?t
 let ahgzSale = await crawlAhgz('sale', 'https://www.ahgzimmo.de/suche.atom?t=hospitality:purchase:commercial&l=Deutschland&a=de.deutschland');
 if (!ahgzSale.length) ahgzSale = await crawlAhgz('sale2', 'https://www.ahgzimmo.de/suche.atom?t=hospitality:sale:commercial&l=Deutschland&a=de.deutschland');
 await crawlTranio();
+
+// detail pages for LEASE listings → precise coords + Nebenkosten + Ablöse (resumable/cached)
+const leaseEntries = [...ahgzLease, ...ahgzSale].filter(e => e.deal === 'lease');
+if (!COMBINE_ONLY) { process.stdout.write('fetching ' + leaseEntries.length + ' lease detail pages (coords/NK/Ablöse)...\n'); let i = 0; for (const e of leaseEntries) { i++; await fetchDetail(e.url, ahgzId(e.url)); if (i % 50 === 0) process.stdout.write('  detail ' + i + '/' + leaseEntries.length + '\n'); } }
 
 const crawled = [...ahgzLease, ...ahgzSale].map(normalizeAhgz);
 
@@ -230,8 +252,20 @@ const doc = {
   _meta: { ...seedDoc._meta, title: 'Arrivio acquisition/lease targets — national dataset', note: 'Crawled ' + CAPTURED + ' from ahgzimmo.de (hotel/gastro lease+sale) + Tranio seed. MODELED records carry the estimate in price_eur / lease_eur_yr with price_basis=MODELED (cost model: rooms x EUR/key x regional mult; lease = purchase x 5.8% upper bound). Geocoded by PLZ centroid; state by point-in-polygon.', count: records.length, placed, sources: ['ahgzimmo.de', 'Tranio', 'OpenStreetMap (baseline, separate)'] },
   properties: records.sort((a, b) => (priceOf(b) - priceOf(a)))
 };
+if (doc._meta.schema && !doc._meta.schema.includes('abloese_eur')) doc._meta.schema = [...doc._meta.schema, 'abloese_eur'];
 writeFileSync(join(ROOT, 'data', 'properties.json'), JSON.stringify(doc, null, 1));
 writeFileSync(join(ROOT, 'data', 'listing_grid.json'), JSON.stringify(grid));
+
+// re-anchor the Pacht model to reality: observed median €/room & €/m² per tier from LISTED hotel leases
+if (PACHT) {
+  const med = a => { if (!a.length) return null; const s = [...a].sort((x, y) => x - y); return Math.round(s[s.length >> 1] * 100) / 100; };
+  const rm = { metro: [], b_city: [], rural: [] }, sq = { metro: [], b_city: [], rural: [] };
+  for (const r of records) { if (r.deal !== 'lease' || !r.lease_eur_mo || r.kind !== 'hotel') continue; const t = tierOf(r.city); if (r.rooms) rm[t].push(r.lease_eur_mo / r.rooms); if (r.area_m2) sq[t].push(r.lease_eur_mo / r.area_m2); }
+  PACHT.observed = { date: CAPTURED, note: 'Median observed €/room/mo & €/m²/mo from LISTED ahgzimmo HOTEL leases (regional folded into rural server-side). LISTED always overrides the model.', eur_per_room_mo: {}, eur_per_m2_mo: {} };
+  for (const t of ['metro', 'b_city', 'rural']) { PACHT.observed.eur_per_room_mo[t] = { median: med(rm[t]), n: rm[t].length }; PACHT.observed.eur_per_m2_mo[t] = { median: med(sq[t]), n: sq[t].length }; }
+  writeFileSync(join(ROOT, 'data', 'pacht_model.json'), JSON.stringify(PACHT, null, 2));
+  process.stdout.write('re-anchored pacht_model.json: median €/room metro/b_city/rural = ' + JSON.stringify(['metro', 'b_city', 'rural'].map(t => med(rm[t]))) + '\n');
+}
 
 // ---------- report ----------
 const by = (arr, f) => arr.reduce((m, r) => { const k = f(r) || '—'; m[k] = (m[k] || 0) + 1; return m; }, {});

@@ -82,6 +82,7 @@ GENESIS hotel occupancy, a **LISTED / est. / on-request** flag, and a **Source �
 - Pipeline: `build/fetch_listings.mjs` (resumable; raw feed pages cached under `build/listings_cache/`) →
   `data/properties.json` → inlined by `assemble.mjs`. Validation + old-vs-new diff: see
   **[ARRIVIO_VALIDATION_REPORT.md](ARRIVIO_VALIDATION_REPORT.md)** (density vs GENESIS beds r=0.88; 0 hard failures).
+- **Per-hotel Pacht (Small / family hotels):** clicking a hotel shows the **Pacht (lease)** as the headline — the real listed €/mo · €/yr · NK · Ablöse · €/room where a listing matches by location (● LISTED), else a **deduced range** from `data/pacht_model.json` (tier × per-room band × size_factor, spread 0.80–1.25; ◐ est.). Nightly ADR is demoted to an internal hexmap input only. Model re-anchored to the crawl (b-city median €185/room). Methodology in **[PACHT_MODEL.md](PACHT_MODEL.md)**.
 - **Office Rent / Vacant m² no longer interpolated:** the old IDW smear over rural land is retired —
   Rent now shows the real broker **city anchors as colour-coded dots**, Vacant m² as **size-coded dots**
   (click for exact figures). Office **Density** keeps the OSM `office=*` hexmap as a baseline footprint.
