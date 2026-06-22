@@ -1,0 +1,69 @@
+﻿# Source: Statistische Aemter des Bundes und der Laender - Regionaldatenbank Deutschland (GENESIS)
+# Table: 45412-02-02-4-B Beherbergungsbetriebe, Schlafgelegenheiten, Gaesteankuenfte, Gaesteuebernachtungen nach Betriebsarten - regionale Ebenen (ab 2018)
+# Regional level: Bundeslaender (16) | Year: 2024 | Retrieved: 2026-06-22 | Licence: Datenlizenz Deutschland - Namensnennung 2.0
+# '.' in source = confidential (Bremen/Berlin: Vorsorge-/Reha shown within Erholungs-/Ferienheime). Empty cell here = confidential.
+Land_Code;Bundesland;Betriebsart;Beherbergungsbetriebe_2024;Schlafgelegenheiten_2024;Gaesteankuenfte_2024;Gaesteuebernachtungen_2024
+01;Schleswig-Holstein;Hotels, Hotels garnis, Gasthöfe, Pensionen;1038;66378;4654143;11077021
+01;Schleswig-Holstein;Erholungs-/Ferienheime, Ferienhäuser/-wohnungen, Jugendherbergen u.ä.;2150;168838;3109606;18107280
+01;Schleswig-Holstein;Vorsorge- und Rehabilitationseinrichtungen;53;11167;165164;3533047
+01;Schleswig-Holstein;Insgesamt;3241;246383;7928913;32717348
+02;Hamburg;Hotels, Hotels garnis, Gasthöfe, Pensionen;348;69496;6936504;14479259
+02;Hamburg;Erholungs-/Ferienheime, Ferienhäuser/-wohnungen, Jugendherbergen u.ä.;52;6928;536943;1425008
+02;Hamburg;Vorsorge- und Rehabilitationseinrichtungen;3;202;3140;51542
+02;Hamburg;Insgesamt;403;76626;7476587;15955809
+03;Niedersachsen;Hotels, Hotels garnis, Gasthöfe, Pensionen;2687;148230;9956336;20274621
+03;Niedersachsen;Erholungs-/Ferienheime, Ferienhäuser/-wohnungen, Jugendherbergen u.ä.;2627;257155;5209812;20604341
+03;Niedersachsen;Vorsorge- und Rehabilitationseinrichtungen;98;16431;242320;5248776
+03;Niedersachsen;Insgesamt;5412;421816;15408468;46127738
+04;Bremen;Hotels, Hotels garnis, Gasthöfe, Pensionen;112;16101;1426256;2604422
+04;Bremen;Erholungs-/Ferienheime, Ferienhäuser/-wohnungen, Jugendherbergen u.ä.;14;2105;107414;313864
+04;Bremen;Vorsorge- und Rehabilitationseinrichtungen;;;;
+04;Bremen;Insgesamt;126;18206;1533670;2918286
+05;Nordrhein-Westfalen;Hotels, Hotels garnis, Gasthöfe, Pensionen;3253;243260;20297795;35786044
+05;Nordrhein-Westfalen;Erholungs-/Ferienheime, Ferienhäuser/-wohnungen, Jugendherbergen u.ä.;1247;71449;3975374;12602841
+05;Nordrhein-Westfalen;Vorsorge- und Rehabilitationseinrichtungen;108;19252;236170;6146034
+05;Nordrhein-Westfalen;Insgesamt;4608;333961;24509339;54534919
+06;Hessen;Hotels, Hotels garnis, Gasthöfe, Pensionen;1982;164484;13359061;24326344
+06;Hessen;Erholungs-/Ferienheime, Ferienhäuser/-wohnungen, Jugendherbergen u.ä.;955;87730;2046248;5946413
+06;Hessen;Vorsorge- und Rehabilitationseinrichtungen;77;15607;191303;4486349
+06;Hessen;Insgesamt;3014;267821;15596612;34759106
+07;Rheinland-Pfalz;Hotels, Hotels garnis, Gasthöfe, Pensionen;2118;93932;5958059;12088214
+07;Rheinland-Pfalz;Erholungs-/Ferienheime, Ferienhäuser/-wohnungen, Jugendherbergen u.ä.;970;122560;2637248;8413986
+07;Rheinland-Pfalz;Vorsorge- und Rehabilitationseinrichtungen;37;5807;73487;1845583
+07;Rheinland-Pfalz;Insgesamt;3125;222299;8668794;22347783
+08;Baden-Württemberg;Hotels, Hotels garnis, Gasthöfe, Pensionen;4059;250193;18915573;37267788
+08;Baden-Württemberg;Erholungs-/Ferienheime, Ferienhäuser/-wohnungen, Jugendherbergen u.ä.;1990;175724;4514219;14902306
+08;Baden-Württemberg;Vorsorge- und Rehabilitationseinrichtungen;121;21580;334892;6692800
+08;Baden-Württemberg;Insgesamt;6170;447497;23764684;58862894
+09;Bayern;Hotels, Hotels garnis, Gasthöfe, Pensionen;6957;447360;33033147;70702106
+09;Bayern;Erholungs-/Ferienheime, Ferienhäuser/-wohnungen, Jugendherbergen u.ä.;4431;131452;7230474;24250864
+09;Bayern;Vorsorge- und Rehabilitationseinrichtungen;155;25417;352662;7795542
+09;Bayern;Insgesamt;11543;604229;40616283;102748512
+10;Saarland;Hotels, Hotels garnis, Gasthöfe, Pensionen;184;10225;780573;1414969
+10;Saarland;Erholungs-/Ferienheime, Ferienhäuser/-wohnungen, Jugendherbergen u.ä.;96;13309;304784;1021477
+10;Saarland;Vorsorge- und Rehabilitationseinrichtungen;10;2414;31346;766924
+10;Saarland;Insgesamt;290;25948;1116703;3203370
+11;Berlin;Hotels, Hotels garnis, Gasthöfe, Pensionen;550;122679;10790953;24975885
+11;Berlin;Erholungs-/Ferienheime, Ferienhäuser/-wohnungen, Jugendherbergen u.ä.;199;25483;1926437;5631199
+11;Berlin;Vorsorge- und Rehabilitationseinrichtungen;;;;
+11;Berlin;Insgesamt;749;148162;12717390;30607084
+12;Brandenburg;Hotels, Hotels garnis, Gasthöfe, Pensionen;884;48980;3491895;7236298
+12;Brandenburg;Erholungs-/Ferienheime, Ferienhäuser/-wohnungen, Jugendherbergen u.ä.;814;38582;1873504;5730517
+12;Brandenburg;Vorsorge- und Rehabilitationseinrichtungen;20;4222;60969;1446198
+12;Brandenburg;Insgesamt;1718;91784;5426368;14413013
+13;Mecklenburg-Vorpommern;Hotels, Hotels garnis, Gasthöfe, Pensionen;1188;85661;4486245;12978785
+13;Mecklenburg-Vorpommern;Erholungs-/Ferienheime, Ferienhäuser/-wohnungen, Jugendherbergen u.ä.;1552;222921;3396259;16635781
+13;Mecklenburg-Vorpommern;Vorsorge- und Rehabilitationseinrichtungen;48;10703;159778;3281498
+13;Mecklenburg-Vorpommern;Insgesamt;2788;319285;8042282;32896064
+14;Sachsen;Hotels, Hotels garnis, Gasthöfe, Pensionen;1342;90750;6604258;13526273
+14;Sachsen;Erholungs-/Ferienheime, Ferienhäuser/-wohnungen, Jugendherbergen u.ä.;564;29128;1442028;4194877
+14;Sachsen;Vorsorge- und Rehabilitationseinrichtungen;34;7611;90767;2261137
+14;Sachsen;Insgesamt;1940;127489;8137053;19982287
+15;Sachsen-Anhalt;Hotels, Hotels garnis, Gasthöfe, Pensionen;734;38393;2591423;5073432
+15;Sachsen-Anhalt;Erholungs-/Ferienheime, Ferienhäuser/-wohnungen, Jugendherbergen u.ä.;317;35727;748210;2239668
+15;Sachsen-Anhalt;Vorsorge- und Rehabilitationseinrichtungen;14;3341;48827;1040060
+15;Sachsen-Anhalt;Insgesamt;1065;77461;3388460;8353160
+16;Thüringen;Hotels, Hotels garnis, Gasthöfe, Pensionen;850;45767;2954082;6137108
+16;Thüringen;Erholungs-/Ferienheime, Ferienhäuser/-wohnungen, Jugendherbergen u.ä.;403;55858;824006;2236347
+16;Thüringen;Vorsorge- und Rehabilitationseinrichtungen;30;5340;78134;1694794
+16;Thüringen;Insgesamt;1283;106965;3856222;10068249

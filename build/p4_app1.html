@@ -30,8 +30,8 @@
     theme: localStorage.getItem('arrivio.theme') || 'dark',
     base: 'voyager',
     stateMetric: 'intl', stateMulti: false, selStates: [],
-    commMetric: 'density', hotelMetric: 'rooms', inflowMetric: 'intl',
-    layers: { hex: true, clients: true, labels: true, approx: true, gch: true, sem: true, stations: false, commercial: false, hotels: false, inflow: false },
+    commMetric: 'density', hotelMetric: 'rooms', inflowMetric: 'intl', propDeal: 'all',
+    layers: { hex: true, clients: true, labels: true, approx: true, gch: true, sem: true, stations: false, commercial: false, hotels: false, inflow: false, props: false },
     reach: { mode: 'bike-share', min: 20, origin: null, active: false },
     sel: null, selArea: null, armed: false,
     areas: []   // {id, name, km}
@@ -377,22 +377,31 @@
   const _commMax = {}, _hotelMax = {};
   const _pp = (HOTEL_PRICE_GRID && HOTEL_PRICE_GRID.length) ? HOTEL_PRICE_GRID.map(p => p[2]) : [80, 180];
   const PRICE_LO = Math.min.apply(null, _pp), PRICE_HI = Math.max.apply(null, _pp);
-  // inverse-distance-weighted interpolation from the city market anchors → fills rent/vacancy
-  // across all office locations (modeled, anchored to real broker figures)
-  function idw(la, ln, anchors) { let num = 0, den = 0; for (const a of anchors) { const dx = (la - a.lat) * 111, dy = (ln - a.lng) * 70, d2 = dx * dx + dy * dy; if (d2 < 1) return a.v; const w = 1 / (d2 * d2); num += w * a.v; den += w; } return den ? num / den : 0; }
-  function commAnchors(metric) { return COMMERCIAL_DATA.map(c => ({ lat: c.lat, lng: c.lng, v: metric === 'vacant' ? (c.m2 || 0) : c.prime })); }
-  function renderCommDots() { M.renderCommercialDots(COMMERCIAL_DATA, () => ({ radius: 5, color: '#1d2733', opacity: 0.9 }), selectCommercial, S.layers.commercial); }
+  // Office rent & vacancy are published ONLY per major city. We show the REAL broker figures as
+  // city markers — rent = dot colour, vacant m² = dot size — and NEVER interpolate them across
+  // empty land (the old idw() smear is retired). Density keeps the OSM site-concentration hexmap
+  // as a baseline footprint, separate from the priced acquisition-target listings.
+  const _primeLo = Math.min.apply(null, COMMERCIAL_DATA.map(c => c.prime));
+  const _primeHi = Math.max.apply(null, COMMERCIAL_DATA.map(c => c.prime));
+  const _vacSq = COMMERCIAL_DATA.map(c => Math.sqrt(c.m2 || 0));
+  const _vacLo = Math.min.apply(null, _vacSq), _vacHi = Math.max.apply(null, _vacSq);
+  function commStyle(metric) {
+    return c => {
+      if (metric === 'rent') return { radius: 8, color: rampColor((c.prime - _primeLo) / ((_primeHi - _primeLo) || 1)), opacity: 0.95 };
+      if (metric === 'vacant') { const t = (_vacHi - _vacLo) ? (Math.sqrt(c.m2 || 0) - _vacLo) / (_vacHi - _vacLo) : 0; return { radius: 5 + t * 16, color: '#a51777', opacity: 0.5 }; }
+      return { radius: 5, color: '#1d2733', opacity: 0.9 };
+    };
+  }
+  function renderCommDots(metric) { M.renderCommercialDots(COMMERCIAL_DATA, commStyle(metric || S.commMetric), selectCommercial, S.layers.commercial); }
   function computeCommercial() {
     if (typeof h3 === 'undefined') return;
     if (!S.layers.commercial) { M.setHexLayerVisible('commercial', false); M.setCommercialDotsVisible(false); return; }
-    renderCommDots(); M.setCommercialDotsVisible(true);
-    const res = supplyRes(), cells = aggHex(inViewPts(COMMERCIAL_GRID), res);
+    renderCommDots(S.commMetric); M.setCommercialDotsVisible(true);
     if (S.commMetric === 'density') {
+      const res = supplyRes(), cells = aggHex(inViewPts(COMMERCIAL_GRID), res);
       M.renderHexLayer('commercial', hexPolys(cells, globalMaxFor(COMMERCIAL_GRID, res, _commMax)), true);
     } else {
-      const anchors = commAnchors(S.commMetric), vals = anchors.map(a => a.v), lo = Math.min.apply(null, vals), hi = Math.max.apply(null, vals), d = (hi - lo) || 1;
-      const polys = Object.keys(cells).map(cell => { const ctr = h3.cellToLatLng(cell); return { boundary: h3.cellToBoundary(cell), color: rampColor((idw(ctr[0], ctr[1], anchors) - lo) / d) }; });
-      M.renderHexLayer('commercial', polys, true);
+      M.setHexLayerVisible('commercial', false); // rent/vacancy = real city markers only, no interpolated surface
     }
   }
   function initCommercialDots() { renderCommDots(); }
@@ -427,6 +436,58 @@
       if (S.hotelMetric === 'price') M.renderHexLayer('hotelrooms', hexPolysRange(aggHexAvg(inViewPts(HOTEL_PRICE_GRID), res), PRICE_LO, PRICE_HI), true);
       else M.renderHexLayer('hotelrooms', hexPolys(aggHex(inViewPts(HOTEL_GRID), res), globalMaxFor(HOTEL_GRID, res, _hotelMax)), true);
     }
+  }
+
+  /* ============ Acquisition targets — REAL listings (ahgzimmo / Tranio), additive point layer ============
+     Pins coloured by kind; click → full card (asking price / Pacht, LISTED|est|on-request, source link,
+     regional GENESIS occupancy context). Clustering is the honest, clipped concentration view — no
+     interpolation over empty land. Data: PROPERTIES (data/properties.json) + GENESIS_BEDS by Bundesland. */
+  const PROPS = (typeof PROPERTIES !== 'undefined' ? PROPERTIES : []);
+  const GBEDS = (typeof GENESIS_BEDS !== 'undefined' ? GENESIS_BEDS : {});
+  const PROP_COLOR = { hotel: '#d6219b', gastronomie: '#f59e0b', mixed_use: '#64748b', office: '#0ea5e9', retail: '#a855f7' };
+  const PROP_LABEL = { hotel: 'Hotel', gastronomie: 'Gastronomy', mixed_use: 'Mixed-use / commercial', office: 'Office', retail: 'Retail' };
+  const propColor = p => PROP_COLOR[p.kind] || '#64748b';
+  const dealLabel = p => p.deal === 'lease' ? 'For lease (Pacht)' : p.deal === 'sale' ? 'For sale' : '';
+  function propsFiltered() { return PROPS.filter(p => p.lat != null && p.lng != null && (S.propDeal === 'all' || p.deal === S.propDeal)); }
+  function selectProperty(p) {
+    const eur = v => '€' + fmt(v), basis = p.price_basis;
+    let priceRows = '';
+    if (p.deal === 'lease' && p.lease_eur_mo) {
+      priceRows = `<tr><td>Pacht (lease)</td><td class="num"><b style="color:var(--acct)">${eur(p.lease_eur_mo)}</b>/mo</td></tr>
+        <tr><td></td><td class="num" style="color:var(--t2)">≈${eur(p.lease_eur_yr || p.lease_eur_mo * 12)}/yr${basis === 'MODELED' ? ' <span style="color:var(--warn)">est</span>' : ''}</td></tr>`;
+      if (p.nk_eur_mo) priceRows += `<tr><td>Nebenkosten</td><td class="num">+${eur(p.nk_eur_mo)}/mo</td></tr>`;
+      if (p.rooms) priceRows += `<tr><td>Pacht / room</td><td class="num">${eur(Math.round(p.lease_eur_mo / p.rooms))}/mo</td></tr>`;
+    } else if (p.deal === 'sale' && p.price_eur) {
+      priceRows = `<tr><td>${basis === 'MODELED' ? 'Est. purchase' : 'Asking price'}</td><td class="num"><b style="color:var(--acct)">${basis === 'MODELED' ? '≈' : ''}${eur(p.price_eur)}</b>${basis === 'MODELED' ? ' <span style="color:var(--warn)">est</span>' : ''}</td></tr>`;
+      if (p.eur_per_m2) priceRows += `<tr><td>€ / m²</td><td class="num">${eur(p.eur_per_m2)}</td></tr>`;
+      if (p.rooms) priceRows += `<tr><td>€ / room (key)</td><td class="num">${eur(Math.round(p.price_eur / p.rooms))}</td></tr>`;
+      if (p.lease_eur_yr && basis === 'MODELED') priceRows += `<tr><td>Est. annual lease</td><td class="num" style="color:var(--t2)">≈${eur(p.lease_eur_yr)}/yr <span style="color:var(--warn)">est</span></td></tr>`;
+    } else priceRows = `<tr><td>Price</td><td class="num" style="color:var(--t3)">on request</td></tr>`;
+    const g = p.state && GBEDS[p.state];
+    const ctx = g && g.hotels_occupancy_pct != null ? `<tr><td>Region hotel occ. ’24</td><td class="num">${NF.format(g.hotels_occupancy_pct)}%</td></tr>` : '';
+    const flag = basis === 'LISTED' ? `<span style="color:#1a9e6c">● LISTED</span>` : basis === 'MODELED' ? `<span style="color:var(--warn)">● est.</span>` : `<span style="color:var(--t3)">● on request</span>`;
+    const html = `
+      <div class="sname">${esc(p.name)}</div>
+      <div class="splace">${PROP_LABEL[p.kind] || esc(p.kind)}${p.city ? ' · ' + esc(p.city) : ''}${p.state ? ', ' + esc(p.state) : ''} · ${dealLabel(p)}</div>
+      <table>
+        ${priceRows}
+        ${p.area_m2 ? `<tr><td>Floor area</td><td class="num">${fmt(p.area_m2)} m²</td></tr>` : ''}
+        ${p.rooms ? `<tr><td>Rooms</td><td class="num">${fmt(p.rooms)}</td></tr>` : ''}
+        ${p.beds ? `<tr><td>Beds</td><td class="num">${fmt(p.beds)}</td></tr>` : ''}
+        ${ctx}
+        <tr><td>Basis</td><td class="num">${flag}</td></tr>
+      </table>
+      <div class="btnrow"><button class="btn" data-act="area">+ Area here</button>${p.source_url ? `<a class="btn" href="${esc(p.source_url)}" target="_blank" rel="noopener">Source ↗</a>` : ''}</div>
+      <p class="hint" style="margin-top:6px">${esc(p.source)} · captured ${esc(p.captured)}${basis === 'MODELED' ? ' · estimate via €/key cost model (upper-bound lease)' : ''}</p>`;
+    const wire = root => { const ab = root.querySelector('[data-act="area"]'); if (ab) ab.onclick = () => addAreaAt([p.lat, p.lng]); };
+    if (MOBILE()) { showSelCard(html); wire($('sel-card')); }
+    else M.openInfo([p.lat, p.lng], html, wire);
+  }
+  function computeProperties() {
+    if (!S.layers.props) { M.setPropertiesVisible(false); return; }
+    const list = propsFiltered();
+    M.renderProperties(list, selectProperty, propColor, true);
+    const el = $('n-props'); if (el) el.textContent = NF.format(list.length);
   }
 
   /* ============ states / TAM ============ */

@@ -66,6 +66,26 @@ district shows both options plus the international / domestic / foreign-share fi
 | "Small / independent" filter | excludes major chains by brand/operator/name; some mid-scale chains slip through | — | HEURISTIC |
 | (zoom in) individual clickable hotels | name, est. rooms, stars, est. nightly rate | OSM + model | FIRM loc / MODELED metrics |
 
+### 4b. Acquisition targets — REAL property listings (new layer, "Supply & market")
+A new, **additive** point layer (off by default) of **991 real commercial/hotel/gastronomy properties
+on the market across Germany** — the conversion/M&A/lease targets. Clustered pins (the cluster bubbles
+are the honest, clipped concentration view — no interpolation over empty land); overlays freely with any
+other layer; **All / Lease / Sale** filter. Click a pin → full card: **asking price** or **Pacht (€/mo &
+€/yr)** with **Nebenkosten** and **€/room** where known, floor area, rooms/beds, €/m², €/key, the region's
+GENESIS hotel occupancy, a **LISTED / est. / on-request** flag, and a **Source ↗** link to the live listing.
+| Field | Source | Confidence |
+|---|---|---|
+| Listings (price, area, rooms, deal, PLZ, city, URL) | **ahgzimmo.de** (AHGZ Immobilienmarkt) Atom feed — hotel/gastro lease+sale, 982 records; **Tranio** 4 (aggregator was rate-limited, seed rows used) | FIRM (listed) where `price_basis=LISTED` |
+| Coordinates | Geocoded from **PLZ centroid** (WZB plz_geocoord), state by point-in-polygon on `de_states.geojson`; frozen in `data/properties.json` | FIRM (city/PLZ-accurate) |
+| Modeled price (no listed figure) | €/key cost model: rooms × €/key(segment) × regional multiplier; lease ≈ value × 5.8% **upper bound** (calibrated to the real Wuppertal anchor €185/room/mo) | MODELED, flagged "est" |
+| Regional context on the card | **GENESIS 45412** beds + occupancy per Bundesland (`data/genesis_beds_by_land.json`) | FIRM |
+- Pipeline: `build/fetch_listings.mjs` (resumable; raw feed pages cached under `build/listings_cache/`) →
+  `data/properties.json` → inlined by `assemble.mjs`. Validation + old-vs-new diff: see
+  **[ARRIVIO_VALIDATION_REPORT.md](ARRIVIO_VALIDATION_REPORT.md)** (density vs GENESIS beds r=0.88; 0 hard failures).
+- **Office Rent / Vacant m² no longer interpolated:** the old IDW smear over rural land is retired —
+  Rent now shows the real broker **city anchors as colour-coded dots**, Vacant m² as **size-coded dots**
+  (click for exact figures). Office **Density** keeps the OSM `office=*` hexmap as a baseline footprint.
+
 ### 5. Partner hotels (GCH = amber, Seminaris = green)
 | Field | Source | Confidence |
 |---|---|---|

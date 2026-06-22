@@ -110,6 +110,13 @@
         <div class="lrow" data-lrow="stations"><span class="sw" style="background:var(--bike)"></span><span class="lname">Bike-share stations</span>
           <button class="eye" data-layer="stations" aria-pressed="false" aria-label="Toggle bike stations"><svg class="ic"><use href="#i-eye-off"/></svg></button></div>
         <div class="subhead">Supply &amp; market</div>
+        <div class="lrow off" data-lrow="props"><span class="sw" style="background:#d6219b"></span><span class="lname">Acquisition targets</span><span class="lcount num" id="n-props">0</span>
+          <button class="eye" data-layer="props" aria-pressed="false" aria-label="Toggle acquisition targets"><svg class="ic"><use href="#i-eye-off"/></svg></button></div>
+        <div class="seg metric-seg" id="prop-deal" role="group" aria-label="Deal type" hidden>
+          <button data-pd="all" aria-pressed="true">All</button>
+          <button data-pd="lease" aria-pressed="false">Lease</button>
+          <button data-pd="sale" aria-pressed="false">Sale</button>
+        </div>
         <div class="lrow off" data-lrow="commercial"><span class="sw grad"></span><span class="lname">Office &amp; commercial</span>
           <button class="eye" data-layer="commercial" aria-pressed="false" aria-label="Toggle office & commercial"><svg class="ic"><use href="#i-eye-off"/></svg></button></div>
         <div class="seg metric-seg" id="comm-metric" role="group" aria-label="Office metric" hidden>
