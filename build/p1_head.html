@@ -66,6 +66,8 @@ button:disabled{opacity:.45;cursor:default}
 /* ================= MAP ================= */
 #map{position:fixed;inset:0;background:var(--bg);z-index:0}
 .leaflet-container{font-family:inherit;background:var(--bg)}
+path.de-mask{fill:#0f1318;fill-opacity:1;stroke:none;pointer-events:none} /* masks the heatmaps outside Germany; follows the MAP theme below */
+body.light-map path.de-mask{fill:#eceef1}
 .leaflet-control-attribution{background:var(--glass)!important;color:var(--t3)!important;font-size:10px;border-radius:var(--r-sm) 0 0 0;backdrop-filter:blur(6px)}
 .leaflet-control-attribution a{color:var(--t2)!important}
 .leaflet-popup-content-wrapper{background:var(--s2);color:var(--t1);border:1px solid var(--bd);border-radius:var(--r-lg);box-shadow:var(--shadow-lg)}
