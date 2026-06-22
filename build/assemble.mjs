@@ -13,13 +13,18 @@ const statesPart = read('p_states.html').replace('__STATES_GEO__', () => statesG
 const readJson = f => { try { return read(f).trim() || '[]'; } catch (e) { return '[]'; } };
 const kreiseGeo = (() => { try { return read('de_kreise.geojson').trim(); } catch (e) { return 'null'; } })();
 const inflowKreise = (() => { try { const o = JSON.parse(read('inflow_kreise.json')); return JSON.stringify(o.data || o); } catch (e) { return '[]'; } })();
+const properties = (() => { try { return JSON.stringify(JSON.parse(read('../data/properties.json')).properties); } catch (e) { return '[]'; } })();
+const genesisBeds = (() => { try { return JSON.stringify(JSON.parse(read('../data/genesis_beds_by_land.json')).data); } catch (e) { return '{}'; } })();
 const osmPart = '<script>\n' +
   'const COMMERCIAL_GRID=' + readJson('commercial_grid.json') + ';\n' +
   'const HOTEL_GRID=' + readJson('hotel_grid.json') + ';\n' +
   'const HOTEL_PRICE_GRID=' + readJson('hotel_price_grid.json') + ';\n' +
   'const HOTELS_OSM=' + readJson('hotels_osm.json') + ';\n' +
   'const DE_KREISE_GEO=' + kreiseGeo + ';\n' +
-  'const INFLOW_KREISE=' + inflowKreise + ';\n</script>\n';
+  'const INFLOW_KREISE=' + inflowKreise + ';\n' +
+  'const PROPERTIES=' + properties + ';\n' +
+  'const LISTING_GRID=' + readJson('../data/listing_grid.json') + ';\n' +
+  'const GENESIS_BEDS=' + genesisBeds + ';\n</script>\n';
 
 const out = [
   read('p1_head.html'),

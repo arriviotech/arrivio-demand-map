@@ -324,6 +324,25 @@ const M = {
   },
   clearHotelPoints() { if (this.hotelPtL) { this.map.removeLayer(this.hotelPtL); this.hotelPtL = null; } },
 
+  /* ---- acquisition-target pins (real listings, clustered = honest clipped density) ---- */
+  renderProperties(list, onClick, colorFn, visible) {
+    if (this.propCl) this.map.removeLayer(this.propCl);
+    const self = this, sc = this.sizeScale || 1;
+    this.propCl = L.markerClusterGroup({
+      maxClusterRadius: 50, showCoverageOnHover: false, chunkedLoading: true,
+      iconCreateFunction: c => { const n = c.getChildCount(); const size = Math.round((n < 10 ? 30 : n < 50 ? 38 : n < 150 ? 46 : 54) * sc); const fs = Math.max(12, Math.round(size * 0.34)); return L.divIcon({ html: `<div class="pcl"><svg viewBox="0 0 ${size} ${size}"><circle cx="${size / 2}" cy="${size / 2}" r="${size / 2 - 3}"/></svg><b style="font-size:${fs}px">${n}</b></div>`, className: '', iconSize: [size, size] }); }
+    });
+    list.forEach(p => {
+      const m = L.circleMarker([p.lat, p.lng], { renderer: this._canvas, radius: 5 * sc, color: '#fff', weight: 1.3, fillColor: colorFn(p), fillOpacity: 0.92 });
+      m.on('click', () => { self._markerHit(); onClick(p); });
+      m.bindTooltip(p.name, { direction: 'top', className: 'client-label' });
+      this.propCl.addLayer(m);
+    });
+    if (visible) this.map.addLayer(this.propCl);
+  },
+  setPropertiesVisible(b) { if (!this.propCl) return; if (b && !this.map.hasLayer(this.propCl)) this.map.addLayer(this.propCl); if (!b && this.map.hasLayer(this.propCl)) this.map.removeLayer(this.propCl); },
+  clearProperties() { if (this.propCl) { this.map.removeLayer(this.propCl); this.propCl = null; } },
+
   /* ---- proposed areas ---- */
   _pinSvg() {
     return '<svg viewBox="0 0 24 32"><path d="M12 1C6.2 1 1.5 5.7 1.5 11.5 1.5 19 12 31 12 31s10.5-12 10.5-19.5C22.5 5.7 17.8 1 12 1z" fill="#d6219b" stroke="#fff" stroke-width="2"/><circle cx="12" cy="11.5" r="4" fill="#fff"/></svg>';

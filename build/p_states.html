@@ -3,7 +3,7 @@
    intl  = gross immigration from abroad, 2024 (Destatis 12711-12, FIRM)
    total = total in-migration incl. from other German states, 2024 (Destatis 12711-12, FIRM)
    pop   = population 31.12.2024 (Destatis, FIRM)
-   TAM   = inflow x EUR 15,000/person/yr (intl or total per the toggle). */
+   TAM   = inflow x EUR 15,000 per person (intl or total per the toggle). */
 const DE_STATES_GEO = __STATES_GEO__;
 const STATES_DATA = {
   "Nordrhein-Westfalen":      { intl: 344489, total: 479893, pop: 18034454 },
@@ -23,7 +23,7 @@ const STATES_DATA = {
   "Bremen":                   { intl: 16585,  total: 34299,  pop: 704881 },
   "Saarland":                 { intl: 18244,  total: 29308,  pop: 1012141 }
 };
-const TAM_PER_PERSON = 15000;          // EUR/person/yr (annual furnished-housing revenue assumption)
+const TAM_PER_PERSON = 15000;          // EUR per person (housing value assumption, not annual)
 // national composition of immigration (FIRM, 2023/2024) — shown in the state card footer
 const INFLOW_COMPOSITION = [
   { label: "EU free movement", pct: 33 },
