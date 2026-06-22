@@ -25,7 +25,8 @@
    "lng",
    "source",
    "source_url",
-   "captured"
+   "captured",
+   "abloese_eur"
   ],
   "price_basis_values": [
    "LISTED",
@@ -5530,8 +5531,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/vollausgestattete-bowlingbahn-mit-4-bahnen-kueche-verschiedene-gaesteebenen-in-radevormwald-G86X79",
    "captured": "2026-06-22",
-   "lat": 51.2094,
-   "lng": 7.3721,
+   "lat": 51.2002,
+   "lng": 7.36814,
    "lease_eur_mo": 57762,
    "lease_eur_yr": 693144,
    "price_basis": "LISTED"
@@ -6476,8 +6477,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/gastronomieflaeche-267m2-im-nahversorgungszentrum-am-treff-5-in-halle-saale-GVHM3Q",
    "captured": "2026-06-22",
-   "lat": 51.4739,
-   "lng": 11.9223,
+   "lat": 51.47676,
+   "lng": 11.9303,
    "lease_eur_mo": 46725,
    "lease_eur_yr": 560700,
    "price_basis": "LISTED"
@@ -6775,6 +6776,7 @@
    "captured": "2026-06-22",
    "lat": 48.7827,
    "lng": 9.1829,
+   "nk_eur_mo": 719,
    "lease_eur_mo": 42099,
    "lease_eur_yr": 505188,
    "price_basis": "LISTED"
@@ -11261,6 +11263,7 @@
    "captured": "2026-06-22",
    "lat": 52.4908,
    "lng": 13.3281,
+   "abloese_eur": 0,
    "lease_eur_mo": 9700,
    "lease_eur_yr": 116400,
    "price_basis": "LISTED"
@@ -11281,6 +11284,7 @@
    "captured": "2026-06-22",
    "lat": 52.4908,
    "lng": 13.3281,
+   "abloese_eur": 0,
    "lease_eur_mo": 9700,
    "lease_eur_yr": 116400,
    "price_basis": "LISTED"
@@ -11321,6 +11325,7 @@
    "captured": "2026-06-22",
    "lat": 52.5222,
    "lng": 13.4093,
+   "abloese_eur": 0,
    "lease_eur_mo": 9000,
    "lease_eur_yr": 108000,
    "price_basis": "LISTED"
@@ -11341,6 +11346,7 @@
    "captured": "2026-06-22",
    "lat": 52.5222,
    "lng": 13.4093,
+   "abloese_eur": 0,
    "lease_eur_mo": 9000,
    "lease_eur_yr": 108000,
    "price_basis": "LISTED"
@@ -11359,8 +11365,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/komplettes-gewerbehaus-mit-10-sanierten-zimmern-flexibel-nutzbarer-eg-und-ausbaureserve-im-dg-GXGCXX",
    "captured": "2026-06-22",
-   "lat": 52.4342,
-   "lng": 13.4561,
+   "lat": 52.42395,
+   "lng": 13.43935,
    "lease_eur_mo": 8500,
    "lease_eur_yr": 102000,
    "price_basis": "LISTED"
@@ -11477,6 +11483,7 @@
    "captured": "2026-06-22",
    "lat": 52.5307,
    "lng": 13.4058,
+   "abloese_eur": 0,
    "lease_eur_mo": 8000,
    "lease_eur_yr": 96000,
    "price_basis": "LISTED"
@@ -11497,6 +11504,7 @@
    "captured": "2026-06-22",
    "lat": 52.5307,
    "lng": 13.4058,
+   "abloese_eur": 0,
    "lease_eur_mo": 8000,
    "lease_eur_yr": 96000,
    "price_basis": "LISTED"
@@ -11556,6 +11564,7 @@
    "captured": "2026-06-22",
    "lat": 52.5345,
    "lng": 13.4561,
+   "abloese_eur": 0,
    "lease_eur_mo": 7000,
    "lease_eur_yr": 84000,
    "price_basis": "LISTED"
@@ -11596,6 +11605,7 @@
    "captured": "2026-06-22",
    "lat": 52.5345,
    "lng": 13.4561,
+   "abloese_eur": 0,
    "lease_eur_mo": 7000,
    "lease_eur_yr": 84000,
    "price_basis": "LISTED"
@@ -11813,8 +11823,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/hotel-restaurant-blumenhain-schwerter-wald-F49BVB",
    "captured": "2026-06-22",
-   "lat": 51.4289,
-   "lng": 7.5656,
+   "lat": 51.4601,
+   "lng": 7.55393,
    "lease_eur_mo": 5900,
    "lease_eur_yr": 70800,
    "price_basis": "LISTED"
@@ -11833,8 +11843,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/ausspanne-chemnitz-restaurant-im-wunderschoenen-fachwerk-G32VWQ",
    "captured": "2026-06-22",
-   "lat": 50.846,
-   "lng": 12.9101,
+   "lat": 50.84593,
+   "lng": 12.91721,
    "lease_eur_mo": 5900,
    "lease_eur_yr": 70800,
    "price_basis": "LISTED"
@@ -11853,8 +11863,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/gaststaette-in-der-muenchner-altstadt-zu-vermieten-GWXQ9M",
    "captured": "2026-06-22",
-   "lat": 48.1362,
-   "lng": 11.5729,
+   "lat": 48.13752,
+   "lng": 11.56631,
    "lease_eur_mo": 5800,
    "lease_eur_yr": 69600,
    "price_basis": "LISTED"
@@ -11953,8 +11963,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/provisionsfrei-betriebsfertige-grosskueche-mit-kantine-und-terrasse-sofort-umsatz-starten-GWW6GK",
    "captured": "2026-06-22",
-   "lat": 52.036,
-   "lng": 8.3172,
+   "lat": 52.04784,
+   "lng": 8.37396,
    "lease_eur_mo": 5400,
    "lease_eur_yr": 64800,
    "price_basis": "LISTED"
@@ -11973,8 +11983,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/siershahn-540-m2-gewerbeflaeche-in-top-lage-nahe-a3-ice-teilbar-ideal-fuer-restaurant-aerzte-o-bueros-GX6KFS",
    "captured": "2026-06-22",
-   "lat": 50.4847,
-   "lng": 7.7764,
+   "lat": 50.48398,
+   "lng": 7.77388,
    "lease_eur_mo": 5400,
    "lease_eur_yr": 64800,
    "price_basis": "LISTED"
@@ -12015,6 +12025,7 @@
    "captured": "2026-06-22",
    "lat": 52.4777,
    "lng": 13.4415,
+   "abloese_eur": 0,
    "lease_eur_mo": 5295,
    "lease_eur_yr": 63540,
    "price_basis": "LISTED"
@@ -12055,6 +12066,7 @@
    "captured": "2026-06-22",
    "lat": 52.4777,
    "lng": 13.4415,
+   "abloese_eur": 0,
    "lease_eur_mo": 5295,
    "lease_eur_yr": 63540,
    "price_basis": "LISTED"
@@ -12073,8 +12085,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/gastronomieflaeche-382m2-im-nahversorgungszentrum-am-treff-5-in-halle-saale-GVHM4P",
    "captured": "2026-06-22",
-   "lat": 51.4739,
-   "lng": 11.9223,
+   "lat": 51.47676,
+   "lng": 11.9303,
    "lease_eur_mo": 5157,
    "lease_eur_yr": 61884,
    "price_basis": "LISTED"
@@ -12252,8 +12264,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/tolle-sehr-grosse-gastroeinheit-in-absoluter-toplage-in-der-kneipenstrasse-von-zwickau-GXH8LY",
    "captured": "2026-06-22",
-   "lat": 50.7017,
-   "lng": 12.4951,
+   "lat": 50.71783,
+   "lng": 12.49344,
    "lease_eur_mo": 4500,
    "lease_eur_yr": 54000,
    "price_basis": "LISTED"
@@ -12313,6 +12325,7 @@
    "captured": "2026-06-22",
    "lat": 52.5326,
    "lng": 13.3777,
+   "abloese_eur": 0,
    "lease_eur_mo": 4220,
    "lease_eur_yr": 50640,
    "price_basis": "LISTED"
@@ -12333,6 +12346,7 @@
    "captured": "2026-06-22",
    "lat": 52.5326,
    "lng": 13.3777,
+   "abloese_eur": 0,
    "lease_eur_mo": 4220,
    "lease_eur_yr": 50640,
    "price_basis": "LISTED"
@@ -12431,6 +12445,7 @@
    "captured": "2026-06-22",
    "lat": 52.4931,
    "lng": 13.3969,
+   "abloese_eur": 290000,
    "lease_eur_mo": 4040,
    "lease_eur_yr": 48480,
    "price_basis": "LISTED"
@@ -12451,6 +12466,7 @@
    "captured": "2026-06-22",
    "lat": 52.4909,
    "lng": 13.4161,
+   "abloese_eur": 0,
    "lease_eur_mo": 4000,
    "lease_eur_yr": 48000,
    "price_basis": "LISTED"
@@ -12471,6 +12487,7 @@
    "captured": "2026-06-22",
    "lat": 52.52,
    "lng": 13.405,
+   "abloese_eur": 0,
    "lease_eur_mo": 4000,
    "lease_eur_yr": 48000,
    "price_basis": "LISTED"
@@ -12491,6 +12508,7 @@
    "captured": "2026-06-22",
    "lat": 52.4909,
    "lng": 13.4161,
+   "abloese_eur": 0,
    "lease_eur_mo": 4000,
    "lease_eur_yr": 48000,
    "price_basis": "LISTED"
@@ -12509,8 +12527,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/attraktive-eg-flaechen-fuer-ihre-baeckerei-oder-cafe-im-neubau-aerztehaus-G588Y7",
    "captured": "2026-06-22",
-   "lat": 52.481,
-   "lng": 13.5186,
+   "lat": 52.4846,
+   "lng": 13.51103,
    "lease_eur_mo": 4000,
    "lease_eur_yr": 48000,
    "price_basis": "LISTED"
@@ -12531,6 +12549,7 @@
    "captured": "2026-06-22",
    "lat": 52.52,
    "lng": 13.405,
+   "abloese_eur": 0,
    "lease_eur_mo": 4000,
    "lease_eur_yr": 48000,
    "price_basis": "LISTED"
@@ -12566,8 +12585,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/gewerbeflaeche-in-eimsbuettel-fuer-praxis-laden-oder-gastronomie-GRGFGY",
    "captured": "2026-06-22",
-   "lat": 53.571,
-   "lng": 9.9564,
+   "lat": 53.57503,
+   "lng": 9.96018,
    "lease_eur_mo": 3975,
    "lease_eur_yr": 47700,
    "price_basis": "LISTED"
@@ -12588,6 +12607,7 @@
    "captured": "2026-06-22",
    "lat": 52.5747,
    "lng": 13.2707,
+   "abloese_eur": 0,
    "lease_eur_mo": 3700,
    "lease_eur_yr": 44400,
    "price_basis": "LISTED"
@@ -12668,6 +12688,7 @@
    "captured": "2026-06-22",
    "lat": 52.5517,
    "lng": 13.4123,
+   "abloese_eur": 0,
    "lease_eur_mo": 3600,
    "lease_eur_yr": 43200,
    "price_basis": "LISTED"
@@ -12688,6 +12709,7 @@
    "captured": "2026-06-22",
    "lat": 52.481,
    "lng": 13.5186,
+   "abloese_eur": 0,
    "lease_eur_mo": 3600,
    "lease_eur_yr": 43200,
    "price_basis": "LISTED"
@@ -12708,6 +12730,7 @@
    "captured": "2026-06-22",
    "lat": 52.5517,
    "lng": 13.4123,
+   "abloese_eur": 0,
    "lease_eur_mo": 3600,
    "lease_eur_yr": 43200,
    "price_basis": "LISTED"
@@ -12728,6 +12751,7 @@
    "captured": "2026-06-22",
    "lat": 52.481,
    "lng": 13.5186,
+   "abloese_eur": 0,
    "lease_eur_mo": 3600,
    "lease_eur_yr": 43200,
    "price_basis": "LISTED"
@@ -12768,6 +12792,7 @@
    "captured": "2026-06-22",
    "lat": 52.5326,
    "lng": 13.3777,
+   "abloese_eur": 0,
    "lease_eur_mo": 3500,
    "lease_eur_yr": 42000,
    "price_basis": "LISTED"
@@ -12788,6 +12813,7 @@
    "captured": "2026-06-22",
    "lat": 52.4909,
    "lng": 13.4161,
+   "abloese_eur": 0,
    "lease_eur_mo": 3500,
    "lease_eur_yr": 42000,
    "price_basis": "LISTED"
@@ -12848,6 +12874,7 @@
    "captured": "2026-06-22",
    "lat": 52.4909,
    "lng": 13.4161,
+   "abloese_eur": 0,
    "lease_eur_mo": 3500,
    "lease_eur_yr": 42000,
    "price_basis": "LISTED"
@@ -12866,8 +12893,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/exklusives-restaurant-in-bestlage-hochwertige-gastronomie-mit-etabliertem-kundenstamm-GT8YKR",
    "captured": "2026-06-22",
-   "lat": 49.0067,
-   "lng": 8.3938,
+   "lat": 49.00681,
+   "lng": 8.3945,
    "lease_eur_mo": 3500,
    "lease_eur_yr": 42000,
    "price_basis": "LISTED"
@@ -12928,6 +12955,7 @@
    "captured": "2026-06-22",
    "lat": 52.5326,
    "lng": 13.3777,
+   "abloese_eur": 0,
    "lease_eur_mo": 3500,
    "lease_eur_yr": 42000,
    "price_basis": "LISTED"
@@ -12948,6 +12976,7 @@
    "captured": "2026-06-22",
    "lat": 52.4909,
    "lng": 13.4161,
+   "abloese_eur": 0,
    "lease_eur_mo": 3400,
    "lease_eur_yr": 40800,
    "price_basis": "LISTED"
@@ -12968,6 +12997,7 @@
    "captured": "2026-06-22",
    "lat": 52.4909,
    "lng": 13.4161,
+   "abloese_eur": 0,
    "lease_eur_mo": 3400,
    "lease_eur_yr": 40800,
    "price_basis": "LISTED"
@@ -12986,8 +13016,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/rustikales-restaurant-in-toplage-von-usingen-GQ3DCT",
    "captured": "2026-06-22",
-   "lat": 50.3552,
-   "lng": 8.5436,
+   "lat": 50.35094,
+   "lng": 8.53679,
    "lease_eur_mo": 3400,
    "lease_eur_yr": 40800,
    "price_basis": "LISTED"
@@ -13008,6 +13038,7 @@
    "captured": "2026-06-22",
    "lat": 52.5019,
    "lng": 13.4554,
+   "abloese_eur": 0,
    "lease_eur_mo": 3365,
    "lease_eur_yr": 40380,
    "price_basis": "LISTED"
@@ -13028,6 +13059,7 @@
    "captured": "2026-06-22",
    "lat": 52.5019,
    "lng": 13.4554,
+   "abloese_eur": 0,
    "lease_eur_mo": 3365,
    "lease_eur_yr": 40380,
    "price_basis": "LISTED"
@@ -13128,6 +13160,7 @@
    "captured": "2026-06-22",
    "lat": 52.5027,
    "lng": 13.4017,
+   "abloese_eur": 0,
    "lease_eur_mo": 3192,
    "lease_eur_yr": 38304,
    "price_basis": "LISTED"
@@ -13148,6 +13181,7 @@
    "captured": "2026-06-22",
    "lat": 52.5027,
    "lng": 13.4017,
+   "abloese_eur": 0,
    "lease_eur_mo": 3192,
    "lease_eur_yr": 38304,
    "price_basis": "LISTED"
@@ -13185,8 +13219,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/ihre-chance-auf-den-idealen-geschaeftsstandort-gewerbeflaeche-jetzt-mieten-GSD96F",
    "captured": "2026-06-22",
-   "lat": 50.5943,
-   "lng": 12.7062,
+   "lat": 50.58213,
+   "lng": 12.69679,
    "lease_eur_mo": 3105,
    "lease_eur_yr": 37260,
    "price_basis": "LISTED"
@@ -13207,6 +13241,7 @@
    "captured": "2026-06-22",
    "lat": 52.5004,
    "lng": 13.4334,
+   "abloese_eur": 0,
    "lease_eur_mo": 3070,
    "lease_eur_yr": 36840,
    "price_basis": "LISTED"
@@ -13347,6 +13382,7 @@
    "captured": "2026-06-22",
    "lat": 52.5004,
    "lng": 13.4334,
+   "abloese_eur": 0,
    "lease_eur_mo": 2900,
    "lease_eur_yr": 34800,
    "price_basis": "LISTED"
@@ -13407,6 +13443,7 @@
    "captured": "2026-06-22",
    "lat": 52.5004,
    "lng": 13.4334,
+   "abloese_eur": 0,
    "lease_eur_mo": 2900,
    "lease_eur_yr": 34800,
    "price_basis": "LISTED"
@@ -13427,6 +13464,8 @@
    "captured": "2026-06-22",
    "lat": 49.4723,
    "lng": 10.9931,
+   "nk_eur_mo": 600,
+   "abloese_eur": 85000,
    "lease_eur_mo": 2900,
    "lease_eur_yr": 34800,
    "price_basis": "LISTED"
@@ -13486,6 +13525,7 @@
    "captured": "2026-06-22",
    "lat": 52.5087,
    "lng": 13.3138,
+   "abloese_eur": 0,
    "lease_eur_mo": 2625,
    "lease_eur_yr": 31500,
    "price_basis": "LISTED"
@@ -13506,6 +13546,7 @@
    "captured": "2026-06-22",
    "lat": 52.5087,
    "lng": 13.3138,
+   "abloese_eur": 0,
    "lease_eur_mo": 2625,
    "lease_eur_yr": 31500,
    "price_basis": "LISTED"
@@ -13584,8 +13625,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/restaurant-blumenhof-in-thalfang-zu-verpachten-GVF7G5",
    "captured": "2026-06-22",
-   "lat": 49.7508,
-   "lng": 7.0039,
+   "lat": 49.74939,
+   "lng": 6.98626,
    "lease_eur_mo": 2500,
    "lease_eur_yr": 30000,
    "price_basis": "LISTED"
@@ -13606,6 +13647,7 @@
    "captured": "2026-06-22",
    "lat": 52.5317,
    "lng": 13.3386,
+   "abloese_eur": 0,
    "lease_eur_mo": 2500,
    "lease_eur_yr": 30000,
    "price_basis": "LISTED"
@@ -13706,6 +13748,7 @@
    "captured": "2026-06-22",
    "lat": 52.5317,
    "lng": 13.3386,
+   "abloese_eur": 0,
    "lease_eur_mo": 2500,
    "lease_eur_yr": 30000,
    "price_basis": "LISTED"
@@ -13822,8 +13865,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/kreativ-gestalten-rohbau-gastronomieflaechen-fuer-ihr-individuelles-unternehmenskonzept-GKMBBG",
    "captured": "2026-06-22",
-   "lat": 53.5639,
-   "lng": 10.0236,
+   "lat": 53.56612,
+   "lng": 10.01864,
    "lease_eur_mo": 2499,
    "lease_eur_yr": 29988,
    "price_basis": "LISTED"
@@ -13842,8 +13885,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/gaststaette-und-kiosk-am-obernzenner-see-14-ha-GXRRHS",
    "captured": "2026-06-22",
-   "lat": 49.4498,
-   "lng": 10.4662,
+   "lat": 49.44741,
+   "lng": 10.45646,
    "lease_eur_mo": 2400,
    "lease_eur_yr": 28800,
    "price_basis": "LISTED"
@@ -13922,8 +13965,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/ludwigsburg-gastronomie-in-ludwigsburg-2-350-00-GSN6VD",
    "captured": "2026-06-22",
-   "lat": 48.9117,
-   "lng": 9.1718,
+   "lat": 48.89874,
+   "lng": 9.19268,
    "lease_eur_mo": 2350,
    "lease_eur_yr": 28200,
    "price_basis": "LISTED"
@@ -13944,6 +13987,7 @@
    "captured": "2026-06-22",
    "lat": 52.4957,
    "lng": 13.4272,
+   "abloese_eur": 0,
    "lease_eur_mo": 2348,
    "lease_eur_yr": 28176,
    "price_basis": "LISTED"
@@ -13964,6 +14008,7 @@
    "captured": "2026-06-22",
    "lat": 52.4957,
    "lng": 13.4272,
+   "abloese_eur": 0,
    "lease_eur_mo": 2348,
    "lease_eur_yr": 28176,
    "price_basis": "LISTED"
@@ -14022,8 +14067,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/wedel-in-herzen-von-wedel-bei-hamburg-GW38RF",
    "captured": "2026-06-22",
-   "lat": 53.5936,
-   "lng": 9.6992,
+   "lat": 53.57513,
+   "lng": 9.70644,
    "lease_eur_mo": 2250,
    "lease_eur_yr": 27000,
    "price_basis": "LISTED"
@@ -14042,8 +14087,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/erlebnisgastronomie-im-sanierten-historischen-bergschreiberamt-in-bester-lage-direkt-am-wasser-GX5NV2",
    "captured": "2026-06-22",
-   "lat": 52.4646,
-   "lng": 13.7976,
+   "lat": 52.47487,
+   "lng": 13.77684,
    "lease_eur_mo": 2200,
    "lease_eur_yr": 26400,
    "price_basis": "LISTED"
@@ -14062,8 +14107,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/gastronomieflaeche-in-solingen-ohligs-flexibel-nutzbare-GXDJZ6",
    "captured": "2026-06-22",
-   "lat": 51.154,
-   "lng": 6.9912,
+   "lat": 51.15989,
+   "lng": 6.99966,
    "lease_eur_mo": 2200,
    "lease_eur_yr": 26400,
    "price_basis": "LISTED"
@@ -14084,6 +14129,7 @@
    "captured": "2026-06-22",
    "lat": 52.5517,
    "lng": 13.4123,
+   "abloese_eur": 0,
    "lease_eur_mo": 2150,
    "lease_eur_yr": 25800,
    "price_basis": "LISTED"
@@ -14164,6 +14210,7 @@
    "captured": "2026-06-22",
    "lat": 52.5191,
    "lng": 13.495,
+   "abloese_eur": 0,
    "lease_eur_mo": 2100,
    "lease_eur_yr": 25200,
    "price_basis": "LISTED"
@@ -14184,6 +14231,7 @@
    "captured": "2026-06-22",
    "lat": 52.5191,
    "lng": 13.495,
+   "abloese_eur": 0,
    "lease_eur_mo": 2100,
    "lease_eur_yr": 25200,
    "price_basis": "LISTED"
@@ -14342,6 +14390,8 @@
    "captured": "2026-06-22",
    "lat": 49.4251,
    "lng": 11.0558,
+   "nk_eur_mo": 800,
+   "abloese_eur": 40000,
    "lease_eur_mo": 2000,
    "lease_eur_yr": 24000,
    "price_basis": "LISTED"
@@ -14362,6 +14412,7 @@
    "captured": "2026-06-22",
    "lat": 52.4854,
    "lng": 13.3989,
+   "abloese_eur": 0,
    "lease_eur_mo": 2000,
    "lease_eur_yr": 24000,
    "price_basis": "LISTED"
@@ -14440,8 +14491,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/gastronomie-cafe-gewerbeflaeche-im-herzen-von-eimsbuettel-GXV59R",
    "captured": "2026-06-22",
-   "lat": 53.5795,
-   "lng": 9.952,
+   "lat": 53.58141,
+   "lng": 9.93825,
    "lease_eur_mo": 1980,
    "lease_eur_yr": 23760,
    "price_basis": "LISTED"
@@ -14462,6 +14513,7 @@
    "captured": "2026-06-22",
    "lat": 52.4609,
    "lng": 13.4815,
+   "abloese_eur": 0,
    "lease_eur_mo": 1970,
    "lease_eur_yr": 23640,
    "price_basis": "LISTED"
@@ -14482,6 +14534,7 @@
    "captured": "2026-06-22",
    "lat": 52.4609,
    "lng": 13.4815,
+   "abloese_eur": 0,
    "lease_eur_mo": 1970,
    "lease_eur_yr": 23640,
    "price_basis": "LISTED"
@@ -14502,6 +14555,7 @@
    "captured": "2026-06-22",
    "lat": 52.4957,
    "lng": 13.4272,
+   "abloese_eur": 0,
    "lease_eur_mo": 1950,
    "lease_eur_yr": 23400,
    "price_basis": "LISTED"
@@ -14542,6 +14596,7 @@
    "captured": "2026-06-22",
    "lat": 52.4957,
    "lng": 13.4272,
+   "abloese_eur": 0,
    "lease_eur_mo": 1950,
    "lease_eur_yr": 23400,
    "price_basis": "LISTED"
@@ -14560,8 +14615,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/gastronomieflaeche-128m2-im-nahversorgungszentrum-am-treff-5-in-halle-saale-GVHM42",
    "captured": "2026-06-22",
-   "lat": 51.4739,
-   "lng": 11.9223,
+   "lat": 51.47676,
+   "lng": 11.9303,
    "lease_eur_mo": 1920,
    "lease_eur_yr": 23040,
    "price_basis": "LISTED"
@@ -14620,8 +14675,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/imbissstand-food-trailer-in-top-lage-berlin-neukoelln-GXGV86",
    "captured": "2026-06-22",
-   "lat": 52.4591,
-   "lng": 13.4033,
+   "lat": 52.46476,
+   "lng": 13.42181,
    "lease_eur_mo": 1900,
    "lease_eur_yr": 22800,
    "price_basis": "LISTED"
@@ -14682,6 +14737,7 @@
    "captured": "2026-06-22",
    "lat": 52.5455,
    "lng": 13.4073,
+   "abloese_eur": 0,
    "lease_eur_mo": 1850,
    "lease_eur_yr": 22200,
    "price_basis": "LISTED"
@@ -14702,6 +14758,7 @@
    "captured": "2026-06-22",
    "lat": 52.4737,
    "lng": 13.3352,
+   "abloese_eur": 0,
    "lease_eur_mo": 1850,
    "lease_eur_yr": 22200,
    "price_basis": "LISTED"
@@ -14722,6 +14779,7 @@
    "captured": "2026-06-22",
    "lat": 52.5455,
    "lng": 13.4073,
+   "abloese_eur": 0,
    "lease_eur_mo": 1850,
    "lease_eur_yr": 22200,
    "price_basis": "LISTED"
@@ -14742,6 +14800,7 @@
    "captured": "2026-06-22",
    "lat": 52.4737,
    "lng": 13.3352,
+   "abloese_eur": 0,
    "lease_eur_mo": 1850,
    "lease_eur_yr": 22200,
    "price_basis": "LISTED"
@@ -14762,6 +14821,8 @@
    "captured": "2026-06-22",
    "lat": 48.8012,
    "lng": 8.998,
+   "nk_eur_mo": 469,
+   "abloese_eur": 45000,
    "lease_eur_mo": 1806,
    "lease_eur_yr": 21672,
    "price_basis": "LISTED"
@@ -14782,6 +14843,8 @@
    "captured": "2026-06-22",
    "lat": 48.8012,
    "lng": 8.998,
+   "nk_eur_mo": 469,
+   "abloese_eur": 45000,
    "lease_eur_mo": 1806,
    "lease_eur_yr": 21672,
    "price_basis": "LISTED"
@@ -14942,6 +15005,7 @@
    "captured": "2026-06-22",
    "lat": 52.4901,
    "lng": 13.4283,
+   "abloese_eur": 0,
    "lease_eur_mo": 1700,
    "lease_eur_yr": 20400,
    "price_basis": "LISTED"
@@ -14960,8 +15024,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/top-eiscafe-dolomiti-zu-verpachten-ohne-abstand-GXCX5T",
    "captured": "2026-06-22",
-   "lat": 47.9126,
-   "lng": 7.6873,
+   "lat": 47.91526,
+   "lng": 7.69933,
    "lease_eur_mo": 1700,
    "lease_eur_yr": 20400,
    "price_basis": "LISTED"
@@ -14980,8 +15044,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/top-eiscafe-dolomiti-zu-verpachten-ohne-abstand-GXBT74",
    "captured": "2026-06-22",
-   "lat": 47.9126,
-   "lng": 7.6873,
+   "lat": 47.91526,
+   "lng": 7.69933,
    "lease_eur_mo": 1700,
    "lease_eur_yr": 20400,
    "price_basis": "LISTED"
@@ -15022,6 +15086,7 @@
    "captured": "2026-06-22",
    "lat": 52.4901,
    "lng": 13.4283,
+   "abloese_eur": 0,
    "lease_eur_mo": 1700,
    "lease_eur_yr": 20400,
    "price_basis": "LISTED"
@@ -15102,6 +15167,7 @@
    "captured": "2026-06-22",
    "lat": 52.5601,
    "lng": 13.4222,
+   "abloese_eur": 0,
    "lease_eur_mo": 1600,
    "lease_eur_yr": 19200,
    "price_basis": "LISTED"
@@ -15142,6 +15208,7 @@
    "captured": "2026-06-22",
    "lat": 52.5601,
    "lng": 13.4222,
+   "abloese_eur": 0,
    "lease_eur_mo": 1600,
    "lease_eur_yr": 19200,
    "price_basis": "LISTED"
@@ -15160,8 +15227,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/raritaet-gastronomieeinheit-in-der-in-der-kneipenstrasse-von-zwickau-cafe-imbiss-BDQCZB",
    "captured": "2026-06-22",
-   "lat": 50.7017,
-   "lng": 12.4951,
+   "lat": 50.71822,
+   "lng": 12.49333,
    "lease_eur_mo": 1600,
    "lease_eur_yr": 19200,
    "price_basis": "LISTED"
@@ -15202,6 +15269,7 @@
    "captured": "2026-06-22",
    "lat": 52.5213,
    "lng": 13.2871,
+   "abloese_eur": 0,
    "lease_eur_mo": 1573,
    "lease_eur_yr": 18876,
    "price_basis": "LISTED"
@@ -15222,6 +15290,7 @@
    "captured": "2026-06-22",
    "lat": 52.5213,
    "lng": 13.2871,
+   "abloese_eur": 0,
    "lease_eur_mo": 1573,
    "lease_eur_yr": 18876,
    "price_basis": "LISTED"
@@ -15242,6 +15311,7 @@
    "captured": "2026-06-22",
    "lat": 52.5027,
    "lng": 13.4017,
+   "abloese_eur": 0,
    "lease_eur_mo": 1560,
    "lease_eur_yr": 18720,
    "price_basis": "LISTED"
@@ -15262,6 +15332,7 @@
    "captured": "2026-06-22",
    "lat": 52.5027,
    "lng": 13.4017,
+   "abloese_eur": 0,
    "lease_eur_mo": 1560,
    "lease_eur_yr": 18720,
    "price_basis": "LISTED"
@@ -15280,8 +15351,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/gastronomieflaeche-fuer-lieferdienst-und-take-away-in-seevetal-ohlendorf-zu-vermieten-GX76KK",
    "captured": "2026-06-22",
-   "lat": 53.363,
-   "lng": 10.0433,
+   "lat": 53.34218,
+   "lng": 10.04463,
    "lease_eur_mo": 1550,
    "lease_eur_yr": 18600,
    "price_basis": "LISTED"
@@ -15302,6 +15373,7 @@
    "captured": "2026-06-22",
    "lat": 52.0928,
    "lng": 8.4184,
+   "nk_eur_mo": 500,
    "lease_eur_mo": 1500,
    "lease_eur_yr": 18000,
    "price_basis": "LISTED"
@@ -15382,6 +15454,7 @@
    "captured": "2026-06-22",
    "lat": 52.0928,
    "lng": 8.4184,
+   "nk_eur_mo": 500,
    "lease_eur_mo": 1500,
    "lease_eur_yr": 18000,
    "price_basis": "LISTED"
@@ -15480,8 +15553,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/ebenerdige-gewerbeflaeche-mit-potential-fuer-gastronomie-umschreiben-GGYL76",
    "captured": "2026-06-22",
-   "lat": 54.1395,
-   "lng": 12.033,
+   "lat": 54.1422,
+   "lng": 12.05376,
    "lease_eur_mo": 1499,
    "lease_eur_yr": 17988,
    "price_basis": "LISTED"
@@ -15600,8 +15673,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/ankasa-gmbh-perfekt-fuer-tieraerzte-hundeheilpraktiker-catering-restaurant-oder-lieferdienstnutzung-ebenerdig-zentral-vielseitig-GQS8HN",
    "captured": "2026-06-22",
-   "lat": 51.3605,
-   "lng": 12.2821,
+   "lat": 51.35055,
+   "lng": 12.29534,
    "lease_eur_mo": 1450,
    "lease_eur_yr": 17400,
    "price_basis": "LISTED"
@@ -15660,8 +15733,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/werbewirksame-gewerbeeinheit-im-herzen-der-ktv-an-der-haltestelle-kabutzenhof-GKCSKQ",
    "captured": "2026-06-22",
-   "lat": 54.0901,
-   "lng": 12.1059,
+   "lat": 54.09157,
+   "lng": 12.1126,
    "lease_eur_mo": 1349,
    "lease_eur_yr": 16188,
    "price_basis": "LISTED"
@@ -15682,6 +15755,7 @@
    "captured": "2026-06-22",
    "lat": 52.5127,
    "lng": 13.2595,
+   "abloese_eur": 0,
    "lease_eur_mo": 1339,
    "lease_eur_yr": 16068,
    "price_basis": "LISTED"
@@ -15702,6 +15776,7 @@
    "captured": "2026-06-22",
    "lat": 52.5127,
    "lng": 13.2595,
+   "abloese_eur": 0,
    "lease_eur_mo": 1339,
    "lease_eur_yr": 16068,
    "price_basis": "LISTED"
@@ -15720,8 +15795,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/ihre-neue-gastronomie-in-hochfrequentierter-lage-G39GKL",
    "captured": "2026-06-22",
-   "lat": 50.7017,
-   "lng": 12.4951,
+   "lat": 50.72052,
+   "lng": 12.47692,
    "lease_eur_mo": 1205,
    "lease_eur_yr": 14460,
    "price_basis": "LISTED"
@@ -15780,8 +15855,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/imbisstube-oder-doener-FQ2J6Y",
    "captured": "2026-06-22",
-   "lat": 51.1952,
-   "lng": 6.4593,
+   "lat": 51.18492,
+   "lng": 6.44026,
    "lease_eur_mo": 1190,
    "lease_eur_yr": 14280,
    "price_basis": "LISTED"
@@ -15800,8 +15875,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/imbiss-restaurant-cafe-in-lentfoehrden-top-lage-an-der-bundesstrasse-zur-a7-DT82TP",
    "captured": "2026-06-22",
-   "lat": 53.8726,
-   "lng": 9.8837,
+   "lat": 53.86805,
+   "lng": 9.88807,
    "lease_eur_mo": 1100,
    "lease_eur_yr": 13200,
    "price_basis": "LISTED"
@@ -15820,8 +15895,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/2-zimmer-gewerbeeinheit-mit-59-86-m2-in-leipzig-suedvorstadt-GWRP3N",
    "captured": "2026-06-22",
-   "lat": 51.3216,
-   "lng": 12.3706,
+   "lat": 51.32108,
+   "lng": 12.38156,
    "lease_eur_mo": 1077,
    "lease_eur_yr": 12924,
    "price_basis": "LISTED"
@@ -15860,8 +15935,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/die-top-gastronomieflaeche-mit-alter-tradition-in-weisswasser-wiederbeleben-GDJHQQ",
    "captured": "2026-06-22",
-   "lat": 51.4269,
-   "lng": 14.5988,
+   "lat": 51.50512,
+   "lng": 14.64217,
    "lease_eur_mo": 1018,
    "lease_eur_yr": 12216,
    "price_basis": "LISTED"
@@ -15882,6 +15957,7 @@
    "captured": "2026-06-22",
    "lat": 52.8349,
    "lng": 13.7984,
+   "abloese_eur": 0,
    "lease_eur_mo": 1006,
    "lease_eur_yr": 12072,
    "price_basis": "LISTED"
@@ -15902,6 +15978,7 @@
    "captured": "2026-06-22",
    "lat": 52.8349,
    "lng": 13.7984,
+   "abloese_eur": 0,
    "lease_eur_mo": 1006,
    "lease_eur_yr": 12072,
    "price_basis": "LISTED"
@@ -15920,8 +15997,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/wir-suchen-sauna-wellness-beauty-massage-profi-fuer-den-wellnessbereich-im-freizeitpark-landsberg-GVHM4D",
    "captured": "2026-06-22",
-   "lat": 51.5324,
-   "lng": 12.1156,
+   "lat": 51.54439,
+   "lng": 12.13909,
    "lease_eur_mo": 1000,
    "lease_eur_yr": 12000,
    "price_basis": "LISTED"
@@ -15940,8 +16017,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/provisionsfrei-ihr-erfolgsrezept-charmante-gaststaette-mit-5-gaestezimmer-als-attraktive-einnahmequelle-GTVFS9",
    "captured": "2026-06-22",
-   "lat": 48.031,
-   "lng": 8.8742,
+   "lat": 48.02362,
+   "lng": 8.88903,
    "lease_eur_mo": 980,
    "lease_eur_yr": 11760,
    "price_basis": "LISTED"
@@ -15960,8 +16037,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/tolles-bistro-mit-kleiner-kueche-in-obersulm-zu-vermieten-GXNSYM",
    "captured": "2026-06-22",
-   "lat": 49.1356,
-   "lng": 9.3916,
+   "lat": 49.136,
+   "lng": 9.35638,
    "lease_eur_mo": 950,
    "lease_eur_yr": 11400,
    "price_basis": "LISTED"
@@ -16000,8 +16077,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/gastronomieeinheit-am-rittergut-lichtenwalde-zu-vermieten-GRR2TG",
    "captured": "2026-06-22",
-   "lat": 50.8633,
-   "lng": 13.0154,
+   "lat": 50.88298,
+   "lng": 13.00844,
    "lease_eur_mo": 950,
    "lease_eur_yr": 11400,
    "price_basis": "LISTED"
@@ -16060,8 +16137,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/grosszuegige-gewerbeeinheit-im-eg-vielseitig-nutzbar-mit-kueche-lagerflaechen-etc-GVR3S5",
    "captured": "2026-06-22",
-   "lat": 51.0801,
-   "lng": 8.7824,
+   "lat": 51.06016,
+   "lng": 8.80357,
    "lease_eur_mo": 900,
    "lease_eur_yr": 10800,
    "price_basis": "LISTED"
@@ -16080,8 +16157,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/traditionsgaststaette-zum-speisen-und-verweilen-GX5LM5",
    "captured": "2026-06-22",
-   "lat": 50.8236,
-   "lng": 6.2636,
+   "lat": 50.80772,
+   "lng": 6.24864,
    "lease_eur_mo": 900,
    "lease_eur_yr": 10800,
    "price_basis": "LISTED"
@@ -16100,8 +16177,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/traditionsgaststaette-zum-speisen-und-verweilen-G86X37",
    "captured": "2026-06-22",
-   "lat": 50.8236,
-   "lng": 6.2636,
+   "lat": 50.80772,
+   "lng": 6.24864,
    "lease_eur_mo": 900,
    "lease_eur_yr": 10800,
    "price_basis": "LISTED"
@@ -16120,8 +16197,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/gewerberaeume-in-koenigstein-saechsische-schweiz-GWMQL6",
    "captured": "2026-06-22",
-   "lat": 50.872,
-   "lng": 14.0426,
+   "lat": 50.91796,
+   "lng": 14.07362,
    "lease_eur_mo": 890,
    "lease_eur_yr": 10680,
    "price_basis": "LISTED"
@@ -16140,8 +16217,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/gewerberaeume-in-koenigstein-saechsische-schweiz-GWKX8Q",
    "captured": "2026-06-22",
-   "lat": 50.872,
-   "lng": 14.0426,
+   "lat": 50.91403,
+   "lng": 14.06372,
    "lease_eur_mo": 890,
    "lease_eur_yr": 10680,
    "price_basis": "LISTED"
@@ -16222,6 +16299,7 @@
    "captured": "2026-06-22",
    "lat": 52.5074,
    "lng": 13.3015,
+   "abloese_eur": 0,
    "lease_eur_mo": 800,
    "lease_eur_yr": 9600,
    "price_basis": "LISTED"
@@ -16242,6 +16320,7 @@
    "captured": "2026-06-22",
    "lat": 52.5074,
    "lng": 13.3015,
+   "abloese_eur": 0,
    "lease_eur_mo": 800,
    "lease_eur_yr": 9600,
    "price_basis": "LISTED"
@@ -16320,8 +16399,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/gemuetliche-bar-mit-voll-snackkueche-in-zentraler-lage-GLDVPQ",
    "captured": "2026-06-22",
-   "lat": 50.7017,
-   "lng": 12.4951,
+   "lat": 50.71942,
+   "lng": 12.49546,
    "lease_eur_mo": 700,
    "lease_eur_yr": 8400,
    "price_basis": "LISTED"
@@ -16480,8 +16559,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/ehemalige-bar-kneipe-im-kellergewoelbe-G258S7",
    "captured": "2026-06-22",
-   "lat": 50.4979,
-   "lng": 12.1139,
+   "lat": 50.49827,
+   "lng": 12.13746,
    "lease_eur_mo": 625,
    "lease_eur_yr": 7500,
    "price_basis": "LISTED"
@@ -16519,8 +16598,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/gewerbeflaeche-saloon-langfristig-zu-vermieten-GNDWYQ",
    "captured": "2026-06-22",
-   "lat": 50.5071,
-   "lng": 12.1364,
+   "lat": 50.52908,
+   "lng": 12.15034,
    "lease_eur_mo": 620,
    "lease_eur_yr": 7440,
    "price_basis": "LISTED"
@@ -16559,8 +16638,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/bistro-kiosk-mit-lottoannahmestelle-GQ3DCV",
    "captured": "2026-06-22",
-   "lat": 50.1501,
-   "lng": 8.5803,
+   "lat": 50.15116,
+   "lng": 8.57224,
    "lease_eur_mo": 550,
    "lease_eur_yr": 6600,
    "price_basis": "LISTED"
@@ -16579,8 +16658,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/ihre-chance-auf-den-idealen-geschaeftsstandort-gewerbeflaeche-jetzt-mieten-GSD96G",
    "captured": "2026-06-22",
-   "lat": 50.5943,
-   "lng": 12.7062,
+   "lat": 50.58213,
+   "lng": 12.69679,
    "lease_eur_mo": 513,
    "lease_eur_yr": 6156,
    "price_basis": "LISTED"
@@ -16599,8 +16678,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/tolle-gewerbeflaeche-z-b-fuer-ein-cafe-oder-einen-laden-in-sehr-zentraler-lage-von-gera-GVMYPC",
    "captured": "2026-06-22",
-   "lat": 50.8805,
-   "lng": 12.0805,
+   "lat": 50.87033,
+   "lng": 12.07953,
    "lease_eur_mo": 440,
    "lease_eur_yr": 5280,
    "price_basis": "LISTED"
@@ -16619,8 +16698,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/tolle-gewerbeflaeche-z-b-fuer-buero-oder-laden-in-sehr-zentraler-lage-von-gera-GVMYP9",
    "captured": "2026-06-22",
-   "lat": 50.8805,
-   "lng": 12.0805,
+   "lat": 50.87033,
+   "lng": 12.07953,
    "lease_eur_mo": 440,
    "lease_eur_yr": 5280,
    "price_basis": "LISTED"
@@ -16639,8 +16718,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/gera-tolle-gewerbeflaeche-z-b-fuer-ein-cafe-oder-einen-laden-in-sehr-zentraler-lage-von-gera-GVNY68",
    "captured": "2026-06-22",
-   "lat": 50.8805,
-   "lng": 12.0805,
+   "lat": 50.87033,
+   "lng": 12.07953,
    "lease_eur_mo": 440,
    "lease_eur_yr": 5280,
    "price_basis": "LISTED"
@@ -16699,8 +16778,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/erlebnisgastronomie-in-komplett-saniertem-renaissance-gebaeude-in-bester-lage-der-historischen-altstadt-meissen-GV5Y75",
    "captured": "2026-06-22",
-   "lat": 51.1633,
-   "lng": 13.4752,
+   "lat": 51.16493,
+   "lng": 13.47268,
    "price_basis": "price_on_request"
   },
   {
@@ -16753,8 +16832,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/ihr-neues-gastronomie-highlight-mit-einladendem-biergarten-und-top-ausstattung-GXTB7G",
    "captured": "2026-06-22",
-   "lat": 50.831,
-   "lng": 8.0172,
+   "lat": 50.84618,
+   "lng": 7.98736,
    "price_basis": "price_on_request"
   },
   {
@@ -16771,8 +16850,9 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/paechter-in-gesucht-fuer-historisches-humpisschloss-in-meckenbeuren-brochenzell-GX4ZPD",
    "captured": "2026-06-22",
-   "lat": 47.7102,
-   "lng": 9.5765,
+   "lat": 47.70334,
+   "lng": 9.54906,
+   "abloese_eur": 0,
    "price_basis": "price_on_request"
   },
   {
@@ -16807,8 +16887,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/wunderschoenes-kleines-feriendomizil-im-suedlaendischen-stil-GP5QSQ",
    "captured": "2026-06-22",
-   "lat": 48.79,
-   "lng": 9.8724,
+   "lat": 48.72542,
+   "lng": 9.87992,
    "price_basis": "price_on_request"
   },
   {
@@ -16825,8 +16905,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/neuverpachtung-zenger-dorfwirt-offenberg-naehe-deggendorf-GVF7F9",
    "captured": "2026-06-22",
-   "lat": 48.862,
-   "lng": 12.8907,
+   "lat": 48.86213,
+   "lng": 12.89323,
    "price_basis": "price_on_request"
   },
   {
@@ -16843,8 +16923,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/ausschreibung-pachtvertrag-zuckerbergschloss-kappelrodeck-GSPN2R",
    "captured": "2026-06-22",
-   "lat": 48.5791,
-   "lng": 8.114,
+   "lat": 48.58519,
+   "lng": 8.12368,
    "price_basis": "price_on_request"
   },
   {
@@ -16877,8 +16957,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/gastronomie-auf-der-bayerischen-landesausstellung-2028-GSX458",
    "captured": "2026-06-22",
-   "lat": 49.3795,
-   "lng": 10.1859,
+   "lat": 49.37134,
+   "lng": 10.18029,
    "price_basis": "price_on_request"
   },
   {
@@ -16895,8 +16975,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/erfahrene-paechter-in-gesucht-erst-verpachtung-unserer-exklusiven-brauereigaststaette-zum-goldenen-ochsen-GWL3R5",
    "captured": "2026-06-22",
-   "lat": 48.4023,
-   "lng": 9.9979,
+   "lat": 48.40684,
+   "lng": 9.9882,
    "price_basis": "price_on_request"
   },
   {
@@ -16931,8 +17011,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/stilvolles-restaurant-lokal-fuer-gehobene-mediterrane-gastronomie-in-darmstadt-griesheim-GWKM7N",
    "captured": "2026-06-22",
-   "lat": 49.8577,
-   "lng": 8.5502,
+   "lat": 49.8633,
+   "lng": 8.57986,
    "price_basis": "price_on_request"
   },
   {
@@ -16949,8 +17029,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/topimmobilie-1a-lage-hansaplatz-erdgeschoss-FXJ6R3",
    "captured": "2026-06-22",
-   "lat": 51.5082,
-   "lng": 7.4416,
+   "lat": 51.51277,
+   "lng": 7.46526,
    "price_basis": "price_on_request"
   },
   {
@@ -16987,6 +17067,7 @@
    "captured": "2026-06-22",
    "lat": 52.5019,
    "lng": 13.4554,
+   "abloese_eur": 0,
    "price_basis": "price_on_request"
   },
   {
@@ -17041,6 +17122,7 @@
    "captured": "2026-06-22",
    "lat": 52.5416,
    "lng": 13.1834,
+   "abloese_eur": 0,
    "price_basis": "price_on_request"
   },
   {
@@ -17075,8 +17157,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/backwaren-cafe-weinbar-135-m2-265-m2-loewenbau-waldshut-tiengen-G8B2V7",
    "captured": "2026-06-22",
-   "lat": 47.6533,
-   "lng": 8.2721,
+   "lat": 47.62174,
+   "lng": 8.21822,
    "price_basis": "price_on_request"
   },
   {
@@ -17111,8 +17193,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/tradition-trifft-gastfreundschaft-die-aelteste-gaststaette-berlins-sucht-neuen-paechter-abloesefrei-GVW7FT",
    "captured": "2026-06-22",
-   "lat": 52.5747,
-   "lng": 13.2707,
+   "lat": 52.59235,
+   "lng": 13.28172,
    "price_basis": "price_on_request"
   },
   {
@@ -17149,6 +17231,7 @@
    "captured": "2026-06-22",
    "lat": 52.4307,
    "lng": 13.2006,
+   "abloese_eur": 0,
    "price_basis": "price_on_request"
   },
   {
@@ -17165,8 +17248,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/moderne-gastronomieflaeche-in-top-lage-am-marktplatz-von-gaggenau-flexibel-gestaltbar-GWFLML",
    "captured": "2026-06-22",
-   "lat": 48.8105,
-   "lng": 8.3387,
+   "lat": 48.80276,
+   "lng": 8.31991,
    "price_basis": "price_on_request"
   },
   {
@@ -17183,8 +17266,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/gastronomieflaeche-im-kornelius-forumcafe-restaurant-mit-terrasse-direkt-am-schillerpark-GTHZCM",
    "captured": "2026-06-22",
-   "lat": 52.5588,
-   "lng": 13.3437,
+   "lat": 52.55971,
+   "lng": 13.34538,
    "price_basis": "price_on_request"
   },
   {
@@ -17219,8 +17302,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/einzigartige-gewerbeflaeche-im-historischen-bahnhof-bad-sooden-allendorf-voll-ausgestattet-GXVYNJ",
    "captured": "2026-06-22",
-   "lat": 51.2716,
-   "lng": 9.942,
+   "lat": 51.26832,
+   "lng": 9.96881,
    "price_basis": "price_on_request"
   },
   {
@@ -17237,8 +17320,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/guteingefuehrtes-speiselokal-im-stadtzentrum-von-velburg-GTLCLF",
    "captured": "2026-06-22",
-   "lat": 49.2312,
-   "lng": 11.6703,
+   "lat": 49.23172,
+   "lng": 11.67112,
    "price_basis": "price_on_request"
   },
   {
@@ -17291,8 +17374,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/verpachtung-der-historischen-weinstube-zur-traube-in-winnenden-GXC9LT",
    "captured": "2026-06-22",
-   "lat": 48.8698,
-   "lng": 9.4066,
+   "lat": 48.87639,
+   "lng": 9.39598,
    "price_basis": "price_on_request"
   },
   {
@@ -17363,8 +17446,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/gewerbeeinheit-fuer-gastronomie-events-seminare-und-praesentationen-GWKXMH",
    "captured": "2026-06-22",
-   "lat": 54.1463,
-   "lng": 12.1186,
+   "lat": 54.11206,
+   "lng": 12.13754,
    "price_basis": "price_on_request"
   },
   {
@@ -17399,8 +17482,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/neuverpachtung-der-orangerie-ansbach-restaurant-cafe-und-hochwertiger-veranstaltungsort-GSXMNL",
    "captured": "2026-06-22",
-   "lat": 49.2999,
-   "lng": 10.5596,
+   "lat": 49.30216,
+   "lng": 10.57974,
    "price_basis": "price_on_request"
   },
   {
@@ -17417,8 +17500,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/verpachtung-der-historischen-weinstube-zur-traube-in-winnenden-GXBYHS",
    "captured": "2026-06-22",
-   "lat": 48.8698,
-   "lng": 9.4066,
+   "lat": 48.87639,
+   "lng": 9.39598,
    "price_basis": "price_on_request"
   },
   {
@@ -17543,8 +17626,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/einzigartige-gewerbeflaeche-im-historischen-bahnhof-bad-sooden-allendorf-voll-ausgestattet-GXVYCN",
    "captured": "2026-06-22",
-   "lat": 51.2716,
-   "lng": 9.942,
+   "lat": 51.26832,
+   "lng": 9.96881,
    "price_basis": "price_on_request"
   },
   {
@@ -17579,8 +17662,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/eventlocation-im-schloss-waldrogaesen-bei-burg-einzigartige-schloss-eventlocation-bis-100-pers-GTKLK7",
    "captured": "2026-06-22",
-   "lat": 52.1425,
-   "lng": 11.9549,
+   "lat": 52.21854,
+   "lng": 12.12018,
    "price_basis": "price_on_request"
   },
   {
@@ -17635,6 +17718,7 @@
    "captured": "2026-06-22",
    "lat": 52.5416,
    "lng": 13.1834,
+   "abloese_eur": 0,
    "price_basis": "price_on_request"
   },
   {
@@ -17653,6 +17737,7 @@
    "captured": "2026-06-22",
    "lat": 52.5019,
    "lng": 13.4554,
+   "abloese_eur": 0,
    "price_basis": "price_on_request"
   },
   {
@@ -17687,8 +17772,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/gastronomie-traum-im-herzen-der-stolberger-altstadt-GW942Z",
    "captured": "2026-06-22",
-   "lat": 50.7803,
-   "lng": 6.2237,
+   "lat": 50.76695,
+   "lng": 6.23157,
    "price_basis": "price_on_request"
   },
   {
@@ -17741,8 +17826,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/ca-120qm-eg-flaeche-im-aerztehaus-ideal-als-kiez-cafe-oder-baeckerei-FMTJG5",
    "captured": "2026-06-22",
-   "lat": 52.5819,
-   "lng": 13.3981,
+   "lat": 52.58303,
+   "lng": 13.37435,
    "price_basis": "price_on_request"
   },
   {
@@ -17903,8 +17988,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/eventlocation-im-schloss-waldrogaesen-bei-burg-einzigartige-schloss-eventlocation-bis-100-pers-GTK53J",
    "captured": "2026-06-22",
-   "lat": 52.1425,
-   "lng": 11.9549,
+   "lat": 52.21854,
+   "lng": 12.12018,
    "price_basis": "price_on_request"
   },
   {
@@ -17921,8 +18006,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/gastronomie-flaechen-im-four-living-C274FY",
    "captured": "2026-06-22",
-   "lat": 51.3303,
-   "lng": 12.3892,
+   "lat": 51.33395,
+   "lng": 12.39177,
    "price_basis": "price_on_request"
   },
   {
@@ -17939,8 +18024,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/laden-gastro-flaechen-im-neubau-in-der-konsumzentrale-in-plagwitz-FL85G3",
    "captured": "2026-06-22",
-   "lat": 51.3224,
-   "lng": 12.338,
+   "lat": 51.32791,
+   "lng": 12.33119,
    "price_basis": "price_on_request"
   },
   {
@@ -17957,8 +18042,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/gastro-flaechen-im-neubau-in-der-konsumzentrale-in-plagwitz-FK6V6M",
    "captured": "2026-06-22",
-   "lat": 51.3224,
-   "lng": 12.338,
+   "lat": 51.32791,
+   "lng": 12.33119,
    "price_basis": "price_on_request"
   },
   {
@@ -17975,8 +18060,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/ihr-neuer-standort-mit-potenzial-mitten-im-geschehen-GDFT2P",
    "captured": "2026-06-22",
-   "lat": 51.3586,
-   "lng": 7.469,
+   "lat": 51.35789,
+   "lng": 7.47274,
    "price_basis": "price_on_request"
   },
   {
@@ -18049,6 +18134,7 @@
    "captured": "2026-06-22",
    "lat": 52.4307,
    "lng": 13.2006,
+   "abloese_eur": 0,
    "price_basis": "price_on_request"
   },
   {
@@ -18065,8 +18151,8 @@
    "source": "ahgzimmo.de",
    "source_url": "https://www.ahgzimmo.de/immobilien/biri-ferienwohnung-im-westend-von-plauen-DZFM2H",
    "captured": "2026-06-22",
-   "lat": 50.4863,
-   "lng": 12.1382,
+   "lat": 50.49249,
+   "lng": 12.10464,
    "price_basis": "price_on_request"
   },
   {
