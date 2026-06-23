@@ -30,7 +30,7 @@
     theme: localStorage.getItem('arrivio.theme') || 'dark',
     base: 'voyager',
     stateMetric: 'intl', stateMulti: false, selStates: [],
-    commMetric: 'density', hotelMetric: 'rooms', inflowMetric: 'intl', propDeal: 'all',
+    commMetric: 'density', hotelMetric: 'rooms', inflowMetric: 'total', propDeal: 'all',
     layers: { hex: true, clients: true, labels: true, approx: true, gch: true, sem: true, stations: false, commercial: false, hotels: false, inflow: false, props: false },
     reach: { mode: 'bike-share', min: 20, origin: null, active: false },
     sel: null, selArea: null, armed: false,
@@ -590,21 +590,23 @@
   const statesValueFn = () => (name => stateTAM(name, S.stateMetric));
   const stateLabelFn = () => (name => esc(STATE_SHORT[name] || name)); // name only — keeps labels compact, no overlap
   const statesFillOpacity = () => ((S.layers.clients || S.layers.hex || S.layers.commercial || S.layers.hotels) ? 0.32 : 0.8);
-  /* ---- immigrant-inflow OVERLAY — DISTRICT (Kreis) choropleth, mixable with point layers ----
-     INKAR/BBSR 2023: net migration saldo per 1,000 inhabitants per Kreis (can be negative). */
+  /* ---- in-migration OVERLAY — DISTRICT (Kreis) choropleth, mixable with point layers ----
+     Destatis Regionalstatistik 12711 (2024): GROSS arrivals (Zuzüge über die Kreisgrenzen) — the
+     number of people who MOVED INTO each district = domestic city-to-city + international, absolute.
+     (Replaces the old INKAR net saldo, which understated cities; this is the addressable-audience metric.) */
   const KREIS = {}; (INFLOW_KREISE || []).forEach(r => { KREIS[r.ags] = r; });
+  const _inflowFld = m => (m === 'foreign' ? 'auslaender' : 'total');
   const INFLOW_CAP = {};
-  ['intl', 'total'].forEach(m => { const v = (INFLOW_KREISE || []).map(r => r[m]).filter(x => typeof x === 'number' && x > 0).sort((a, b) => a - b); INFLOW_CAP[m] = v.length ? v[Math.floor(v.length * 0.95)] : 1; });
-  const inflowField = () => (S.inflowMetric === 'total' ? 'total' : 'intl');
+  ['total', 'foreign'].forEach(m => { const f = _inflowFld(m); const v = (INFLOW_KREISE || []).map(r => r[f]).filter(x => typeof x === 'number' && x > 0).sort((a, b) => a - b); INFLOW_CAP[m] = v.length ? v[Math.floor(v.length * 0.95)] : 1; });
+  const inflowField = () => _inflowFld(S.inflowMetric);
   function inflowColor(f) {
-    const r = KREIS[f.properties.AGS], fld = inflowField(), v = r ? r[fld] : null;
+    const r = KREIS[f.properties.AGS], v = r ? r[inflowField()] : null;
     if (v == null) return '#e9e6ee';
-    return rampColor(Math.min(1, Math.max(0, v) / (INFLOW_CAP[fld] || 1)));
+    return rampColor(Math.min(1, Math.max(0, v) / (INFLOW_CAP[S.inflowMetric === 'foreign' ? 'foreign' : 'total'] || 1)));
   }
   function inflowTip(f) {
     const r = KREIS[f.properties.AGS]; if (!r) return esc(f.properties.GEN || 'Kreis');
-    const v = r[inflowField()];
-    return esc(r.name) + ' · ' + (v > 0 ? '+' : '') + NF.format(v) + '/1.000';
+    return esc(r.name) + ' · ' + NF.format(r[inflowField()]) + (S.inflowMetric === 'foreign' ? ' foreign' : '') + ' arrivals/yr';
   }
   function computeInflow() {
     if (!S.layers.inflow) { M.hideInflow(); return; }
@@ -620,22 +622,23 @@
   function selectInflowRegion(ags) {
     const r = KREIS[ags]; if (!r) return;
     S.selInflow = ags;
-    const isT = S.inflowMetric === 'total', sgn = x => (x > 0 ? '+' : '') + NF.format(x);
+    const isF = S.inflowMetric === 'foreign', share = r.total ? Math.round(r.auslaender / r.total * 100) : null;
     showSelCard(`
       <div class="sname">${esc(r.name)}</div>
-      <div class="splace">Immigrant settlement · net migration per 1,000 residents (2023)</div>
-      <div class="seg" id="ic-metric" role="group" aria-label="Inflow visibility" style="margin:2px 0 10px">
-        <button data-im="intl" aria-pressed="${!isT}">International only</button>
-        <button data-im="total" aria-pressed="${isT}">Intl + domestic</button>
+      <div class="splace">People moving in · gross arrivals (Zuzüge), 2024</div>
+      <div class="seg" id="ic-metric" role="group" aria-label="Inflow metric" style="margin:2px 0 10px">
+        <button data-im="total" aria-pressed="${!isF}">All arrivals</button>
+        <button data-im="foreign" aria-pressed="${isF}">Foreign nat.</button>
       </div>
       <table>
-        <tr><td><b>${isT ? 'Total' : 'International'} net /1,000</b></td><td class="num"><b style="color:var(--acct);font-size:1.15em">${sgn(r[isT ? 'total' : 'intl'])}</b></td></tr>
-        <tr><td style="color:var(--t3)">· international (abroad)</td><td class="num" style="color:var(--t2)">${sgn(r.intl)}</td></tr>
-        <tr><td style="color:var(--t3)">· domestic (other districts)</td><td class="num" style="color:var(--t2)">${sgn(r.domestic)}</td></tr>
-        <tr><td>Foreign-population share</td><td class="num">${NF.format(r.auslaenderanteil)}%</td></tr>
+        <tr><td><b>${isF ? 'Foreign-national' : 'Total'} arrivals / yr</b></td><td class="num"><b style="color:var(--acct);font-size:1.15em">${NF.format(isF ? r.auslaender : r.total)}</b></td></tr>
+        <tr><td style="color:var(--t3)">· total (incl. domestic)</td><td class="num" style="color:var(--t2)">${NF.format(r.total)}</td></tr>
+        <tr><td style="color:var(--t3)">· foreign nationals</td><td class="num" style="color:var(--t2)">${NF.format(r.auslaender)}</td></tr>
+        <tr><td style="color:var(--t3)">· German nationals</td><td class="num" style="color:var(--t2)">${NF.format(r.deutsche)}</td></tr>
+        ${share != null ? `<tr><td>Foreign share of arrivals</td><td class="num">${share}%</td></tr>` : ''}
       </table>
-      <p class="hint" style="margin-top:8px">Net migration saldo per 1,000 inhabitants (arrivals − departures), 2023 — positive = net settling here.</p>
-      <p class="hint" style="margin-top:4px">Source: INKAR / BBSR. National inflow mix: ${esc(INFLOW_COMPOSITION.map(c => c.label + ' ' + c.pct + '%').join(' · '))}.</p>`);
+      <p class="hint" style="margin-top:8px">Gross in-migration across the district border — domestic city-to-city + international combined, 2024. The real addressable audience. Source: Destatis Regionalstatistik 12711.</p>
+      <p class="hint" style="margin-top:4px">"Foreign nat." counts arrivals who are foreign nationals (nationality, not origin).</p>`);
     document.querySelectorAll('#ic-metric [data-im]').forEach(b => b.onclick = () => setInflowMetric(b.dataset.im));
   }
   function setStateMetric(metric) {

@@ -29,24 +29,30 @@ So everything client-side traces back to your spreadsheet; only the *pin coordin
 | Population per state | **Destatis** (31.12.2024) | FIRM |
 | **TAM** = inflow × €15,000 per person | Your assumption (housing value per person — NOT annual); the €15k is the only modeled input | FIRM data × your assumption |
 
-### 2b. Immigrant inflow (DISTRICT-level overlay — mixable with point layers)
+### 2b. People moving in (DISTRICT-level overlay — mixable with point layers)
 A toggleable **overlay** (Layers → "Immigrant inflow") that colors each of the **~400 German
-districts (Kreise)** by immigrant settlement intensity — fine enough to actually pick a location.
-Semi-transparent, rendered in a dedicated pane *under* the pins so it combines with clients, proposed
-areas, hotels, etc. **International only ⇄ Intl + domestic** toggle (panel + click card); clicking a
-district shows both options plus the international / domestic / foreign-share figures.
-- **Data:** INKAR (BBSR Bonn), 2023, fetched live via its JSON API (`build/fetch_inkar_inflow.mjs`).
-  Values are **net migration saldo per 1,000 inhabitants** (arrivals − departures): `intl` =
-  Außenwanderungssaldo (international), `total` = Gesamtwanderungssaldo (incl. domestic), plus
-  `domestic` and foreign-population share. **FIRM**, all 400 districts.
-- **Boundaries:** opendatalab-de Kreis GeoJSON (BKG VG250, simplified to 448 KB), joined on the
-  5-digit `AGS`. 400/401 join (Eisenach 16056 merged into Wartburgkreis in 2021 → renders neutral).
-- **Honest caveat:** these are **rates (per 1,000), net, not absolute headcounts** — great for
-  "where is settlement intensity highest" (density-normalized), but for absolute "arrivals from
-  abroad" counts per district you'd need Destatis GENESIS table 12711 (registration-gated). Color is
-  capped at the 95th percentile so one outlier district doesn't wash out the map.
-- Shares the pink scale and swaps with the other area heatmaps (one at a time); distinct from the
-  "States · TAM" basemap (full-screen €-value, state-level).
+districts (Kreise)** by **gross in-migration — the number of people who MOVED INTO the district in
+2024** (Zuzüge über die Kreisgrenzen). This is the addressable-audience metric: how many new arrivals
+a location actually receives. Semi-transparent, under the pins so it combines with clients, areas,
+hotels, etc. **All arrivals ⇄ Foreign nat.** toggle; the click card shows total, foreign-national and
+German-national arrivals plus the foreign share.
+- **Data:** Destatis / Regionalstatistik GENESIS table **12711-05-02-4**, **2024** (built by
+  `build/build_inflow.mjs` from the open downloader; raw in `build/zuzuege_kreise_2024.json`). `total` =
+  GROSS arrivals across the district border = **domestic city-to-city moves + international combined**
+  (absolute count); `auslaender` / `deutsche` = arrivals who are foreign / German nationals. **FIRM**,
+  all 400 districts — validated, the 400 sum exactly to the national total (4,444,978). Datenlizenz DE 2.0.
+- **Why this replaced the old metric:** we previously showed INKAR **net** migration saldo per 1,000
+  (incl. domestic), which made big cities look low (suburbanisation bleeds domestic movers out of the
+  cores; the refugee per-capita distribution inflated small eastern Kreise) — the wrong metric for
+  "how many customers." Gross arrivals (absolute) puts the cities high (Berlin 186k, München 108k,
+  Hamburg 96k) as expected. (`build/fetch_inkar_inflow.mjs` is kept for history but no longer feeds the map.)
+- **Honest caveat:** the split is by **nationality, not origin** — a foreign national moving from another
+  German Kreis counts in `auslaender`, so "Foreign nat." is a nationality view, not "arrivals from abroad"
+  (Inland-vs-Ausland origin isn't separable at Kreis level for the über-Kreisgrenzen concept). Color is
+  capped at the 95th percentile (~27k) so the big cities don't wash out the rest.
+- **Boundaries:** opendatalab-de Kreis GeoJSON (BKG VG250, simplified), joined on the 5-digit `AGS`
+  (Berlin 11000, Hamburg 02000 as single Kreise). All 400 join.
+- Shares the pink scale and swaps with the other area heatmaps; distinct from the "States · TAM" basemap.
 
 ### 3. Office & commercial (layer has a 3-way metric toggle: Density / Rent / Vacant m²)
 | Metric | What it shows | Source | Confidence |

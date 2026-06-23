@@ -317,7 +317,7 @@
     // gradient scale for whichever heatmap is active (light = less, dark = more)
     let lTitle = 'Legend', lLo = '', lHi = '', lBar = false;
     if (S.layers.hex) { lTitle = 'Client room demand'; lLo = 'low'; lHi = '≈' + kfmt(demandMaxRooms) + ' rooms'; lBar = true; }
-    else if (S.layers.inflow) { const fld = S.inflowMetric === 'total' ? 'total' : 'intl'; lTitle = 'Immigrant settlement · net /1,000 (' + (S.inflowMetric === 'total' ? 'incl. domestic' : 'international') + ')'; lLo = 'net loss / low'; lHi = '≈+' + Math.round(INFLOW_CAP[fld]) + '/1.000'; lBar = true; }
+    else if (S.layers.inflow) { const m = S.inflowMetric === 'foreign' ? 'foreign' : 'total'; lTitle = 'People moving in / yr (' + (m === 'foreign' ? 'foreign nationals' : 'all arrivals, incl. domestic') + ', 2024)'; lLo = 'fewer'; lHi = '≈' + kfmt(INFLOW_CAP[m]) + '+'; lBar = true; }
     else if (S.layers.commercial) {
       if (S.commMetric === 'rent') { lBar = true; const v = COMMERCIAL_DATA.map(c => c.prime); lTitle = 'Office prime rent (city anchors)'; lLo = '€' + Math.min.apply(null, v) + '/m²'; lHi = '€' + Math.max.apply(null, v) + '/m²'; }
       else if (S.commMetric === 'vacant') { lBar = true; const v = COMMERCIAL_DATA.map(c => c.vac); lTitle = 'Office vacancy rate (% — city markets)'; lLo = Math.min.apply(null, v) + '%'; lHi = Math.max.apply(null, v) + '%'; }
