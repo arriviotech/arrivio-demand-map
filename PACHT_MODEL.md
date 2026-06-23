@@ -49,3 +49,25 @@ Bands (€/room/mo): metro 230–400 · B-city 150–270 · regional 120–200 �
 - Show the regional GENESIS occupancy line as supporting context (demand), as today.
 
 The integration steps and guardrail are in `CLAUDE_CODE_PACHT_PROMPT.md`.
+
+---
+
+## 5. 2026 research update — revenue-based deduction (now live)
+
+The per-hotel estimate is no longer a flat per-room band "calibrated to Wuppertal". It now uses the **standard German hotel-lease (Umsatzpacht) rule**, with real inputs:
+
+> **Pacht ≈ 15–25 % of net revenue**, where **revenue ≈ rooms × 365 × occupancy × ADR**.
+> Occupancy = real **Destatis GENESIS** bed-occupancy for the hotel's Bundesland; ADR modeled by category (1–2★ €72 · 3★ €105 · 4★ €135 · 5★ €250). The card shows the inputs, e.g. *"≈ 54 rooms × 40 % occupancy × ~€105/night × 15–25 % of revenue."*
+
+**Per-tier €/room·mo reference bands** (cross-check; synthesized from the revenue rule + 2025 market data + the real anchors — no source publishes hotel Pacht banded by tier, so medium confidence):
+
+| Tier | €/room·mo | €/m²·mo |
+|---|---|---|
+| Metro (A-city) | 450–900 | 12–25 |
+| B-city | 300–550 | 8–15 |
+| Regional / mid-town | 180–380 | 5–10 |
+| Rural / leisure | 120–300 | 3–8 |
+
+**Key economics (sourced):** turnover rent 15–25 % (hotels) / 8–12 % (gastronomy); near-always a fixed minimum (Sockelpacht); lease-coverage ratio (GOP ÷ Pacht) ≥ 1.3; "Pacht mal acht" for small owner-operated (rent ≈ 12.5 % of turnover); prime hotel yield ~5.25 % (2025). Canonical datapoint: a 100-room hotel at ~75 % occ / ~€80 ADR ⇒ ~€475/room·mo (~20.7 % of revenue).
+
+**Sources:** [pachtnetzwerk.immo — Pachtvertrag](https://pachtnetzwerk.immo/blog/hotel-gastronomie-pachtvertrag-letzte-entscheidungskriterien) · [pachtnetzwerk.immo — Pachtabdeckungsfaktor](https://pachtnetzwerk.immo/blog/der-pachtabdeckungsfaktor) · [AHGZ "Pacht mal acht"](https://www.ahgz.de/archiv/-fuer-gastronomen-gilt-pacht-mal-acht,200012214307.html) · [Engel & Völkers Hotelmarkt 2025](https://www.engelvoelkers.com/de-de/commercial/blog/hotelmarkt--deutschland-zunehmender-wettbewerbsdruck-trotz-hoher-nachfrage/) · Christie & Co DACH Hotel Report 2025. Real LISTED Pacht always overrides the model; where a hotel matches a live listing the card shows the real figure + `Source ↗`.

@@ -311,7 +311,7 @@
     if (S.layers.sem) cats.push(`<div class="lg"><span class="sw sq" style="background:var(--sem)"></span>Seminaris hotel</div>`);
     if (S.layers.props) cats.push(`<div class="lg"><span class="sw" style="background:#d6219b"></span>Hotel target</div><div class="lg"><span class="sw" style="background:#f59e0b"></span>Gastronomy</div><div class="lg"><span class="sw" style="background:#64748b"></span>Mixed / commercial</div><div class="lg" style="color:var(--t3)">Pink cluster = listing density · click a pin for price/Pacht + source</div>`);
     if (S.layers.commercial && S.commMetric === 'rent') cats.push(`<div class="lg"><span class="sw" style="background:#a51777"></span>City dot colour = prime rent · click for exact</div>`);
-    if (S.layers.commercial && S.commMetric === 'vacant') cats.push(`<div class="lg"><span class="sw" style="background:#a51777"></span>City dot size = vacant m² · click for exact</div>`);
+    if (S.layers.commercial && S.commMetric === 'vacant') cats.push(`<div class="lg"><span class="sw" style="background:#a51777"></span>City dot colour = office vacancy % · click for exact</div>`);
     if (S.reach.active) cats.push(`<div class="lg"><span class="sw" style="background:${MODE_COLOR[S.reach.mode]}"></span>Reach within ${S.reach.min} min (${MODE_LABEL[S.reach.mode]})</div>`);
     $('legend-cats').innerHTML = cats.join('');
     // gradient scale for whichever heatmap is active (light = less, dark = more)
@@ -320,12 +320,12 @@
     else if (S.layers.inflow) { const fld = S.inflowMetric === 'total' ? 'total' : 'intl'; lTitle = 'Immigrant settlement · net /1,000 (' + (S.inflowMetric === 'total' ? 'incl. domestic' : 'international') + ')'; lLo = 'net loss / low'; lHi = '≈+' + Math.round(INFLOW_CAP[fld]) + '/1.000'; lBar = true; }
     else if (S.layers.commercial) {
       if (S.commMetric === 'rent') { lBar = true; const v = COMMERCIAL_DATA.map(c => c.prime); lTitle = 'Office prime rent (city anchors)'; lLo = '€' + Math.min.apply(null, v) + '/m²'; lHi = '€' + Math.max.apply(null, v) + '/m²'; }
-      else if (S.commMetric === 'vacant') { lBar = false; lTitle = 'Vacant office space — dot size (city anchors)'; }
+      else if (S.commMetric === 'vacant') { lBar = true; const v = COMMERCIAL_DATA.map(c => c.vac); lTitle = 'Office vacancy rate (% — city markets)'; lLo = Math.min.apply(null, v) + '%'; lHi = Math.max.apply(null, v) + '%'; }
       else { lBar = true; lTitle = 'Office / commercial sites (OSM baseline)'; lLo = 'fewer'; lHi = 'more'; }
     }
     else if (S.layers.hotels) {
       lBar = true;
-      if (S.hotelMetric === 'price') { lTitle = 'Hotel nightly rate'; lLo = '≈€' + PRICE_LO; lHi = '≈€' + PRICE_HI; }
+      if (S.hotelMetric === 'pacht') { lTitle = 'Est. hotel Pacht (≈€/room·mo)'; lLo = '≈€' + Math.round(PRICE_LO * PACHT_PER_ADR); lHi = '≈€' + Math.round(PRICE_HI * PACHT_PER_ADR); }
       else { lTitle = 'Hotel rooms (small / family)'; lLo = 'fewer'; lHi = 'more'; }
     }
     $('legend-title').textContent = lTitle;

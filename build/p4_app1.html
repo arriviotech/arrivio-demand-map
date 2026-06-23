@@ -377,18 +377,19 @@
   const _commMax = {}, _hotelMax = {};
   const _pp = (HOTEL_PRICE_GRID && HOTEL_PRICE_GRID.length) ? HOTEL_PRICE_GRID.map(p => p[2]) : [80, 180];
   const PRICE_LO = Math.min.apply(null, _pp), PRICE_HI = Math.max.apply(null, _pp);
+  const PACHT_PER_ADR = 365 * 0.45 * 0.20 / 12; // ≈2.74 — est €/room·mo Pacht per €1 ADR (≈45% bed-occupancy × 20% Umsatzpacht); Pacht ∝ ADR so the price hexmap == the Pacht hexmap, just rescaled/relabelled
   // Office rent & vacancy are published ONLY per major city. We show the REAL broker figures as
   // city markers — rent = dot colour, vacant m² = dot size — and NEVER interpolate them across
   // empty land (the old idw() smear is retired). Density keeps the OSM site-concentration hexmap
   // as a baseline footprint, separate from the priced acquisition-target listings.
   const _primeLo = Math.min.apply(null, COMMERCIAL_DATA.map(c => c.prime));
   const _primeHi = Math.max.apply(null, COMMERCIAL_DATA.map(c => c.prime));
-  const _vacSq = COMMERCIAL_DATA.map(c => Math.sqrt(c.m2 || 0));
-  const _vacLo = Math.min.apply(null, _vacSq), _vacHi = Math.max.apply(null, _vacSq);
+  const _vacArr = COMMERCIAL_DATA.map(c => c.vac || 0);
+  const _vacLo = Math.min.apply(null, _vacArr), _vacHi = Math.max.apply(null, _vacArr);
   function commStyle(metric) {
     return c => {
       if (metric === 'rent') return { radius: 8, color: rampColor((c.prime - _primeLo) / ((_primeHi - _primeLo) || 1)), opacity: 0.95 };
-      if (metric === 'vacant') { const t = (_vacHi - _vacLo) ? (Math.sqrt(c.m2 || 0) - _vacLo) / (_vacHi - _vacLo) : 0; return { radius: 5 + t * 16, color: '#a51777', opacity: 0.5 }; }
+      if (metric === 'vacant') return { radius: 8, color: rampColor((_vacHi - _vacLo) ? ((c.vac || 0) - _vacLo) / (_vacHi - _vacLo) : 0), opacity: 0.95 }; // dark = higher vacancy %
       return { radius: 5, color: '#1d2733', opacity: 0.9 };
     };
   }
@@ -418,13 +419,21 @@
     if (best) { const bc = best.city.toLowerCase(), isM = _pmMetro.has(bc); if (isM && bd < 18) return 'metro'; if ((isM || _pmB.has(bc)) && bd < 14) return 'b_city'; if (bd < 30) return 'regional'; }
     return 'rural';
   }
-  function pachtEst(rooms, area, lat, lng, city) {
+  // Pacht ≈ 15–25% of revenue; revenue ≈ rooms × 365 × occupancy × ADR (German Umsatzpacht rule —
+  // sources: pachtnetzwerk.immo, Christie & Co DACH, Engel & Völkers). occupancy = real Destatis
+  // GENESIS bed-occupancy for the state; ADR modeled from category. €/m² band is the fallback.
+  function pachtEst(rooms, area, lat, lng, city, occPct, stars) {
     if (!PM) return null;
     const tier = pachtTier(lat, lng, city);
-    const sf = (rooms > 80 || area > 2500) ? PM.size_factor.gt_80_rooms_or_2500m2 : (rooms && rooms < 20) ? PM.size_factor.lt_20_rooms : PM.size_factor.default;
-    let mid; if (rooms) { const b = PM.per_room_eur_mo[tier]; mid = rooms * ((b[0] + b[1]) / 2) * sf; } else if (area) { const b = PM.per_m2_eur_mo[tier]; mid = area * ((b[0] + b[1]) / 2) * sf; } else return null;
-    const r50 = n => Math.round(n / 50) * 50, low = r50(mid * PM.range_spread[0]), high = r50(mid * PM.range_spread[1]);
-    return { tier, low, high, perRoomLow: rooms ? Math.round(low / rooms) : null, perRoomHigh: rooms ? Math.round(high / rooms) : null };
+    const r50 = n => Math.round(n / 50) * 50;
+    if (rooms) {
+      const adr = estAdr({ s: stars }), occ = (occPct && occPct > 0 ? occPct : 45) / 100;
+      const revYr = rooms * 365 * occ * adr;
+      const low = r50(revYr * 0.15 / 12), high = r50(revYr * 0.25 / 12);
+      return { tier, low, high, perRoomLow: Math.round(low / rooms), perRoomHigh: Math.round(high / rooms), adr, occ: Math.round(occ * 100), method: 'rev' };
+    }
+    if (area) { const b = PM.per_m2_eur_mo[tier], mid = area * ((b[0] + b[1]) / 2); return { tier, low: r50(mid * 0.8), high: r50(mid * 1.25), perRoomLow: null, perRoomHigh: null, method: 'm2' }; }
+    return null;
   }
   function matchedLease(h) { // nearest LISTED lease listing to this OSM hotel → LISTED Pacht overrides the model
     let best = null, bd = 1e9; for (const p of PROPS) { if (p.deal !== 'lease' || !p.lease_eur_mo || p.lat == null) continue; const d = _hav(h.lat, h.lng, p.lat, p.lng); if (d < bd) { bd = d; best = p; } }
@@ -448,16 +457,19 @@
         ${match.nk_eur_mo ? `<tr><td>Nebenkosten</td><td class="num">+${eur(match.nk_eur_mo)}/mo</td></tr>` : ''}
         ${abl ? `<tr><td>Ablöse</td><td class="num">${abl}</td></tr>` : ''}
         ${perRoom ? `<tr><td>≈ €/room</td><td class="num">${eur(perRoom)}/mo</td></tr>` : ''}
+        ${match.area_m2 ? `<tr><td>≈ €/m²</td><td class="num">€${(match.lease_eur_mo / match.area_m2).toFixed(1).replace('.', ',')}/mo</td></tr>` : ''}
         <tr><td>Basis</td><td class="num"><span style="color:#1a9e6c">● LISTED</span></td></tr>`;
       foot = `Pacht from a live listing (${esc(match.source)}). Nightly rate is an internal input only.`;
     } else {
-      const est = pachtEst(h.r, null, h.lat, h.lng, h.c);
+      const est = pachtEst(h.r, null, h.lat, h.lng, h.c, occ, h.s);
       if (est) {
         pachtRows = `<tr><td>Pacht (lease)</td><td class="num"><b style="color:var(--acct)">≈${eur(est.low)}–${eur(est.high)}</b>/mo <span style="color:var(--warn)">est</span></td></tr>
           <tr><td></td><td class="num" style="color:var(--t2)">≈${eur(est.low * 12)}–${eur(est.high * 12)}/yr</td></tr>
           ${est.perRoomLow ? `<tr><td>≈ €/room</td><td class="num">${eur(est.perRoomLow)}–${eur(est.perRoomHigh)}/mo</td></tr>` : ''}
           <tr><td>Basis</td><td class="num"><span style="color:var(--warn)">◐ est. (${est.tier})</span></td></tr>`;
-        foot = `Deduced Pacht range — ${est.tier} tier, no live listing matched. Calibrated to real anchors (Wuppertal ≈€185/room).`;
+        foot = est.method === 'rev'
+          ? `Est. ≈ ${fmt(h.r)} rooms × ${est.occ}% occupancy (Destatis GENESIS) × ~€${est.adr}/night × 15–25% of revenue — the standard German hotel-lease (Umsatzpacht) ratio. Real anchors: Wuppertal €185/room, mid-market ≈€475/room. Sources in PACHT_MODEL.md.`
+          : `Est. from €/m² benchmarks (${est.tier} tier) — no rooms count. See PACHT_MODEL.md.`;
       } else { pachtRows = `<tr><td>Pacht (lease)</td><td class="num" style="color:var(--t3)">n/a</td></tr>`; foot = 'Not enough data to estimate Pacht.'; }
     }
     const html = `
@@ -486,7 +498,7 @@
     } else {
       M.clearHotelPoints();
       const res = supplyRes();
-      if (S.hotelMetric === 'price') M.renderHexLayer('hotelrooms', hexPolysRange(aggHexAvg(inViewPts(HOTEL_PRICE_GRID), res), PRICE_LO, PRICE_HI), true);
+      if (S.hotelMetric === 'pacht') M.renderHexLayer('hotelrooms', hexPolysRange(aggHexAvg(inViewPts(HOTEL_PRICE_GRID), res), PRICE_LO, PRICE_HI), true); // colour ∝ ADR ∝ est Pacht/room
       else M.renderHexLayer('hotelrooms', hexPolys(aggHex(inViewPts(HOTEL_GRID), res), globalMaxFor(HOTEL_GRID, res, _hotelMax)), true);
     }
   }
@@ -510,6 +522,7 @@
         <tr><td></td><td class="num" style="color:var(--t2)">≈${eur(p.lease_eur_yr || p.lease_eur_mo * 12)}/yr${basis === 'MODELED' ? ' <span style="color:var(--warn)">est</span>' : ''}</td></tr>`;
       if (p.nk_eur_mo) priceRows += `<tr><td>Nebenkosten</td><td class="num">+${eur(p.nk_eur_mo)}/mo</td></tr>`;
       if (p.rooms) priceRows += `<tr><td>Pacht / room</td><td class="num">${eur(Math.round(p.lease_eur_mo / p.rooms))}/mo</td></tr>`;
+      if (p.area_m2) priceRows += `<tr><td>Pacht / m²</td><td class="num">€${(p.lease_eur_mo / p.area_m2).toFixed(1).replace('.', ',')}/mo</td></tr>`;
     } else if (p.deal === 'sale' && p.price_eur) {
       priceRows = `<tr><td>${basis === 'MODELED' ? 'Est. purchase' : 'Asking price'}</td><td class="num"><b style="color:var(--acct)">${basis === 'MODELED' ? '≈' : ''}${eur(p.price_eur)}</b>${basis === 'MODELED' ? ' <span style="color:var(--warn)">est</span>' : ''}</td></tr>`;
       if (p.eur_per_m2) priceRows += `<tr><td>€ / m²</td><td class="num">${eur(p.eur_per_m2)}</td></tr>`;
