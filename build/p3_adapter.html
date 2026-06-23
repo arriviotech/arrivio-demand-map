@@ -103,9 +103,7 @@ const M = {
     this._canvas = L.canvas({ padding: 0.3 });
     this.map.createPane('inflow'); this.map.getPane('inflow').style.zIndex = 250; // below markers/overlays so it sits under pins
     this._inflowRenderer = L.svg({ pane: 'inflow' });
-    this.map.createPane('deMask'); const _mp = this.map.getPane('deMask'); _mp.style.zIndex = 420; _mp.style.pointerEvents = 'none'; // above hex canvas (400), below markers (600)
-    this._maskRenderer = L.svg({ pane: 'deMask' });
-    this._renderGermanyMask();
+    // Germany clipping is done per-hex by inGermany() in the controller — keeps the basemap (neighbours) visible
     this.map.on('click', e => { if (this._skipMapClick) { this._skipMapClick = false; return; } o.onClick && o.onClick([e.latlng.lat, e.latlng.lng]); });
     this.map.on('zoomend', () => { this._applyLabels(); o.onZoom && o.onZoom(this.map.getZoom()); });
     this.map.on('moveend', () => o.onMove && o.onMove());
@@ -345,14 +343,6 @@ const M = {
   },
   setPropertiesVisible(b) { if (!this.propCl) return; if (b && !this.map.hasLayer(this.propCl)) this.map.addLayer(this.propCl); if (!b && this.map.hasLayer(this.propCl)) this.map.removeLayer(this.propCl); },
   clearProperties() { if (this.propCl) { this.map.removeLayer(this.propCl); this.propCl = null; } },
-
-  /* ---- Germany mask: clips the hex heatmaps to the national border (world-minus-Germany) ---- */
-  _renderGermanyMask() {
-    if (this._maskLayer || typeof DE_OUTLINE === 'undefined' || !DE_OUTLINE) return;
-    const outer = [[85, -179], [85, 179], [-85, 179], [-85, -179]];                    // world rect (avoids antimeridian)
-    const holes = DE_OUTLINE.coordinates.map(poly => poly[0].map(c => [c[1], c[0]]));   // [lng,lat] → [lat,lng]
-    this._maskLayer = L.polygon([outer, ...holes], { renderer: this._maskRenderer, className: 'de-mask', stroke: false, fillOpacity: 1, interactive: false }).addTo(this.map);
-  },
 
   /* ---- proposed areas ---- */
   _pinSvg() {

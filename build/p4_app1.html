@@ -368,12 +368,16 @@
   }
   // shared hex aggregation for the OSM density layers (light = less, dark = more)
   function aggHex(points, res) { const cells = {}; for (const p of points) { try { const c = h3.latLngToCell(p[0], p[1], res); cells[c] = (cells[c] || 0) + p[2]; } catch (e) { } } return cells; }
-  function hexPolys(cells, max) { if (max == null) { const vals = Object.values(cells); if (!vals.length) return []; max = Math.max.apply(null, vals); } if (max <= 0) return []; return Object.entries(cells).map(([c, v]) => ({ boundary: h3.cellToBoundary(c), color: rampColor(Math.sqrt(v / max)), v })); }
+  // clip the hex heatmaps to Germany by cell centre — basemap (neighbours) stays visible, only our data is DE-only
+  const _DErings = (typeof DE_OUTLINE !== 'undefined' && DE_OUTLINE) ? DE_OUTLINE.coordinates.map(p => p[0]) : null;
+  function inGermany(lat, lng) { if (!_DErings) return true; for (const ring of _DErings) { let c = false; for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) { const xi = ring[i][0], yi = ring[i][1], xj = ring[j][0], yj = ring[j][1]; if (((yi > lat) !== (yj > lat)) && (lng < (xj - xi) * (lat - yi) / (yj - yi) + xi)) c = !c; } if (c) return true; } return false; }
+  const _inDE = c => { const ll = h3.cellToLatLng(c); return inGermany(ll[0], ll[1]); };
+  function hexPolys(cells, max) { if (max == null) { const vals = Object.values(cells); if (!vals.length) return []; max = Math.max.apply(null, vals); } if (max <= 0) return []; return Object.entries(cells).filter(([c]) => _inDE(c)).map(([c, v]) => ({ boundary: h3.cellToBoundary(c), color: rampColor(Math.sqrt(v / max)), v })); }
   function inViewPts(points) { const b = M.map.getBounds().pad(0.3), s = b.getSouth(), n = b.getNorth(), w = b.getWest(), e = b.getEast(); const out = []; for (const p of points) if (p[0] >= s && p[0] <= n && p[1] >= w && p[1] <= e) out.push(p); return out; }
   function supplyRes() { const z = M.getZoom(); return z <= 6 ? 4 : z <= 8 ? 5 : z <= 10 ? 6 : 7; } // coarser than demand hex (these layers have ~22k pts)
   function globalMaxFor(points, res, cache) { if (cache[res] != null) return cache[res]; const v = Object.values(aggHex(points, res)); return cache[res] = v.length ? Math.max.apply(null, v) : 1; }
   function aggHexAvg(points, res) { const sum = {}, cnt = {}; for (const p of points) { try { const c = h3.latLngToCell(p[0], p[1], res); sum[c] = (sum[c] || 0) + p[2]; cnt[c] = (cnt[c] || 0) + 1; } catch (e) { } } const out = {}; for (const c in sum) out[c] = sum[c] / cnt[c]; return out; }
-  function hexPolysRange(cells, min, max) { const d = (max - min) || 1; return Object.entries(cells).map(([c, v]) => ({ boundary: h3.cellToBoundary(c), color: rampColor((v - min) / d), v })); }
+  function hexPolysRange(cells, min, max) { const d = (max - min) || 1; return Object.entries(cells).filter(([c]) => _inDE(c)).map(([c, v]) => ({ boundary: h3.cellToBoundary(c), color: rampColor((v - min) / d), v })); }
   const _commMax = {}, _hotelMax = {};
   const _pp = (HOTEL_PRICE_GRID && HOTEL_PRICE_GRID.length) ? HOTEL_PRICE_GRID.map(p => p[2]) : [80, 180];
   const PRICE_LO = Math.min.apply(null, _pp), PRICE_HI = Math.max.apply(null, _pp);
@@ -439,6 +443,13 @@
     let best = null, bd = 1e9; for (const p of PROPS) { if (p.deal !== 'lease' || !p.lease_eur_mo || p.lat == null) continue; const d = _hav(h.lat, h.lng, p.lat, p.lng); if (d < bd) { bd = d; best = p; } }
     return (best && bd <= 1.2) ? best : null;
   }
+  // nearby LISTED hotel-lease comparables = local real anchors; use the tightest radius that yields ≥2
+  function nearbyHotelComps(h) {
+    const all = PROPS.filter(p => p.kind === 'hotel' && p.deal === 'lease' && p.lease_eur_mo && p.rooms && p.lat != null).map(p => ({ d: _hav(h.lat, h.lng, p.lat, p.lng), pr: Math.round(p.lease_eur_mo / p.rooms) }));
+    for (const R of [30, 75, 150]) { const c = all.filter(x => x.d <= R); if (c.length >= 2) return { prs: c.map(x => x.pr), radius: R, n: c.length }; }
+    return null;
+  }
+  const _median = a => { const s = [...a].sort((x, y) => x - y); return s[s.length >> 1]; };
   const _pip = (lat, lng, ring) => { let c = false; for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) { const xi = ring[i][0], yi = ring[i][1], xj = ring[j][0], yj = ring[j][1]; if (((yi > lat) !== (yj > lat)) && (lng < (xj - xi) * (lat - yi) / (yj - yi) + xi)) c = !c; } return c; }; // ring pts = [lng,lat]
   function stateAtLL(lat, lng) {
     if (typeof DE_STATES_GEO === 'undefined' || !DE_STATES_GEO) return null;
@@ -463,13 +474,17 @@
     } else {
       const est = pachtEst(h.r, null, h.lat, h.lng, h.c, occ, h.s);
       if (est) {
+        const comps = (h.r && est.method === 'rev') ? nearbyHotelComps(h) : null;
+        if (comps) { const m = _median(comps.prs); est.low = Math.round(m * 0.85 * h.r / 50) * 50; est.high = Math.round(m * 1.2 * h.r / 50) * 50; est.perRoomLow = Math.round(est.low / h.r); est.perRoomHigh = Math.round(est.high / h.r); }
         pachtRows = `<tr><td>Pacht (lease)</td><td class="num"><b style="color:var(--acct)">≈${eur(est.low)}–${eur(est.high)}</b>/mo <span style="color:var(--warn)">est</span></td></tr>
           <tr><td></td><td class="num" style="color:var(--t2)">≈${eur(est.low * 12)}–${eur(est.high * 12)}/yr</td></tr>
           ${est.perRoomLow ? `<tr><td>≈ €/room</td><td class="num">${eur(est.perRoomLow)}–${eur(est.perRoomHigh)}/mo</td></tr>` : ''}
           <tr><td>Basis</td><td class="num"><span style="color:var(--warn)">◐ est. (${est.tier})</span></td></tr>`;
-        foot = est.method === 'rev'
-          ? `Est. ≈ ${fmt(h.r)} rooms × ${est.occ}% occupancy (Destatis GENESIS) × ~€${est.adr}/night × 15–25% of revenue — the standard German hotel-lease (Umsatzpacht) ratio. Real anchors: Wuppertal €185/room, mid-market ≈€475/room. Sources in PACHT_MODEL.md.`
-          : `Est. from €/m² benchmarks (${est.tier} tier) — no rooms count. See PACHT_MODEL.md.`;
+        foot = comps
+          ? `Anchored to ${comps.n} listed hotel lease${comps.n > 1 ? 's' : ''} within ${comps.radius} km (≈€${_median(comps.prs)}/room median) + ${est.occ}% regional occupancy (Destatis GENESIS). See PACHT_MODEL.md.`
+          : (est.method === 'rev'
+            ? `Deduced from ${est.occ}% regional hotel occupancy (Destatis GENESIS) × ~€${est.adr}/night (${h.s ? h.s + '★' : 'unrated'}) × 15–25% of revenue — the German Umsatzpacht rule. No listed comparable nearby. See PACHT_MODEL.md.`
+            : `Deduced from regional €/m² benchmarks (${est.tier} tier) — no rooms count. See PACHT_MODEL.md.`);
       } else { pachtRows = `<tr><td>Pacht (lease)</td><td class="num" style="color:var(--t3)">n/a</td></tr>`; foot = 'Not enough data to estimate Pacht.'; }
     }
     const html = `
@@ -525,7 +540,7 @@
       if (p.area_m2) priceRows += `<tr><td>Pacht / m²</td><td class="num">€${(p.lease_eur_mo / p.area_m2).toFixed(1).replace('.', ',')}/mo</td></tr>`;
     } else if (p.deal === 'sale' && p.price_eur) {
       priceRows = `<tr><td>${basis === 'MODELED' ? 'Est. purchase' : 'Asking price'}</td><td class="num"><b style="color:var(--acct)">${basis === 'MODELED' ? '≈' : ''}${eur(p.price_eur)}</b>${basis === 'MODELED' ? ' <span style="color:var(--warn)">est</span>' : ''}</td></tr>`;
-      if (p.eur_per_m2) priceRows += `<tr><td>€ / m²</td><td class="num">${eur(p.eur_per_m2)}</td></tr>`;
+      if (p.area_m2) priceRows += `<tr><td>€ / m²</td><td class="num">${eur(Math.round(p.price_eur / p.area_m2))}</td></tr>`;
       if (p.rooms) priceRows += `<tr><td>€ / room (key)</td><td class="num">${eur(Math.round(p.price_eur / p.rooms))}</td></tr>`;
       if (p.lease_eur_yr && basis === 'MODELED') priceRows += `<tr><td>Est. annual lease</td><td class="num" style="color:var(--t2)">≈${eur(p.lease_eur_yr)}/yr <span style="color:var(--warn)">est</span></td></tr>`;
     } else priceRows = `<tr><td>Price</td><td class="num" style="color:var(--t3)">on request</td></tr>`;
