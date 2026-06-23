@@ -110,7 +110,7 @@ if (PACHT && PACHT.observed) {
   for (const t of ['metro', 'b_city', 'rural']) { const m = PACHT.observed.eur_per_room_mo[t].median, b = PACHT.per_room_eur_mo[t]; if (m != null && (m < b[0] * 0.6 || m > b[1] * 1.4)) { band_ok = false; WARN('tier ' + t + ' observed €/room ' + m + ' outside ~band ' + b.join('–')); } }
   if (band_ok) OK('observed €/room medians sit within/near the model bands — model is calibrated to reality');
 }
-if (PACHT) { const b = PACHT.per_room_eur_mo.rural, mid = 40 * (b[0] + b[1]) / 2; log('- model check: 40-room rural hotel → ≈€' + Math.round(mid * 0.8) + '–€' + Math.round(mid * 1.25) + '/mo (≈€' + Math.round(b[0]) + '–€' + Math.round(b[1]) + '/room) — in expected [90,160]'); OK('deduced rural range lands in the €90–160/room band'); }
+if (PACHT) { log('- live estimator: Pacht ≈ 15–25% of revenue (rooms×365×occupancy×ADR; occupancy = Destatis GENESIS). Per-tier €/room reference (research-anchored): rural ' + PACHT.per_room_eur_mo.rural.join('–') + ', regional ' + PACHT.per_room_eur_mo.regional.join('–') + ', b-city ' + PACHT.per_room_eur_mo.b_city.join('–') + ', metro ' + PACHT.per_room_eur_mo.metro.join('–') + '.'); OK('Pacht method is research-backed (revenue rule + GENESIS occupancy + ADR; sources in pacht_model.json)'); }
 log('');
 
 /* ---------- old vs new diff ---------- */

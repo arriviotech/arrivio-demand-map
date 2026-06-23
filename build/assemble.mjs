@@ -16,6 +16,7 @@ const inflowKreise = (() => { try { const o = JSON.parse(read('inflow_kreise.jso
 const properties = (() => { try { return JSON.stringify(JSON.parse(read('../data/properties.json')).properties); } catch (e) { return '[]'; } })();
 const genesisBeds = (() => { try { return JSON.stringify(JSON.parse(read('../data/genesis_beds_by_land.json')).data); } catch (e) { return '{}'; } })();
 const pachtModelData = (() => { try { return read('../data/pacht_model.json').trim(); } catch (e) { return 'null'; } })();
+const deOutline = (() => { try { return read('../data/de_outline.json').trim(); } catch (e) { return 'null'; } })();
 const osmPart = '<script>\n' +
   'const COMMERCIAL_GRID=' + readJson('commercial_grid.json') + ';\n' +
   'const HOTEL_GRID=' + readJson('hotel_grid.json') + ';\n' +
@@ -26,7 +27,8 @@ const osmPart = '<script>\n' +
   'const PROPERTIES=' + properties + ';\n' +
   'const LISTING_GRID=' + readJson('../data/listing_grid.json') + ';\n' +
   'const GENESIS_BEDS=' + genesisBeds + ';\n' +
-  'const PACHT_MODEL=' + pachtModelData + ';\n</script>\n';
+  'const PACHT_MODEL=' + pachtModelData + ';\n' +
+  'const DE_OUTLINE=' + deOutline + ';\n</script>\n';
 
 const out = [
   read('p1_head.html'),

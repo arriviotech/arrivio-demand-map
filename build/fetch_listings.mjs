@@ -25,7 +25,16 @@ const CAPTURED = '2026-06-22';
 // ---------- small utils ----------
 const decode = s => (s || '').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#(\d+);/g, (_, n) => String.fromCharCode(+n)).replace(/&#x([0-9a-f]+);/gi, (_, n) => String.fromCharCode(parseInt(n, 16))).trim();
 const pick = (xml, tag) => { const m = xml.match(new RegExp('<(?:[\\w]+:)?' + tag + '\\b[^>]*>([\\s\\S]*?)</(?:[\\w]+:)?' + tag + '>', 'i')); return m ? decode(m[1]) : null; };
-const intOf = s => { if (s == null) return null; const n = parseInt(String(s).replace(/[^\d]/g, ''), 10); return Number.isFinite(n) ? n : null; };
+// the feed mixes formats: cm:price uses '.' as a DECIMAL ("5776.2" = 5776.20), cm:area uses German
+// ("770,16" = 770.16, "1.400" = 1400). Detect per value: comma → German; lone dot with 3 trailing
+// digits (or multiple dots) → thousands grouping; otherwise the dot is a decimal. Fixes the ×10/×100 bug.
+const intOf = s => {
+  if (s == null) return null;
+  let t = String(s).trim().replace(/[^\d.,-]/g, ''); if (!t) return null;
+  if (t.includes(',')) { t = t.replace(/\./g, '').replace(',', '.'); }
+  else if (t.includes('.')) { const p = t.split('.'); if (p.length > 2 || p[p.length - 1].length === 3) t = p.join(''); }
+  const n = parseFloat(t); return Number.isFinite(n) ? Math.round(n) : null;
+};
 const round = (n, d = 0) => { const f = 10 ** d; return Math.round(n * f) / f; };
 
 async function get(url, headers, asText = true) {
@@ -238,6 +247,11 @@ let records = [...byId.values()];
 // cross-source dedupe: same city + area within 5% + price within 10%
 const priceOf = r => r.price_eur || r.lease_eur_yr || 0;
 records = records.filter((r, i) => !records.some((o, j) => j < i && o.city && r.city && o.city.toLowerCase() === r.city.toLowerCase() && o.area_m2 && r.area_m2 && Math.abs(o.area_m2 - r.area_m2) / r.area_m2 < 0.05 && priceOf(o) && priceOf(r) && Math.abs(priceOf(o) - priceOf(r)) / priceOf(r) < 0.1));
+
+// ---------- P1: drop pure gastronomy with no rooms-to-stay (not housing-relevant) ----------
+const _n1 = records.length;
+records = records.filter(r => !(r.kind === 'gastronomie' && !r.rooms && !r.beds));
+process.stdout.write('dropped pure gastronomy (no rooms/beds): -' + (_n1 - records.length) + '\n');
 
 // ---------- clipped pin-density grid (0.02 deg cells) ----------
 const gk = (la, ln) => Math.round(la / 0.02) + '_' + Math.round(ln / 0.02);

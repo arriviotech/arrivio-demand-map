@@ -103,6 +103,7 @@ const M = {
     this._canvas = L.canvas({ padding: 0.3 });
     this.map.createPane('inflow'); this.map.getPane('inflow').style.zIndex = 250; // below markers/overlays so it sits under pins
     this._inflowRenderer = L.svg({ pane: 'inflow' });
+    // Germany clipping is done per-hex by inGermany() in the controller — keeps the basemap (neighbours) visible
     this.map.on('click', e => { if (this._skipMapClick) { this._skipMapClick = false; return; } o.onClick && o.onClick([e.latlng.lat, e.latlng.lng]); });
     this.map.on('zoomend', () => { this._applyLabels(); o.onZoom && o.onZoom(this.map.getZoom()); });
     this.map.on('moveend', () => o.onMove && o.onMove());
