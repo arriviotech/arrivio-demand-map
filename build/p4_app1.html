@@ -377,11 +377,14 @@
   function supplyRes() { const z = M.getZoom(); return z <= 6 ? 4 : z <= 8 ? 5 : z <= 10 ? 6 : 7; } // coarser than demand hex (these layers have ~22k pts)
   function globalMaxFor(points, res, cache) { if (cache[res] != null) return cache[res]; const v = Object.values(aggHex(points, res)); return cache[res] = v.length ? Math.max.apply(null, v) : 1; }
   function aggHexAvg(points, res) { const sum = {}, cnt = {}; for (const p of points) { try { const c = h3.latLngToCell(p[0], p[1], res); sum[c] = (sum[c] || 0) + p[2]; cnt[c] = (cnt[c] || 0) + 1; } catch (e) { } } const out = {}; for (const c in sum) out[c] = sum[c] / cnt[c]; return out; }
-  function hexPolysRange(cells, min, max) { const d = (max - min) || 1; return Object.entries(cells).filter(([c]) => _inDE(c)).map(([c, v]) => ({ boundary: h3.cellToBoundary(c), color: rampColor((v - min) / d), v })); }
+  function hexPolysRange(cells, min, max) { const d = (max - min) || 1; return Object.entries(cells).filter(([c]) => _inDE(c)).map(([c, v]) => ({ boundary: h3.cellToBoundary(c), color: rampColor(Math.max(0, Math.min(1, (v - min) / d))), v })); }
   const _commMax = {}, _hotelMax = {};
   const _pp = (HOTEL_PRICE_GRID && HOTEL_PRICE_GRID.length) ? HOTEL_PRICE_GRID.map(p => p[2]) : [80, 180];
   const PRICE_LO = Math.min.apply(null, _pp), PRICE_HI = Math.max.apply(null, _pp);
-  const PACHT_PER_ADR = 365 * 0.45 * 0.20 / 12; // ≈2.74 — est €/room·mo Pacht per €1 ADR (≈45% bed-occupancy × 20% Umsatzpacht); Pacht ∝ ADR so the price hexmap == the Pacht hexmap, just rescaled/relabelled
+  // Pacht hexmap colours by est €/room·mo = ADR × REAL regional occupancy (HOTEL_PACHT_GRID), so it
+  // varies by region (ADR alone is ~flat). p5–p95 range gives a readable spread (drops the metro tail).
+  const _pg = (typeof HOTEL_PACHT_GRID !== 'undefined' && HOTEL_PACHT_GRID.length) ? HOTEL_PACHT_GRID.map(c => c[2]).sort((a, b) => a - b) : [200, 300];
+  const PACHT_LO = _pg[Math.floor(_pg.length * 0.05)], PACHT_HI = _pg[Math.floor(_pg.length * 0.95)];
   // Office rent & vacancy are published ONLY per major city. We show the REAL broker figures as
   // city markers — rent = dot colour, vacant m² = dot size — and NEVER interpolate them across
   // empty land (the old idw() smear is retired). Density keeps the OSM site-concentration hexmap
@@ -513,7 +516,7 @@
     } else {
       M.clearHotelPoints();
       const res = supplyRes();
-      if (S.hotelMetric === 'pacht') M.renderHexLayer('hotelrooms', hexPolysRange(aggHexAvg(inViewPts(HOTEL_PRICE_GRID), res), PRICE_LO, PRICE_HI), true); // colour ∝ ADR ∝ est Pacht/room
+      if (S.hotelMetric === 'pacht') M.renderHexLayer('hotelrooms', hexPolysRange(aggHexAvg(inViewPts(HOTEL_PACHT_GRID), res), PACHT_LO, PACHT_HI), true); // est Pacht €/room·mo = ADR × regional occupancy
       else M.renderHexLayer('hotelrooms', hexPolys(aggHex(inViewPts(HOTEL_GRID), res), globalMaxFor(HOTEL_GRID, res, _hotelMax)), true);
     }
   }

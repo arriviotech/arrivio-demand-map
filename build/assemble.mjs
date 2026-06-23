@@ -21,6 +21,7 @@ const osmPart = '<script>\n' +
   'const COMMERCIAL_GRID=' + readJson('commercial_grid.json') + ';\n' +
   'const HOTEL_GRID=' + readJson('hotel_grid.json') + ';\n' +
   'const HOTEL_PRICE_GRID=' + readJson('hotel_price_grid.json') + ';\n' +
+  'const HOTEL_PACHT_GRID=' + readJson('../data/hotel_pacht_grid.json') + ';\n' +
   'const HOTELS_OSM=' + readJson('hotels_osm.json') + ';\n' +
   'const DE_KREISE_GEO=' + kreiseGeo + ';\n' +
   'const INFLOW_KREISE=' + inflowKreise + ';\n' +

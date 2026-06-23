@@ -325,7 +325,7 @@
     }
     else if (S.layers.hotels) {
       lBar = true;
-      if (S.hotelMetric === 'pacht') { lTitle = 'Est. hotel Pacht (≈€/room·mo)'; lLo = '≈€' + Math.round(PRICE_LO * PACHT_PER_ADR); lHi = '≈€' + Math.round(PRICE_HI * PACHT_PER_ADR); }
+      if (S.hotelMetric === 'pacht') { lTitle = 'Est. hotel Pacht (≈€/room·mo)'; lLo = '≈€' + PACHT_LO; lHi = '≈€' + PACHT_HI; }
       else { lTitle = 'Hotel rooms (small / family)'; lLo = 'fewer'; lHi = 'more'; }
     }
     $('legend-title').textContent = lTitle;
