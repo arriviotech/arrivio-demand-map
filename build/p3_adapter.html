@@ -326,23 +326,29 @@ const M = {
   clearHotelPoints() { if (this.hotelPtL) { this.map.removeLayer(this.hotelPtL); this.hotelPtL = null; } },
 
   /* ---- acquisition-target pins (real listings, clustered = honest clipped density) ---- */
-  renderProperties(list, onClick, colorFn, visible) {
+  renderProperties(list, onClick, colorFn, visible, onHover) {
     if (this.propCl) this.map.removeLayer(this.propCl);
     const self = this, sc = this.sizeScale || 1;
+    this.propMarkers = {};
     this.propCl = L.markerClusterGroup({
       maxClusterRadius: 50, showCoverageOnHover: false, chunkedLoading: true,
       iconCreateFunction: c => { const n = c.getChildCount(); const size = Math.round((n < 10 ? 30 : n < 50 ? 38 : n < 150 ? 46 : 54) * sc); const fs = Math.max(12, Math.round(size * 0.34)); return L.divIcon({ html: `<div class="pcl"><svg viewBox="0 0 ${size} ${size}"><circle cx="${size / 2}" cy="${size / 2}" r="${size / 2 - 3}"/></svg><b style="font-size:${fs}px">${n}</b></div>`, className: '', iconSize: [size, size] }); }
     });
     list.forEach(p => {
-      const m = L.circleMarker([p.lat, p.lng], { renderer: this._canvas, radius: 5 * sc, color: '#fff', weight: 1.3, fillColor: colorFn(p), fillOpacity: 0.92 });
+      const m = L.circleMarker([p.lat, p.lng], { renderer: this._canvas, radius: 5 * sc, color: p.loc_approx ? '#d68a00' : '#fff', weight: p.loc_approx ? 2 : 1.3, dashArray: p.loc_approx ? '2,2' : null, fillColor: colorFn(p), fillOpacity: p.loc_approx ? 0.5 : 0.92 });
+      m._baseR = 5 * sc; m._baseC = colorFn(p);
       m.on('click', () => { self._markerHit(); onClick(p); });
+      if (onHover) m.on('mouseover', () => onHover(p.id));
       m.bindTooltip(p.name, { direction: 'top', className: 'client-label' });
+      this.propMarkers[p.id] = m;
       this.propCl.addLayer(m);
     });
     if (visible) this.map.addLayer(this.propCl);
   },
   setPropertiesVisible(b) { if (!this.propCl) return; if (b && !this.map.hasLayer(this.propCl)) this.map.addLayer(this.propCl); if (!b && this.map.hasLayer(this.propCl)) this.map.removeLayer(this.propCl); },
   clearProperties() { if (this.propCl) { this.map.removeLayer(this.propCl); this.propCl = null; } },
+  highlightProp(id, on) { const m = this.propMarkers && this.propMarkers[id]; if (!m) return; m.setRadius(on ? m._baseR * 2.1 : m._baseR); m.setStyle({ weight: on ? 2.6 : 1.3, color: on ? '#1d2733' : '#fff' }); if (on) m.bringToFront(); },
+  flyToProp(id) { const m = this.propMarkers && this.propMarkers[id]; if (!m) return; const ll = m.getLatLng(); if (this.map.getZoom() < 12) this.map.setView(ll, 13, { animate: true }); else this.map.panTo(ll, { animate: true }); },
 
   /* ---- proposed areas ---- */
   _pinSvg() {

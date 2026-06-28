@@ -221,12 +221,13 @@
 
 <!-- legend -->
 <div id="legend" class="glass">
-  <h3 id="legend-title">Room demand</h3>
+  <div class="legend-hd"><h3 id="legend-title">Room demand</h3><button id="legend-hide" class="legend-x" title="Hide legend" aria-label="Hide legend">✕</button></div>
   <div class="gbar"></div>
   <div class="glab"><span id="legend-min">low</span><span id="legend-max">high</span></div>
   <div class="sizekey" id="legend-size"></div>
   <div id="legend-cats"></div>
 </div>
+<button id="legend-show" class="legend-chip" hidden title="Show legend">▦ Legend</button>
 
 <!-- states TAM legend -->
 <div id="states-legend" class="glass" hidden>

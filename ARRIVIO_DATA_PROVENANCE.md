@@ -73,6 +73,7 @@ German-national arrivals plus the foreign share.
 | (zoom in) individual clickable hotels | name, est. rooms, stars, est. nightly rate | OSM + model | FIRM loc / MODELED metrics |
 
 ### 4b. Acquisition targets — REAL property listings (new layer, "Supply & market")
+**Filter, favourites & results (2026-06-28):** turning on the layer opens a **sliders-only filter** (deal · type · price-basis · range sliders for price, rooms, area, lease €/m²·mo, Pacht €/room, sale €/key, yield · state multi-select) with non-binding "model target" reference ticks, a live "N of M shown" count and Reset; a **★ favourites** store (localStorage — per-card/row, a Favourites-only view + clear, no backend); and a **sortable, map-synced results list** (hover ↔ pin highlight, click → fly-to + open card). An ⓘ "Sources" note is built data-driven from each record's `source`/`source_url`. **Where each type lands:** `hotel`/`gastronomy_with_rooms` → *Small/family hotels* + *Acquisition targets*; `office`/`mixed_use`/`retail`/`industrial_hall`/`land_plot`/`apartment_building` → *Office & commercial* context + *Acquisition targets*. Verified broker offices arrive via `build/import_captures.mjs` → `data/captures.json`, unioned with `properties.json` at assemble.
 A new, **additive** point layer (off by default) of **991 real commercial/hotel/gastronomy properties
 on the market across Germany** — the conversion/M&A/lease targets. Clustered pins (the cluster bubbles
 are the honest, clipped concentration view — no interpolation over empty land); overlays freely with any

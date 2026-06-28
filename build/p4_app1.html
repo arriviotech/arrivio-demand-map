@@ -527,15 +527,21 @@
      interpolation over empty land. Data: PROPERTIES (data/properties.json) + GENESIS_BEDS by Bundesland. */
   const PROPS = (typeof PROPERTIES !== 'undefined' ? PROPERTIES : []);
   const GBEDS = (typeof GENESIS_BEDS !== 'undefined' ? GENESIS_BEDS : {});
-  const PROP_COLOR = { hotel: '#d6219b', gastronomie: '#f59e0b', mixed_use: '#64748b', office: '#0ea5e9', retail: '#a855f7' };
-  const PROP_LABEL = { hotel: 'Hotel', gastronomie: 'Gastronomy', mixed_use: 'Mixed-use / commercial', office: 'Office', retail: 'Retail' };
-  const propColor = p => PROP_COLOR[p.kind] || '#64748b';
-  const dealLabel = p => p.deal === 'lease' ? 'For lease (Pacht)' : p.deal === 'sale' ? 'For sale' : '';
-  function propsFiltered() { return PROPS.filter(p => p.lat != null && p.lng != null && (S.propDeal === 'all' || p.deal === S.propDeal)); }
+  const PROP_COLOR = { hotel: '#d6219b', gastronomie: '#f59e0b', gastronomy_with_rooms: '#f59e0b', mixed_use: '#64748b', office: '#0ea5e9', retail: '#a855f7', industrial_hall: '#b45309', land_plot: '#65a30d', apartment_building: '#db2777', other: '#64748b' };
+  const PROP_LABEL = { hotel: 'Hotel', gastronomie: 'Gastronomy', gastronomy_with_rooms: 'Gastronomy + rooms', mixed_use: 'Mixed-use / commercial', office: 'Office', retail: 'Retail', industrial_hall: 'Industrial hall', land_plot: 'Land / plot', apartment_building: 'Apartment building (Wohn-/Geschäftshaus)', other: 'Commercial' };
+  const assetOf = p => p.asset_type || p.kind;
+  const propColor = p => PROP_COLOR[p.asset_type] || PROP_COLOR[p.kind] || '#64748b';
+  const dealLabel = p => p.deal === 'lease' ? 'For lease' : p.deal === 'sale' ? 'For sale' : '';
+  function propsFiltered() { return (typeof filtered === 'function' && S.filter) ? filtered() : PROPS.filter(p => p.lat != null && (S.propDeal === 'all' || p.deal === S.propDeal)); }
   function selectProperty(p) {
     const eur = v => '€' + fmt(v), basis = p.price_basis;
     let priceRows = '';
-    if (p.deal === 'lease' && p.lease_eur_mo) {
+    if (p.deal === 'lease' && p.rent_eur_m2_mo) { // office / commercial rent (€/m²·mo)
+      const rentTxt = (p.rent_eur_m2_min != null && p.rent_eur_m2_max != null && p.rent_eur_m2_min !== p.rent_eur_m2_max) ? '€' + NF.format(p.rent_eur_m2_min) + '–€' + NF.format(p.rent_eur_m2_max) : '€' + NF.format(p.rent_eur_m2_mo);
+      priceRows = `<tr><td>Rent</td><td class="num"><b style="color:var(--acct)">${rentTxt}</b>/m²·mo</td></tr>`;
+      const aLo = p.area_min_m2, aHi = p.area_max_m2 || p.area_m2;
+      if (aLo || aHi) priceRows += `<tr><td>Available area</td><td class="num">${fmt(aLo || aHi)}${aHi && aHi !== aLo ? '–' + fmt(aHi) : ''} m²</td></tr>`;
+    } else if (p.deal === 'lease' && p.lease_eur_mo) {
       priceRows = `<tr><td>Pacht (lease)</td><td class="num"><b style="color:var(--acct)">${eur(p.lease_eur_mo)}</b>/mo</td></tr>
         <tr><td></td><td class="num" style="color:var(--t2)">≈${eur(p.lease_eur_yr || p.lease_eur_mo * 12)}/yr${basis === 'MODELED' ? ' <span style="color:var(--warn)">est</span>' : ''}</td></tr>`;
       if (p.nk_eur_mo) priceRows += `<tr><td>Nebenkosten</td><td class="num">+${eur(p.nk_eur_mo)}/mo</td></tr>`;
@@ -547,31 +553,206 @@
       if (p.rooms) priceRows += `<tr><td>€ / room (key)</td><td class="num">${eur(Math.round(p.price_eur / p.rooms))}</td></tr>`;
       if (p.lease_eur_yr && basis === 'MODELED') priceRows += `<tr><td>Est. annual lease</td><td class="num" style="color:var(--t2)">≈${eur(p.lease_eur_yr)}/yr <span style="color:var(--warn)">est</span></td></tr>`;
     } else priceRows = `<tr><td>Price</td><td class="num" style="color:var(--t3)">on request</td></tr>`;
-    const g = p.state && GBEDS[p.state];
+    const g = (assetOf(p) === 'hotel' || /gastro/.test(assetOf(p))) && p.state && GBEDS[p.state];
     const ctx = g && g.hotels_occupancy_pct != null ? `<tr><td>Region hotel occ. ’24</td><td class="num">${NF.format(g.hotels_occupancy_pct)}%</td></tr>` : '';
     const flag = basis === 'LISTED' ? `<span style="color:#1a9e6c">● LISTED</span>` : basis === 'MODELED' ? `<span style="color:var(--warn)">● est.</span>` : `<span style="color:var(--t3)">● on request</span>`;
     const html = `
       <div class="sname">${esc(p.name)}</div>
-      <div class="splace">${PROP_LABEL[p.kind] || esc(p.kind)}${p.city ? ' · ' + esc(p.city) : ''}${p.state ? ', ' + esc(p.state) : ''} · ${dealLabel(p)}</div>
+      <div class="splace">${PROP_LABEL[assetOf(p)] || esc(assetOf(p))}${p.city ? ' · ' + esc(p.city) : ''}${p.state ? ', ' + esc(p.state) : ''} · ${dealLabel(p)}</div>
+      ${p.loc_approx ? `<div style="margin:6px 0;padding:6px 8px;border:1px dashed #d68a00;border-radius:6px;background:rgba(214,138,0,.10);font-size:11px;line-height:1.4;color:#b06f00"><b>⚠ Approximate location</b> — this pin is placed at the ${p.loc_basis === 'region' ? 'region' : 'state'} centre, <b>not</b> the real address (the listing gives only ${p.loc_basis === 'region' ? 'a region' : 'a town/region'}). For the exact spot, <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((p.name || '') + ' ' + (p.city || p.state || ''))}" target="_blank" rel="noopener" style="color:#b06f00;text-decoration:underline">search it on Google Maps ↗</a></div>` : ''}
       <table>
         ${priceRows}
-        ${p.area_m2 ? `<tr><td>Floor area</td><td class="num">${fmt(p.area_m2)} m²</td></tr>` : ''}
+        ${p.area_m2 && !p.rent_eur_m2_mo ? `<tr><td>Floor area</td><td class="num">${fmt(p.area_m2)} m²</td></tr>` : ''}
         ${p.rooms ? `<tr><td>Rooms</td><td class="num">${fmt(p.rooms)}</td></tr>` : ''}
         ${p.beds ? `<tr><td>Beds</td><td class="num">${fmt(p.beds)}</td></tr>` : ''}
         ${ctx}
         <tr><td>Basis</td><td class="num">${flag}</td></tr>
       </table>
-      <div class="btnrow"><button class="btn" data-act="area">+ Area here</button>${p.source_url ? `<a class="btn" href="${esc(p.source_url)}" target="_blank" rel="noopener">Source ↗</a>` : ''}</div>
+      <div class="btnrow"><button class="btn card-star ${favStore.has(p.id) ? 'on' : ''}" data-id="${esc(p.id)}" data-act="fav">${favStore.has(p.id) ? '★ Saved' : '☆ Save'}</button><button class="btn" data-act="area">+ Area here</button>${p.source_url ? `<a class="btn" href="${esc(p.source_url)}" target="_blank" rel="noopener">Source ↗</a>` : ''}</div>
       <p class="hint" style="margin-top:6px">${esc(p.source)} · captured ${esc(p.captured)}${basis === 'MODELED' ? ' · estimate via €/key cost model (upper-bound lease)' : ''}</p>`;
-    const wire = root => { const ab = root.querySelector('[data-act="area"]'); if (ab) ab.onclick = () => addAreaAt([p.lat, p.lng]); };
+    const wire = root => { const ab = root.querySelector('[data-act="area"]'); if (ab) ab.onclick = () => addAreaAt([p.lat, p.lng]); const fb = root.querySelector('[data-act="fav"]'); if (fb) fb.onclick = () => toggleFav(p); };
     if (MOBILE()) { showSelCard(html); wire($('sel-card')); }
     else M.openInfo([p.lat, p.lng], html, wire);
   }
+  /* ===== Phase 2: supply filter (sliders-only) + favourites + map-synced results ===== */
+  const FAV_KEY = 'arrivio.favs.v1';
+  const favStore = {
+    _m: (() => { try { return JSON.parse(localStorage.getItem(FAV_KEY) || '{}'); } catch (e) { return {}; } })(),
+    has(id) { return !!this._m[id]; }, count() { return Object.keys(this._m).length; },
+    toggle(id, snap) { if (this._m[id]) delete this._m[id]; else this._m[id] = snap; this._save(); return this.has(id); },
+    clear() { this._m = {}; this._save(); },
+    _save() { try { localStorage.setItem(FAV_KEY, JSON.stringify(this._m)); } catch (e) { } },
+  };
+  // derived metrics (computed per record, client-side)
+  const leasePerM2 = p => p.rent_eur_m2_mo != null ? p.rent_eur_m2_mo : (p.lease_eur_mo && p.area_m2 ? p.lease_eur_mo / p.area_m2 : null);
+  const pachtPerRoom = p => (p.lease_eur_mo && p.rooms ? p.lease_eur_mo / p.rooms : null);
+  const eurPerKey = p => (p.deal === 'sale' && p.price_eur && p.rooms ? p.price_eur / p.rooms : null);
+  const saleM2 = p => (p.deal === 'sale' && p.price_eur && p.area_m2 ? (p.eur_per_m2 || p.price_eur / p.area_m2) : null);
+  const m2Any = p => saleM2(p) != null ? saleM2(p) : leasePerM2(p);
+  function headlineMetric(p) {
+    if (p.deal === 'lease' && p.rent_eur_m2_mo != null) return '€' + NF.format(p.rent_eur_m2_mo) + '/m²·mo';
+    if (p.deal === 'lease' && p.lease_eur_mo) return '€' + kfmt(p.lease_eur_mo) + '/mo' + (p.rooms ? ' · €' + fmt(Math.round(p.lease_eur_mo / p.rooms)) + '/room' : '');
+    if (p.deal === 'sale' && p.price_eur) return '€' + kfmt(p.price_eur) + (p.rooms ? ' · €' + kfmt(Math.round(p.price_eur / p.rooms)) + '/key' : '');
+    return 'on request';
+  }
+  const FILTER_FIELDS = [
+    { key: 'price', label: 'Asking price €', get: p => p.price_eur, fmt: v => '€' + kfmt(v), step: 1000 },
+    { key: 'rooms', label: 'Rooms', get: p => p.rooms, fmt: v => fmt(v), step: 1, tick: 150 },
+    { key: 'area', label: 'Area m²', get: p => p.area_m2, fmt: v => fmt(v) + ' m²', step: 10, tick: 3750 },
+    { key: 'lpm2', label: 'Lease €/m²·mo', get: leasePerM2, fmt: v => '€' + (Math.round(v * 10) / 10).toLocaleString('de-DE'), step: 0.5, tick: 15 },
+    { key: 'ppr', label: 'Pacht €/room·mo', get: pachtPerRoom, fmt: v => '€' + fmt(v), step: 5, tick: 375 },
+    { key: 'key', label: 'Sale €/key', get: eurPerKey, fmt: v => '€' + kfmt(v), step: 1000, tick: 67000 },
+    { key: 'yield', label: 'Yield %', get: p => p.yield_pct, fmt: v => (Math.round(v * 10) / 10) + '%', step: 0.1 },
+  ];
+  const _ext = {};
+  for (const f of FILTER_FIELDS) { const st = f.step || 1, vs = PROPS.map(f.get).filter(v => typeof v === 'number' && isFinite(v)); if (vs.length) { let mn = Math.floor(Math.min.apply(null, vs) / st) * st, mx = Math.ceil(Math.max.apply(null, vs) / st) * st; if (mn === mx) mx = mn + st; _ext[f.key] = [Math.round(mn * 100) / 100, Math.round(mx * 100) / 100]; } else _ext[f.key] = [0, st]; } // step-aligned so the slider max is reachable
+  const ALL_TYPES = [...new Set(PROPS.map(p => p.asset_type || p.kind))];
+  // 5 core target types shown by DEFAULT (gastronomie = legacy form of gastronomy_with_rooms). Every
+  // other captured type (industrial_hall, retail, land_plot, other…) is tagged + on the map data, but
+  // OFF by default — one "+ More types" toggle reveals them, so the default view stays clean.
+  const CORE_TYPES = new Set(['office', 'apartment_building', 'mixed_use', 'hotel', 'gastronomy_with_rooms', 'gastronomie']);
+  const CORE_PRESENT = ALL_TYPES.filter(t => CORE_TYPES.has(t));
+  const OTHER_PRESENT = ALL_TYPES.filter(t => !CORE_TYPES.has(t));
+  const ALL_STATES = [...new Set(PROPS.map(p => p.state).filter(Boolean))].sort();
+  S.filter = { types: new Set(CORE_PRESENT), showOther: false, basis: 'all', states: new Set(), favOnly: false, sort: 'm2', ranges: {} };
+  for (const f of FILTER_FIELDS) S.filter.ranges[f.key] = [..._ext[f.key]];
+
+  function passRange(p, f) { const [lo, hi] = S.filter.ranges[f.key], [dlo, dhi] = _ext[f.key]; if (lo <= dlo + 1e-6 && hi >= dhi - 1e-6) return true; const v = f.get(p); if (v == null || !isFinite(v)) return false; return v >= lo && v <= hi; }
+  function filtered() {
+    const F = S.filter;
+    return PROPS.filter(p => {
+      if (p.lat == null) return false;
+      if (S.propDeal !== 'all' && p.deal !== S.propDeal) return false;
+      if (F.types.size && !F.types.has(p.asset_type || p.kind)) return false;
+      if (F.basis === 'listed' && p.price_basis !== 'LISTED') return false;
+      if (F.basis === 'est' && !(p.price_basis === 'LISTED' || p.price_basis === 'MODELED')) return false;
+      if (F.states.size && !F.states.has(p.state)) return false;
+      if (F.favOnly && !favStore.has(p.id)) return false;
+      for (const f of FILTER_FIELDS) if (!passRange(p, f)) return false;
+      return true;
+    });
+  }
+  const SORTERS = { m2: (a, b) => (m2Any(b) || 0) - (m2Any(a) || 0), room: (a, b) => (pachtPerRoom(b) || 0) - (pachtPerRoom(a) || 0), key: (a, b) => (eurPerKey(b) || 0) - (eurPerKey(a) || 0), price: (a, b) => (b.price_eur || 0) - (a.price_eur || 0), rooms: (a, b) => (b.rooms || 0) - (a.rooms || 0), area: (a, b) => (b.area_m2 || 0) - (a.area_m2 || 0), newest: (a, b) => String(b.captured || '').localeCompare(String(a.captured || '')) };
+
+  function toggleFav(p, btn) {
+    const on = favStore.toggle(p.id, { id: p.id, name: p.name, city: p.city, kind: p.asset_type || p.kind, deal: p.deal, metric: headlineMetric(p), source_url: p.source_url });
+    if (btn) { btn.classList.toggle('on', on); btn.textContent = on ? '★' : '☆'; }
+    document.querySelectorAll('.card-star').forEach(b => { if (b.dataset.id === p.id) { b.classList.toggle('on', on); b.textContent = on ? '★ Saved' : '☆ Save'; } });
+    updateFavBadge(); if (S.filter.favOnly) applyFilter();
+  }
+  function updateFavBadge() { const b = $('favbadge'); if (b) b.textContent = favStore.count(); }
+  function flashRow(id) { const box = $('results-list'); if (!box) return; box.querySelectorAll('.rrow.hot').forEach(r => r.classList.remove('hot')); const row = box.querySelector('.rrow[data-id="' + (window.CSS && CSS.escape ? CSS.escape(id) : id) + '"]'); if (row) { row.classList.add('hot'); row.scrollIntoView({ block: 'nearest' }); } }
+  function renderResults(list) {
+    const box = $('results-list'); if (!box) return;
+    const sorted = [...list].sort(SORTERS[S.filter.sort] || SORTERS.m2);
+    box.innerHTML = sorted.slice(0, 400).map(p => { const at = p.asset_type || p.kind, fav = favStore.has(p.id);
+      const sub = [PROP_LABEL[at] || at, p.city, p.deal].filter(Boolean).join(' · ');
+      return `<div class="rrow" data-id="${esc(p.id)}"><span class="rdot" style="background:${propColor(p)}"></span><div class="rmain"><div class="rname">${esc(p.name || at)}</div><div class="rsub">${esc(sub)}${p.rooms ? ' · ' + fmt(p.rooms) + ' rm' : ''}${p.area_m2 ? ' · ' + fmt(p.area_m2) + ' m²' : ''}</div><div class="rmetric">${headlineMetric(p)} <span style="color:var(--t3);font-weight:400">${p.price_basis === 'LISTED' ? '● LISTED' : p.price_basis === 'MODELED' ? '◐ est' : ''}</span></div></div><div class="ract"><button class="star ${fav ? 'on' : ''}" title="Favourite">${fav ? '★' : '☆'}</button>${p.source_url ? `<a class="rsrc" href="${esc(p.source_url)}" target="_blank" rel="noopener" title="Source">↗</a>` : ''}</div></div>`;
+    }).join('') || '<div class="snote">No properties match — widen a slider or press Reset.</div>';
+    box.querySelectorAll('.rrow').forEach(row => { const id = row.dataset.id, p = PROPS.find(x => x.id === id); if (!p) return;
+      row.onmouseenter = () => M.highlightProp(id, true); row.onmouseleave = () => M.highlightProp(id, false);
+      row.onclick = e => { if (e.target.closest('.star') || e.target.closest('.rsrc')) return; M.flyToProp(id); selectProperty(p); };
+      const st = row.querySelector('.star'); if (st) st.onclick = e => { e.stopPropagation(); toggleFav(p, st); };
+    });
+  }
+  function applyFilter() {
+    if (!S.layers.props) return;
+    const list = filtered();
+    M.renderProperties(list, selectProperty, propColor, true, flashRow);
+    [['n-props', NF.format(list.length)], ['fcount', NF.format(list.length)], ['fcount2', NF.format(list.length) + '/' + PROPS.length]].forEach(([id, t]) => { const el = $(id); if (el) el.textContent = t; });
+    renderResults(list);
+  }
+  const _debApply = (typeof debounce === 'function') ? debounce(applyFilter, 110) : applyFilter;
+
+  // ---- UI builders (generated, match the sidebar style) ----
+  function chipRow(label, opts, set) {
+    const g = document.createElement('div'); g.className = 'fgrp'; g.innerHTML = `<div class="flabel"><span>${label}</span></div>`;
+    const wrap = document.createElement('div'); wrap.className = 'chips';
+    for (const o of opts) { const b = document.createElement('button'); b.className = 'chip2'; b.textContent = o.label; b.setAttribute('aria-pressed', set.has(o.v)); b.onclick = () => { if (set.has(o.v)) set.delete(o.v); else set.add(o.v); b.setAttribute('aria-pressed', set.has(o.v)); applyFilter(); }; wrap.appendChild(b); }
+    g.appendChild(wrap); return g;
+  }
+  // Type filter: 5 core types as chips (selected by default) + one "+ More types" toggle that
+  // reveals & includes industrial_hall / retail / land_plot / other (nothing is lost, just hidden).
+  function typeGroup() {
+    const g = document.createElement('div'); g.className = 'fgrp'; g.innerHTML = `<div class="flabel"><span>Type</span><b class="fval" style="font-weight:500;color:var(--t3)">${S.filter.types.size}/${ALL_TYPES.length}</b></div>`;
+    const wrap = document.createElement('div'); wrap.className = 'chips';
+    const mkChip = t => { const b = document.createElement('button'); b.className = 'chip2'; b.textContent = PROP_LABEL[t] || t; b.setAttribute('aria-pressed', S.filter.types.has(t)); b.onclick = () => { if (S.filter.types.has(t)) S.filter.types.delete(t); else S.filter.types.add(t); b.setAttribute('aria-pressed', S.filter.types.has(t)); applyFilter(); }; return b; };
+    CORE_PRESENT.forEach(t => wrap.appendChild(mkChip(t)));
+    if (OTHER_PRESENT.length) {
+      const more = document.createElement('button'); more.className = 'chip2 chip-more'; more.textContent = S.filter.showOther ? '– Fewer' : '+ More types (' + OTHER_PRESENT.length + ')';
+      more.title = 'Show/hide industrial halls, retail, land & other captured types';
+      more.onclick = () => { S.filter.showOther = !S.filter.showOther; OTHER_PRESENT.forEach(t => S.filter.showOther ? S.filter.types.add(t) : S.filter.types.delete(t)); buildControls(); applyFilter(); };
+      wrap.appendChild(more);
+      if (S.filter.showOther) OTHER_PRESENT.forEach(t => wrap.appendChild(mkChip(t)));
+    }
+    g.appendChild(wrap); return g;
+  }
+  function segRow(label, opts, onSel, def) {
+    const g = document.createElement('div'); g.className = 'fgrp'; g.innerHTML = `<div class="flabel"><span>${label}</span></div>`;
+    const seg = document.createElement('div'); seg.className = 'seg metric-seg'; seg.style.margin = '0';
+    opts.forEach(([v, l]) => { const b = document.createElement('button'); b.textContent = l; b.setAttribute('aria-pressed', v === def); b.onclick = () => { seg.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b)); onSel(v); }; seg.appendChild(b); });
+    g.appendChild(seg); return g;
+  }
+  function dualSlider(f) {
+    const [dlo, dhi] = _ext[f.key], [clo, chi] = S.filter.ranges[f.key];
+    const g = document.createElement('div'); g.className = 'fgrp'; g.innerHTML = `<div class="flabel"><span>${f.label}</span><b class="fval">${f.fmt(clo)} – ${f.fmt(chi)}</b></div>`;
+    const d = document.createElement('div'); d.className = 'dual';
+    const track = document.createElement('div'); track.className = 'track'; const fill = document.createElement('div'); fill.className = 'fill';
+    const lo = document.createElement('input'), hi = document.createElement('input');
+    [lo, hi].forEach((s, i) => { s.type = 'range'; s.min = dlo; s.max = dhi; s.step = f.step || 1; s.value = i ? chi : clo; });
+    d.append(track, fill, lo, hi);
+    if (f.tick != null && f.tick >= dlo && f.tick <= dhi) { const t = document.createElement('div'); t.className = 'tick'; t.style.left = ((f.tick - dlo) / ((dhi - dlo) || 1) * 100) + '%'; t.title = 'model target'; d.appendChild(t); }
+    g.appendChild(d);
+    const val = g.querySelector('.fval');
+    const upd = () => { const A = Math.min(+lo.value, +hi.value), Bv = Math.max(+lo.value, +hi.value); S.filter.ranges[f.key] = [A, Bv]; const pa = (A - dlo) / ((dhi - dlo) || 1) * 100, pb = (Bv - dlo) / ((dhi - dlo) || 1) * 100; fill.style.left = pa + '%'; fill.style.width = Math.max(0, pb - pa) + '%'; val.textContent = f.fmt(A) + ' – ' + f.fmt(Bv); _debApply(); };
+    lo.oninput = upd; hi.oninput = upd; upd(); return g;
+  }
+  function buildControls() {
+    const c = $('supply-controls'); if (!c) return; c.innerHTML = '';
+    c.appendChild(typeGroup());
+    c.appendChild(segRow('Price basis', [['all', 'All'], ['listed', 'LISTED'], ['est', '+est']], v => { S.filter.basis = v; applyFilter(); }, S.filter.basis));
+    for (const f of FILTER_FIELDS) { if (_ext[f.key][0] === _ext[f.key][1]) continue; c.appendChild(dualSlider(f)); }
+    c.appendChild(chipRow('Location (state)', ALL_STATES.map(s => ({ v: s, label: (typeof STATE_SHORT !== 'undefined' && STATE_SHORT[s]) || s })), S.filter.states));
+  }
+  function resetFilter() { S.filter.types = new Set(CORE_PRESENT); S.filter.showOther = false; S.filter.states.clear(); S.filter.basis = 'all'; S.filter.favOnly = false; for (const f of FILTER_FIELDS) S.filter.ranges[f.key] = [..._ext[f.key]]; const fb = $('ffav'); if (fb) fb.classList.remove('on'); buildControls(); applyFilter(); }
+  function sourcesNote() {
+    const bySrc = {}; for (const p of PROPS) { const s = p.source || '—'; const d = bySrc[s] = bySrc[s] || { n: 0, host: null, types: new Set(), cap: null }; d.n++; if (p.source_url && !d.host) d.host = p.source_url.replace(/^https?:\/\//, '').split('/')[0]; d.types.add(PROP_LABEL[p.asset_type || p.kind] || p.kind); if (p.captured && (!d.cap || p.captured > d.cap)) d.cap = p.captured; }
+    const lines = Object.entries(bySrc).sort((a, b) => b[1].n - a[1].n).map(([s, d]) => `<div>• <b>${esc(s)}</b> — ${d.n} listings (${[...d.types].slice(0, 3).join(', ')})${d.cap ? ' · captured ' + esc(d.cap) : ''}${d.host ? ` · <a href="https://${esc(d.host)}" target="_blank" rel="noopener">view more ↗</a>` : ''}</div>`).join('');
+    return `<div style="margin-bottom:6px">A <b>filtered snapshot</b>, not the whole market. The map defaults to the <b>5 core target types</b> — office, apartment building, mixed-use, hotel, gastronomy-with-rooms; press <b>+ More types</b> to reveal industrial halls, retail, land &amp; other (all captured + tagged, just hidden by default to keep the view clean). Occupancy context: Destatis GENESIS 45412.</div>${lines}`;
+  }
+  function makeDraggable(el, handle) {
+    if (!el || !handle) return;
+    let sx, sy, ox, oy, dragging = false;
+    const down = e => { if (e.target.closest('button,select,input,a,.rrow,.chip2,.legend-x')) return; const t = e.touches ? e.touches[0] : e; dragging = true; sx = t.clientX; sy = t.clientY; const r = el.getBoundingClientRect(); ox = r.left; oy = r.top; el.style.left = ox + 'px'; el.style.top = oy + 'px'; el.style.right = 'auto'; el.style.bottom = 'auto'; el.classList.add('dragging'); document.addEventListener('mousemove', move); document.addEventListener('mouseup', up); document.addEventListener('touchmove', move, { passive: false }); document.addEventListener('touchend', up); e.preventDefault(); };
+    const move = e => { if (!dragging) return; const t = e.touches ? e.touches[0] : e; let nx = ox + (t.clientX - sx), ny = oy + (t.clientY - sy); nx = Math.max(4, Math.min(window.innerWidth - el.offsetWidth - 4, nx)); ny = Math.max(4, Math.min(window.innerHeight - 44, ny)); el.style.left = nx + 'px'; el.style.top = ny + 'px'; if (e.cancelable) e.preventDefault(); };
+    const up = () => { dragging = false; el.classList.remove('dragging'); document.removeEventListener('mousemove', move); document.removeEventListener('mouseup', up); document.removeEventListener('touchmove', move); document.removeEventListener('touchend', up); };
+    handle.addEventListener('mousedown', down); handle.addEventListener('touchstart', down, { passive: false });
+  }
+  (function setupLegendUI() { const lg = $('legend'); if (!lg) return; const hd = lg.querySelector('.legend-hd'); if (hd) makeDraggable(lg, hd); const hide = $('legend-hide'), show = $('legend-show'); if (hide && show) { hide.onclick = () => { lg.hidden = true; show.hidden = false; }; show.onclick = () => { lg.hidden = false; show.hidden = true; }; } })();
+  function buildSupplyPanel() {
+    if ($('supply-pop')) return;
+    const pop = document.createElement('div'); pop.className = 'supply-pop'; pop.id = 'supply-pop'; pop.hidden = true;
+    pop.innerHTML = `<div class="sp-head"><b>Supply filter &amp; results</b><span class="sp-count"><b id="fcount">0</b> of ${PROPS.length}</span><button class="sp-min" id="sp-min" title="Minimise">▾</button></div>
+      <div class="sp-body"><div class="fwrap" id="supply-controls"></div>
+      <div class="fmeta"><span class="cnt">Sort</span><span style="display:flex;gap:6px;align-items:center"><select id="fsort" title="Sort by"><option value="m2">€/m²</option><option value="room">€/room</option><option value="key">€/key</option><option value="price">Price</option><option value="rooms">Rooms</option><option value="area">Area</option><option value="newest">Newest</option></select><button class="fbtn" id="freset">Reset</button></span></div>
+      <div class="fmeta"><button class="fbtn" id="ffav">☆ Favourites <b id="favbadge">0</b></button><button class="fbtn" id="fclear" title="Clear favourites">clear</button><button class="fbtn" id="fsrc">ⓘ Sources</button></div>
+      <div class="snote" id="sources-note" hidden></div><div class="rlist" id="results-list"></div></div>`;
+    document.body.appendChild(pop);
+    makeDraggable(pop, pop.querySelector('.sp-head'));
+    buildControls();
+    $('fsort').onchange = e => { S.filter.sort = e.target.value; applyFilter(); };
+    $('freset').onclick = resetFilter;
+    $('ffav').onclick = () => { S.filter.favOnly = !S.filter.favOnly; $('ffav').classList.toggle('on', S.filter.favOnly); applyFilter(); };
+    $('fclear').onclick = () => { favStore.clear(); updateFavBadge(); applyFilter(); };
+    $('fsrc').onclick = () => { const n = $('sources-note'); n.hidden = !n.hidden; if (!n.hidden) n.innerHTML = sourcesNote(); };
+    $('sp-min').onclick = () => { pop.classList.toggle('min'); $('sp-min').textContent = pop.classList.contains('min') ? '▸' : '▾'; };
+    updateFavBadge();
+  }
   function computeProperties() {
-    if (!S.layers.props) { M.setPropertiesVisible(false); return; }
-    const list = propsFiltered();
-    M.renderProperties(list, selectProperty, propColor, true);
-    const el = $('n-props'); if (el) el.textContent = NF.format(list.length);
+    const pop0 = $('supply-pop');
+    if (!S.layers.props) { M.setPropertiesVisible(false); if (pop0) pop0.hidden = true; return; }
+    buildSupplyPanel(); const pop = $('supply-pop'); if (pop) { pop.hidden = false; pop.classList.remove('min'); const mn = $('sp-min'); if (mn) mn.textContent = '▾'; }
+    applyFilter();
   }
 
   /* ============ states / TAM ============ */

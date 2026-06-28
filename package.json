@@ -1,0 +1,10 @@
+{
+  "name": "arrivio-demand-map",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Arrivio BI tool — build scripts. Playwright is required only by build/fetch_brokers.mjs (broker render-and-extract, run in an authorized browser). All other build/*.mjs are dependency-free.",
+  "type": "commonjs",
+  "dependencies": {
+    "playwright": "^1.61.1"
+  }
+}
