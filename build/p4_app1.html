@@ -559,6 +559,7 @@
     const html = `
       <div class="sname">${esc(p.name)}</div>
       <div class="splace">${PROP_LABEL[assetOf(p)] || esc(assetOf(p))}${p.city ? ' · ' + esc(p.city) : ''}${p.state ? ', ' + esc(p.state) : ''} · ${dealLabel(p)}</div>
+      ${p.loc_approx ? `<div style="margin:6px 0;padding:6px 8px;border:1px dashed #d68a00;border-radius:6px;background:rgba(214,138,0,.10);font-size:11px;line-height:1.4;color:#b06f00"><b>⚠ Approximate location</b> — this pin is placed at the ${p.loc_basis === 'region' ? 'region' : 'state'} centre, <b>not</b> the real address (the listing gives only ${p.loc_basis === 'region' ? 'a region' : 'a town/region'}). For the exact spot, <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((p.name || '') + ' ' + (p.city || p.state || ''))}" target="_blank" rel="noopener" style="color:#b06f00;text-decoration:underline">search it on Google Maps ↗</a></div>` : ''}
       <table>
         ${priceRows}
         ${p.area_m2 && !p.rent_eur_m2_mo ? `<tr><td>Floor area</td><td class="num">${fmt(p.area_m2)} m²</td></tr>` : ''}

@@ -335,7 +335,7 @@ const M = {
       iconCreateFunction: c => { const n = c.getChildCount(); const size = Math.round((n < 10 ? 30 : n < 50 ? 38 : n < 150 ? 46 : 54) * sc); const fs = Math.max(12, Math.round(size * 0.34)); return L.divIcon({ html: `<div class="pcl"><svg viewBox="0 0 ${size} ${size}"><circle cx="${size / 2}" cy="${size / 2}" r="${size / 2 - 3}"/></svg><b style="font-size:${fs}px">${n}</b></div>`, className: '', iconSize: [size, size] }); }
     });
     list.forEach(p => {
-      const m = L.circleMarker([p.lat, p.lng], { renderer: this._canvas, radius: 5 * sc, color: '#fff', weight: 1.3, fillColor: colorFn(p), fillOpacity: 0.92 });
+      const m = L.circleMarker([p.lat, p.lng], { renderer: this._canvas, radius: 5 * sc, color: p.loc_approx ? '#d68a00' : '#fff', weight: p.loc_approx ? 2 : 1.3, dashArray: p.loc_approx ? '2,2' : null, fillColor: colorFn(p), fillOpacity: p.loc_approx ? 0.5 : 0.92 });
       m._baseR = 5 * sc; m._baseC = colorFn(p);
       m.on('click', () => { self._markerHit(); onClick(p); });
       if (onHover) m.on('mouseover', () => onHover(p.id));

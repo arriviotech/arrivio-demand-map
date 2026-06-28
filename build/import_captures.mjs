@@ -16,6 +16,10 @@ const num = s => { if (s == null) return null; let t = String(s).trim().replace(
 
 // ---- PLZ geocode (reuse the cached WZB table; metro centroid fallback) ----
 const CITY_LL = { 'düsseldorf': [51.227, 6.773], 'köln': [50.937, 6.96], 'bonn': [50.737, 7.098], 'aachen': [50.776, 6.084], 'münchen': [48.137, 11.575], 'hamburg': [53.551, 9.993], 'berlin': [52.52, 13.405], 'frankfurt am main': [50.11, 8.682], 'frankfurt': [50.11, 8.682], 'stuttgart': [48.776, 9.182], 'leipzig': [51.34, 12.375], 'dortmund': [51.514, 7.466], 'essen': [51.456, 7.012], 'bremen': [53.079, 8.802], 'dresden': [51.05, 13.737], 'hannover': [52.376, 9.732], 'nürnberg': [49.452, 11.077] };
+try { const _cg = JSON.parse(readFileSync(join(ROOT, 'data', 'city_geocode.json'), 'utf8')); for (const k in _cg) if (!CITY_LL[k]) CITY_LL[k] = _cg[k]; } catch (e) {}
+const STATE_LL = { 'baden-wuerttemberg': [48.66, 9.35], 'bayern': [48.79, 11.50], 'berlin': [52.52, 13.40], 'brandenburg': [52.40, 13.05], 'bremen': [53.08, 8.80], 'hamburg': [53.55, 9.99], 'hessen': [50.65, 9.16], 'mecklenburg-vorpommern': [53.61, 12.70], 'niedersachsen': [52.64, 9.85], 'nordrhein-westfalen': [51.43, 7.55], 'rheinland-pfalz': [49.95, 7.45], 'saarland': [49.38, 6.99], 'sachsen': [51.05, 13.35], 'sachsen-anhalt': [51.95, 11.70], 'schleswig-holstein': [54.22, 9.70], 'thueringen': [50.90, 11.03] };
+const REGION_LL = { 'eifel': [50.25, 6.65], 'rheingau': [50.00, 8.00], 'rhein-main-region': [50.05, 8.55], 'rhein-main': [50.05, 8.55], 'bodensee': [47.65, 9.30], 'schwarzwald': [48.20, 8.20], 'allgaeu': [47.60, 10.30], 'harz': [51.75, 10.60], 'erzgebirge': [50.55, 13.00] };
+const asciiKey = s => (s || '').toLowerCase().replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss').trim();
 const PLZ = new Map();
 (() => { const f = join(B, 'listings_cache', 'plz_geocoord.csv'); if (!existsSync(f)) return; for (const line of readFileSync(f, 'utf8').split(/\r?\n/).slice(1)) { const c = line.split(','); if (c.length < 3) continue; const plz = c[0].trim().padStart(5, '0'), lat = parseFloat(c[1]), lng = parseFloat(c[2]); if (/^\d{5}$/.test(plz) && Number.isFinite(lat) && Number.isFinite(lng)) PLZ.set(plz, [Math.round(lat * 1e4) / 1e4, Math.round(lng * 1e4) / 1e4]); } })();
 function geocode(plz, city) {
@@ -86,7 +90,17 @@ function normalize(r, src) {
   let at = (r.asset_type || 'other').trim(); if (!ASSET_TYPES.has(at)) at = 'other';
   const deal = (r.deal || '').trim().toLowerCase() || (num(r.price_eur) ? 'sale' : 'lease');
   const plz = (r.plz || '').replace(/\D/g, '') || null, city = (r.city || '').trim() || null;
-  const ll = geocode(plz, city);
+  let ll = geocode(plz, city), locApprox = false, locBasis = null;
+  if (!ll) {
+    const ck = asciiKey(city), sk = asciiKey(r.state);
+    if (ck && REGION_LL[ck]) { ll = REGION_LL[ck]; locApprox = true; locBasis = 'region'; }
+    else if (sk && STATE_LL[sk]) { ll = STATE_LL[sk]; locApprox = true; locBasis = 'state'; }
+    if (ll) {
+      const h = Math.abs([...((r.listing_id || '') + (r.name || ''))].reduce((a, c) => (a * 31 + c.charCodeAt(0)) | 0, 7));
+      const ang = (h % 360) * Math.PI / 180, rad = 0.06 + (h % 60) / 300;
+      ll = [Math.round((ll[0] + rad * Math.cos(ang)) * 1e4) / 1e4, Math.round((ll[1] + rad * Math.sin(ang)) * 1e4) / 1e4];
+    }
+  }
   const rentLo = num(r.rent_eur_m2_min), rentHi = num(r.rent_eur_m2_max);
   const aLo = num(r.area_min_m2), aHi = num(r.area_max_m2), price = num(r.price_eur), rooms = num(r.rooms);
   const area = aHi || aLo || null;
@@ -98,7 +112,7 @@ function normalize(r, src) {
     source: (r.source || src).trim(), source_url: (r.source_url || '').trim() || null,
     price_basis: 'LISTED', captured: (r.captured || '').trim() || null, notes: (r.notes || '').trim() || null,
   };
-  if (ll) { rec.lat = ll[0]; rec.lng = ll[1]; }
+  if (ll) { rec.lat = ll[0]; rec.lng = ll[1]; if (locApprox) { rec.loc_approx = true; rec.loc_basis = locBasis; } }
   if (rentLo || rentHi) { rec.rent_eur_m2_min = rentLo; rec.rent_eur_m2_max = rentHi; rec.rent_eur_m2_mo = Math.round(((rentLo || rentHi) + (rentHi || rentLo)) / 2 * 10) / 10; } // lease €/m²·mo
   if (price) { rec.price_eur = price; if (area) rec.eur_per_m2 = Math.round(price / area); }
   // richer optional capture fields (xlsx hotel/gastro rows): Pacht, Nebenkosten, Ablöse, beds
