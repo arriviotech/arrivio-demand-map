@@ -137,7 +137,17 @@ body.light-map{--cl-disc:rgba(255,255,255,.97);--cl-text:#111827}
 .sp-min:hover{background:var(--s3);color:var(--t1)}
 .sp-body{padding:11px 12px 12px;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
 .supply-pop.min .sp-body{display:none}.supply-pop.min{max-height:none}
-@media(max-width:640px){.supply-pop{top:60px;left:8px;width:calc(100vw - 16px);max-height:calc(100dvh - 74px)}}
+@media(max-width:640px){.supply-pop{top:60px;left:8px;width:calc(100vw - 16px)}}
+.supply-pop{max-height:min(calc(100dvh - 96px),580px)} /* cap height so it doesn't reach the bottom-left legend */
+.sp-head{cursor:grab;user-select:none}.supply-pop.dragging .sp-head{cursor:grabbing}
+.sp-min{background:var(--s2);border:1px solid var(--bd);color:var(--t1);font-size:12px;padding:3px 8px;border-radius:7px}
+.sp-min:hover{background:var(--s3)}
+.legend-hd{display:flex;align-items:center;gap:8px;cursor:grab;user-select:none}.legend-hd h3{margin:0;flex:1}
+.legend-x{background:none;border:none;color:var(--t3);font-size:12px;cursor:pointer;padding:2px 5px;border-radius:5px;line-height:1}
+.legend-x:hover{background:var(--s3);color:var(--t1)}
+#legend[hidden]{display:none}
+.legend-chip{position:fixed;left:16px;bottom:16px;z-index:850;background:var(--s1);border:1px solid var(--bd);color:var(--t1);font-size:11.5px;padding:6px 11px;border-radius:999px;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.4)}
+.legend-chip[hidden]{display:none}.legend-chip:hover{background:var(--s2)}
 /* area pin */
 .apin{position:relative;display:flex;flex-direction:column;align-items:center;cursor:grab}
 .apin svg{filter:drop-shadow(0 2px 4px rgba(0,0,0,.45));width:calc(26px * var(--ui-scale));height:calc(34px * var(--ui-scale))}
@@ -647,12 +657,13 @@ body.presenting .cbtn .ic{width:22px;height:22px}
 
 <!-- legend -->
 <div id="legend" class="glass">
-  <h3 id="legend-title">Room demand</h3>
+  <div class="legend-hd"><h3 id="legend-title">Room demand</h3><button id="legend-hide" class="legend-x" title="Hide legend" aria-label="Hide legend">✕</button></div>
   <div class="gbar"></div>
   <div class="glab"><span id="legend-min">low</span><span id="legend-max">high</span></div>
   <div class="sizekey" id="legend-size"></div>
   <div id="legend-cats"></div>
 </div>
+<button id="legend-show" class="legend-chip" hidden title="Show legend">▦ Legend</button>
 
 <!-- states TAM legend -->
 <div id="states-legend" class="glass" hidden>
@@ -2123,6 +2134,15 @@ function nameVars(n) {
     const lines = Object.entries(bySrc).sort((a, b) => b[1].n - a[1].n).map(([s, d]) => `<div>• <b>${esc(s)}</b> — ${d.n} listings (${[...d.types].slice(0, 3).join(', ')})${d.cap ? ' · captured ' + esc(d.cap) : ''}${d.host ? ` · <a href="https://${esc(d.host)}" target="_blank" rel="noopener">view more ↗</a>` : ''}</div>`).join('');
     return `<div style="margin-bottom:6px">A <b>filtered snapshot</b>, not the whole market. Where each type lands: <b>hotel/gastronomy</b> → Small/family hotels + Acquisition targets; <b>office/mixed/retail/land</b> → Office &amp; commercial context + Acquisition targets. Occupancy context: Destatis GENESIS 45412.</div>${lines}`;
   }
+  function makeDraggable(el, handle) {
+    if (!el || !handle) return;
+    let sx, sy, ox, oy, dragging = false;
+    const down = e => { if (e.target.closest('button,select,input,a,.rrow,.chip2,.legend-x')) return; const t = e.touches ? e.touches[0] : e; dragging = true; sx = t.clientX; sy = t.clientY; const r = el.getBoundingClientRect(); ox = r.left; oy = r.top; el.style.left = ox + 'px'; el.style.top = oy + 'px'; el.style.right = 'auto'; el.style.bottom = 'auto'; el.classList.add('dragging'); document.addEventListener('mousemove', move); document.addEventListener('mouseup', up); document.addEventListener('touchmove', move, { passive: false }); document.addEventListener('touchend', up); e.preventDefault(); };
+    const move = e => { if (!dragging) return; const t = e.touches ? e.touches[0] : e; let nx = ox + (t.clientX - sx), ny = oy + (t.clientY - sy); nx = Math.max(4, Math.min(window.innerWidth - el.offsetWidth - 4, nx)); ny = Math.max(4, Math.min(window.innerHeight - 44, ny)); el.style.left = nx + 'px'; el.style.top = ny + 'px'; if (e.cancelable) e.preventDefault(); };
+    const up = () => { dragging = false; el.classList.remove('dragging'); document.removeEventListener('mousemove', move); document.removeEventListener('mouseup', up); document.removeEventListener('touchmove', move); document.removeEventListener('touchend', up); };
+    handle.addEventListener('mousedown', down); handle.addEventListener('touchstart', down, { passive: false });
+  }
+  (function setupLegendUI() { const lg = $('legend'); if (!lg) return; const hd = lg.querySelector('.legend-hd'); if (hd) makeDraggable(lg, hd); const hide = $('legend-hide'), show = $('legend-show'); if (hide && show) { hide.onclick = () => { lg.hidden = true; show.hidden = false; }; show.onclick = () => { lg.hidden = false; show.hidden = true; }; } })();
   function buildSupplyPanel() {
     if ($('supply-pop')) return;
     const pop = document.createElement('div'); pop.className = 'supply-pop'; pop.id = 'supply-pop'; pop.hidden = true;
@@ -2132,6 +2152,7 @@ function nameVars(n) {
       <div class="fmeta"><button class="fbtn" id="ffav">☆ Favourites <b id="favbadge">0</b></button><button class="fbtn" id="fclear" title="Clear favourites">clear</button><button class="fbtn" id="fsrc">ⓘ Sources</button></div>
       <div class="snote" id="sources-note" hidden></div><div class="rlist" id="results-list"></div></div>`;
     document.body.appendChild(pop);
+    makeDraggable(pop, pop.querySelector('.sp-head'));
     buildControls();
     $('fsort').onchange = e => { S.filter.sort = e.target.value; applyFilter(); };
     $('freset').onclick = resetFilter;

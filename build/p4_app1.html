@@ -697,6 +697,15 @@
     const lines = Object.entries(bySrc).sort((a, b) => b[1].n - a[1].n).map(([s, d]) => `<div>• <b>${esc(s)}</b> — ${d.n} listings (${[...d.types].slice(0, 3).join(', ')})${d.cap ? ' · captured ' + esc(d.cap) : ''}${d.host ? ` · <a href="https://${esc(d.host)}" target="_blank" rel="noopener">view more ↗</a>` : ''}</div>`).join('');
     return `<div style="margin-bottom:6px">A <b>filtered snapshot</b>, not the whole market. Where each type lands: <b>hotel/gastronomy</b> → Small/family hotels + Acquisition targets; <b>office/mixed/retail/land</b> → Office &amp; commercial context + Acquisition targets. Occupancy context: Destatis GENESIS 45412.</div>${lines}`;
   }
+  function makeDraggable(el, handle) {
+    if (!el || !handle) return;
+    let sx, sy, ox, oy, dragging = false;
+    const down = e => { if (e.target.closest('button,select,input,a,.rrow,.chip2,.legend-x')) return; const t = e.touches ? e.touches[0] : e; dragging = true; sx = t.clientX; sy = t.clientY; const r = el.getBoundingClientRect(); ox = r.left; oy = r.top; el.style.left = ox + 'px'; el.style.top = oy + 'px'; el.style.right = 'auto'; el.style.bottom = 'auto'; el.classList.add('dragging'); document.addEventListener('mousemove', move); document.addEventListener('mouseup', up); document.addEventListener('touchmove', move, { passive: false }); document.addEventListener('touchend', up); e.preventDefault(); };
+    const move = e => { if (!dragging) return; const t = e.touches ? e.touches[0] : e; let nx = ox + (t.clientX - sx), ny = oy + (t.clientY - sy); nx = Math.max(4, Math.min(window.innerWidth - el.offsetWidth - 4, nx)); ny = Math.max(4, Math.min(window.innerHeight - 44, ny)); el.style.left = nx + 'px'; el.style.top = ny + 'px'; if (e.cancelable) e.preventDefault(); };
+    const up = () => { dragging = false; el.classList.remove('dragging'); document.removeEventListener('mousemove', move); document.removeEventListener('mouseup', up); document.removeEventListener('touchmove', move); document.removeEventListener('touchend', up); };
+    handle.addEventListener('mousedown', down); handle.addEventListener('touchstart', down, { passive: false });
+  }
+  (function setupLegendUI() { const lg = $('legend'); if (!lg) return; const hd = lg.querySelector('.legend-hd'); if (hd) makeDraggable(lg, hd); const hide = $('legend-hide'), show = $('legend-show'); if (hide && show) { hide.onclick = () => { lg.hidden = true; show.hidden = false; }; show.onclick = () => { lg.hidden = false; show.hidden = true; }; } })();
   function buildSupplyPanel() {
     if ($('supply-pop')) return;
     const pop = document.createElement('div'); pop.className = 'supply-pop'; pop.id = 'supply-pop'; pop.hidden = true;
@@ -706,6 +715,7 @@
       <div class="fmeta"><button class="fbtn" id="ffav">☆ Favourites <b id="favbadge">0</b></button><button class="fbtn" id="fclear" title="Clear favourites">clear</button><button class="fbtn" id="fsrc">ⓘ Sources</button></div>
       <div class="snote" id="sources-note" hidden></div><div class="rlist" id="results-list"></div></div>`;
     document.body.appendChild(pop);
+    makeDraggable(pop, pop.querySelector('.sp-head'));
     buildControls();
     $('fsort').onchange = e => { S.filter.sort = e.target.value; applyFilter(); };
     $('freset').onclick = resetFilter;
