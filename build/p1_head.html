@@ -102,6 +102,11 @@ body.light-map{--cl-disc:rgba(255,255,255,.97);--cl-text:#111827}
 .chip2{font-size:11px;padding:3px 9px;border-radius:999px;border:1px solid var(--bd);background:var(--s2);color:var(--t2);cursor:pointer;user-select:none;white-space:nowrap}
 .chip2[aria-pressed="true"]{background:var(--acct);border-color:transparent;color:#fff}
 .chip2.chip-more{border-style:dashed;color:var(--t3);background:transparent;font-weight:600}
+.deal-badge{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.4px;padding:1px 5px;border-radius:4px;vertical-align:middle;white-space:nowrap}
+.deal-badge.sale{background:#dcfce7;color:#15803d}
+.deal-badge.lease{background:#dbeafe;color:#1d4ed8}
+.deal-seg button[data-pd="sale"][aria-pressed="true"]{background:#15803d;border-color:transparent;color:#fff}
+.deal-seg button[data-pd="lease"][aria-pressed="true"]{background:#1d4ed8;border-color:transparent;color:#fff}
 .dual{position:relative;height:22px}
 .dual .track{position:absolute;top:10px;left:2px;right:2px;height:3px;border-radius:2px;background:var(--s3)}
 .dual .fill{position:absolute;top:10px;height:3px;border-radius:2px;background:var(--acct)}
