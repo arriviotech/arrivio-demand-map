@@ -309,7 +309,11 @@
     if (S.areas.length) cats.push(`<div class="lg"><span class="sw" style="background:var(--acc)"></span>Arrivio proposed area</div>`);
     if (S.layers.gch) cats.push(`<div class="lg"><span class="sw sq" style="background:var(--gch)"></span>GCH hotel</div>`);
     if (S.layers.sem) cats.push(`<div class="lg"><span class="sw sq" style="background:var(--sem)"></span>Seminaris hotel</div>`);
-    if (S.layers.props) { (typeof ALL_TYPES !== 'undefined' ? ALL_TYPES : []).forEach(t => cats.push(`<div class="lg"><span class="sw" style="background:${(typeof PROP_COLOR !== 'undefined' && PROP_COLOR[t]) || '#64748b'}"></span>${(typeof PROP_LABEL !== 'undefined' && PROP_LABEL[t]) || t}</div>`)); cats.push(`<div class="lg" style="color:var(--t3)">Pink cluster = listing density · click a pin for price/Pacht · ⓘ in the filter popup lists every source</div>`); }
+    if (S.layers.props) {
+      const _order = (typeof CORE_PRESENT !== 'undefined') ? [...CORE_PRESENT, ...OTHER_PRESENT] : (typeof ALL_TYPES !== 'undefined' ? ALL_TYPES : []);
+      _order.forEach(t => { const other = typeof OTHER_PRESENT !== 'undefined' && OTHER_PRESENT.includes(t); cats.push(`<div class="lg"><span class="sw" style="background:${(typeof PROP_COLOR !== 'undefined' && PROP_COLOR[t]) || '#64748b'}"></span>${(typeof PROP_LABEL !== 'undefined' && PROP_LABEL[t]) || t}${other ? ' <span style="color:var(--t3);font-size:10px">+More</span>' : ''}</div>`); });
+      cats.push(`<div class="lg" style="color:var(--t3)">Pink cluster = listing density · 5 core types show by default; "+ More types" reveals the rest · click a pin for price/Pacht · ⓘ lists every source</div>`);
+    }
     if (S.layers.commercial && S.commMetric === 'rent') cats.push(`<div class="lg"><span class="sw" style="background:#a51777"></span>City dot colour = prime rent · click for exact</div>`);
     if (S.layers.commercial && S.commMetric === 'vacant') cats.push(`<div class="lg"><span class="sw" style="background:#a51777"></span>City dot colour = office vacancy % · click for exact</div>`);
     if (S.reach.active) cats.push(`<div class="lg"><span class="sw" style="background:${MODE_COLOR[S.reach.mode]}"></span>Reach within ${S.reach.min} min (${MODE_LABEL[S.reach.mode]})</div>`);

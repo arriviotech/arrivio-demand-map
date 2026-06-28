@@ -606,8 +606,14 @@
   const _ext = {};
   for (const f of FILTER_FIELDS) { const st = f.step || 1, vs = PROPS.map(f.get).filter(v => typeof v === 'number' && isFinite(v)); if (vs.length) { let mn = Math.floor(Math.min.apply(null, vs) / st) * st, mx = Math.ceil(Math.max.apply(null, vs) / st) * st; if (mn === mx) mx = mn + st; _ext[f.key] = [Math.round(mn * 100) / 100, Math.round(mx * 100) / 100]; } else _ext[f.key] = [0, st]; } // step-aligned so the slider max is reachable
   const ALL_TYPES = [...new Set(PROPS.map(p => p.asset_type || p.kind))];
+  // 5 core target types shown by DEFAULT (gastronomie = legacy form of gastronomy_with_rooms). Every
+  // other captured type (industrial_hall, retail, land_plot, other…) is tagged + on the map data, but
+  // OFF by default — one "+ More types" toggle reveals them, so the default view stays clean.
+  const CORE_TYPES = new Set(['office', 'apartment_building', 'mixed_use', 'hotel', 'gastronomy_with_rooms', 'gastronomie']);
+  const CORE_PRESENT = ALL_TYPES.filter(t => CORE_TYPES.has(t));
+  const OTHER_PRESENT = ALL_TYPES.filter(t => !CORE_TYPES.has(t));
   const ALL_STATES = [...new Set(PROPS.map(p => p.state).filter(Boolean))].sort();
-  S.filter = { types: new Set(), basis: 'all', states: new Set(), favOnly: false, sort: 'm2', ranges: {} };
+  S.filter = { types: new Set(CORE_PRESENT), showOther: false, basis: 'all', states: new Set(), favOnly: false, sort: 'm2', ranges: {} };
   for (const f of FILTER_FIELDS) S.filter.ranges[f.key] = [..._ext[f.key]];
 
   function passRange(p, f) { const [lo, hi] = S.filter.ranges[f.key], [dlo, dhi] = _ext[f.key]; if (lo <= dlo + 1e-6 && hi >= dhi - 1e-6) return true; const v = f.get(p); if (v == null || !isFinite(v)) return false; return v >= lo && v <= hi; }
@@ -664,6 +670,22 @@
     for (const o of opts) { const b = document.createElement('button'); b.className = 'chip2'; b.textContent = o.label; b.setAttribute('aria-pressed', set.has(o.v)); b.onclick = () => { if (set.has(o.v)) set.delete(o.v); else set.add(o.v); b.setAttribute('aria-pressed', set.has(o.v)); applyFilter(); }; wrap.appendChild(b); }
     g.appendChild(wrap); return g;
   }
+  // Type filter: 5 core types as chips (selected by default) + one "+ More types" toggle that
+  // reveals & includes industrial_hall / retail / land_plot / other (nothing is lost, just hidden).
+  function typeGroup() {
+    const g = document.createElement('div'); g.className = 'fgrp'; g.innerHTML = `<div class="flabel"><span>Type</span><b class="fval" style="font-weight:500;color:var(--t3)">${S.filter.types.size}/${ALL_TYPES.length}</b></div>`;
+    const wrap = document.createElement('div'); wrap.className = 'chips';
+    const mkChip = t => { const b = document.createElement('button'); b.className = 'chip2'; b.textContent = PROP_LABEL[t] || t; b.setAttribute('aria-pressed', S.filter.types.has(t)); b.onclick = () => { if (S.filter.types.has(t)) S.filter.types.delete(t); else S.filter.types.add(t); b.setAttribute('aria-pressed', S.filter.types.has(t)); applyFilter(); }; return b; };
+    CORE_PRESENT.forEach(t => wrap.appendChild(mkChip(t)));
+    if (OTHER_PRESENT.length) {
+      const more = document.createElement('button'); more.className = 'chip2 chip-more'; more.textContent = S.filter.showOther ? '– Fewer' : '+ More types (' + OTHER_PRESENT.length + ')';
+      more.title = 'Show/hide industrial halls, retail, land & other captured types';
+      more.onclick = () => { S.filter.showOther = !S.filter.showOther; OTHER_PRESENT.forEach(t => S.filter.showOther ? S.filter.types.add(t) : S.filter.types.delete(t)); buildControls(); applyFilter(); };
+      wrap.appendChild(more);
+      if (S.filter.showOther) OTHER_PRESENT.forEach(t => wrap.appendChild(mkChip(t)));
+    }
+    g.appendChild(wrap); return g;
+  }
   function segRow(label, opts, onSel, def) {
     const g = document.createElement('div'); g.className = 'fgrp'; g.innerHTML = `<div class="flabel"><span>${label}</span></div>`;
     const seg = document.createElement('div'); seg.className = 'seg metric-seg'; seg.style.margin = '0';
@@ -686,16 +708,16 @@
   }
   function buildControls() {
     const c = $('supply-controls'); if (!c) return; c.innerHTML = '';
-    c.appendChild(chipRow('Type', ALL_TYPES.map(t => ({ v: t, label: PROP_LABEL[t] || t })), S.filter.types));
+    c.appendChild(typeGroup());
     c.appendChild(segRow('Price basis', [['all', 'All'], ['listed', 'LISTED'], ['est', '+est']], v => { S.filter.basis = v; applyFilter(); }, S.filter.basis));
     for (const f of FILTER_FIELDS) { if (_ext[f.key][0] === _ext[f.key][1]) continue; c.appendChild(dualSlider(f)); }
     c.appendChild(chipRow('Location (state)', ALL_STATES.map(s => ({ v: s, label: (typeof STATE_SHORT !== 'undefined' && STATE_SHORT[s]) || s })), S.filter.states));
   }
-  function resetFilter() { S.filter.types.clear(); S.filter.states.clear(); S.filter.basis = 'all'; S.filter.favOnly = false; for (const f of FILTER_FIELDS) S.filter.ranges[f.key] = [..._ext[f.key]]; const fb = $('ffav'); if (fb) fb.classList.remove('on'); buildControls(); applyFilter(); }
+  function resetFilter() { S.filter.types = new Set(CORE_PRESENT); S.filter.showOther = false; S.filter.states.clear(); S.filter.basis = 'all'; S.filter.favOnly = false; for (const f of FILTER_FIELDS) S.filter.ranges[f.key] = [..._ext[f.key]]; const fb = $('ffav'); if (fb) fb.classList.remove('on'); buildControls(); applyFilter(); }
   function sourcesNote() {
     const bySrc = {}; for (const p of PROPS) { const s = p.source || '—'; const d = bySrc[s] = bySrc[s] || { n: 0, host: null, types: new Set(), cap: null }; d.n++; if (p.source_url && !d.host) d.host = p.source_url.replace(/^https?:\/\//, '').split('/')[0]; d.types.add(PROP_LABEL[p.asset_type || p.kind] || p.kind); if (p.captured && (!d.cap || p.captured > d.cap)) d.cap = p.captured; }
     const lines = Object.entries(bySrc).sort((a, b) => b[1].n - a[1].n).map(([s, d]) => `<div>• <b>${esc(s)}</b> — ${d.n} listings (${[...d.types].slice(0, 3).join(', ')})${d.cap ? ' · captured ' + esc(d.cap) : ''}${d.host ? ` · <a href="https://${esc(d.host)}" target="_blank" rel="noopener">view more ↗</a>` : ''}</div>`).join('');
-    return `<div style="margin-bottom:6px">A <b>filtered snapshot</b>, not the whole market. Where each type lands: <b>hotel/gastronomy</b> → Small/family hotels + Acquisition targets; <b>office/mixed/retail/land</b> → Office &amp; commercial context + Acquisition targets. Occupancy context: Destatis GENESIS 45412.</div>${lines}`;
+    return `<div style="margin-bottom:6px">A <b>filtered snapshot</b>, not the whole market. The map defaults to the <b>5 core target types</b> — office, apartment building, mixed-use, hotel, gastronomy-with-rooms; press <b>+ More types</b> to reveal industrial halls, retail, land &amp; other (all captured + tagged, just hidden by default to keep the view clean). Occupancy context: Destatis GENESIS 45412.</div>${lines}`;
   }
   function makeDraggable(el, handle) {
     if (!el || !handle) return;
