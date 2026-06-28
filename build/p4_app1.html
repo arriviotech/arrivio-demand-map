@@ -563,7 +563,7 @@
       <table>
         ${priceRows}
         ${p.area_m2 && !p.rent_eur_m2_mo ? `<tr><td>Floor area</td><td class="num">${fmt(p.area_m2)} m²</td></tr>` : ''}
-        ${p.rooms ? `<tr><td>Rooms</td><td class="num">${fmt(p.rooms)}</td></tr>` : ''}
+        ${roomsRow(p)}
         ${p.beds ? `<tr><td>Beds</td><td class="num">${fmt(p.beds)}</td></tr>` : ''}
         ${ctx}
         <tr><td>Basis</td><td class="num">${flag}</td></tr>
@@ -594,6 +594,20 @@
     if (p.deal === 'lease' && p.lease_eur_mo) return '€' + kfmt(p.lease_eur_mo) + '/mo' + (p.rooms ? ' · €' + fmt(Math.round(p.lease_eur_mo / p.rooms)) + '/room' : '');
     if (p.deal === 'sale' && p.price_eur) return '€' + kfmt(p.price_eur) + (p.rooms ? ' · €' + kfmt(Math.round(p.price_eur / p.rooms)) + '/key' : '');
     return 'on request';
+  }
+  // Task 1: rooms display — plain number when listed; "~N est." + note when estimated; a short note when n/a
+  function roomsRow(p) {
+    if (p.rooms && p.rooms_basis === 'estimated') {
+      return `<tr><td>Rooms</td><td class="num" title="Estimated co-living capacity at 20 m²/person incl. common space — not from the listing."><b>~${fmt(p.rooms)}</b> <span style="color:var(--warn);font-weight:700;font-size:9px;letter-spacing:.3px">EST.</span>${p.rooms_note ? `<div style="font-size:9px;color:var(--t3);font-weight:400;line-height:1.25;white-space:normal">${esc(p.rooms_note)}</div>` : ''}</td></tr>`;
+    }
+    if (p.rooms) return `<tr><td>Rooms</td><td class="num">${fmt(p.rooms)}</td></tr>`;
+    if (p.rooms_note) return `<tr><td>Rooms</td><td class="num" style="color:var(--t3);font-weight:400;font-size:10px;white-space:normal">— ${esc(p.rooms_note)}</td></tr>`;
+    return '';
+  }
+  function roomsTag(p) {
+    if (p.rooms && p.rooms_basis === 'estimated') return ' · ~' + fmt(p.rooms) + ' rm <span style="color:var(--warn);font-size:9px">est.</span>';
+    if (p.rooms) return ' · ' + fmt(p.rooms) + ' rm';
+    return '';
   }
   const FILTER_FIELDS = [
     { key: 'price', label: 'Asking price €', get: p => p.price_eur, fmt: v => '€' + kfmt(v), step: 1000 },
@@ -647,7 +661,7 @@
     const sorted = [...list].sort(SORTERS[S.filter.sort] || SORTERS.m2);
     box.innerHTML = sorted.slice(0, 400).map(p => { const at = p.asset_type || p.kind, fav = favStore.has(p.id);
       const sub = [PROP_LABEL[at] || at, p.city, p.deal].filter(Boolean).join(' · ');
-      return `<div class="rrow" data-id="${esc(p.id)}"><span class="rdot" style="background:${propColor(p)}"></span><div class="rmain"><div class="rname">${esc(p.name || at)}</div><div class="rsub">${esc(sub)}${p.rooms ? ' · ' + fmt(p.rooms) + ' rm' : ''}${p.area_m2 ? ' · ' + fmt(p.area_m2) + ' m²' : ''}</div><div class="rmetric">${headlineMetric(p)} <span style="color:var(--t3);font-weight:400">${p.price_basis === 'LISTED' ? '● LISTED' : p.price_basis === 'MODELED' ? '◐ est' : ''}</span></div></div><div class="ract"><button class="star ${fav ? 'on' : ''}" title="Favourite">${fav ? '★' : '☆'}</button>${p.source_url ? `<a class="rsrc" href="${esc(p.source_url)}" target="_blank" rel="noopener" title="Source">↗</a>` : ''}</div></div>`;
+      return `<div class="rrow" data-id="${esc(p.id)}"><span class="rdot" style="background:${propColor(p)}"></span><div class="rmain"><div class="rname">${esc(p.name || at)}</div><div class="rsub">${esc(sub)}${roomsTag(p)}${p.area_m2 ? ' · ' + fmt(p.area_m2) + ' m²' : ''}</div><div class="rmetric">${headlineMetric(p)} <span style="color:var(--t3);font-weight:400">${p.price_basis === 'LISTED' ? '● LISTED' : p.price_basis === 'MODELED' ? '◐ est' : ''}</span></div></div><div class="ract"><button class="star ${fav ? 'on' : ''}" title="Favourite">${fav ? '★' : '☆'}</button>${p.source_url ? `<a class="rsrc" href="${esc(p.source_url)}" target="_blank" rel="noopener" title="Source">↗</a>` : ''}</div></div>`;
     }).join('') || '<div class="snote">No properties match — widen a slider or press Reset.</div>';
     box.querySelectorAll('.rrow').forEach(row => { const id = row.dataset.id, p = PROPS.find(x => x.id === id); if (!p) return;
       row.onmouseenter = () => M.highlightProp(id, true); row.onmouseleave = () => M.highlightProp(id, false);

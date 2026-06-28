@@ -86,6 +86,31 @@ function readXlsxRows(path, sheetName) {
 
 const ASSET_TYPES = new Set(['office', 'industrial_hall', 'retail', 'land_plot', 'hotel', 'gastronomy_with_rooms', 'mixed_use', 'apartment_building', 'other']);
 const JLL_PATH = { office: 'bueros', industrial_hall: 'hallen', retail: 'einzelhandel', land_plot: 'grundstuecke' }; // JLL per-type detail path
+
+// ---- Task 1: room count + basis for every listing (Arrivio co-living model: 20 m²/person incl. common space) ----
+// 'listed'   = the listing states a room/unit/Zimmer count → use it, show plainly.
+// 'estimated'= derived floor(usable_area / 20) for convertible floor space → show as an estimate.
+// 'n/a'      = not estimable (plot/parking/warehouse/no-area) → blank + a short rooms_note.
+const PARK_RE = /stellpl|tiefgarage|garagenhof|parkhaus|garagen-?anlage|\bgaragen\b|parkplatz|car park/i;
+const WARE_RE = /lagerhalle|lagerfl[äa]che|logistik|warehouse|produktionshalle|gewerbehalle|industriehalle/i;
+const PLOT_RE = /grundst[üu]ck|baugrund|bauland|ackerland|\bplot\b/i;
+const UNIT_RE = /(\d{1,4})\s*(?:units?|wohneinheiten|einheiten|wohnungen|\bwe\b|hotelzimmer|g[äa]stezimmer|zimmer|apartments?|appartements?)/i;
+function roomCount(r, at, area) {
+  const listed = num(r.rooms);
+  const blob = ((r.name || '') + ' ' + (r.notes || '')).toLowerCase();
+  if (listed && listed > 0) return { rooms: Math.round(listed), rooms_basis: 'listed' };            // 1. explicit rooms column
+  const um = blob.match(UNIT_RE); if (um) { const v = +um[1]; if (v > 0 && v < 5000) return { rooms: v, rooms_basis: 'listed' }; } // 1. "X units/Zimmer/Einheiten"
+  if (at === 'land_plot') return { rooms: null, rooms_basis: 'n/a', rooms_note: 'area is plot size, not a building' };          // 3. guards
+  if (PARK_RE.test(blob)) return { rooms: null, rooms_basis: 'n/a', rooms_note: 'parking — not living space' };
+  if (at === 'industrial_hall' || WARE_RE.test(blob)) return { rooms: null, rooms_basis: 'n/a', rooms_note: 'warehouse / logistics area — not living space' };
+  if (!area) return { rooms: null, rooms_basis: 'n/a', rooms_note: 'no usable area given' };
+  if (PLOT_RE.test(blob) || area > 50000) return { rooms: null, rooms_basis: 'n/a', rooms_note: 'area may be plot, not building' };
+  const est = Math.floor(area / 20);                                                                 // 2. estimate from floor area
+  if (est < 1) return { rooms: null, rooms_basis: 'n/a', rooms_note: 'area too small to estimate' };
+  const conv = (at === 'office' || at === 'mixed_use' || at === 'retail');
+  return { rooms: est, rooms_basis: 'estimated', rooms_note: (conv ? 'co-living rooms if converted' : 'co-living capacity') + ' (est., ' + Math.round(area) + ' m² ÷ 20)' };
+}
+
 function normalize(r, src) {
   let at = (r.asset_type || 'other').trim(); if (!ASSET_TYPES.has(at)) at = 'other';
   const deal = (r.deal || '').trim().toLowerCase() || (num(r.price_eur) ? 'sale' : 'lease');
@@ -102,16 +127,18 @@ function normalize(r, src) {
     }
   }
   const rentLo = num(r.rent_eur_m2_min), rentHi = num(r.rent_eur_m2_max);
-  const aLo = num(r.area_min_m2), aHi = num(r.area_max_m2), price = num(r.price_eur), rooms = num(r.rooms);
+  const aLo = num(r.area_min_m2), aHi = num(r.area_max_m2), price = num(r.price_eur);
   const area = aHi || aLo || null;
+  const rc = roomCount(r, at, area);                                                    // Task 1: rooms + rooms_basis + rooms_note
   const rec = {
     id: (r.listing_id || '').trim() || (src + '-' + Math.abs([...(r.name || r.source_url || '')].reduce((a, c) => (a * 31 + c.charCodeAt(0)) | 0, 7)).toString(36)),
     asset_type: at, kind: at, deal,
     name: (r.name || '').trim(), district: (r.district || '').trim() || null, plz, city, state: (r.state || '').trim() || null,
-    rooms: rooms || null, area_m2: area, area_min_m2: aLo || null, area_max_m2: aHi || null,
+    rooms: rc.rooms, rooms_basis: rc.rooms_basis, area_m2: area, area_min_m2: aLo || null, area_max_m2: aHi || null,
     source: (r.source || src).trim(), source_url: (r.source_url || '').trim() || null,
     price_basis: 'LISTED', captured: (r.captured || '').trim() || null, notes: (r.notes || '').trim() || null,
   };
+  if (rc.rooms_note) rec.rooms_note = rc.rooms_note;
   if (ll) { rec.lat = ll[0]; rec.lng = ll[1]; if (locApprox) { rec.loc_approx = true; rec.loc_basis = locBasis; } }
   if (rentLo || rentHi) { rec.rent_eur_m2_min = rentLo; rec.rent_eur_m2_max = rentHi; rec.rent_eur_m2_mo = Math.round(((rentLo || rentHi) + (rentHi || rentLo)) / 2 * 10) / 10; } // lease €/m²·mo
   if (price) { rec.price_eur = price; if (area) rec.eur_per_m2 = Math.round(price / area); }
