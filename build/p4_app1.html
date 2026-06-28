@@ -698,25 +698,27 @@
     return `<div style="margin-bottom:6px">A <b>filtered snapshot</b>, not the whole market. Where each type lands: <b>hotel/gastronomy</b> → Small/family hotels + Acquisition targets; <b>office/mixed/retail/land</b> → Office &amp; commercial context + Acquisition targets. Occupancy context: Destatis GENESIS 45412.</div>${lines}`;
   }
   function buildSupplyPanel() {
-    if ($('sec-supply')) return;
-    const sec = document.createElement('details'); sec.className = 'sec'; sec.id = 'sec-supply'; sec.open = true;
-    sec.innerHTML = `<summary><h2>Supply filter &amp; results</h2><span class="ssum" id="fcount2"></span><svg class="ic chev"><use href="#i-chev"/></svg></summary>
-      <div class="secb"><div class="fwrap" id="supply-controls"></div>
-      <div class="fmeta"><span class="cnt"><b id="fcount">0</b> of ${PROPS.length} shown</span><span style="display:flex;gap:6px;align-items:center"><select id="fsort" title="Sort by"><option value="m2">€/m²</option><option value="room">€/room</option><option value="key">€/key</option><option value="price">Price</option><option value="rooms">Rooms</option><option value="area">Area</option><option value="newest">Newest</option></select><button class="fbtn" id="freset">Reset</button></span></div>
+    if ($('supply-pop')) return;
+    const pop = document.createElement('div'); pop.className = 'supply-pop'; pop.id = 'supply-pop'; pop.hidden = true;
+    pop.innerHTML = `<div class="sp-head"><b>Supply filter &amp; results</b><span class="sp-count"><b id="fcount">0</b> of ${PROPS.length}</span><button class="sp-min" id="sp-min" title="Minimise">▾</button></div>
+      <div class="sp-body"><div class="fwrap" id="supply-controls"></div>
+      <div class="fmeta"><span class="cnt">Sort</span><span style="display:flex;gap:6px;align-items:center"><select id="fsort" title="Sort by"><option value="m2">€/m²</option><option value="room">€/room</option><option value="key">€/key</option><option value="price">Price</option><option value="rooms">Rooms</option><option value="area">Area</option><option value="newest">Newest</option></select><button class="fbtn" id="freset">Reset</button></span></div>
       <div class="fmeta"><button class="fbtn" id="ffav">☆ Favourites <b id="favbadge">0</b></button><button class="fbtn" id="fclear" title="Clear favourites">clear</button><button class="fbtn" id="fsrc">ⓘ Sources</button></div>
       <div class="snote" id="sources-note" hidden></div><div class="rlist" id="results-list"></div></div>`;
-    const after = $('sec-layers'); if (after && after.parentNode) after.parentNode.insertBefore(sec, after.nextSibling); else { const pb = $('panel-body'); if (pb) pb.appendChild(sec); }
+    document.body.appendChild(pop);
     buildControls();
     $('fsort').onchange = e => { S.filter.sort = e.target.value; applyFilter(); };
     $('freset').onclick = resetFilter;
     $('ffav').onclick = () => { S.filter.favOnly = !S.filter.favOnly; $('ffav').classList.toggle('on', S.filter.favOnly); applyFilter(); };
     $('fclear').onclick = () => { favStore.clear(); updateFavBadge(); applyFilter(); };
     $('fsrc').onclick = () => { const n = $('sources-note'); n.hidden = !n.hidden; if (!n.hidden) n.innerHTML = sourcesNote(); };
+    $('sp-min').onclick = () => { pop.classList.toggle('min'); $('sp-min').textContent = pop.classList.contains('min') ? '▸' : '▾'; };
     updateFavBadge();
   }
   function computeProperties() {
-    if (!S.layers.props) { M.setPropertiesVisible(false); return; }
-    buildSupplyPanel(); const sec = $('sec-supply'); if (sec) sec.open = true;
+    const pop0 = $('supply-pop');
+    if (!S.layers.props) { M.setPropertiesVisible(false); if (pop0) pop0.hidden = true; return; }
+    buildSupplyPanel(); const pop = $('supply-pop'); if (pop) { pop.hidden = false; pop.classList.remove('min'); const mn = $('sp-min'); if (mn) mn.textContent = '▾'; }
     applyFilter();
   }
 

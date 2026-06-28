@@ -127,6 +127,17 @@ body.light-map{--cl-disc:rgba(255,255,255,.97);--cl-text:#111827}
 .rsrc{font-size:14px;text-decoration:none;color:var(--client)}
 .snote{font-size:11px;color:var(--t2);line-height:1.55;background:var(--s2);border:1px solid var(--bd);border-radius:8px;padding:8px 10px;margin-top:6px}
 .snote a{color:var(--client)}.snote b{color:var(--t1)}
+/* supply filter popup (floating, by the search box) */
+.supply-pop{position:fixed;left:16px;top:64px;width:min(372px,calc(100vw - 32px));max-height:calc(100dvh - 88px);display:flex;flex-direction:column;background:var(--s1);border:1px solid var(--bd);border-radius:14px;box-shadow:0 14px 44px rgba(0,0,0,.5);z-index:900;overflow:hidden}
+.supply-pop[hidden]{display:none}
+.sp-head{display:flex;align-items:center;gap:8px;padding:9px 12px;border-bottom:1px solid var(--bd);flex:none}
+.sp-head b{font-size:12.5px;color:var(--t1);flex:1}
+.sp-count{font-size:11px;color:var(--t2)}.sp-count b{color:var(--acct);font-variant-numeric:tabular-nums}
+.sp-min{background:none;border:none;color:var(--t2);font-size:13px;cursor:pointer;padding:2px 5px;border-radius:6px}
+.sp-min:hover{background:var(--s3);color:var(--t1)}
+.sp-body{padding:11px 12px 12px;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
+.supply-pop.min .sp-body{display:none}.supply-pop.min{max-height:none}
+@media(max-width:640px){.supply-pop{top:60px;left:8px;width:calc(100vw - 16px);max-height:calc(100dvh - 74px)}}
 /* area pin */
 .apin{position:relative;display:flex;flex-direction:column;align-items:center;cursor:grab}
 .apin svg{filter:drop-shadow(0 2px 4px rgba(0,0,0,.45));width:calc(26px * var(--ui-scale));height:calc(34px * var(--ui-scale))}

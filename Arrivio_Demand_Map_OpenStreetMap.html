@@ -127,6 +127,17 @@ body.light-map{--cl-disc:rgba(255,255,255,.97);--cl-text:#111827}
 .rsrc{font-size:14px;text-decoration:none;color:var(--client)}
 .snote{font-size:11px;color:var(--t2);line-height:1.55;background:var(--s2);border:1px solid var(--bd);border-radius:8px;padding:8px 10px;margin-top:6px}
 .snote a{color:var(--client)}.snote b{color:var(--t1)}
+/* supply filter popup (floating, by the search box) */
+.supply-pop{position:fixed;left:16px;top:64px;width:min(372px,calc(100vw - 32px));max-height:calc(100dvh - 88px);display:flex;flex-direction:column;background:var(--s1);border:1px solid var(--bd);border-radius:14px;box-shadow:0 14px 44px rgba(0,0,0,.5);z-index:900;overflow:hidden}
+.supply-pop[hidden]{display:none}
+.sp-head{display:flex;align-items:center;gap:8px;padding:9px 12px;border-bottom:1px solid var(--bd);flex:none}
+.sp-head b{font-size:12.5px;color:var(--t1);flex:1}
+.sp-count{font-size:11px;color:var(--t2)}.sp-count b{color:var(--acct);font-variant-numeric:tabular-nums}
+.sp-min{background:none;border:none;color:var(--t2);font-size:13px;cursor:pointer;padding:2px 5px;border-radius:6px}
+.sp-min:hover{background:var(--s3);color:var(--t1)}
+.sp-body{padding:11px 12px 12px;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
+.supply-pop.min .sp-body{display:none}.supply-pop.min{max-height:none}
+@media(max-width:640px){.supply-pop{top:60px;left:8px;width:calc(100vw - 16px);max-height:calc(100dvh - 74px)}}
 /* area pin */
 .apin{position:relative;display:flex;flex-direction:column;align-items:center;cursor:grab}
 .apin svg{filter:drop-shadow(0 2px 4px rgba(0,0,0,.45));width:calc(26px * var(--ui-scale));height:calc(34px * var(--ui-scale))}
@@ -2113,25 +2124,27 @@ function nameVars(n) {
     return `<div style="margin-bottom:6px">A <b>filtered snapshot</b>, not the whole market. Where each type lands: <b>hotel/gastronomy</b> → Small/family hotels + Acquisition targets; <b>office/mixed/retail/land</b> → Office &amp; commercial context + Acquisition targets. Occupancy context: Destatis GENESIS 45412.</div>${lines}`;
   }
   function buildSupplyPanel() {
-    if ($('sec-supply')) return;
-    const sec = document.createElement('details'); sec.className = 'sec'; sec.id = 'sec-supply'; sec.open = true;
-    sec.innerHTML = `<summary><h2>Supply filter &amp; results</h2><span class="ssum" id="fcount2"></span><svg class="ic chev"><use href="#i-chev"/></svg></summary>
-      <div class="secb"><div class="fwrap" id="supply-controls"></div>
-      <div class="fmeta"><span class="cnt"><b id="fcount">0</b> of ${PROPS.length} shown</span><span style="display:flex;gap:6px;align-items:center"><select id="fsort" title="Sort by"><option value="m2">€/m²</option><option value="room">€/room</option><option value="key">€/key</option><option value="price">Price</option><option value="rooms">Rooms</option><option value="area">Area</option><option value="newest">Newest</option></select><button class="fbtn" id="freset">Reset</button></span></div>
+    if ($('supply-pop')) return;
+    const pop = document.createElement('div'); pop.className = 'supply-pop'; pop.id = 'supply-pop'; pop.hidden = true;
+    pop.innerHTML = `<div class="sp-head"><b>Supply filter &amp; results</b><span class="sp-count"><b id="fcount">0</b> of ${PROPS.length}</span><button class="sp-min" id="sp-min" title="Minimise">▾</button></div>
+      <div class="sp-body"><div class="fwrap" id="supply-controls"></div>
+      <div class="fmeta"><span class="cnt">Sort</span><span style="display:flex;gap:6px;align-items:center"><select id="fsort" title="Sort by"><option value="m2">€/m²</option><option value="room">€/room</option><option value="key">€/key</option><option value="price">Price</option><option value="rooms">Rooms</option><option value="area">Area</option><option value="newest">Newest</option></select><button class="fbtn" id="freset">Reset</button></span></div>
       <div class="fmeta"><button class="fbtn" id="ffav">☆ Favourites <b id="favbadge">0</b></button><button class="fbtn" id="fclear" title="Clear favourites">clear</button><button class="fbtn" id="fsrc">ⓘ Sources</button></div>
       <div class="snote" id="sources-note" hidden></div><div class="rlist" id="results-list"></div></div>`;
-    const after = $('sec-layers'); if (after && after.parentNode) after.parentNode.insertBefore(sec, after.nextSibling); else { const pb = $('panel-body'); if (pb) pb.appendChild(sec); }
+    document.body.appendChild(pop);
     buildControls();
     $('fsort').onchange = e => { S.filter.sort = e.target.value; applyFilter(); };
     $('freset').onclick = resetFilter;
     $('ffav').onclick = () => { S.filter.favOnly = !S.filter.favOnly; $('ffav').classList.toggle('on', S.filter.favOnly); applyFilter(); };
     $('fclear').onclick = () => { favStore.clear(); updateFavBadge(); applyFilter(); };
     $('fsrc').onclick = () => { const n = $('sources-note'); n.hidden = !n.hidden; if (!n.hidden) n.innerHTML = sourcesNote(); };
+    $('sp-min').onclick = () => { pop.classList.toggle('min'); $('sp-min').textContent = pop.classList.contains('min') ? '▸' : '▾'; };
     updateFavBadge();
   }
   function computeProperties() {
-    if (!S.layers.props) { M.setPropertiesVisible(false); return; }
-    buildSupplyPanel(); const sec = $('sec-supply'); if (sec) sec.open = true;
+    const pop0 = $('supply-pop');
+    if (!S.layers.props) { M.setPropertiesVisible(false); if (pop0) pop0.hidden = true; return; }
+    buildSupplyPanel(); const pop = $('supply-pop'); if (pop) { pop.hidden = false; pop.classList.remove('min'); const mn = $('sp-min'); if (mn) mn.textContent = '▾'; }
     applyFilter();
   }
 
@@ -2571,7 +2584,7 @@ function nameVars(n) {
     if (S.areas.length) cats.push(`<div class="lg"><span class="sw" style="background:var(--acc)"></span>Arrivio proposed area</div>`);
     if (S.layers.gch) cats.push(`<div class="lg"><span class="sw sq" style="background:var(--gch)"></span>GCH hotel</div>`);
     if (S.layers.sem) cats.push(`<div class="lg"><span class="sw sq" style="background:var(--sem)"></span>Seminaris hotel</div>`);
-    if (S.layers.props) cats.push(`<div class="lg"><span class="sw" style="background:#d6219b"></span>Hotel target</div><div class="lg"><span class="sw" style="background:#f59e0b"></span>Gastronomy</div><div class="lg"><span class="sw" style="background:#64748b"></span>Mixed / commercial</div><div class="lg" style="color:var(--t3)">Pink cluster = listing density · click a pin for price/Pacht + source</div>`);
+    if (S.layers.props) { (typeof ALL_TYPES !== 'undefined' ? ALL_TYPES : []).forEach(t => cats.push(`<div class="lg"><span class="sw" style="background:${(typeof PROP_COLOR !== 'undefined' && PROP_COLOR[t]) || '#64748b'}"></span>${(typeof PROP_LABEL !== 'undefined' && PROP_LABEL[t]) || t}</div>`)); cats.push(`<div class="lg" style="color:var(--t3)">Pink cluster = listing density · click a pin for price/Pacht · ⓘ in the filter popup lists every source</div>`); }
     if (S.layers.commercial && S.commMetric === 'rent') cats.push(`<div class="lg"><span class="sw" style="background:#a51777"></span>City dot colour = prime rent · click for exact</div>`);
     if (S.layers.commercial && S.commMetric === 'vacant') cats.push(`<div class="lg"><span class="sw" style="background:#a51777"></span>City dot colour = office vacancy % · click for exact</div>`);
     if (S.reach.active) cats.push(`<div class="lg"><span class="sw" style="background:${MODE_COLOR[S.reach.mode]}"></span>Reach within ${S.reach.min} min (${MODE_LABEL[S.reach.mode]})</div>`);
