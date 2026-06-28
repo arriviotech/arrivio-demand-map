@@ -527,15 +527,21 @@
      interpolation over empty land. Data: PROPERTIES (data/properties.json) + GENESIS_BEDS by Bundesland. */
   const PROPS = (typeof PROPERTIES !== 'undefined' ? PROPERTIES : []);
   const GBEDS = (typeof GENESIS_BEDS !== 'undefined' ? GENESIS_BEDS : {});
-  const PROP_COLOR = { hotel: '#d6219b', gastronomie: '#f59e0b', mixed_use: '#64748b', office: '#0ea5e9', retail: '#a855f7' };
-  const PROP_LABEL = { hotel: 'Hotel', gastronomie: 'Gastronomy', mixed_use: 'Mixed-use / commercial', office: 'Office', retail: 'Retail' };
-  const propColor = p => PROP_COLOR[p.kind] || '#64748b';
-  const dealLabel = p => p.deal === 'lease' ? 'For lease (Pacht)' : p.deal === 'sale' ? 'For sale' : '';
+  const PROP_COLOR = { hotel: '#d6219b', gastronomie: '#f59e0b', gastronomy_with_rooms: '#f59e0b', mixed_use: '#64748b', office: '#0ea5e9', retail: '#a855f7', industrial_hall: '#b45309', land_plot: '#65a30d', apartment_building: '#db2777', other: '#64748b' };
+  const PROP_LABEL = { hotel: 'Hotel', gastronomie: 'Gastronomy', gastronomy_with_rooms: 'Gastronomy + rooms', mixed_use: 'Mixed-use / commercial', office: 'Office', retail: 'Retail', industrial_hall: 'Industrial hall', land_plot: 'Land / plot', apartment_building: 'Apartment building (Wohn-/Geschäftshaus)', other: 'Commercial' };
+  const assetOf = p => p.asset_type || p.kind;
+  const propColor = p => PROP_COLOR[p.asset_type] || PROP_COLOR[p.kind] || '#64748b';
+  const dealLabel = p => p.deal === 'lease' ? 'For lease' : p.deal === 'sale' ? 'For sale' : '';
   function propsFiltered() { return PROPS.filter(p => p.lat != null && p.lng != null && (S.propDeal === 'all' || p.deal === S.propDeal)); }
   function selectProperty(p) {
     const eur = v => '€' + fmt(v), basis = p.price_basis;
     let priceRows = '';
-    if (p.deal === 'lease' && p.lease_eur_mo) {
+    if (p.deal === 'lease' && p.rent_eur_m2_mo) { // office / commercial rent (€/m²·mo)
+      const rentTxt = (p.rent_eur_m2_min != null && p.rent_eur_m2_max != null && p.rent_eur_m2_min !== p.rent_eur_m2_max) ? '€' + NF.format(p.rent_eur_m2_min) + '–€' + NF.format(p.rent_eur_m2_max) : '€' + NF.format(p.rent_eur_m2_mo);
+      priceRows = `<tr><td>Rent</td><td class="num"><b style="color:var(--acct)">${rentTxt}</b>/m²·mo</td></tr>`;
+      const aLo = p.area_min_m2, aHi = p.area_max_m2 || p.area_m2;
+      if (aLo || aHi) priceRows += `<tr><td>Available area</td><td class="num">${fmt(aLo || aHi)}${aHi && aHi !== aLo ? '–' + fmt(aHi) : ''} m²</td></tr>`;
+    } else if (p.deal === 'lease' && p.lease_eur_mo) {
       priceRows = `<tr><td>Pacht (lease)</td><td class="num"><b style="color:var(--acct)">${eur(p.lease_eur_mo)}</b>/mo</td></tr>
         <tr><td></td><td class="num" style="color:var(--t2)">≈${eur(p.lease_eur_yr || p.lease_eur_mo * 12)}/yr${basis === 'MODELED' ? ' <span style="color:var(--warn)">est</span>' : ''}</td></tr>`;
       if (p.nk_eur_mo) priceRows += `<tr><td>Nebenkosten</td><td class="num">+${eur(p.nk_eur_mo)}/mo</td></tr>`;
@@ -547,15 +553,15 @@
       if (p.rooms) priceRows += `<tr><td>€ / room (key)</td><td class="num">${eur(Math.round(p.price_eur / p.rooms))}</td></tr>`;
       if (p.lease_eur_yr && basis === 'MODELED') priceRows += `<tr><td>Est. annual lease</td><td class="num" style="color:var(--t2)">≈${eur(p.lease_eur_yr)}/yr <span style="color:var(--warn)">est</span></td></tr>`;
     } else priceRows = `<tr><td>Price</td><td class="num" style="color:var(--t3)">on request</td></tr>`;
-    const g = p.state && GBEDS[p.state];
+    const g = (assetOf(p) === 'hotel' || /gastro/.test(assetOf(p))) && p.state && GBEDS[p.state];
     const ctx = g && g.hotels_occupancy_pct != null ? `<tr><td>Region hotel occ. ’24</td><td class="num">${NF.format(g.hotels_occupancy_pct)}%</td></tr>` : '';
     const flag = basis === 'LISTED' ? `<span style="color:#1a9e6c">● LISTED</span>` : basis === 'MODELED' ? `<span style="color:var(--warn)">● est.</span>` : `<span style="color:var(--t3)">● on request</span>`;
     const html = `
       <div class="sname">${esc(p.name)}</div>
-      <div class="splace">${PROP_LABEL[p.kind] || esc(p.kind)}${p.city ? ' · ' + esc(p.city) : ''}${p.state ? ', ' + esc(p.state) : ''} · ${dealLabel(p)}</div>
+      <div class="splace">${PROP_LABEL[assetOf(p)] || esc(assetOf(p))}${p.city ? ' · ' + esc(p.city) : ''}${p.state ? ', ' + esc(p.state) : ''} · ${dealLabel(p)}</div>
       <table>
         ${priceRows}
-        ${p.area_m2 ? `<tr><td>Floor area</td><td class="num">${fmt(p.area_m2)} m²</td></tr>` : ''}
+        ${p.area_m2 && !p.rent_eur_m2_mo ? `<tr><td>Floor area</td><td class="num">${fmt(p.area_m2)} m²</td></tr>` : ''}
         ${p.rooms ? `<tr><td>Rooms</td><td class="num">${fmt(p.rooms)}</td></tr>` : ''}
         ${p.beds ? `<tr><td>Beds</td><td class="num">${fmt(p.beds)}</td></tr>` : ''}
         ${ctx}
