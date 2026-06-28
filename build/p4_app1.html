@@ -532,7 +532,7 @@
   const assetOf = p => p.asset_type || p.kind;
   const propColor = p => PROP_COLOR[p.asset_type] || PROP_COLOR[p.kind] || '#64748b';
   const dealLabel = p => p.deal === 'lease' ? 'For lease' : p.deal === 'sale' ? 'For sale' : '';
-  function propsFiltered() { return PROPS.filter(p => p.lat != null && p.lng != null && (S.propDeal === 'all' || p.deal === S.propDeal)); }
+  function propsFiltered() { return (typeof filtered === 'function' && S.filter) ? filtered() : PROPS.filter(p => p.lat != null && (S.propDeal === 'all' || p.deal === S.propDeal)); }
   function selectProperty(p) {
     const eur = v => '€' + fmt(v), basis = p.price_basis;
     let priceRows = '';
@@ -567,17 +567,157 @@
         ${ctx}
         <tr><td>Basis</td><td class="num">${flag}</td></tr>
       </table>
-      <div class="btnrow"><button class="btn" data-act="area">+ Area here</button>${p.source_url ? `<a class="btn" href="${esc(p.source_url)}" target="_blank" rel="noopener">Source ↗</a>` : ''}</div>
+      <div class="btnrow"><button class="btn card-star ${favStore.has(p.id) ? 'on' : ''}" data-id="${esc(p.id)}" data-act="fav">${favStore.has(p.id) ? '★ Saved' : '☆ Save'}</button><button class="btn" data-act="area">+ Area here</button>${p.source_url ? `<a class="btn" href="${esc(p.source_url)}" target="_blank" rel="noopener">Source ↗</a>` : ''}</div>
       <p class="hint" style="margin-top:6px">${esc(p.source)} · captured ${esc(p.captured)}${basis === 'MODELED' ? ' · estimate via €/key cost model (upper-bound lease)' : ''}</p>`;
-    const wire = root => { const ab = root.querySelector('[data-act="area"]'); if (ab) ab.onclick = () => addAreaAt([p.lat, p.lng]); };
+    const wire = root => { const ab = root.querySelector('[data-act="area"]'); if (ab) ab.onclick = () => addAreaAt([p.lat, p.lng]); const fb = root.querySelector('[data-act="fav"]'); if (fb) fb.onclick = () => toggleFav(p); };
     if (MOBILE()) { showSelCard(html); wire($('sel-card')); }
     else M.openInfo([p.lat, p.lng], html, wire);
   }
+  /* ===== Phase 2: supply filter (sliders-only) + favourites + map-synced results ===== */
+  const FAV_KEY = 'arrivio.favs.v1';
+  const favStore = {
+    _m: (() => { try { return JSON.parse(localStorage.getItem(FAV_KEY) || '{}'); } catch (e) { return {}; } })(),
+    has(id) { return !!this._m[id]; }, count() { return Object.keys(this._m).length; },
+    toggle(id, snap) { if (this._m[id]) delete this._m[id]; else this._m[id] = snap; this._save(); return this.has(id); },
+    clear() { this._m = {}; this._save(); },
+    _save() { try { localStorage.setItem(FAV_KEY, JSON.stringify(this._m)); } catch (e) { } },
+  };
+  // derived metrics (computed per record, client-side)
+  const leasePerM2 = p => p.rent_eur_m2_mo != null ? p.rent_eur_m2_mo : (p.lease_eur_mo && p.area_m2 ? p.lease_eur_mo / p.area_m2 : null);
+  const pachtPerRoom = p => (p.lease_eur_mo && p.rooms ? p.lease_eur_mo / p.rooms : null);
+  const eurPerKey = p => (p.deal === 'sale' && p.price_eur && p.rooms ? p.price_eur / p.rooms : null);
+  const saleM2 = p => (p.deal === 'sale' && p.price_eur && p.area_m2 ? (p.eur_per_m2 || p.price_eur / p.area_m2) : null);
+  const m2Any = p => saleM2(p) != null ? saleM2(p) : leasePerM2(p);
+  function headlineMetric(p) {
+    if (p.deal === 'lease' && p.rent_eur_m2_mo != null) return '€' + NF.format(p.rent_eur_m2_mo) + '/m²·mo';
+    if (p.deal === 'lease' && p.lease_eur_mo) return '€' + kfmt(p.lease_eur_mo) + '/mo' + (p.rooms ? ' · €' + fmt(Math.round(p.lease_eur_mo / p.rooms)) + '/room' : '');
+    if (p.deal === 'sale' && p.price_eur) return '€' + kfmt(p.price_eur) + (p.rooms ? ' · €' + kfmt(Math.round(p.price_eur / p.rooms)) + '/key' : '');
+    return 'on request';
+  }
+  const FILTER_FIELDS = [
+    { key: 'price', label: 'Asking price €', get: p => p.price_eur, fmt: v => '€' + kfmt(v), step: 1000 },
+    { key: 'rooms', label: 'Rooms', get: p => p.rooms, fmt: v => fmt(v), step: 1, tick: 150 },
+    { key: 'area', label: 'Area m²', get: p => p.area_m2, fmt: v => fmt(v) + ' m²', step: 10, tick: 3750 },
+    { key: 'lpm2', label: 'Lease €/m²·mo', get: leasePerM2, fmt: v => '€' + (Math.round(v * 10) / 10).toLocaleString('de-DE'), step: 0.5, tick: 15 },
+    { key: 'ppr', label: 'Pacht €/room·mo', get: pachtPerRoom, fmt: v => '€' + fmt(v), step: 5, tick: 375 },
+    { key: 'key', label: 'Sale €/key', get: eurPerKey, fmt: v => '€' + kfmt(v), step: 1000, tick: 67000 },
+    { key: 'yield', label: 'Yield %', get: p => p.yield_pct, fmt: v => (Math.round(v * 10) / 10) + '%', step: 0.1 },
+  ];
+  const _ext = {};
+  for (const f of FILTER_FIELDS) { const st = f.step || 1, vs = PROPS.map(f.get).filter(v => typeof v === 'number' && isFinite(v)); if (vs.length) { let mn = Math.floor(Math.min.apply(null, vs) / st) * st, mx = Math.ceil(Math.max.apply(null, vs) / st) * st; if (mn === mx) mx = mn + st; _ext[f.key] = [Math.round(mn * 100) / 100, Math.round(mx * 100) / 100]; } else _ext[f.key] = [0, st]; } // step-aligned so the slider max is reachable
+  const ALL_TYPES = [...new Set(PROPS.map(p => p.asset_type || p.kind))];
+  const ALL_STATES = [...new Set(PROPS.map(p => p.state).filter(Boolean))].sort();
+  S.filter = { types: new Set(), basis: 'all', states: new Set(), favOnly: false, sort: 'm2', ranges: {} };
+  for (const f of FILTER_FIELDS) S.filter.ranges[f.key] = [..._ext[f.key]];
+
+  function passRange(p, f) { const [lo, hi] = S.filter.ranges[f.key], [dlo, dhi] = _ext[f.key]; if (lo <= dlo + 1e-6 && hi >= dhi - 1e-6) return true; const v = f.get(p); if (v == null || !isFinite(v)) return false; return v >= lo && v <= hi; }
+  function filtered() {
+    const F = S.filter;
+    return PROPS.filter(p => {
+      if (p.lat == null) return false;
+      if (S.propDeal !== 'all' && p.deal !== S.propDeal) return false;
+      if (F.types.size && !F.types.has(p.asset_type || p.kind)) return false;
+      if (F.basis === 'listed' && p.price_basis !== 'LISTED') return false;
+      if (F.basis === 'est' && !(p.price_basis === 'LISTED' || p.price_basis === 'MODELED')) return false;
+      if (F.states.size && !F.states.has(p.state)) return false;
+      if (F.favOnly && !favStore.has(p.id)) return false;
+      for (const f of FILTER_FIELDS) if (!passRange(p, f)) return false;
+      return true;
+    });
+  }
+  const SORTERS = { m2: (a, b) => (m2Any(b) || 0) - (m2Any(a) || 0), room: (a, b) => (pachtPerRoom(b) || 0) - (pachtPerRoom(a) || 0), key: (a, b) => (eurPerKey(b) || 0) - (eurPerKey(a) || 0), price: (a, b) => (b.price_eur || 0) - (a.price_eur || 0), rooms: (a, b) => (b.rooms || 0) - (a.rooms || 0), area: (a, b) => (b.area_m2 || 0) - (a.area_m2 || 0), newest: (a, b) => String(b.captured || '').localeCompare(String(a.captured || '')) };
+
+  function toggleFav(p, btn) {
+    const on = favStore.toggle(p.id, { id: p.id, name: p.name, city: p.city, kind: p.asset_type || p.kind, deal: p.deal, metric: headlineMetric(p), source_url: p.source_url });
+    if (btn) { btn.classList.toggle('on', on); btn.textContent = on ? '★' : '☆'; }
+    document.querySelectorAll('.card-star').forEach(b => { if (b.dataset.id === p.id) { b.classList.toggle('on', on); b.textContent = on ? '★ Saved' : '☆ Save'; } });
+    updateFavBadge(); if (S.filter.favOnly) applyFilter();
+  }
+  function updateFavBadge() { const b = $('favbadge'); if (b) b.textContent = favStore.count(); }
+  function flashRow(id) { const box = $('results-list'); if (!box) return; box.querySelectorAll('.rrow.hot').forEach(r => r.classList.remove('hot')); const row = box.querySelector('.rrow[data-id="' + (window.CSS && CSS.escape ? CSS.escape(id) : id) + '"]'); if (row) { row.classList.add('hot'); row.scrollIntoView({ block: 'nearest' }); } }
+  function renderResults(list) {
+    const box = $('results-list'); if (!box) return;
+    const sorted = [...list].sort(SORTERS[S.filter.sort] || SORTERS.m2);
+    box.innerHTML = sorted.slice(0, 400).map(p => { const at = p.asset_type || p.kind, fav = favStore.has(p.id);
+      const sub = [PROP_LABEL[at] || at, p.city, p.deal].filter(Boolean).join(' · ');
+      return `<div class="rrow" data-id="${esc(p.id)}"><span class="rdot" style="background:${propColor(p)}"></span><div class="rmain"><div class="rname">${esc(p.name || at)}</div><div class="rsub">${esc(sub)}${p.rooms ? ' · ' + fmt(p.rooms) + ' rm' : ''}${p.area_m2 ? ' · ' + fmt(p.area_m2) + ' m²' : ''}</div><div class="rmetric">${headlineMetric(p)} <span style="color:var(--t3);font-weight:400">${p.price_basis === 'LISTED' ? '● LISTED' : p.price_basis === 'MODELED' ? '◐ est' : ''}</span></div></div><div class="ract"><button class="star ${fav ? 'on' : ''}" title="Favourite">${fav ? '★' : '☆'}</button>${p.source_url ? `<a class="rsrc" href="${esc(p.source_url)}" target="_blank" rel="noopener" title="Source">↗</a>` : ''}</div></div>`;
+    }).join('') || '<div class="snote">No properties match — widen a slider or press Reset.</div>';
+    box.querySelectorAll('.rrow').forEach(row => { const id = row.dataset.id, p = PROPS.find(x => x.id === id); if (!p) return;
+      row.onmouseenter = () => M.highlightProp(id, true); row.onmouseleave = () => M.highlightProp(id, false);
+      row.onclick = e => { if (e.target.closest('.star') || e.target.closest('.rsrc')) return; M.flyToProp(id); selectProperty(p); };
+      const st = row.querySelector('.star'); if (st) st.onclick = e => { e.stopPropagation(); toggleFav(p, st); };
+    });
+  }
+  function applyFilter() {
+    if (!S.layers.props) return;
+    const list = filtered();
+    M.renderProperties(list, selectProperty, propColor, true, flashRow);
+    [['n-props', NF.format(list.length)], ['fcount', NF.format(list.length)], ['fcount2', NF.format(list.length) + '/' + PROPS.length]].forEach(([id, t]) => { const el = $(id); if (el) el.textContent = t; });
+    renderResults(list);
+  }
+  const _debApply = (typeof debounce === 'function') ? debounce(applyFilter, 110) : applyFilter;
+
+  // ---- UI builders (generated, match the sidebar style) ----
+  function chipRow(label, opts, set) {
+    const g = document.createElement('div'); g.className = 'fgrp'; g.innerHTML = `<div class="flabel"><span>${label}</span></div>`;
+    const wrap = document.createElement('div'); wrap.className = 'chips';
+    for (const o of opts) { const b = document.createElement('button'); b.className = 'chip2'; b.textContent = o.label; b.setAttribute('aria-pressed', set.has(o.v)); b.onclick = () => { if (set.has(o.v)) set.delete(o.v); else set.add(o.v); b.setAttribute('aria-pressed', set.has(o.v)); applyFilter(); }; wrap.appendChild(b); }
+    g.appendChild(wrap); return g;
+  }
+  function segRow(label, opts, onSel, def) {
+    const g = document.createElement('div'); g.className = 'fgrp'; g.innerHTML = `<div class="flabel"><span>${label}</span></div>`;
+    const seg = document.createElement('div'); seg.className = 'seg metric-seg'; seg.style.margin = '0';
+    opts.forEach(([v, l]) => { const b = document.createElement('button'); b.textContent = l; b.setAttribute('aria-pressed', v === def); b.onclick = () => { seg.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b)); onSel(v); }; seg.appendChild(b); });
+    g.appendChild(seg); return g;
+  }
+  function dualSlider(f) {
+    const [dlo, dhi] = _ext[f.key], [clo, chi] = S.filter.ranges[f.key];
+    const g = document.createElement('div'); g.className = 'fgrp'; g.innerHTML = `<div class="flabel"><span>${f.label}</span><b class="fval">${f.fmt(clo)} – ${f.fmt(chi)}</b></div>`;
+    const d = document.createElement('div'); d.className = 'dual';
+    const track = document.createElement('div'); track.className = 'track'; const fill = document.createElement('div'); fill.className = 'fill';
+    const lo = document.createElement('input'), hi = document.createElement('input');
+    [lo, hi].forEach((s, i) => { s.type = 'range'; s.min = dlo; s.max = dhi; s.step = f.step || 1; s.value = i ? chi : clo; });
+    d.append(track, fill, lo, hi);
+    if (f.tick != null && f.tick >= dlo && f.tick <= dhi) { const t = document.createElement('div'); t.className = 'tick'; t.style.left = ((f.tick - dlo) / ((dhi - dlo) || 1) * 100) + '%'; t.title = 'model target'; d.appendChild(t); }
+    g.appendChild(d);
+    const val = g.querySelector('.fval');
+    const upd = () => { const A = Math.min(+lo.value, +hi.value), Bv = Math.max(+lo.value, +hi.value); S.filter.ranges[f.key] = [A, Bv]; const pa = (A - dlo) / ((dhi - dlo) || 1) * 100, pb = (Bv - dlo) / ((dhi - dlo) || 1) * 100; fill.style.left = pa + '%'; fill.style.width = Math.max(0, pb - pa) + '%'; val.textContent = f.fmt(A) + ' – ' + f.fmt(Bv); _debApply(); };
+    lo.oninput = upd; hi.oninput = upd; upd(); return g;
+  }
+  function buildControls() {
+    const c = $('supply-controls'); if (!c) return; c.innerHTML = '';
+    c.appendChild(chipRow('Type', ALL_TYPES.map(t => ({ v: t, label: PROP_LABEL[t] || t })), S.filter.types));
+    c.appendChild(segRow('Price basis', [['all', 'All'], ['listed', 'LISTED'], ['est', '+est']], v => { S.filter.basis = v; applyFilter(); }, S.filter.basis));
+    for (const f of FILTER_FIELDS) { if (_ext[f.key][0] === _ext[f.key][1]) continue; c.appendChild(dualSlider(f)); }
+    c.appendChild(chipRow('Location (state)', ALL_STATES.map(s => ({ v: s, label: (typeof STATE_SHORT !== 'undefined' && STATE_SHORT[s]) || s })), S.filter.states));
+  }
+  function resetFilter() { S.filter.types.clear(); S.filter.states.clear(); S.filter.basis = 'all'; S.filter.favOnly = false; for (const f of FILTER_FIELDS) S.filter.ranges[f.key] = [..._ext[f.key]]; const fb = $('ffav'); if (fb) fb.classList.remove('on'); buildControls(); applyFilter(); }
+  function sourcesNote() {
+    const bySrc = {}; for (const p of PROPS) { const s = p.source || '—'; const d = bySrc[s] = bySrc[s] || { n: 0, host: null, types: new Set(), cap: null }; d.n++; if (p.source_url && !d.host) d.host = p.source_url.replace(/^https?:\/\//, '').split('/')[0]; d.types.add(PROP_LABEL[p.asset_type || p.kind] || p.kind); if (p.captured && (!d.cap || p.captured > d.cap)) d.cap = p.captured; }
+    const lines = Object.entries(bySrc).sort((a, b) => b[1].n - a[1].n).map(([s, d]) => `<div>• <b>${esc(s)}</b> — ${d.n} listings (${[...d.types].slice(0, 3).join(', ')})${d.cap ? ' · captured ' + esc(d.cap) : ''}${d.host ? ` · <a href="https://${esc(d.host)}" target="_blank" rel="noopener">view more ↗</a>` : ''}</div>`).join('');
+    return `<div style="margin-bottom:6px">A <b>filtered snapshot</b>, not the whole market. Where each type lands: <b>hotel/gastronomy</b> → Small/family hotels + Acquisition targets; <b>office/mixed/retail/land</b> → Office &amp; commercial context + Acquisition targets. Occupancy context: Destatis GENESIS 45412.</div>${lines}`;
+  }
+  function buildSupplyPanel() {
+    if ($('sec-supply')) return;
+    const sec = document.createElement('details'); sec.className = 'sec'; sec.id = 'sec-supply'; sec.open = true;
+    sec.innerHTML = `<summary><h2>Supply filter &amp; results</h2><span class="ssum" id="fcount2"></span><svg class="ic chev"><use href="#i-chev"/></svg></summary>
+      <div class="secb"><div class="fwrap" id="supply-controls"></div>
+      <div class="fmeta"><span class="cnt"><b id="fcount">0</b> of ${PROPS.length} shown</span><span style="display:flex;gap:6px;align-items:center"><select id="fsort" title="Sort by"><option value="m2">€/m²</option><option value="room">€/room</option><option value="key">€/key</option><option value="price">Price</option><option value="rooms">Rooms</option><option value="area">Area</option><option value="newest">Newest</option></select><button class="fbtn" id="freset">Reset</button></span></div>
+      <div class="fmeta"><button class="fbtn" id="ffav">☆ Favourites <b id="favbadge">0</b></button><button class="fbtn" id="fclear" title="Clear favourites">clear</button><button class="fbtn" id="fsrc">ⓘ Sources</button></div>
+      <div class="snote" id="sources-note" hidden></div><div class="rlist" id="results-list"></div></div>`;
+    const after = $('sec-layers'); if (after && after.parentNode) after.parentNode.insertBefore(sec, after.nextSibling); else { const pb = $('panel-body'); if (pb) pb.appendChild(sec); }
+    buildControls();
+    $('fsort').onchange = e => { S.filter.sort = e.target.value; applyFilter(); };
+    $('freset').onclick = resetFilter;
+    $('ffav').onclick = () => { S.filter.favOnly = !S.filter.favOnly; $('ffav').classList.toggle('on', S.filter.favOnly); applyFilter(); };
+    $('fclear').onclick = () => { favStore.clear(); updateFavBadge(); applyFilter(); };
+    $('fsrc').onclick = () => { const n = $('sources-note'); n.hidden = !n.hidden; if (!n.hidden) n.innerHTML = sourcesNote(); };
+    updateFavBadge();
+  }
   function computeProperties() {
     if (!S.layers.props) { M.setPropertiesVisible(false); return; }
-    const list = propsFiltered();
-    M.renderProperties(list, selectProperty, propColor, true);
-    const el = $('n-props'); if (el) el.textContent = NF.format(list.length);
+    buildSupplyPanel(); const sec = $('sec-supply'); if (sec) sec.open = true;
+    applyFilter();
   }
 
   /* ============ states / TAM ============ */
