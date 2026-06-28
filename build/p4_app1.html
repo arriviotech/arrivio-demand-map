@@ -532,6 +532,14 @@
   const assetOf = p => p.asset_type || p.kind;
   const propColor = p => PROP_COLOR[p.asset_type] || PROP_COLOR[p.kind] || '#64748b';
   const dealLabel = p => p.deal === 'lease' ? 'For lease' : p.deal === 'sale' ? 'For sale' : '';
+  const dealBadge = p => p.deal === 'sale' ? '<span class="deal-badge sale">FOR SALE</span>' : p.deal === 'lease' ? '<span class="deal-badge lease">FOR LEASE</span>' : '';
+  // single source of truth for the deal filter — keeps the sidebar (#prop-deal) and the popup
+  // (#supply-deal) segments in lock-step, then re-filters pins + results. Either control calls this.
+  function setPropDeal(v) {
+    S.propDeal = v;
+    document.querySelectorAll('#prop-deal [data-pd], #supply-deal [data-pd]').forEach(b => b.setAttribute('aria-pressed', b.dataset.pd === v));
+    if (typeof applyFilter === 'function' && S.layers && S.layers.props) applyFilter(); else if (typeof computeProperties === 'function') computeProperties();
+  }
   function propsFiltered() { return (typeof filtered === 'function' && S.filter) ? filtered() : PROPS.filter(p => p.lat != null && (S.propDeal === 'all' || p.deal === S.propDeal)); }
   function selectProperty(p) {
     const eur = v => '€' + fmt(v), basis = p.price_basis;
@@ -558,7 +566,7 @@
     const flag = basis === 'LISTED' ? `<span style="color:#1a9e6c">● LISTED</span>` : basis === 'MODELED' ? `<span style="color:var(--warn)">● est.</span>` : `<span style="color:var(--t3)">● on request</span>`;
     const html = `
       <div class="sname">${esc(p.name)}</div>
-      <div class="splace">${PROP_LABEL[assetOf(p)] || esc(assetOf(p))}${p.city ? ' · ' + esc(p.city) : ''}${p.state ? ', ' + esc(p.state) : ''} · ${dealLabel(p)}</div>
+      <div class="splace">${PROP_LABEL[assetOf(p)] || esc(assetOf(p))}${p.city ? ' · ' + esc(p.city) : ''}${p.state ? ', ' + esc(p.state) : ''} ${dealBadge(p)}</div>
       ${p.loc_approx ? `<div style="margin:6px 0;padding:6px 8px;border:1px dashed #d68a00;border-radius:6px;background:rgba(214,138,0,.10);font-size:11px;line-height:1.4;color:#b06f00"><b>⚠ Approximate location</b> — this pin is placed at the ${p.loc_basis === 'region' ? 'region' : 'state'} centre, <b>not</b> the real address (the listing gives only ${p.loc_basis === 'region' ? 'a region' : 'a town/region'}). For the exact spot, <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((p.name || '') + ' ' + (p.city || p.state || ''))}" target="_blank" rel="noopener" style="color:#b06f00;text-decoration:underline">search it on Google Maps ↗</a></div>` : ''}
       <table>
         ${priceRows}
@@ -660,8 +668,8 @@
     const box = $('results-list'); if (!box) return;
     const sorted = [...list].sort(SORTERS[S.filter.sort] || SORTERS.m2);
     box.innerHTML = sorted.slice(0, 400).map(p => { const at = p.asset_type || p.kind, fav = favStore.has(p.id);
-      const sub = [PROP_LABEL[at] || at, p.city, p.deal].filter(Boolean).join(' · ');
-      return `<div class="rrow" data-id="${esc(p.id)}"><span class="rdot" style="background:${propColor(p)}"></span><div class="rmain"><div class="rname">${esc(p.name || at)}</div><div class="rsub">${esc(sub)}${roomsTag(p)}${p.area_m2 ? ' · ' + fmt(p.area_m2) + ' m²' : ''}</div><div class="rmetric">${headlineMetric(p)} <span style="color:var(--t3);font-weight:400">${p.price_basis === 'LISTED' ? '● LISTED' : p.price_basis === 'MODELED' ? '◐ est' : ''}</span></div></div><div class="ract"><button class="star ${fav ? 'on' : ''}" title="Favourite">${fav ? '★' : '☆'}</button>${p.source_url ? `<a class="rsrc" href="${esc(p.source_url)}" target="_blank" rel="noopener" title="Source">↗</a>` : ''}</div></div>`;
+      const sub = [PROP_LABEL[at] || at, p.city].filter(Boolean).join(' · ');
+      return `<div class="rrow" data-id="${esc(p.id)}"><span class="rdot" style="background:${propColor(p)}"></span><div class="rmain"><div class="rname">${esc(p.name || at)} ${dealBadge(p)}</div><div class="rsub">${esc(sub)}${roomsTag(p)}${p.area_m2 ? ' · ' + fmt(p.area_m2) + ' m²' : ''}</div><div class="rmetric">${headlineMetric(p)} <span style="color:var(--t3);font-weight:400">${p.price_basis === 'LISTED' ? '● LISTED' : p.price_basis === 'MODELED' ? '◐ est' : ''}</span></div></div><div class="ract"><button class="star ${fav ? 'on' : ''}" title="Favourite">${fav ? '★' : '☆'}</button>${p.source_url ? `<a class="rsrc" href="${esc(p.source_url)}" target="_blank" rel="noopener" title="Source">↗</a>` : ''}</div></div>`;
     }).join('') || '<div class="snote">No properties match — widen a slider or press Reset.</div>';
     box.querySelectorAll('.rrow').forEach(row => { const id = row.dataset.id, p = PROPS.find(x => x.id === id); if (!p) return;
       row.onmouseenter = () => M.highlightProp(id, true); row.onmouseleave = () => M.highlightProp(id, false);
@@ -721,14 +729,22 @@
     const upd = () => { const A = Math.min(+lo.value, +hi.value), Bv = Math.max(+lo.value, +hi.value); S.filter.ranges[f.key] = [A, Bv]; const pa = (A - dlo) / ((dhi - dlo) || 1) * 100, pb = (Bv - dlo) / ((dhi - dlo) || 1) * 100; fill.style.left = pa + '%'; fill.style.width = Math.max(0, pb - pa) + '%'; val.textContent = f.fmt(A) + ' – ' + f.fmt(Bv); _debApply(); };
     lo.oninput = upd; hi.oninput = upd; upd(); return g;
   }
+  // Deal segment for the filter popup — shares S.propDeal with the sidebar via setPropDeal (two-way).
+  function dealSeg() {
+    const g = document.createElement('div'); g.className = 'fgrp'; g.innerHTML = `<div class="flabel"><span>Deal</span></div>`;
+    const seg = document.createElement('div'); seg.className = 'seg metric-seg deal-seg'; seg.id = 'supply-deal'; seg.style.margin = '0';
+    [['all', 'All'], ['sale', 'For sale'], ['lease', 'For lease']].forEach(([v, l]) => { const b = document.createElement('button'); b.dataset.pd = v; b.textContent = l; b.setAttribute('aria-pressed', S.propDeal === v); b.onclick = () => setPropDeal(v); seg.appendChild(b); });
+    g.appendChild(seg); return g;
+  }
   function buildControls() {
     const c = $('supply-controls'); if (!c) return; c.innerHTML = '';
+    c.appendChild(dealSeg());
     c.appendChild(typeGroup());
     c.appendChild(segRow('Price basis', [['all', 'All'], ['listed', 'LISTED'], ['est', '+est']], v => { S.filter.basis = v; applyFilter(); }, S.filter.basis));
     for (const f of FILTER_FIELDS) { if (_ext[f.key][0] === _ext[f.key][1]) continue; c.appendChild(dualSlider(f)); }
     c.appendChild(chipRow('Location (state)', ALL_STATES.map(s => ({ v: s, label: (typeof STATE_SHORT !== 'undefined' && STATE_SHORT[s]) || s })), S.filter.states));
   }
-  function resetFilter() { S.filter.types = new Set(CORE_PRESENT); S.filter.showOther = false; S.filter.states.clear(); S.filter.basis = 'all'; S.filter.favOnly = false; for (const f of FILTER_FIELDS) S.filter.ranges[f.key] = [..._ext[f.key]]; const fb = $('ffav'); if (fb) fb.classList.remove('on'); buildControls(); applyFilter(); }
+  function resetFilter() { S.filter.types = new Set(CORE_PRESENT); S.filter.showOther = false; S.filter.states.clear(); S.filter.basis = 'all'; S.filter.favOnly = false; S.propDeal = 'all'; document.querySelectorAll('#prop-deal [data-pd]').forEach(b => b.setAttribute('aria-pressed', b.dataset.pd === 'all')); for (const f of FILTER_FIELDS) S.filter.ranges[f.key] = [..._ext[f.key]]; const fb = $('ffav'); if (fb) fb.classList.remove('on'); buildControls(); applyFilter(); }
   function sourcesNote() {
     const bySrc = {}; for (const p of PROPS) { const s = p.source || '—'; const d = bySrc[s] = bySrc[s] || { n: 0, host: null, types: new Set(), cap: null }; d.n++; if (p.source_url && !d.host) d.host = p.source_url.replace(/^https?:\/\//, '').split('/')[0]; d.types.add(PROP_LABEL[p.asset_type || p.kind] || p.kind); if (p.captured && (!d.cap || p.captured > d.cap)) d.cap = p.captured; }
     const lines = Object.entries(bySrc).sort((a, b) => b[1].n - a[1].n).map(([s, d]) => `<div>• <b>${esc(s)}</b> — ${d.n} listings (${[...d.types].slice(0, 3).join(', ')})${d.cap ? ' · captured ' + esc(d.cap) : ''}${d.host ? ` · <a href="https://${esc(d.host)}" target="_blank" rel="noopener">view more ↗</a>` : ''}</div>`).join('');

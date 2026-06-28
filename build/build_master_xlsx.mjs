@@ -78,7 +78,9 @@ const acqRow = r => [
   r.rooms ?? '', r.rooms_basis || (r.rooms ? 'listed' : ''), r.rooms_note || '',
   r.lat ?? '', r.lng ?? '', r.loc_approx ? 'yes' : '', r.captured || '', r.notes || '',
 ];
-const acqRows = [ACQ_COLS, ...[...caps, ...props].map(acqRow)];
+// deal is the FIRST sort key so for-sale and for-lease never blur together when scanning (then source, then city)
+const acqData = [...caps, ...props].sort((a, b) => (a.deal || 'zz').localeCompare(b.deal || 'zz') || (a.source || '').localeCompare(b.source || '') || (a.city || '').localeCompare(b.city || ''));
+const acqRows = [ACQ_COLS, ...acqData.map(acqRow)];
 
 const OSM_COLS = ['name', 'city', 'stars', 'rooms', 'lat', 'lng', 'source', 'note'];
 const osmRows = [

@@ -121,3 +121,23 @@ Added a per-listing **room count + basis** (Arrivio co-living model: 20 m²/pers
 **Master spreadsheet `Arrivio_Master_Listings.xlsx`** (built by `build/build_master_xlsx.mjs`): Sheet "Acquisition listings" = 926 rows (full columns incl. rooms/basis/note/loc_approx); Sheet "Existing hotels (OSM context)" = 6,000 POIs (context only, no price); Sheet "Sources" = per-source counts, capture dates, example URLs.
 
 Verified: **0 console errors**; default 5-core-type filter, favourites, inflow overlay, legend, and approximate-location pins all intact.
+
+## Rooms + consolidation v2 (1,439)
+
+Re-synced to the latest authorized-browser master (broker CSV **932 → 1,439** rows: +144 CBRE, +128 deeper Colliers offices, +235 E&V offices/land) and re-ran the whole pipeline. The room-count rule (kept from v1, idempotent) now covers all captures; added a coordinated For-sale/For-lease deal filter and confirmed industrial/retail are off by default.
+
+**Broker master:** 1,439 rows → `captures.json` **1,398** (41 dups removed by listing_id) · **1,383 geocoded · 200 approximate** (region/state centroid). Map union (∪ 13 portal) = **1,411 listings, 1,387 placed pins**.
+
+**By source (captures):** JLL 316 · Engel & Völkers 695 · Colliers 229 · CBRE 143 · Christie & Co 15.
+**By asset_type:** office 749 · apartment_building 295 · mixed_use 129 · industrial_hall 118 · other 36 · land_plot 35 · hotel 15 · gastronomy_with_rooms 13 · retail 8.
+**By deal:** lease 834 · sale 564 (full dataset); core-type default view shows 714 lease + 477 sale = 1,191 pins.
+
+**Rooms basis (1,398 captures):** `listed` 34 · `estimated` 1,138 (floor area ÷ 20, "co-living rooms if converted") · `n/a` 226 (land/parking/warehouse/no-area). Shown in popup + results (plain / "~N est." / note).
+
+**For sale vs for lease (Task 2.5):** one shared `S.propDeal` state drives a **Deal segment in BOTH the sidebar (`#prop-deal`) and the filter popup (`#supply-deal`)** — changing either updates the other and re-filters pins + results (verified two-way: popup→sale syncs sidebar→sale = 477 pins; sidebar→lease syncs popup→lease = 714 pins). Every pin popup + results row carries a **green "FOR SALE" / blue "FOR LEASE"** badge. The master xlsx "Acquisition listings" sheet is sorted by `deal` first.
+
+**Default-deselect (Task 2.6):** the type filter loads with only the 5 core conversion types (office, apartment_building, mixed_use, hotel, gastronomy_with_rooms); **industrial_hall, retail, land_plot, other are OFF behind "+More"** — confirmed live: the default map shows 0 industrial/retail pins until enabled.
+
+**Master spreadsheet** rebuilt on 1,439: "Acquisition listings" 1,411 rows (deal-sorted, full cols incl. rooms/basis/note/loc_approx) · "Existing hotels (OSM context)" 6,000 · "Sources" (per-source counts/dates/URLs). 484 KB.
+
+Verified: **0 console errors**; deal filter two-way sync, default 5-core filter, favourites, inflow overlay, legend, approximate-location pins, and States·TAM all intact.

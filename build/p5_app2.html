@@ -531,7 +531,7 @@
     // office & hotel metric toggles
     document.querySelectorAll('#comm-metric [data-cm]').forEach(b => b.onclick = () => { S.commMetric = b.dataset.cm; document.querySelectorAll('#comm-metric [data-cm]').forEach(x => x.setAttribute('aria-pressed', x === b)); computeCommercial(); updateLegend(); });
     document.querySelectorAll('#hotel-metric [data-hm]').forEach(b => b.onclick = () => { S.hotelMetric = b.dataset.hm; document.querySelectorAll('#hotel-metric [data-hm]').forEach(x => x.setAttribute('aria-pressed', x === b)); computeHotels(); updateLegend(); });
-    document.querySelectorAll('#prop-deal [data-pd]').forEach(b => b.onclick = () => { S.propDeal = b.dataset.pd; document.querySelectorAll('#prop-deal [data-pd]').forEach(x => x.setAttribute('aria-pressed', x === b)); computeProperties(); });
+    document.querySelectorAll('#prop-deal [data-pd]').forEach(b => b.onclick = () => setPropDeal(b.dataset.pd)); // shared two-way with the filter popup's #supply-deal
     { const el = $('n-props'); if (el) el.textContent = NF.format(propsFiltered().length); }
     document.querySelectorAll('#inflow-metric [data-im]').forEach(b => b.onclick = () => setInflowMetric(b.dataset.im));
     // states TAM metric toggle (legend) — shares setStateMetric with the in-card toggle
