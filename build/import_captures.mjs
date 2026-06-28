@@ -4,6 +4,7 @@
 // unions this with properties.json into PROPERTIES. NEVER fabricates — blank where a field is absent.
 //   node build/import_captures.mjs
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { inflateRawSync } from 'node:zlib';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -34,7 +35,53 @@ function parseCSV(text) {
   return rows;
 }
 
+// ---- dependency-free .xlsx reader (ZIP central-dir + raw inflate; inlineStr & sharedStrings) ----
+function unzip(buf) {
+  const files = {};
+  let eocd = -1; for (let i = buf.length - 22; i >= 0 && i > buf.length - 22 - 65536; i--) { if (buf.readUInt32LE(i) === 0x06054b50) { eocd = i; break; } }
+  if (eocd < 0) return files;
+  const n = buf.readUInt16LE(eocd + 10); let off = buf.readUInt32LE(eocd + 16);
+  for (let k = 0; k < n; k++) {
+    if (buf.readUInt32LE(off) !== 0x02014b50) break;
+    const method = buf.readUInt16LE(off + 10), compSize = buf.readUInt32LE(off + 20);
+    const fnLen = buf.readUInt16LE(off + 28), exLen = buf.readUInt16LE(off + 30), cmLen = buf.readUInt16LE(off + 32);
+    const lho = buf.readUInt32LE(off + 42), name = buf.toString('utf8', off + 46, off + 46 + fnLen);
+    const lfn = buf.readUInt16LE(lho + 26), lex = buf.readUInt16LE(lho + 28), ds = lho + 30 + lfn + lex;
+    const comp = buf.subarray(ds, ds + compSize);
+    try { files[name] = method === 0 ? comp : method === 8 ? inflateRawSync(comp) : Buffer.alloc(0); } catch (e) { files[name] = Buffer.alloc(0); }
+    off += 46 + fnLen + exLen + cmLen;
+  }
+  return files;
+}
+const xdec = s => String(s).replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&#(\d+);/g, (_, d) => String.fromCharCode(+d));
+const colNum = c => { let n = 0; for (const ch of c) n = n * 26 + (ch.charCodeAt(0) - 64); return n - 1; };
+function readXlsxRows(path, sheetName) {
+  if (!existsSync(path)) return [];
+  const files = unzip(readFileSync(path));
+  const u = k => files[k] ? files[k].toString('utf8') : '';
+  const wb = u('xl/workbook.xml'), rels = u('xl/_rels/workbook.xml.rels');
+  let target = 'xl/worksheets/sheet1.xml';
+  const sm = wb.match(new RegExp('<sheet[^>]*name="' + sheetName + '"[^>]*r:id="(rId\\d+)"', 'i')) || wb.match(/<sheet[^>]*r:id="(rId\d+)"/i);
+  if (sm) { const rm = rels.match(new RegExp('Id="' + sm[1] + '"[^>]*Target="([^"]+)"', 'i')); if (rm) target = 'xl/' + rm[1].replace(/^\/?xl\//, '').replace(/^\//, ''); }
+  const sheet = u(target) || u('xl/worksheets/sheet1.xml');
+  const shared = []; for (const m of u('xl/sharedStrings.xml').matchAll(/<si>([\s\S]*?)<\/si>/g)) shared.push([...m[1].matchAll(/<t[^>]*>([\s\S]*?)<\/t>/g)].map(x => xdec(x[1])).join(''));
+  const rows = [];
+  for (const rm of sheet.matchAll(/<row[^>]*r="(\d+)"[^>]*>([\s\S]*?)<\/row>/g)) {
+    const cells = [];
+    for (const cm of rm[2].matchAll(/<c\s+([^>]*?)>([\s\S]*?)<\/c>/g)) {
+      const attrs = cm[1], inner = cm[2], rr = attrs.match(/r="([A-Z]+)\d+"/); if (!rr) continue;
+      const t = (attrs.match(/t="([a-z]+)"/) || [])[1]; let v = '';
+      if (t === 'inlineStr') { const tm = inner.match(/<t[^>]*>([\s\S]*?)<\/t>/); v = tm ? xdec(tm[1]) : ''; }
+      else { const vm = inner.match(/<v>([\s\S]*?)<\/v>/); if (vm) v = t === 's' ? (shared[+vm[1]] || '') : xdec(vm[1]); }
+      cells[colNum(rr[1])] = v;
+    }
+    rows[+rm[1] - 1] = cells;
+  }
+  return rows.filter(Boolean);
+}
+
 const ASSET_TYPES = new Set(['office', 'industrial_hall', 'retail', 'land_plot', 'hotel', 'gastronomy_with_rooms', 'mixed_use', 'apartment_building', 'other']);
+const JLL_PATH = { office: 'bueros', industrial_hall: 'hallen', retail: 'einzelhandel', land_plot: 'grundstuecke' }; // JLL per-type detail path
 function normalize(r, src) {
   let at = (r.asset_type || 'other').trim(); if (!ASSET_TYPES.has(at)) at = 'other';
   const deal = (r.deal || '').trim().toLowerCase() || (num(r.price_eur) ? 'sale' : 'lease');
@@ -54,13 +101,49 @@ function normalize(r, src) {
   if (ll) { rec.lat = ll[0]; rec.lng = ll[1]; }
   if (rentLo || rentHi) { rec.rent_eur_m2_min = rentLo; rec.rent_eur_m2_max = rentHi; rec.rent_eur_m2_mo = Math.round(((rentLo || rentHi) + (rentHi || rentLo)) / 2 * 10) / 10; } // lease €/m²·mo
   if (price) { rec.price_eur = price; if (area) rec.eur_per_m2 = Math.round(price / area); }
+  // richer optional capture fields (xlsx hotel/gastro rows): Pacht, Nebenkosten, Ablöse, beds
+  const lease = num(r.lease_eur_mo); if (lease) { rec.lease_eur_mo = lease; rec.lease_eur_yr = lease * 12; }
+  const nk = num(r.nk_eur_mo); if (nk) rec.nk_eur_mo = nk;
+  const ab = num(r.abloese_eur); if (ab != null) rec.abloese_eur = ab;
+  const beds = num(r.beds); if (beds) rec.beds = beds;
+  // JLL: derive the per-property page from the verified listing code (e.g. jll-D0449 → /bueros/d0449), never the city search URL
+  if (/jll/i.test(rec.source) && JLL_PATH[rec.asset_type]) {
+    const code = (r.listing_id || '').replace(/^jll-/i, '').trim();
+    if (/^[A-Za-z]\d{3,4}$/.test(code)) {
+      const per = 'https://gewerbeimmobilien.jll.de/' + JLL_PATH[rec.asset_type] + '/' + code.toLowerCase();
+      if (rec.source_url && /\/search\?/.test(rec.source_url)) rec.source_search_url = rec.source_url; // keep capture provenance
+      rec.source_url = per;
+    }
+  }
   return rec;
 }
 
 let records = [];
 const ingest = (path, defSrc) => { if (!existsSync(path)) return; const rows = parseCSV(readFileSync(path, 'utf8')); const hdr = rows[0].map(h => h.trim()); for (const row of rows.slice(1)) { if (!row.length || row.every(c => !c.trim())) continue; const o = {}; hdr.forEach((h, i) => o[h] = row[i]); records.push(normalize(o, (o.source || defSrc || 'broker'))); } };
 ingest(join(ROOT, 'data', 'broker_listings_all.csv'), 'broker');
-ingest(join(ROOT, 'data', 'capture_template.csv'), 'capture'); // Arrivio_Capture_Template.xlsx → export here to ingest
+ingest(join(ROOT, 'data', 'capture_template.csv'), 'capture'); // optional CSV export (legacy path)
+
+// Arrivio_Capture_Template.xlsx "Capture" sheet — read the .xlsx DIRECTLY every build (no manual export).
+// Its columns (source, source_url, name, kind, deal, price_basis, plz, city, street, area_m2, rooms, beds,
+// price_eur, lease_eur_mo, nk_eur_mo, abloese_eur, …) are mapped to the importer schema. New fills flow in on reassemble.
+const xlRows = readXlsxRows(join(ROOT, 'Arrivio_Capture_Template.xlsx'), 'Capture');
+if (xlRows.length > 1) {
+  const hdr = xlRows[0].map(h => String(h || '').trim()); let added = 0;
+  for (const row of xlRows.slice(1)) {
+    if (!row || row.every(c => !String(c || '').trim())) continue;
+    const o = {}; hdr.forEach((h, i) => o[h] = row[i]);
+    if (!String(o.source_url || o.name || o.city || '').trim()) continue;     // skip blank/instruction rows
+    records.push(normalize({
+      asset_type: o.kind, deal: o.deal, source: o.source || 'capture', source_url: o.source_url, listing_id: '',
+      name: o.name, district: o.street, plz: o.plz, city: o.city, state: '',
+      price_eur: o.price_eur, area_max_m2: o.area_m2, rooms: o.rooms, beds: o.beds,
+      lease_eur_mo: o.lease_eur_mo, nk_eur_mo: o.nk_eur_mo, abloese_eur: o.abloese_eur,
+      captured: '', notes: o.notes,
+    }, (o.source || 'capture')));
+    added++;
+  }
+  console.log('xlsx Capture rows ingested:', added);
+} else console.log('xlsx Capture: header only (0 data rows) — reader wired for future fills');
 
 // dedup: by id; then name|plz|area; then coords ≤200 m same type+area (keep first, collect source_urls)
 const out = [], seenId = new Set();

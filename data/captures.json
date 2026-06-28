@@ -24,7 +24,7 @@
    "area_min_m2": 423,
    "area_max_m2": 1725,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d0449",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -32,7 +32,8 @@
    "lng": 6.7789,
    "rent_eur_m2_min": 12.5,
    "rent_eur_m2_max": 12.5,
-   "rent_eur_m2_mo": 12.5
+   "rent_eur_m2_mo": 12.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D0178",
@@ -49,7 +50,7 @@
    "area_min_m2": 535,
    "area_max_m2": 4292,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d0178",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -57,7 +58,8 @@
    "lng": 6.7477,
    "rent_eur_m2_min": 14,
    "rent_eur_m2_max": 14.5,
-   "rent_eur_m2_mo": 14.3
+   "rent_eur_m2_mo": 14.3,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D0837",
@@ -74,7 +76,7 @@
    "area_min_m2": 310,
    "area_max_m2": 4093,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d0837",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -82,7 +84,8 @@
    "lng": 6.7191,
    "rent_eur_m2_min": 12,
    "rent_eur_m2_max": 12,
-   "rent_eur_m2_mo": 12
+   "rent_eur_m2_mo": 12,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D1120",
@@ -99,7 +102,7 @@
    "area_min_m2": 446,
    "area_max_m2": 4421,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d1120",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -107,7 +110,8 @@
    "lng": 6.7976,
    "rent_eur_m2_min": 13.5,
    "rent_eur_m2_max": 13.5,
-   "rent_eur_m2_mo": 13.5
+   "rent_eur_m2_mo": 13.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D3252",
@@ -124,7 +128,7 @@
    "area_min_m2": 312,
    "area_max_m2": 1741,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d3252",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -132,7 +136,8 @@
    "lng": 6.8302,
    "rent_eur_m2_min": 13.5,
    "rent_eur_m2_max": 13.5,
-   "rent_eur_m2_mo": 13.5
+   "rent_eur_m2_mo": 13.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D0646",
@@ -149,7 +154,7 @@
    "area_min_m2": 435,
    "area_max_m2": 5285,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d0646",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -157,7 +162,8 @@
    "lng": 6.7877,
    "rent_eur_m2_min": 12,
    "rent_eur_m2_max": 13,
-   "rent_eur_m2_mo": 12.5
+   "rent_eur_m2_mo": 12.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D0865",
@@ -174,7 +180,7 @@
    "area_min_m2": 1070,
    "area_max_m2": 1070,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d0865",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -182,7 +188,8 @@
    "lng": 6.779,
    "rent_eur_m2_min": 12,
    "rent_eur_m2_max": 12,
-   "rent_eur_m2_mo": 12
+   "rent_eur_m2_mo": 12,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D0669",
@@ -199,7 +206,7 @@
    "area_min_m2": 794,
    "area_max_m2": 1588,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d0669",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -207,7 +214,8 @@
    "lng": 6.8338,
    "rent_eur_m2_min": 12.5,
    "rent_eur_m2_max": 12.5,
-   "rent_eur_m2_mo": 12.5
+   "rent_eur_m2_mo": 12.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D1474",
@@ -224,7 +232,7 @@
    "area_min_m2": 1062,
    "area_max_m2": 1062,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d1474",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -232,7 +240,8 @@
    "lng": 6.7722,
    "rent_eur_m2_min": 15,
    "rent_eur_m2_max": 15,
-   "rent_eur_m2_mo": 15
+   "rent_eur_m2_mo": 15,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D0487",
@@ -249,7 +258,7 @@
    "area_min_m2": 216,
    "area_max_m2": 10277,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d0487",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -257,7 +266,8 @@
    "lng": 6.7191,
    "rent_eur_m2_min": 10.5,
    "rent_eur_m2_max": 12.5,
-   "rent_eur_m2_mo": 11.5
+   "rent_eur_m2_mo": 11.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D0651",
@@ -274,7 +284,7 @@
    "area_min_m2": 355,
    "area_max_m2": 6552,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d0651",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -282,7 +292,8 @@
    "lng": 6.8338,
    "rent_eur_m2_min": 11.9,
    "rent_eur_m2_max": 11.9,
-   "rent_eur_m2_mo": 11.9
+   "rent_eur_m2_mo": 11.9,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D3263",
@@ -299,7 +310,7 @@
    "area_min_m2": 1856,
    "area_max_m2": 11710,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d3263",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -307,7 +318,8 @@
    "lng": 6.7789,
    "rent_eur_m2_min": 14,
    "rent_eur_m2_max": 14,
-   "rent_eur_m2_mo": 14
+   "rent_eur_m2_mo": 14,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D3283",
@@ -324,7 +336,7 @@
    "area_min_m2": 427,
    "area_max_m2": 1073,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d3283",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -332,7 +344,8 @@
    "lng": 6.8338,
    "rent_eur_m2_min": 12.5,
    "rent_eur_m2_max": 12.5,
-   "rent_eur_m2_mo": 12.5
+   "rent_eur_m2_mo": 12.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D1428",
@@ -349,7 +362,7 @@
    "area_min_m2": 275,
    "area_max_m2": 1239,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d1428",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -357,7 +370,8 @@
    "lng": 6.8092,
    "rent_eur_m2_min": 13,
    "rent_eur_m2_max": 13,
-   "rent_eur_m2_mo": 13
+   "rent_eur_m2_mo": 13,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D0890",
@@ -374,7 +388,7 @@
    "area_min_m2": 419,
    "area_max_m2": 2541,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d0890",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -382,7 +396,8 @@
    "lng": 6.8338,
    "rent_eur_m2_min": 13.5,
    "rent_eur_m2_max": 13.5,
-   "rent_eur_m2_mo": 13.5
+   "rent_eur_m2_mo": 13.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D1743",
@@ -399,7 +414,7 @@
    "area_min_m2": 473,
    "area_max_m2": 4217,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d1743",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -407,7 +422,8 @@
    "lng": 6.7789,
    "rent_eur_m2_min": 12.5,
    "rent_eur_m2_max": 15,
-   "rent_eur_m2_mo": 13.8
+   "rent_eur_m2_mo": 13.8,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D0502",
@@ -424,7 +440,7 @@
    "area_min_m2": 357,
    "area_max_m2": 5709,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d0502",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -432,7 +448,8 @@
    "lng": 6.7477,
    "rent_eur_m2_min": 12.5,
    "rent_eur_m2_max": 12.5,
-   "rent_eur_m2_mo": 12.5
+   "rent_eur_m2_mo": 12.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D3304",
@@ -449,7 +466,7 @@
    "area_min_m2": 246,
    "area_max_m2": 3094,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d3304",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -457,7 +474,8 @@
    "lng": 6.7191,
    "rent_eur_m2_min": 15,
    "rent_eur_m2_max": 15,
-   "rent_eur_m2_mo": 15
+   "rent_eur_m2_mo": 15,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D0087",
@@ -474,7 +492,7 @@
    "area_min_m2": 337,
    "area_max_m2": 1145,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d0087",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -482,7 +500,8 @@
    "lng": 6.7477,
    "rent_eur_m2_min": 13.5,
    "rent_eur_m2_max": 13.5,
-   "rent_eur_m2_mo": 13.5
+   "rent_eur_m2_mo": 13.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D3236",
@@ -499,7 +518,7 @@
    "area_min_m2": 77,
    "area_max_m2": 1665,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d3236",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -507,7 +526,8 @@
    "lng": 6.8214,
    "rent_eur_m2_min": 10.77,
    "rent_eur_m2_max": 10.77,
-   "rent_eur_m2_mo": 10.8
+   "rent_eur_m2_mo": 10.8,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D0657",
@@ -524,7 +544,7 @@
    "area_min_m2": 133,
    "area_max_m2": 1545,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d0657",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -532,7 +552,8 @@
    "lng": 6.871,
    "rent_eur_m2_min": 10,
    "rent_eur_m2_max": 10,
-   "rent_eur_m2_mo": 10
+   "rent_eur_m2_mo": 10,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D0700",
@@ -549,7 +570,7 @@
    "area_min_m2": 296,
    "area_max_m2": 2702,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d0700",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -557,7 +578,8 @@
    "lng": 6.8338,
    "rent_eur_m2_min": 12.95,
    "rent_eur_m2_max": 12.95,
-   "rent_eur_m2_mo": 13
+   "rent_eur_m2_mo": 13,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D0886",
@@ -574,7 +596,7 @@
    "area_min_m2": 329,
    "area_max_m2": 2446,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d0886",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -582,7 +604,8 @@
    "lng": 6.7477,
    "rent_eur_m2_min": 14.75,
    "rent_eur_m2_max": 14.75,
-   "rent_eur_m2_mo": 14.8
+   "rent_eur_m2_mo": 14.8,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D0663",
@@ -599,7 +622,7 @@
    "area_min_m2": 314,
    "area_max_m2": 1334,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d0663",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -607,7 +630,8 @@
    "lng": 6.8338,
    "rent_eur_m2_min": 12.5,
    "rent_eur_m2_max": 12.5,
-   "rent_eur_m2_mo": 12.5
+   "rent_eur_m2_mo": 12.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D0672",
@@ -624,7 +648,7 @@
    "area_min_m2": 206,
    "area_max_m2": 3838,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d0672",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -632,7 +656,8 @@
    "lng": 6.8077,
    "rent_eur_m2_min": 10.5,
    "rent_eur_m2_max": 12,
-   "rent_eur_m2_mo": 11.3
+   "rent_eur_m2_mo": 11.3,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D0705",
@@ -649,7 +674,7 @@
    "area_min_m2": 510,
    "area_max_m2": 1564,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d0705",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -657,7 +682,8 @@
    "lng": 6.8092,
    "rent_eur_m2_min": 13.5,
    "rent_eur_m2_max": 13.5,
-   "rent_eur_m2_mo": 13.5
+   "rent_eur_m2_mo": 13.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D3445",
@@ -674,7 +700,7 @@
    "area_min_m2": 317,
    "area_max_m2": 1654,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d3445",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -682,7 +708,8 @@
    "lng": 6.8338,
    "rent_eur_m2_min": 12.5,
    "rent_eur_m2_max": 12.5,
-   "rent_eur_m2_mo": 12.5
+   "rent_eur_m2_mo": 12.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D1239",
@@ -699,7 +726,7 @@
    "area_min_m2": 128,
    "area_max_m2": 2450,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d1239",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -707,7 +734,8 @@
    "lng": 6.7191,
    "rent_eur_m2_min": 8.88,
    "rent_eur_m2_max": 10,
-   "rent_eur_m2_mo": 9.4
+   "rent_eur_m2_mo": 9.4,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D1702",
@@ -724,7 +752,7 @@
    "area_min_m2": 598,
    "area_max_m2": 1196,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d1702",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -732,7 +760,8 @@
    "lng": 6.8077,
    "rent_eur_m2_min": 13.5,
    "rent_eur_m2_max": 13.5,
-   "rent_eur_m2_mo": 13.5
+   "rent_eur_m2_mo": 13.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D0447",
@@ -749,7 +778,7 @@
    "area_min_m2": 620,
    "area_max_m2": 1466,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d0447",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -757,7 +786,8 @@
    "lng": 6.8338,
    "rent_eur_m2_min": 14.5,
    "rent_eur_m2_max": 14.5,
-   "rent_eur_m2_mo": 14.5
+   "rent_eur_m2_mo": 14.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D3264",
@@ -774,7 +804,7 @@
    "area_min_m2": 390,
    "area_max_m2": 1567,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d3264",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -782,7 +812,8 @@
    "lng": 6.8338,
    "rent_eur_m2_min": 10,
    "rent_eur_m2_max": 10,
-   "rent_eur_m2_mo": 10
+   "rent_eur_m2_mo": 10,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D0824",
@@ -799,7 +830,7 @@
    "area_min_m2": 440,
    "area_max_m2": 7965,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d0824",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -807,7 +838,8 @@
    "lng": 6.7477,
    "rent_eur_m2_min": 10.5,
    "rent_eur_m2_max": 13.5,
-   "rent_eur_m2_mo": 12
+   "rent_eur_m2_mo": 12,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D0096",
@@ -824,7 +856,7 @@
    "area_min_m2": 452,
    "area_max_m2": 6284,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d0096",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -832,7 +864,8 @@
    "lng": 6.7929,
    "rent_eur_m2_min": 14,
    "rent_eur_m2_max": 14,
-   "rent_eur_m2_mo": 14
+   "rent_eur_m2_mo": 14,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D0494",
@@ -849,7 +882,7 @@
    "area_min_m2": 258,
    "area_max_m2": 1417,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d0494",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -857,7 +890,8 @@
    "lng": 6.7191,
    "rent_eur_m2_min": 12.9,
    "rent_eur_m2_max": 12.9,
-   "rent_eur_m2_mo": 12.9
+   "rent_eur_m2_mo": 12.9,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D0159",
@@ -874,7 +908,7 @@
    "area_min_m2": 100,
    "area_max_m2": 4516,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d0159",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -882,7 +916,8 @@
    "lng": 6.8077,
    "rent_eur_m2_min": 10.9,
    "rent_eur_m2_max": 10.9,
-   "rent_eur_m2_mo": 10.9
+   "rent_eur_m2_mo": 10.9,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D0195",
@@ -899,7 +934,7 @@
    "area_min_m2": 360,
    "area_max_m2": 10847,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d0195",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -907,7 +942,8 @@
    "lng": 6.7789,
    "rent_eur_m2_min": 8.5,
    "rent_eur_m2_max": 13.5,
-   "rent_eur_m2_mo": 11
+   "rent_eur_m2_mo": 11,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D0540",
@@ -924,7 +960,7 @@
    "area_min_m2": 120,
    "area_max_m2": 2804,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d0540",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -932,7 +968,8 @@
    "lng": 6.8338,
    "rent_eur_m2_min": 10,
    "rent_eur_m2_max": 11,
-   "rent_eur_m2_mo": 10.5
+   "rent_eur_m2_mo": 10.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D0655",
@@ -949,7 +986,7 @@
    "area_min_m2": 130,
    "area_max_m2": 2727,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d0655",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -957,7 +994,8 @@
    "lng": 6.8214,
    "rent_eur_m2_min": 11.8,
    "rent_eur_m2_max": 15,
-   "rent_eur_m2_mo": 13.4
+   "rent_eur_m2_mo": 13.4,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D0825",
@@ -974,7 +1012,7 @@
    "area_min_m2": 169,
    "area_max_m2": 2256,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d0825",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -982,7 +1020,8 @@
    "lng": 6.7477,
    "rent_eur_m2_min": 12,
    "rent_eur_m2_max": 12,
-   "rent_eur_m2_mo": 12
+   "rent_eur_m2_mo": 12,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D2198",
@@ -999,7 +1038,7 @@
    "area_min_m2": 149,
    "area_max_m2": 2361,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d2198",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -1007,7 +1046,8 @@
    "lng": 6.7191,
    "rent_eur_m2_min": 6.7,
    "rent_eur_m2_max": 14,
-   "rent_eur_m2_mo": 10.4
+   "rent_eur_m2_mo": 10.4,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D2492",
@@ -1024,7 +1064,7 @@
    "area_min_m2": 176,
    "area_max_m2": 5965,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d2492",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -1032,7 +1072,8 @@
    "lng": 6.8338,
    "rent_eur_m2_min": 6.5,
    "rent_eur_m2_max": 6.5,
-   "rent_eur_m2_mo": 6.5
+   "rent_eur_m2_mo": 6.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D1339",
@@ -1049,7 +1090,7 @@
    "area_min_m2": 377,
    "area_max_m2": 1725,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d1339",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -1057,7 +1098,8 @@
    "lng": 6.8657,
    "rent_eur_m2_min": 11,
    "rent_eur_m2_max": 11.5,
-   "rent_eur_m2_mo": 11.3
+   "rent_eur_m2_mo": 11.3,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D0506",
@@ -1074,7 +1116,7 @@
    "area_min_m2": 393,
    "area_max_m2": 3196,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d0506",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -1082,7 +1124,8 @@
    "lng": 6.7477,
    "rent_eur_m2_min": 9.9,
    "rent_eur_m2_max": 14,
-   "rent_eur_m2_mo": 12
+   "rent_eur_m2_mo": 12,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D3333",
@@ -1099,7 +1142,7 @@
    "area_min_m2": 320,
    "area_max_m2": 2240,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d3333",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -1107,7 +1150,8 @@
    "lng": 6.8302,
    "rent_eur_m2_min": 15,
    "rent_eur_m2_max": 15,
-   "rent_eur_m2_mo": 15
+   "rent_eur_m2_mo": 15,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D2216",
@@ -1124,7 +1168,7 @@
    "area_min_m2": 85,
    "area_max_m2": 4965,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d2216",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -1132,7 +1176,8 @@
    "lng": 6.8077,
    "rent_eur_m2_min": 10.5,
    "rent_eur_m2_max": 14.5,
-   "rent_eur_m2_mo": 12.5
+   "rent_eur_m2_mo": 12.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D0168",
@@ -1149,7 +1194,7 @@
    "area_min_m2": 416,
    "area_max_m2": 4294,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d0168",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -1157,7 +1202,8 @@
    "lng": 6.7422,
    "rent_eur_m2_min": 14.5,
    "rent_eur_m2_max": 14.5,
-   "rent_eur_m2_mo": 14.5
+   "rent_eur_m2_mo": 14.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D0507",
@@ -1174,7 +1220,7 @@
    "area_min_m2": 165,
    "area_max_m2": 1867,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d0507",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -1182,7 +1228,8 @@
    "lng": 6.7191,
    "rent_eur_m2_min": 12.5,
    "rent_eur_m2_max": 12.5,
-   "rent_eur_m2_mo": 12.5
+   "rent_eur_m2_mo": 12.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D3311",
@@ -1199,7 +1246,7 @@
    "area_min_m2": 500,
    "area_max_m2": 1500,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d3311",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -1207,7 +1254,8 @@
    "lng": 6.7789,
    "rent_eur_m2_min": 14.5,
    "rent_eur_m2_max": 14.5,
-   "rent_eur_m2_mo": 14.5
+   "rent_eur_m2_mo": 14.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D0448",
@@ -1224,7 +1272,7 @@
    "area_min_m2": 560,
    "area_max_m2": 6243,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d0448",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -1232,7 +1280,8 @@
    "lng": 6.7789,
    "rent_eur_m2_min": 13.5,
    "rent_eur_m2_max": 13.5,
-   "rent_eur_m2_mo": 13.5
+   "rent_eur_m2_mo": 13.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D0674",
@@ -1249,7 +1298,7 @@
    "area_min_m2": 373,
    "area_max_m2": 4404,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d0674",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -1257,7 +1306,8 @@
    "lng": 6.8338,
    "rent_eur_m2_min": 13.5,
    "rent_eur_m2_max": 14.5,
-   "rent_eur_m2_mo": 14
+   "rent_eur_m2_mo": 14,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D1627",
@@ -1274,7 +1324,7 @@
    "area_min_m2": 236,
    "area_max_m2": 1337,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d1627",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -1282,7 +1332,8 @@
    "lng": 6.8092,
    "rent_eur_m2_min": 14,
    "rent_eur_m2_max": 14,
-   "rent_eur_m2_mo": 14
+   "rent_eur_m2_mo": 14,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D0151",
@@ -1299,7 +1350,7 @@
    "area_min_m2": 207,
    "area_max_m2": 3173,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d0151",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -1307,7 +1358,8 @@
    "lng": 6.8092,
    "rent_eur_m2_min": 13,
    "rent_eur_m2_max": 14.9,
-   "rent_eur_m2_mo": 14
+   "rent_eur_m2_mo": 14,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D0446",
@@ -1324,7 +1376,7 @@
    "area_min_m2": 591,
    "area_max_m2": 5867,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d0446",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -1332,7 +1384,8 @@
    "lng": 6.8338,
    "rent_eur_m2_min": 10.5,
    "rent_eur_m2_max": 11.5,
-   "rent_eur_m2_mo": 11
+   "rent_eur_m2_mo": 11,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D0067",
@@ -1349,7 +1402,7 @@
    "area_min_m2": 340,
    "area_max_m2": 2050,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d0067",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -1357,7 +1410,8 @@
    "lng": 6.7877,
    "rent_eur_m2_min": 13.5,
    "rent_eur_m2_max": 14,
-   "rent_eur_m2_mo": 13.8
+   "rent_eur_m2_mo": 13.8,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D3342",
@@ -1374,7 +1428,7 @@
    "area_min_m2": 379,
    "area_max_m2": 1138,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d3342",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -1382,7 +1436,8 @@
    "lng": 6.8657,
    "rent_eur_m2_min": 13,
    "rent_eur_m2_max": 13,
-   "rent_eur_m2_mo": 13
+   "rent_eur_m2_mo": 13,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D0173",
@@ -1399,7 +1454,7 @@
    "area_min_m2": 470,
    "area_max_m2": 2538,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d0173",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -1407,7 +1462,8 @@
    "lng": 6.8338,
    "rent_eur_m2_min": 12.5,
    "rent_eur_m2_max": 12.5,
-   "rent_eur_m2_mo": 12.5
+   "rent_eur_m2_mo": 12.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D1613",
@@ -1424,7 +1480,7 @@
    "area_min_m2": 390,
    "area_max_m2": 1055,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d1613",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -1432,7 +1488,8 @@
    "lng": 6.779,
    "rent_eur_m2_min": 12,
    "rent_eur_m2_max": 12,
-   "rent_eur_m2_mo": 12
+   "rent_eur_m2_mo": 12,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D3305",
@@ -1449,7 +1506,7 @@
    "area_min_m2": 1740,
    "area_max_m2": 1740,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d3305",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -1457,7 +1514,8 @@
    "lng": 6.779,
    "rent_eur_m2_min": 11.5,
    "rent_eur_m2_max": 12.5,
-   "rent_eur_m2_mo": 12
+   "rent_eur_m2_mo": 12,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D1374",
@@ -1474,7 +1532,7 @@
    "area_min_m2": 450,
    "area_max_m2": 1460,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d1374",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -1482,7 +1540,8 @@
    "lng": 6.7191,
    "rent_eur_m2_min": 10,
    "rent_eur_m2_max": 10,
-   "rent_eur_m2_mo": 10
+   "rent_eur_m2_mo": 10,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D1123",
@@ -1499,7 +1558,7 @@
    "area_min_m2": 352,
    "area_max_m2": 2728,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d1123",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -1507,7 +1566,8 @@
    "lng": 6.8338,
    "rent_eur_m2_min": 14,
    "rent_eur_m2_max": 14.5,
-   "rent_eur_m2_mo": 14.3
+   "rent_eur_m2_mo": 14.3,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D0170",
@@ -1524,7 +1584,7 @@
    "area_min_m2": 211,
    "area_max_m2": 6635,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d0170",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -1532,7 +1592,8 @@
    "lng": 6.7477,
    "rent_eur_m2_min": 10,
    "rent_eur_m2_max": 10,
-   "rent_eur_m2_mo": 10
+   "rent_eur_m2_mo": 10,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D0623",
@@ -1549,7 +1610,7 @@
    "area_min_m2": 354,
    "area_max_m2": 6666,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d0623",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -1557,7 +1618,8 @@
    "lng": 6.8657,
    "rent_eur_m2_min": 12.5,
    "rent_eur_m2_max": 13.5,
-   "rent_eur_m2_mo": 13
+   "rent_eur_m2_mo": 13,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D1571",
@@ -1574,7 +1636,7 @@
    "area_min_m2": 184,
    "area_max_m2": 2329,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d1571",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -1582,7 +1644,8 @@
    "lng": 6.7477,
    "rent_eur_m2_min": 12.5,
    "rent_eur_m2_max": 13.5,
-   "rent_eur_m2_mo": 13
+   "rent_eur_m2_mo": 13,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D0033",
@@ -1599,7 +1662,7 @@
    "area_min_m2": 278,
    "area_max_m2": 2314,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d0033",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -1607,7 +1670,8 @@
    "lng": 6.8338,
    "rent_eur_m2_min": 9.7,
    "rent_eur_m2_max": 9.7,
-   "rent_eur_m2_mo": 9.7
+   "rent_eur_m2_mo": 9.7,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D0888",
@@ -1624,7 +1688,7 @@
    "area_min_m2": 375,
    "area_max_m2": 3750,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d0888",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -1632,7 +1696,8 @@
    "lng": 6.7191,
    "rent_eur_m2_min": 6.5,
    "rent_eur_m2_max": 6.5,
-   "rent_eur_m2_mo": 6.5
+   "rent_eur_m2_mo": 6.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-D0031",
@@ -1649,7 +1714,7 @@
    "area_min_m2": 650,
    "area_max_m2": 1300,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/d0031",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter applied: 1000-6000m², ≤€15/m²",
@@ -1657,7 +1722,8 @@
    "lng": 6.8077,
    "rent_eur_m2_min": 10.5,
    "rent_eur_m2_max": 11,
-   "rent_eur_m2_mo": 10.8
+   "rent_eur_m2_mo": 10.8,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=D%C3%BCsseldorf&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K1807",
@@ -1674,7 +1740,7 @@
    "area_min_m2": 148,
    "area_max_m2": 3374,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k1807",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -1682,7 +1748,8 @@
    "lng": 6.9538,
    "rent_eur_m2_min": 14,
    "rent_eur_m2_max": 14,
-   "rent_eur_m2_mo": 14
+   "rent_eur_m2_mo": 14,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K0027",
@@ -1699,7 +1766,7 @@
    "area_min_m2": 160,
    "area_max_m2": 2661,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k0027",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -1707,7 +1774,8 @@
    "lng": 7.0822,
    "rent_eur_m2_min": 6.5,
    "rent_eur_m2_max": 6.5,
-   "rent_eur_m2_mo": 6.5
+   "rent_eur_m2_mo": 6.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K0109",
@@ -1724,7 +1792,7 @@
    "area_min_m2": 111,
    "area_max_m2": 12455,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k0109",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -1732,7 +1800,8 @@
    "lng": 7.0487,
    "rent_eur_m2_min": 9.5,
    "rent_eur_m2_max": 9.5,
-   "rent_eur_m2_mo": 9.5
+   "rent_eur_m2_mo": 9.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K0019",
@@ -1749,7 +1818,7 @@
    "area_min_m2": 701,
    "area_max_m2": 1758,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k0019",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -1757,7 +1826,8 @@
    "lng": 6.989,
    "rent_eur_m2_min": 6,
    "rent_eur_m2_max": 10,
-   "rent_eur_m2_mo": 8
+   "rent_eur_m2_mo": 8,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K0051",
@@ -1774,7 +1844,7 @@
    "area_min_m2": 395,
    "area_max_m2": 4791,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k0051",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -1782,7 +1852,8 @@
    "lng": 6.8694,
    "rent_eur_m2_min": 11.5,
    "rent_eur_m2_max": 11.5,
-   "rent_eur_m2_mo": 11.5
+   "rent_eur_m2_mo": 11.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K1349",
@@ -1799,7 +1870,7 @@
    "area_min_m2": 723,
    "area_max_m2": 6875,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k1349",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -1807,7 +1878,8 @@
    "lng": 6.911,
    "rent_eur_m2_min": 11.5,
    "rent_eur_m2_max": 11.5,
-   "rent_eur_m2_mo": 11.5
+   "rent_eur_m2_mo": 11.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K0046",
@@ -1824,7 +1896,7 @@
    "area_min_m2": 191,
    "area_max_m2": 5054,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k0046",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -1832,7 +1904,8 @@
    "lng": 7.0487,
    "rent_eur_m2_min": 12.5,
    "rent_eur_m2_max": 12.5,
-   "rent_eur_m2_mo": 12.5
+   "rent_eur_m2_mo": 12.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K1681",
@@ -1849,7 +1922,7 @@
    "area_min_m2": 572,
    "area_max_m2": 1249,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k1681",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -1857,7 +1930,8 @@
    "lng": 7.0487,
    "rent_eur_m2_min": 10.5,
    "rent_eur_m2_max": 10.5,
-   "rent_eur_m2_mo": 10.5
+   "rent_eur_m2_mo": 10.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K1763",
@@ -1874,7 +1948,7 @@
    "area_min_m2": 350,
    "area_max_m2": 1879,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k1763",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -1882,7 +1956,8 @@
    "lng": 7.0149,
    "rent_eur_m2_min": 9.5,
    "rent_eur_m2_max": 9.5,
-   "rent_eur_m2_mo": 9.5
+   "rent_eur_m2_mo": 9.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K1679",
@@ -1899,7 +1974,7 @@
    "area_min_m2": 250,
    "area_max_m2": 1330,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k1679",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -1907,7 +1982,8 @@
    "lng": 6.8694,
    "rent_eur_m2_min": 14.5,
    "rent_eur_m2_max": 14.5,
-   "rent_eur_m2_mo": 14.5
+   "rent_eur_m2_mo": 14.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K0298",
@@ -1924,7 +2000,7 @@
    "area_min_m2": 400,
    "area_max_m2": 3112,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k0298",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -1932,7 +2008,8 @@
    "lng": 6.8541,
    "rent_eur_m2_min": 12.8,
    "rent_eur_m2_max": 12.8,
-   "rent_eur_m2_mo": 12.8
+   "rent_eur_m2_mo": 12.8,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K1521",
@@ -1949,7 +2026,7 @@
    "area_min_m2": 203,
    "area_max_m2": 2517,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k1521",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -1957,7 +2034,8 @@
    "lng": 7.0487,
    "rent_eur_m2_min": 14.9,
    "rent_eur_m2_max": 14.9,
-   "rent_eur_m2_mo": 14.9
+   "rent_eur_m2_mo": 14.9,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K1608",
@@ -1974,7 +2052,7 @@
    "area_min_m2": 145,
    "area_max_m2": 14368,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k1608",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -1982,7 +2060,8 @@
    "lng": 6.9733,
    "rent_eur_m2_min": 12.5,
    "rent_eur_m2_max": 12.5,
-   "rent_eur_m2_mo": 12.5
+   "rent_eur_m2_mo": 12.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K0112",
@@ -1999,7 +2078,7 @@
    "area_min_m2": 297,
    "area_max_m2": 1425,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k0112",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -2007,7 +2086,8 @@
    "lng": 7.0903,
    "rent_eur_m2_min": 12.5,
    "rent_eur_m2_max": 12.5,
-   "rent_eur_m2_mo": 12.5
+   "rent_eur_m2_mo": 12.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K1512",
@@ -2024,7 +2104,7 @@
    "area_min_m2": 289,
    "area_max_m2": 3987,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k1512",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -2032,7 +2112,8 @@
    "lng": 6.8694,
    "rent_eur_m2_min": 14.5,
    "rent_eur_m2_max": 14.5,
-   "rent_eur_m2_mo": 14.5
+   "rent_eur_m2_mo": 14.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K0025",
@@ -2049,7 +2130,7 @@
    "area_min_m2": 182,
    "area_max_m2": 8128,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k0025",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -2057,7 +2138,8 @@
    "lng": 6.8851,
    "rent_eur_m2_min": 13.5,
    "rent_eur_m2_max": 13.5,
-   "rent_eur_m2_mo": 13.5
+   "rent_eur_m2_mo": 13.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K0007",
@@ -2074,7 +2156,7 @@
    "area_min_m2": 97,
    "area_max_m2": 9918,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k0007",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -2082,7 +2164,8 @@
    "lng": 6.911,
    "rent_eur_m2_min": 13,
    "rent_eur_m2_max": 13,
-   "rent_eur_m2_mo": 13
+   "rent_eur_m2_mo": 13,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K1551",
@@ -2099,7 +2182,7 @@
    "area_min_m2": 210,
    "area_max_m2": 8088,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k1551",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -2107,7 +2190,8 @@
    "lng": 6.8742,
    "rent_eur_m2_min": 11,
    "rent_eur_m2_max": 11,
-   "rent_eur_m2_mo": 11
+   "rent_eur_m2_mo": 11,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K1750",
@@ -2124,7 +2208,7 @@
    "area_min_m2": 667,
    "area_max_m2": 2457,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k1750",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -2132,7 +2216,8 @@
    "lng": 6.9993,
    "rent_eur_m2_min": 9.5,
    "rent_eur_m2_max": 9.5,
-   "rent_eur_m2_mo": 9.5
+   "rent_eur_m2_mo": 9.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K0285",
@@ -2149,7 +2234,7 @@
    "area_min_m2": 255,
    "area_max_m2": 1112,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k0285",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -2157,7 +2242,8 @@
    "lng": 6.8851,
    "rent_eur_m2_min": 14,
    "rent_eur_m2_max": 14,
-   "rent_eur_m2_mo": 14
+   "rent_eur_m2_mo": 14,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K0015",
@@ -2174,7 +2260,7 @@
    "area_min_m2": 135,
    "area_max_m2": 3089,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k0015",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -2182,7 +2268,8 @@
    "lng": 7.0487,
    "rent_eur_m2_min": 14.5,
    "rent_eur_m2_max": 14.5,
-   "rent_eur_m2_mo": 14.5
+   "rent_eur_m2_mo": 14.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K0043",
@@ -2199,7 +2286,7 @@
    "area_min_m2": 410,
    "area_max_m2": 3315,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k0043",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -2207,7 +2294,8 @@
    "lng": 6.8694,
    "rent_eur_m2_min": 14,
    "rent_eur_m2_max": 14,
-   "rent_eur_m2_mo": 14
+   "rent_eur_m2_mo": 14,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K1000",
@@ -2224,7 +2312,7 @@
    "area_min_m2": 363,
    "area_max_m2": 1206,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k1000",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -2232,7 +2320,8 @@
    "lng": 6.9993,
    "rent_eur_m2_min": 13.5,
    "rent_eur_m2_max": 13.5,
-   "rent_eur_m2_mo": 13.5
+   "rent_eur_m2_mo": 13.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K0281",
@@ -2249,7 +2338,7 @@
    "area_min_m2": 289,
    "area_max_m2": 2467,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k0281",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -2257,7 +2346,8 @@
    "lng": 6.9993,
    "rent_eur_m2_min": 11.5,
    "rent_eur_m2_max": 11.5,
-   "rent_eur_m2_mo": 11.5
+   "rent_eur_m2_mo": 11.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K0218",
@@ -2274,7 +2364,7 @@
    "area_min_m2": 267,
    "area_max_m2": 1496,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k0218",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -2282,7 +2372,8 @@
    "lng": 6.8694,
    "rent_eur_m2_min": 11,
    "rent_eur_m2_max": 11,
-   "rent_eur_m2_mo": 11
+   "rent_eur_m2_mo": 11,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K1924",
@@ -2299,7 +2390,7 @@
    "area_min_m2": 2761,
    "area_max_m2": 2761,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k1924",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -2307,7 +2398,8 @@
    "lng": 7.0487,
    "rent_eur_m2_min": 11,
    "rent_eur_m2_max": 11,
-   "rent_eur_m2_mo": 11
+   "rent_eur_m2_mo": 11,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K0202",
@@ -2324,7 +2416,7 @@
    "area_min_m2": 254,
    "area_max_m2": 1062,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k0202",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -2332,7 +2424,8 @@
    "lng": 6.9435,
    "rent_eur_m2_min": 9,
    "rent_eur_m2_max": 9,
-   "rent_eur_m2_mo": 9
+   "rent_eur_m2_mo": 9,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K0193",
@@ -2349,7 +2442,7 @@
    "area_min_m2": 800,
    "area_max_m2": 1600,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k0193",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -2357,7 +2450,8 @@
    "lng": 6.9682,
    "rent_eur_m2_min": 13.13,
    "rent_eur_m2_max": 13.13,
-   "rent_eur_m2_mo": 13.1
+   "rent_eur_m2_mo": 13.1,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K0180",
@@ -2374,7 +2468,7 @@
    "area_min_m2": 625,
    "area_max_m2": 7500,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k0180",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -2382,7 +2476,8 @@
    "lng": 6.924,
    "rent_eur_m2_min": 12.5,
    "rent_eur_m2_max": 12.5,
-   "rent_eur_m2_mo": 12.5
+   "rent_eur_m2_mo": 12.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K1491",
@@ -2399,7 +2494,7 @@
    "area_min_m2": 354,
    "area_max_m2": 1603,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k1491",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -2407,7 +2502,8 @@
    "lng": 7.0396,
    "rent_eur_m2_min": 10,
    "rent_eur_m2_max": 11,
-   "rent_eur_m2_mo": 10.5
+   "rent_eur_m2_mo": 10.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K1438",
@@ -2424,7 +2520,7 @@
    "area_min_m2": 316,
    "area_max_m2": 2396,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k1438",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -2432,7 +2528,8 @@
    "lng": 6.9539,
    "rent_eur_m2_min": 15,
    "rent_eur_m2_max": 15,
-   "rent_eur_m2_mo": 15
+   "rent_eur_m2_mo": 15,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K0096",
@@ -2449,7 +2546,7 @@
    "area_min_m2": 280,
    "area_max_m2": 2365,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k0096",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -2457,7 +2554,8 @@
    "lng": 7.0123,
    "rent_eur_m2_min": 11.16,
    "rent_eur_m2_max": 11.16,
-   "rent_eur_m2_mo": 11.2
+   "rent_eur_m2_mo": 11.2,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K0172",
@@ -2474,7 +2572,7 @@
    "area_min_m2": 290,
    "area_max_m2": 1387,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k0172",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -2482,7 +2580,8 @@
    "lng": 7.0487,
    "rent_eur_m2_min": 8.5,
    "rent_eur_m2_max": 8.9,
-   "rent_eur_m2_mo": 8.7
+   "rent_eur_m2_mo": 8.7,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K1678",
@@ -2499,7 +2598,7 @@
    "area_min_m2": 386,
    "area_max_m2": 8229,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k1678",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -2507,7 +2606,8 @@
    "lng": 6.8851,
    "rent_eur_m2_min": 11.8,
    "rent_eur_m2_max": 13,
-   "rent_eur_m2_mo": 12.4
+   "rent_eur_m2_mo": 12.4,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K0383",
@@ -2524,7 +2624,7 @@
    "area_min_m2": 549,
    "area_max_m2": 2410,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k0383",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -2532,7 +2632,8 @@
    "lng": 6.8694,
    "rent_eur_m2_min": 12.5,
    "rent_eur_m2_max": 12.5,
-   "rent_eur_m2_mo": 12.5
+   "rent_eur_m2_mo": 12.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K0279",
@@ -2549,7 +2650,7 @@
    "area_min_m2": 300,
    "area_max_m2": 1820,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k0279",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -2557,7 +2658,8 @@
    "lng": 6.8851,
    "rent_eur_m2_min": 11.5,
    "rent_eur_m2_max": 11.5,
-   "rent_eur_m2_mo": 11.5
+   "rent_eur_m2_mo": 11.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K0327",
@@ -2574,7 +2676,7 @@
    "area_min_m2": 400,
    "area_max_m2": 2324,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k0327",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -2582,7 +2684,8 @@
    "lng": 6.8851,
    "rent_eur_m2_min": 11.5,
    "rent_eur_m2_max": 11.5,
-   "rent_eur_m2_mo": 11.5
+   "rent_eur_m2_mo": 11.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K0181",
@@ -2599,7 +2702,7 @@
    "area_min_m2": 350,
    "area_max_m2": 1323,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k0181",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -2607,7 +2710,8 @@
    "lng": 6.8541,
    "rent_eur_m2_min": 7,
    "rent_eur_m2_max": 7,
-   "rent_eur_m2_mo": 7
+   "rent_eur_m2_mo": 7,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K1788",
@@ -2624,7 +2728,7 @@
    "area_min_m2": 631,
    "area_max_m2": 1274,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k1788",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -2632,7 +2736,8 @@
    "lng": 7.0149,
    "rent_eur_m2_min": 11.5,
    "rent_eur_m2_max": 11.5,
-   "rent_eur_m2_mo": 11.5
+   "rent_eur_m2_mo": 11.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K1576",
@@ -2649,7 +2754,7 @@
    "area_min_m2": 335,
    "area_max_m2": 6166,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k1576",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -2657,7 +2762,8 @@
    "lng": 6.8742,
    "rent_eur_m2_min": 11.5,
    "rent_eur_m2_max": 11.5,
-   "rent_eur_m2_mo": 11.5
+   "rent_eur_m2_mo": 11.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K1632",
@@ -2674,7 +2780,7 @@
    "area_min_m2": 750,
    "area_max_m2": 4150,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k1632",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -2682,7 +2788,8 @@
    "lng": 6.8694,
    "rent_eur_m2_min": 11.5,
    "rent_eur_m2_max": 13.5,
-   "rent_eur_m2_mo": 12.5
+   "rent_eur_m2_mo": 12.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K0026",
@@ -2699,7 +2806,7 @@
    "area_min_m2": 148,
    "area_max_m2": 2094,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k0026",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -2707,7 +2814,8 @@
    "lng": 6.9397,
    "rent_eur_m2_min": 13.8,
    "rent_eur_m2_max": 13.8,
-   "rent_eur_m2_mo": 13.8
+   "rent_eur_m2_mo": 13.8,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K1900",
@@ -2724,7 +2832,7 @@
    "area_min_m2": 700,
    "area_max_m2": 2100,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k1900",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -2732,7 +2840,8 @@
    "lng": 6.9733,
    "rent_eur_m2_min": 7,
    "rent_eur_m2_max": 7,
-   "rent_eur_m2_mo": 7
+   "rent_eur_m2_mo": 7,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K1894",
@@ -2749,7 +2858,7 @@
    "area_min_m2": 336,
    "area_max_m2": 1402,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k1894",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -2757,7 +2866,8 @@
    "lng": 7.0149,
    "rent_eur_m2_min": 11.5,
    "rent_eur_m2_max": 12.5,
-   "rent_eur_m2_mo": 12
+   "rent_eur_m2_mo": 12,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K1887",
@@ -2774,7 +2884,7 @@
    "area_min_m2": 600,
    "area_max_m2": 2557,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k1887",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -2782,7 +2892,8 @@
    "lng": 6.8694,
    "rent_eur_m2_min": 11.9,
    "rent_eur_m2_max": 11.9,
-   "rent_eur_m2_mo": 11.9
+   "rent_eur_m2_mo": 11.9,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K0357",
@@ -2799,7 +2910,7 @@
    "area_min_m2": 162,
    "area_max_m2": 3386,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k0357",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -2807,7 +2918,8 @@
    "lng": 6.9397,
    "rent_eur_m2_min": 12.5,
    "rent_eur_m2_max": 12.5,
-   "rent_eur_m2_mo": 12.5
+   "rent_eur_m2_mo": 12.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K1875",
@@ -2824,7 +2936,7 @@
    "area_min_m2": 920,
    "area_max_m2": 8076,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k1875",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -2832,7 +2944,8 @@
    "lng": 6.8694,
    "rent_eur_m2_min": 13,
    "rent_eur_m2_max": 15,
-   "rent_eur_m2_mo": 14
+   "rent_eur_m2_mo": 14,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=K%C3%B6ln&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K1589",
@@ -2849,7 +2962,7 @@
    "area_min_m2": 495,
    "area_max_m2": 1839,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=Bonn&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k1589",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -2857,7 +2970,8 @@
    "lng": 7.0601,
    "rent_eur_m2_min": 11.5,
    "rent_eur_m2_max": 11.5,
-   "rent_eur_m2_mo": 11.5
+   "rent_eur_m2_mo": 11.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=Bonn&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K1828",
@@ -2874,7 +2988,7 @@
    "area_min_m2": 506,
    "area_max_m2": 2161,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=Bonn&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k1828",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -2882,7 +2996,8 @@
    "lng": 7.1221,
    "rent_eur_m2_min": 14.5,
    "rent_eur_m2_max": 14.5,
-   "rent_eur_m2_mo": 14.5
+   "rent_eur_m2_mo": 14.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=Bonn&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K1881",
@@ -2899,7 +3014,7 @@
    "area_min_m2": 62,
    "area_max_m2": 3512,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=Bonn&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k1881",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -2907,7 +3022,8 @@
    "lng": 7.1221,
    "rent_eur_m2_min": 14,
    "rent_eur_m2_max": 14,
-   "rent_eur_m2_mo": 14
+   "rent_eur_m2_mo": 14,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=Bonn&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K1691",
@@ -2924,7 +3040,7 @@
    "area_min_m2": 364,
    "area_max_m2": 3921,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=Bonn&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k1691",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -2932,7 +3048,8 @@
    "lng": 7.1221,
    "rent_eur_m2_min": 10,
    "rent_eur_m2_max": 11.85,
-   "rent_eur_m2_mo": 10.9
+   "rent_eur_m2_mo": 10.9,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=Bonn&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K1321",
@@ -2949,7 +3066,7 @@
    "area_min_m2": 483,
    "area_max_m2": 2592,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=Bonn&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k1321",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -2957,7 +3074,8 @@
    "lng": 7.0731,
    "rent_eur_m2_min": 12.5,
    "rent_eur_m2_max": 12.5,
-   "rent_eur_m2_mo": 12.5
+   "rent_eur_m2_mo": 12.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=Bonn&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K1737",
@@ -2974,7 +3092,7 @@
    "area_min_m2": 184,
    "area_max_m2": 3388,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=Bonn&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k1737",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -2982,7 +3100,8 @@
    "lng": 7.1388,
    "rent_eur_m2_min": 12,
    "rent_eur_m2_max": 12,
-   "rent_eur_m2_mo": 12
+   "rent_eur_m2_mo": 12,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=Bonn&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K1880",
@@ -2999,7 +3118,7 @@
    "area_min_m2": 250,
    "area_max_m2": 4772,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=Bonn&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k1880",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -3007,7 +3126,8 @@
    "lng": 7.1388,
    "rent_eur_m2_min": 12.5,
    "rent_eur_m2_max": 14.5,
-   "rent_eur_m2_mo": 13.5
+   "rent_eur_m2_mo": 13.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=Bonn&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K1898",
@@ -3024,7 +3144,7 @@
    "area_min_m2": 1284,
    "area_max_m2": 1284,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=Aachen&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k1898",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -3032,7 +3152,8 @@
    "lng": 6.0959,
    "rent_eur_m2_min": 13,
    "rent_eur_m2_max": 13,
-   "rent_eur_m2_mo": 13
+   "rent_eur_m2_mo": 13,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=Aachen&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   },
   {
    "id": "jll-K1896",
@@ -3049,7 +3170,7 @@
    "area_min_m2": 98,
    "area_max_m2": 1347,
    "source": "JLL",
-   "source_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=Aachen&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters",
+   "source_url": "https://gewerbeimmobilien.jll.de/bueros/k1896",
    "price_basis": "LISTED",
    "captured": "2026-06-28",
    "notes": "JLL gewerbeimmobilien; for-rent; €/m²·mo; area=available-unit range; filter 1000-6000m², ≤€15/m²",
@@ -3057,7 +3178,8 @@
    "lng": 6.0802,
    "rent_eur_m2_min": 12.5,
    "rent_eur_m2_max": 12.5,
-   "rent_eur_m2_mo": 12.5
+   "rent_eur_m2_mo": 12.5,
+   "source_search_url": "https://gewerbeimmobilien.jll.de/search?tenureTypes=rent&propertyTypes=office&cities=Aachen&regions=Nordrhein-Westfalen&priceMax=15&surfaceMax=6000&surfaceMin=1000&surfaceUnit=meters"
   }
  ]
 }

@@ -21,6 +21,7 @@ const UA = 'ArrivioSiteSelection/1.0 (site research; ayush@arrivio.global)';
 const BROWSER_UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36';
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const CAPTURED = '2026-06-22';
+const CAPTURED_PORTAL = '2026-06-28'; // multi-portal (pachtnetzwerk/gastro-pacht) crawl date
 
 // ---------- small utils ----------
 const decode = s => (s || '').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#(\d+);/g, (_, n) => String.fromCharCode(+n)).replace(/&#x([0-9a-f]+);/gi, (_, n) => String.fromCharCode(parseInt(n, 16))).trim();
@@ -193,6 +194,113 @@ async function crawlTranio() {
   return []; // detail parse not reliable headless; rely on seed. Links kept for future.
 }
 
+// ---------- generic open-portal crawl: pachtnetzwerk.immo + gastro-pacht.de ----------
+// resumable (each page cached under listings_cache/<src>/), throttled (1.1 s/fetch), Germany-only.
+// Real Pacht/sale anchors; "Umsatzpacht/Vereinbarung/auf Anfrage" → price_on_request (never fabricated).
+const PCACHE = src => { const d = join(CACHE, src); if (!existsSync(d)) mkdirSync(d, { recursive: true }); return d; };
+const slugKey = s => String(s).replace(/[^a-z0-9]+/gi, '_').slice(0, 70);
+async function getPortal(src, key, url) {
+  const cf = join(PCACHE(src), key);
+  if (existsSync(cf)) return readFileSync(cf, 'utf8');
+  if (COMBINE_ONLY) return null;
+  const r = await get(url, { 'User-Agent': BROWSER_UA, 'Accept-Language': 'de-DE,de;q=0.9,en;q=0.8', Accept: 'text/html,application/xhtml+xml,application/json;q=0.9,*/*;q=0.8' });
+  if (r.ok && r.body && r.body.length > 200) { writeFileSync(cf, r.body); await sleep(1100); return r.body; }
+  process.stdout.write('  ' + src + ' ' + key + ' HTTP ' + r.status + (r.err ? ' ' + r.err : '') + '\n'); await sleep(600); return null;
+}
+// price → {price_eur?|lease_eur_mo?|basis}. Sources: houzez JSON-LD "price" (gastro-pacht), or
+// Kaufpreis/Pacht-labelled € text (pachtnetzwerk). Board deal decides sale vs lease; a >€200k figure
+// on a lease page is a property value (not a Pacht) → re-tagged sale. No number shown → price_on_request.
+function parsePortalPrice(html, deal) {
+  if (!html) return { basis: 'price_on_request' };
+  let n = null, m;
+  m = html.match(/"price"\s*:\s*"?([0-9][0-9.]{2,})"?/);                                  // houzez structured price (first = main listing)
+  if (m) { const v = parseInt(m[1].replace(/\./g, ''), 10); if (Number.isFinite(v) && v >= 200) n = v; }
+  if (n == null) { m = html.match(/Kaufpreis[^<0-9€]{0,40}?([\d][\d.,]{4,})\s*(?:€|EUR)/i); if (m) { const v = intOf(m[1]); if (v && v >= 20000 && v < 50000000) { n = v; deal = deal || 'sale'; } } }
+  if (n == null) { m = html.match(/Pacht[^<0-9€]{0,40}?([\d][\d.,]{2,})\s*(?:€|EUR)/i); if (m) { const v = intOf(m[1]); if (v && v >= 200 && v <= 150000) { n = v; deal = deal || 'lease'; } } }
+  if (n == null) { m = html.match(/([\d][\d.,]{2,})\s*(?:€|EUR)\s*(?:\/\s*|pro\s*|mtl|monatlich|im\s*Monat|\/\s*Monat)/i); if (m) { const v = intOf(m[1]); if (v && v >= 200 && v <= 150000) { n = v; deal = deal || 'lease'; } } }
+  if (n == null) return { basis: 'price_on_request' };
+  if (deal === 'sale' || n >= 200000) return { price_eur: n, basis: 'LISTED', deal: 'sale' };       // sale, or value too big to be a monthly Pacht
+  if (n >= 200 && n <= 150000) return { lease_eur_mo: n, basis: 'LISTED', deal: 'lease' };
+  return { basis: 'price_on_request' };
+}
+// detail page → coords (JSON-LD GeoCoordinates / og:), PLZ, city, name, rooms, beds, area
+function parsePortalDetail(html) {
+  const g = re => { const mm = html && html.match(re); return mm ? mm[1] : null; };
+  const lat = parseFloat(g(/"lat(?:itude)?"\s*:\s*"?(-?\d{1,2}\.\d{3,})/i) || g(/og:latitude["'][^>]*content=["'](-?[\d.]+)/i));
+  const lng = parseFloat(g(/"l(?:ng|on|ongitude)"\s*:\s*"?(-?\d{1,2}\.\d{3,})/i) || g(/og:longitude["'][^>]*content=["'](-?[\d.]+)/i));
+  const plz = (g(/"postalCode"\s*:\s*"?(\d{5})/i) || g(/\b(\d{5})\b/)) || null;
+  const city = decode(g(/"addressLocality"\s*:\s*"([^"]+)"/i) || '') || null;
+  let name = decode(g(/<title>([^<]+)<\/title>/i) || '');
+  name = name.replace(/^\s*TOP-Immobilie:\s*/i, '').replace(/\s+[-–|»]\s+.*$/, '').trim();   // drop site-name suffix, "TOP-Immobilie:" prefix
+  if (name.length < 4) { const j = [...((html || '').matchAll(/"name"\s*:\s*"([^"]{4,})"/g))].map(x => x[1]).find(s => !/\{\{|Pachtnetzwerk|Gastro-?Pacht|Immobilien/i.test(s)); if (j) name = decode(j); }
+  if (!name) name = 'Listing';
+  let rooms = null; { const mm = html && html.match(/(\d{1,3})\s*(?:Hotel|Gäste|Gaeste)?[\s-]*[Zz]immer/); if (mm) rooms = +mm[1]; }
+  let beds = null; { const mm = html && html.match(/(\d{1,3})\s*[Bb]etten/); if (mm) beds = +mm[1]; }
+  let area = null; { const mm = html && html.match(/([\d.,]{2,})\s*(?:m²|m&sup2;|qm|m2|Quadratmeter)/i); if (mm) area = intOf(mm[1]); }
+  return { lat: Number.isFinite(lat) ? round(lat, 5) : null, lng: Number.isFinite(lng) ? round(lng, 5) : null, plz, city, name, rooms, beds, area };
+}
+async function crawlPachtnetzwerk() {
+  const base = 'https://pachtnetzwerk.immo';
+  const lists = [['hotel-immobilien/kaufen', 'sale'], ['hotel-immobilien/pachten', 'lease'], ['gastronomie-immobilien/kaufen', 'sale'], ['gastronomie-immobilien/pachten', 'lease']];
+  const found = new Map();
+  for (const [path, deal] of lists) {
+    const html = await getPortal('pachtnetzwerk', path.replace(/\//g, '_') + '.html', base + '/' + path);
+    if (!html) continue;
+    for (const m of html.matchAll(/href="(\/(?:hotel|gastronomie)-kaufen-pachten\/[^"#?]+)"/gi)) if (!found.has(m[1])) found.set(m[1], deal);
+  }
+  process.stdout.write('  pachtnetzwerk: ' + found.size + ' detail link(s)\n');
+  const rows = []; let i = 0;
+  for (const [path, deal] of found) {
+    if (++i > 120) break;
+    const html = await getPortal('pachtnetzwerk', 'd_' + slugKey(path) + '.html', base + path);
+    if (!html) continue;
+    const d = parsePortalDetail(html), pr = parsePortalPrice(html, deal);
+    rows.push({ source: 'pachtnetzwerk.immo', source_url: base + path, deal: pr.deal || deal, kindHint: /gastronomie/.test(path) ? 'gastronomie' : 'hotel', ...d, ...pr });
+  }
+  process.stdout.write('  pachtnetzwerk: parsed ' + rows.length + ' detail(s)\n');
+  return rows;
+}
+async function crawlGastroPacht() {
+  const base = 'https://www.gastro-pacht.de';
+  const lists = [['gastronomie/pachtboerse/', 'lease'], ['gastronomie/kaufboerse/', 'sale']];
+  const found = new Map();
+  for (const [path, deal] of lists) {
+    const html = await getPortal('gastro-pacht', path.replace(/\//g, '_') + '.html', base + '/' + path);
+    if (!html) continue;
+    for (const m of html.matchAll(/href="(https?:\/\/[^"]*\/gastronomie\/immobilien\/[^"#?]+)"/gi)) { const u = m[1].replace(/^http:/, 'https:'); if (!found.has(u)) found.set(u, deal); }
+  }
+  process.stdout.write('  gastro-pacht: ' + found.size + ' detail link(s)\n');
+  const rows = []; let i = 0;
+  for (const [url, deal] of found) {
+    if (++i > 140) break;
+    const slug = url.replace(/\/$/, '').split('/').pop();
+    const html = await getPortal('gastro-pacht', 'd_' + slugKey(slug) + '.html', url);
+    if (!html) continue;
+    const d = parsePortalDetail(html), pr = parsePortalPrice(html, deal);
+    rows.push({ source: 'gastro-pacht.de', source_url: url, deal: pr.deal || deal, kindHint: 'gastronomie', ...d, ...pr });
+  }
+  process.stdout.write('  gastro-pacht: parsed ' + rows.length + ' detail(s)\n');
+  return rows;
+}
+// foreign LOCATION phrases only — NOT cuisine ("Italienisches Speiselokal") and NOT German regions
+// that contain "Schweiz" (Sächsische/Fränkische/Holsteinische Schweiz), so "Schweiz" is deliberately excluded.
+const FOREIGN_RE = /\bin\s+Tirol|Tiroler|Kärnten|Karnten|Österreich|Oesterreich|\bAustria\b|Mallorca|\bSalzburg|Südtirol|Suedtirol|\bWien\b|Vorarlberg|Steiermark|\bSwitzerland\b|\bKreta\b|\bCrete\b|Griechenland/i;
+function normalizePortal(e) {
+  if (FOREIGN_RE.test(e.name || '')) return null;                                                // cross-border listing leaked via German boilerplate PLZ
+  const city = (e.city && !/^(null|undefined)$/i.test(e.city)) ? e.city : null;
+  let lat = e.lat, lng = e.lng, state = null;
+  if (lat != null && lng != null) { state = stateAt(lat, lng); if (!state) return null; }      // coords outside Germany → drop
+  else { const gg = geocode(e.plz, city, null); if (!gg.ll) return null; lat = gg.ll[0]; lng = gg.ll[1]; state = stateAt(lat, lng); if (!state) return null; }
+  const kind = e.kindHint === 'hotel' ? 'hotel' : classifyKind(e.name);
+  const area = cleanArea(e.area, kind);
+  const id = e.source.split('.')[0] + '-' + Math.abs([...(e.source_url || '')].reduce((a, c) => (a * 31 + c.charCodeAt(0)) | 0, 7)).toString(36);
+  const rec = { id, kind, deal: e.deal, name: e.name, plz: e.plz || null, city, state, lat, lng, area_m2: area, rooms: e.rooms || null, beds: e.beds || null, source: e.source, source_url: e.source_url, captured: CAPTURED_PORTAL };
+  if (e.lease_eur_mo) { rec.lease_eur_mo = e.lease_eur_mo; rec.lease_eur_yr = e.lease_eur_mo * 12; rec.price_basis = 'LISTED'; }
+  else if (e.price_eur) { rec.price_eur = e.price_eur; if (area) { const ppm = Math.round(e.price_eur / area); if (ppm >= 200 && ppm <= 25000) rec.eur_per_m2 = ppm; } rec.price_basis = 'LISTED'; }
+  else rec.price_basis = 'price_on_request';
+  return rec;
+}
+
 // ---------- normalize ----------
 function normalizeAhgz(e) {
   const ll0 = e.plz || e.city ? geocode(e.plz, e.city, null) : { ll: null, prec: 'none' };
@@ -233,11 +341,18 @@ if (!COMBINE_ONLY) { process.stdout.write('fetching ' + leaseEntries.length + ' 
 
 const crawled = [...ahgzLease, ...ahgzSale].map(normalizeAhgz);
 
+// ---------- open-portal crawl (pachtnetzwerk.immo + gastro-pacht.de) ----------
+process.stdout.write('crawling open portals (pachtnetzwerk.immo, gastro-pacht.de)...\n');
+const portalRaw = [...(await crawlPachtnetzwerk()), ...(await crawlGastroPacht())];
+const portalRecs = portalRaw.map(normalizePortal).filter(Boolean);
+process.stdout.write('portal records kept (located in Germany): ' + portalRecs.length + ' of ' + portalRaw.length + ' parsed\n');
+const crawledAll = [...crawled, ...portalRecs];
+
 // ---------- merge with seed (seed's hand-curated fields win) ----------
 const seedDoc = JSON.parse(readFileSync(join(B, 'seed_properties.json'), 'utf8'));
 const seed = seedDoc.properties || [];
 const byId = new Map();
-for (const r of crawled) byId.set(r.id, r);
+for (const r of crawledAll) byId.set(r.id, r);
 for (const s of seed) {
   if (byId.has(s.id)) { const c = byId.get(s.id); for (const k of Object.keys(s)) if (s[k] != null && s[k] !== '') c[k] = s[k]; } // seed overrides (precise lat/lng, NK, etc.)
   else byId.set(s.id, s);
@@ -263,7 +378,7 @@ const grid = [...dens.entries()].map(([k, w]) => { const [la, ln] = gll(k); retu
 // ---------- write ----------
 const placed = records.filter(r => r.lat != null && r.lng != null).length;
 const doc = {
-  _meta: { ...seedDoc._meta, title: 'Arrivio acquisition/lease targets — national dataset', note: 'Crawled ' + CAPTURED + ' from ahgzimmo.de (hotel/gastro lease+sale) + Tranio seed. MODELED records carry the estimate in price_eur / lease_eur_yr with price_basis=MODELED (cost model: rooms x EUR/key x regional mult; lease = purchase x 5.8% upper bound). Geocoded by PLZ centroid; state by point-in-polygon.', count: records.length, placed, sources: ['ahgzimmo.de', 'Tranio', 'OpenStreetMap (baseline, separate)'] },
+  _meta: { ...seedDoc._meta, title: 'Arrivio acquisition/lease targets — national dataset', note: 'Crawled ' + CAPTURED + ' from ahgzimmo.de (hotel/gastro lease+sale) + Tranio seed; ' + CAPTURED_PORTAL + ' open-portal pass over pachtnetzwerk.immo + gastro-pacht.de (real Pacht/sale, Germany-only, deduped across sources). MODELED records carry the estimate in price_eur / lease_eur_yr with price_basis=MODELED (cost model: rooms x EUR/key x regional mult; lease = purchase x 5.8% upper bound). Geocoded by PLZ centroid + detail-page coords; state by point-in-polygon.', count: records.length, placed, sources: ['ahgzimmo.de', 'pachtnetzwerk.immo', 'gastro-pacht.de', 'Tranio', 'OpenStreetMap (baseline, separate)'] },
   properties: records.sort((a, b) => (priceOf(b) - priceOf(a)))
 };
 if (doc._meta.schema && !doc._meta.schema.includes('abloese_eur')) doc._meta.schema = [...doc._meta.schema, 'abloese_eur'];
