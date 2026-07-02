@@ -110,16 +110,21 @@ body.light-map{--cl-disc:rgba(255,255,255,.97);--cl-text:#111827}
 
 /* ===== badges: MODEL tier / source / price-on-request ===== */
 .badge-row{display:flex;flex-wrap:wrap;gap:4px;margin:5px 0 2px;align-items:center}
-.tier-badge,.src-badge,.preq-badge{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.3px;padding:1px 6px;border-radius:4px;vertical-align:middle;white-space:nowrap}
-.tier-badge.tier-prime{background:#fef3c7;color:#a16207;border:1px solid #fcd34d}
-.tier-badge.tier-qualify{background:#e0e7ff;color:#4338ca}
-.tier-badge.tier-size{background:var(--s3,#f1f5f9);color:var(--t2,#556)}
-.tier-badge.tier-context{background:transparent;color:var(--t3,#889);border:1px dashed var(--bd,#ccc)}
+.src-badge,.preq-badge{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.3px;padding:1px 6px;border-radius:4px;vertical-align:middle;white-space:nowrap}
 .src-badge{background:transparent;color:var(--t3,#889);border:1px solid var(--bd,#ddd);font-weight:600}
 .preq-badge{background:#ffedd5;color:#c2410c}
 .rbadges{display:flex;flex-wrap:wrap;gap:3px;margin-top:2px}
-.chip2.tier-chip-prime[aria-pressed="true"]{background:#b45309;border-color:transparent;color:#fff}
-.chip2.tier-chip-qualify[aria-pressed="true"]{background:#4338ca;border-color:transparent;color:#fff}
+
+/* source dropdown multi-select */
+.src-dd-btn{display:flex;align-items:center;gap:6px;width:100%;font-size:11.5px;font-weight:600;color:var(--t1,#123);background:var(--s2,#fafafa);border:1px solid var(--bd,#dde);border-radius:8px;padding:6px 10px;cursor:pointer;text-align:left}
+.src-dd-btn b{color:var(--acct,#d6219b)}
+.src-dd-btn .dd-car{margin-left:auto;color:var(--t3,#99a)}
+.src-dd{margin-top:5px;border:1px solid var(--bd,#e2e8f0);border-radius:8px;background:var(--s2,#fff);padding:6px 8px;max-height:200px;overflow:auto}
+.src-dd-bar{display:flex;gap:6px;margin-bottom:5px;padding-bottom:5px;border-bottom:1px dashed var(--bd,#eee)}
+.src-dd-row{display:flex;align-items:center;gap:7px;padding:3.5px 2px;font-size:11.5px;cursor:pointer;border-radius:5px}
+.src-dd-row:hover{background:var(--s3,#f1f5f9)}
+.src-dd-row input{accent-color:var(--acct,#d6219b);width:14px;height:14px}
+.src-dd-row i{font-style:normal;margin-left:auto;color:var(--t3,#99a);font-size:10px}
 
 /* ===== conversion pro-forma card ===== */
 .pf{margin:8px 0 2px;border:1px solid var(--bd,#e2e8f0);border-radius:10px;background:var(--s2,#fafafa);padding:8px 9px}

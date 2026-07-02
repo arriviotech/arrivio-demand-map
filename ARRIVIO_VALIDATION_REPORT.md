@@ -156,3 +156,17 @@ Re-synced to the model-filtered master (broker CSV **1,439 → 2,859 rows**, 9 s
 **Heatmaps now data-driven:** commercial Rent legend spans the observed €5–15+/m² (was €16,5–58 city anchors), dots = our listings (size = rooms est., colour = real rent, click = listing card); Density = our listings per hex; Vacancy disabled ("no source yet"); hotel Rooms legend from real counts (≈112+ p95); Pacht legend p5–p95 of the model grid.
 
 **UI/UX pass:** active-filter chips + one-click Clear all, live "N listings · ~X rooms" count, consistent hover/focus-visible states, coverage/sources panels, responsive verified at 390 px (bottom-sheet panel, ≥36 px touch targets, no h-scroll), 820 px, 1400 px and 1920 px (root type scales up). Zero console errors; deal two-way sync, favourites, inflow overlay, approximate-pin banners and States·TAM all re-verified.
+
+## Combined revision: 2,590 master + filter cleanup (2026-07-02)
+
+**Re-sync:** broker CSV 2,859 → **2,590** (ohne-makler size-unknowns back-filled from detail pages: 269 sub-500 m² units removed per the ≥500 m² rule, 171 recovered a town/PLZ). Captures **2,495** → union **2,502 listings · 2,378 pins** (no-address rows down 289 → 120; size-unknown now 128, mostly ahgzimmo). 745 exact-geo and 124 approximate pins unchanged.
+
+**Filter cleanup:**
+- **Model-fit filter + tier badges deleted** (MODEL:* stays in data/notes/xlsx as provenance). Nothing hidden: default view rose to **2,129 listings** — the former "Size?" convertibles now show, governed only by the Area slider + asset-type filter; non-room types stay behind "+More".
+- **Source filter → "Filter by source ▾" dropdown** (checkboxes · Select all · Clear · live count on the button). Verified: untick Aengevelt → "9 of 10", 2,129→1,436; Clear → 0 shown + "Source: none" chip; Select all restores. Source badges kept on popups/rows.
+- **Removed the Asking price €, Sale €/key and Yield % sliders** (Area is the size control; Price stated/On-request toggle + €/m² and €/room sliders remain). No dead references, zero console errors.
+- **Price-less listings always render** (default All): ahgz-GVL2CD (Top-Hotel 3★ Wuppertal, 1.670 m²) confirmed pinned — its detail back-fill even recovered a rent note, so it now shows a stated price.
+
+**Pro-forma per-building re-verified after re-sync:** €5/m² office (2.518 m², 125 rm) → Pacht €5→€8,2/m², **€165/room**; €15/m² office (535 m², 26 rm) → €15→€18,2/m², **€375/room**; price-on-request office → refurb + "+~100 % re-rating (est.) · no as-is rent stated" — **no default rent is ever substituted; no flat €252/room anywhere**.
+
+Kept features re-verified: pro-forma + My-shortlist, coverage tracker, data-driven legends (rent €5–15+/m², vacancy disabled), deal two-way sync, favourites, inflow overlay, approximate-pin banners, States·TAM. Zero console errors.
