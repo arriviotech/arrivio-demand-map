@@ -141,3 +141,18 @@ Re-synced to the latest authorized-browser master (broker CSV **932 → 1,439** 
 **Master spreadsheet** rebuilt on 1,439: "Acquisition listings" 1,411 rows (deal-sorted, full cols incl. rooms/basis/note/loc_approx) · "Existing hotels (OSM context)" 6,000 · "Sources" (per-source counts/dates/URLs). 484 KB.
 
 Verified: **0 console errors**; deal filter two-way sync, default 5-core filter, favourites, inflow overlay, legend, approximate-location pins, and States·TAM all intact.
+
+## Rooms + conversion pro-forma + consolidation (2026-07-02, 2,859-row master)
+
+Re-synced to the model-filtered master (broker CSV **1,439 → 2,859 rows**, 9 sources: +Aengevelt 772, +ahgzimmo 464, +ohne-makler 438, +BNP Paribas RE 277, deeper Colliers/CBRE/E&V) and ran the full pipeline. **Map union: 1,411 → 2,751 listings (2,458 pins · 745 exact building coordinates from Aengevelt `geo:` · 124 approximate)**. The remaining 289 (mostly ohne-makler FSBO) publish no address at all — kept in the data + spreadsheet, honestly unpinned.
+
+**MODEL tiers (surfaced, not re-derived):** prime 1,553 · qualify 519 · size-unknown 420 · context 252. Four-category filter (Prime / Qualify / Size? / Context; defaults Prime+Qualify on) + tier badge on every popup/row.
+**Rooms (2,744 captures):** listed 53 · estimated 2,009 (floor(area÷20), est.-marked) · n/a 682 (land/parking/warehouse/no-area guards).
+**Price:** stated 1,906 · on request 838 → new All / Price stated / On request toggle + "Preis auf Anfrage" badge.
+**Source filter:** dynamic multi-select over all 10 sources (first click narrows to that source) + source badge everywhere. **Coverage tracker** panel: 9 sourced, 3 blocked (Savills CloudFront-gated · ImmoScout24 DataDome CAPTCHA · Immowelt same group) with view-directly links.
+
+**Conversion pro-forma (Office Conversion Model v6, Berlin Outskirts)** on every office/mixed-use/retail card: ① refurb capex €482/m² (low 310/high 782) ② new Pacht = as-is + €3,21/m²·mo (8% on spend) ③ Pacht/room ④ value €/m² as-is (9% cap) → post-conversion (6,5% cap), ≈+100%, with decomposition + 93%-occupancy refinement in the expandable detail. Sale-only rows show refurb + a flagged "+~100% re-rating" badge (no rent fabricated). Apartment buildings show only a furnishing note. Saving listings builds a **My-shortlist portfolio roll-up** (Σ capex, Σ monthly Pacht, Σ value uplift, rooms). Verified against the sheet: 4.292 m² @ €14,3 → capex €2,1M, Pacht €76k/mo, uplift €5,7M.
+
+**Heatmaps now data-driven:** commercial Rent legend spans the observed €5–15+/m² (was €16,5–58 city anchors), dots = our listings (size = rooms est., colour = real rent, click = listing card); Density = our listings per hex; Vacancy disabled ("no source yet"); hotel Rooms legend from real counts (≈112+ p95); Pacht legend p5–p95 of the model grid.
+
+**UI/UX pass:** active-filter chips + one-click Clear all, live "N listings · ~X rooms" count, consistent hover/focus-visible states, coverage/sources panels, responsive verified at 390 px (bottom-sheet panel, ≥36 px touch targets, no h-scroll), 820 px, 1400 px and 1920 px (root type scales up). Zero console errors; deal two-way sync, favourites, inflow overlay, approximate-pin banners and States·TAM all re-verified.

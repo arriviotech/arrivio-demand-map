@@ -115,7 +115,11 @@ function normalize(r, src) {
   let at = (r.asset_type || 'other').trim(); if (!ASSET_TYPES.has(at)) at = 'other';
   const deal = (r.deal || '').trim().toLowerCase() || (num(r.price_eur) ? 'sale' : 'lease');
   const plz = (r.plz || '').replace(/\D/g, '') || null, city = (r.city || '').trim() || null;
-  let ll = geocode(plz, city), locApprox = false, locBasis = null;
+  const notesRaw = (r.notes || '').trim();
+  // exact building coords embedded in notes as geo:LAT,LNG (Aengevelt) — beats every centroid, never approx
+  let ll = null, locApprox = false, locBasis = null, exactGeo = false;
+  { const gm = notesRaw.match(/geo:(-?\d+\.\d+),(-?\d+\.\d+)/); if (gm) { const la = +gm[1], lo = +gm[2]; if (la > 45 && la < 56 && lo > 4 && lo < 17) { ll = [Math.round(la * 1e5) / 1e5, Math.round(lo * 1e5) / 1e5]; exactGeo = true; } } }
+  if (!ll) ll = geocode(plz, city);
   if (!ll) {
     const ck = asciiKey(city), sk = asciiKey(r.state);
     if (ck && REGION_LL[ck]) { ll = REGION_LL[ck]; locApprox = true; locBasis = 'region'; }
@@ -126,6 +130,11 @@ function normalize(r, src) {
       ll = [Math.round((ll[0] + rad * Math.cos(ang)) * 1e4) / 1e4, Math.round((ll[1] + rad * Math.sin(ang)) * 1e4) / 1e4];
     }
   }
+  // MODEL tier from notes (set upstream by the model filter): prime / qualify / size_unknown / context.
+  // Unflagged rows are the non-room context set (industrial/retail/land/other) per the master's convention.
+  const mt = notesRaw.match(/MODEL:(prime|qualify|size_unknown|context)/);
+  const ROOM_TYPES = new Set(['office', 'apartment_building', 'mixed_use', 'hotel', 'gastronomy_with_rooms']);
+  const model_tier = mt ? mt[1] : (ROOM_TYPES.has(at) ? 'size_unknown' : 'context');
   const rentLo = num(r.rent_eur_m2_min), rentHi = num(r.rent_eur_m2_max);
   const aLo = num(r.area_min_m2), aHi = num(r.area_max_m2), price = num(r.price_eur);
   const area = aHi || aLo || null;
@@ -139,11 +148,15 @@ function normalize(r, src) {
     price_basis: 'LISTED', captured: (r.captured || '').trim() || null, notes: (r.notes || '').trim() || null,
   };
   if (rc.rooms_note) rec.rooms_note = rc.rooms_note;
-  if (ll) { rec.lat = ll[0]; rec.lng = ll[1]; if (locApprox) { rec.loc_approx = true; rec.loc_basis = locBasis; } }
+  rec.model_tier = model_tier;
+  if (ll) { rec.lat = ll[0]; rec.lng = ll[1]; if (exactGeo) rec.geo_exact = true; if (locApprox) { rec.loc_approx = true; rec.loc_basis = locBasis; } }
   if (rentLo || rentHi) { rec.rent_eur_m2_min = rentLo; rec.rent_eur_m2_max = rentHi; rec.rent_eur_m2_mo = Math.round(((rentLo || rentHi) + (rentHi || rentLo)) / 2 * 10) / 10; } // lease €/m²·mo
   if (price) { rec.price_eur = price; if (area) rec.eur_per_m2 = Math.round(price / area); }
   // richer optional capture fields (xlsx hotel/gastro rows): Pacht, Nebenkosten, Ablöse, beds
-  const lease = num(r.lease_eur_mo); if (lease) { rec.lease_eur_mo = lease; rec.lease_eur_yr = lease * 12; }
+  let lease = num(r.lease_eur_mo);
+  // ohne-makler keeps the raw monthly rent in notes ("rent ~1.500 EUR/mo") — surface it as the monthly lease
+  if (!lease) { const lm = notesRaw.match(/rent\s*~?\s*([\d.,]+)\s*EUR\/mo/i); if (lm) { const v = num(lm[1]); if (v && v >= 100 && v < 200000) lease = v; } }
+  if (lease) { rec.lease_eur_mo = lease; rec.lease_eur_yr = lease * 12; }
   const nk = num(r.nk_eur_mo); if (nk) rec.nk_eur_mo = nk;
   const ab = num(r.abloese_eur); if (ab != null) rec.abloese_eur = ab;
   const beds = num(r.beds); if (beds) rec.beds = beds;
@@ -156,6 +169,9 @@ function normalize(r, src) {
       rec.source_url = per;
     }
   }
+  // price_defined: does the lister state ANY price/rent figure? (NK/service charge does NOT count.)
+  // Drives the "Price on request" filter — false = negotiable/opportunity assets ("Preis auf Anfrage").
+  rec.price_defined = !!(rec.price_eur || rec.rent_eur_m2_mo || rec.lease_eur_mo || /price stated on listing/i.test(notesRaw));
   return rec;
 }
 

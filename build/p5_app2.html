@@ -323,14 +323,14 @@
     if (S.layers.hex) { lTitle = 'Client room demand'; lLo = 'low'; lHi = '≈' + kfmt(demandMaxRooms) + ' rooms'; lBar = true; }
     else if (S.layers.inflow) { const m = S.inflowMetric === 'foreign' ? 'foreign' : 'total'; lTitle = 'People moving in / yr (' + (m === 'foreign' ? 'foreign nationals' : 'all arrivals, incl. domestic') + ', 2024)'; lLo = 'fewer'; lHi = '≈' + kfmt(INFLOW_CAP[m]) + '+'; lBar = true; }
     else if (S.layers.commercial) {
-      if (S.commMetric === 'rent') { lBar = true; const v = COMMERCIAL_DATA.map(c => c.prime); lTitle = 'Office prime rent (city anchors)'; lLo = '€' + Math.min.apply(null, v) + '/m²'; lHi = '€' + Math.max.apply(null, v) + '/m²'; }
-      else if (S.commMetric === 'vacant') { lBar = true; const v = COMMERCIAL_DATA.map(c => c.vac); lTitle = 'Office vacancy rate (% — city markets)'; lLo = Math.min.apply(null, v) + '%'; lHi = Math.max.apply(null, v) + '%'; }
-      else { lBar = true; lTitle = 'Office / commercial sites (OSM baseline)'; lLo = 'fewer'; lHi = 'more'; }
+      commInit();                                                    // legend range = the captured listings' real rents
+      if (S.commMetric === 'rent') { lBar = true; lTitle = 'Commercial rent — captured listings (€/m²·mo) · dot size = rooms est.'; lLo = '€' + RENT_LO + '/m²'; lHi = '€' + RENT_HI + '+/m²'; }
+      else { lBar = true; lTitle = 'Captured commercial listings per area'; lLo = 'fewer'; lHi = 'more'; }
     }
     else if (S.layers.hotels) {
       lBar = true;
       if (S.hotelMetric === 'pacht') { lTitle = 'Est. hotel Pacht (≈€/room·mo)'; lLo = '≈€' + PACHT_LO; lHi = '≈€' + PACHT_HI; }
-      else { lTitle = 'Hotel rooms (small / family)'; lLo = 'fewer'; lHi = 'more'; }
+      else { const rs = (typeof HOTELS_OSM !== 'undefined' ? HOTELS_OSM : []).map(h => h.r).filter(Boolean).sort((a, b) => a - b); const hi = rs.length ? rs[Math.floor(rs.length * 0.95)] : 300; lTitle = 'Hotel rooms (small / family — real counts)'; lLo = 'fewer'; lHi = '≈' + hi + '+ rooms'; }
     }
     $('legend-title').textContent = lTitle;
     $('legend-min').textContent = lLo; $('legend-max').textContent = lHi;
