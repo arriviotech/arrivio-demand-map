@@ -281,7 +281,7 @@
     if (states) {
       M.setBase('positron');
       S.selStates = []; S.stateMulti = false; M.clearStateSelection();
-      M.showStates({ valueFn: statesValueFn(), labelFn: stateLabelFn(), onClick: selectState, fillOpacity: statesFillOpacity(), colorFn: statesColorFn() });
+      M.showStates({ valueFn: statesValueFn(), labelFn: stateLabelFn(), onClick: selectState, fillOpacity: statesFillOpacity() });
       document.body.classList.add('light-map');
       updateStatesLegend();
     } else {
@@ -296,14 +296,8 @@
     writeHash();
   }
   function updateStatesLegend() {
-    const saldo = S.stateMetric === 'saldo';
-    const t = $('states-legend-title'); if (t) t.textContent = saldo ? 'Net migration' : 'Total Addressable Market';
     const max = M.statesMax();
-    $('states-legend-max').textContent = saldo ? '+' + kfmt(max) + '/yr' : (max >= 1e9 ? '€' + (max / 1e9).toFixed(1) + ' bn' : '€' + Math.round(max / 1e6) + ' m');
-    const bar = $('states-gbar'); if (bar) bar.style.background = saldo ? 'linear-gradient(90deg,#eaf6ef,#0f6f38)' : '';   // green ramp, distinct from pink TAM
-    const h = $('states-legend-hint'); if (h) h.innerHTML = saldo
-      ? 'Color = net migration per state (in − out across the state border, incl. international) — <b>Net migration, Destatis 2022</b>.<br>~2.8M people/yr relocate across district lines in Germany — the majority within their own state (Destatis).'
-      : 'Color = TAM (inflow × €15k per person). Click a state for the full breakdown.';
+    $('states-legend-max').textContent = max >= 1e9 ? '€' + (max / 1e9).toFixed(1) + ' bn' : '€' + Math.round(max / 1e6) + ' m';
   }
 
   /* ============ legend ============ */

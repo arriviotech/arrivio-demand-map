@@ -29405,11 +29405,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/erlebnisgastronomie-im-sanierten-historischen-bergschreiberamt-in-bester-lage-direkt-am-wasser-GX5NV2",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:qualify",
+   "notes": "gastgewerbe; price stated on listing; MODEL:qualify; rent ~2200 EUR/mo",
    "rooms_note": "co-living capacity (est., 583 m² ÷ 20)",
    "model_tier": "qualify",
    "lat": 52.4646,
    "lng": 13.7976,
+   "lease_eur_mo": 2200,
+   "lease_eur_yr": 26400,
    "price_defined": true
   },
   {
@@ -29561,11 +29563,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/hotelneubauprojekt-in-flensburg-zur-pacht-GXB75S",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:prime",
+   "notes": "gastgewerbe; price stated on listing; MODEL:prime; rent ~23200 EUR/mo",
    "rooms_note": "co-living capacity (est., 2000 m² ÷ 20)",
    "model_tier": "prime",
    "lat": 54.8023,
    "lng": 9.4213,
+   "lease_eur_mo": 23200,
+   "lease_eur_yr": 278400,
    "price_defined": true
   },
   {
@@ -29613,11 +29617,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/betreiber-fuer-tagungshotelprojekt-in-hessischer-kreisstadt-GTVMNK",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:prime",
+   "notes": "gastgewerbe; price stated on listing; MODEL:prime; rent ~40500 EUR/mo",
    "rooms_note": "co-living capacity (est., 12600 m² ÷ 20)",
    "model_tier": "prime",
    "lat": 50.8038,
    "lng": 8.7566,
+   "lease_eur_mo": 40500,
+   "lease_eur_yr": 486000,
    "price_defined": true
   },
   {
@@ -29639,11 +29645,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/vollhotel-bei-bremen-GP5P8Y",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:prime",
+   "notes": "gastgewerbe; price stated on listing; MODEL:prime; rent ~11000 EUR/mo",
    "rooms_note": "co-living capacity (est., 1500 m² ÷ 20)",
    "model_tier": "prime",
    "lat": 52.8194,
    "lng": 8.3136,
+   "lease_eur_mo": 11000,
+   "lease_eur_yr": 132000,
    "price_defined": true
   },
   {
@@ -29691,11 +29699,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/top-hotel-3-sterne-wuppertal-elberfeld-fussgaengerzone-GVL2CD",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:prime",
+   "notes": "gastgewerbe; price stated on listing; MODEL:prime; rent ~10000 EUR/mo",
    "rooms_note": "co-living capacity (est., 1670 m² ÷ 20)",
    "model_tier": "prime",
    "lat": 51.2555,
    "lng": 7.1466,
+   "lease_eur_mo": 10000,
+   "lease_eur_yr": 120000,
    "price_defined": true
   },
   {
@@ -29793,9 +29803,11 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/hochwertiges-restaurant-in-kiezlage-sucht-neuen-betreiber-bahnhofsviertel-oldenburg-GVHMQ6",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown",
+   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown; rent ~2400 EUR/mo",
    "rooms_note": "no usable area given",
    "model_tier": "size_unknown",
+   "lease_eur_mo": 2400,
+   "lease_eur_yr": 28800,
    "price_defined": true
   },
   {
@@ -29817,11 +29829,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/hotel-pension-boardinghouse-eventlocation-vielseitige-gewerbeimmobilie-suedlich-von-kassel-GYFTSF",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown",
+   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown; rent ~5000 EUR/mo",
    "rooms_note": "no usable area given",
    "model_tier": "size_unknown",
    "lat": 51.2455,
    "lng": 9.4823,
+   "lease_eur_mo": 5000,
+   "lease_eur_yr": 60000,
    "price_defined": true
   },
   {
@@ -29843,11 +29857,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/ready-to-cook-deine-schluesselfertige-gastro-flaeche-wartet-GWXPMJ",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown",
+   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown; rent ~24395 EUR/mo",
    "rooms_note": "no usable area given",
    "model_tier": "size_unknown",
    "lat": 49.7143,
    "lng": 7.3448,
+   "lease_eur_mo": 24395,
+   "lease_eur_yr": 292740,
    "price_defined": true
   },
   {
@@ -29869,9 +29885,11 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/provisionsfrei-betriebsfertige-grosskueche-mit-kantine-und-terrasse-sofort-umsatz-starten-GWW6GK",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown",
+   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown; rent ~5400 EUR/mo",
    "rooms_note": "no usable area given",
    "model_tier": "size_unknown",
+   "lease_eur_mo": 5400,
+   "lease_eur_yr": 64800,
    "price_defined": true
   },
   {
@@ -29893,11 +29911,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/mcm-gastronomieflaeche-zentrale-lage-GYBXNK",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown",
+   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown; rent ~2550 EUR/mo",
    "rooms_note": "no usable area given",
    "model_tier": "size_unknown",
    "lat": 50.1051,
    "lng": 8.7674,
+   "lease_eur_mo": 2550,
+   "lease_eur_yr": 30600,
    "price_defined": true,
    "source_urls": [
     "https://www.ahgzimmo.de/immobilien/mcm-gastronomieflaeche-zentrale-lage-GYBXNK",
@@ -29923,11 +29943,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/mcm-abstand-und-brauereifrei-gemuetliches-lokal-ueber-2-ebenen-in-fussgaengerzone-GYBXWH",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown",
+   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown; rent ~3500 EUR/mo",
    "rooms_note": "no usable area given",
    "model_tier": "size_unknown",
    "lat": 50.1038,
    "lng": 8.6889,
+   "lease_eur_mo": 3500,
+   "lease_eur_yr": 42000,
    "price_defined": true
   },
   {
@@ -29949,11 +29971,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/wir-suchen-sauna-wellness-beauty-massage-profi-fuer-den-wellnessbereich-im-freizeitpark-landsberg-GVHM4D",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown",
+   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown; rent ~1000 EUR/mo",
    "rooms_note": "no usable area given",
    "model_tier": "size_unknown",
    "lat": 51.5324,
    "lng": 12.1156,
+   "lease_eur_mo": 1000,
+   "lease_eur_yr": 12000,
    "price_defined": true
   },
   {
@@ -29975,11 +29999,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/attraktive-gastronomieflaeche-in-historischem-gebaeude-GMRQJL",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:qualify",
+   "notes": "gastgewerbe; price stated on listing; MODEL:qualify; rent ~4381 EUR/mo",
    "rooms_note": "co-living capacity (est., 417 m² ÷ 20)",
    "model_tier": "qualify",
    "lat": 47.7838,
    "lng": 9.6152,
+   "lease_eur_mo": 4381,
+   "lease_eur_yr": 52572,
    "price_defined": true
   },
   {
@@ -30027,11 +30053,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/gastronomieflaeche-382m2-im-nahversorgungszentrum-am-treff-5-in-halle-saale-GVHM4P",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:qualify",
+   "notes": "gastgewerbe; price stated on listing; MODEL:qualify; rent ~5157 EUR/mo",
    "rooms_note": "co-living capacity (est., 382 m² ÷ 20)",
    "model_tier": "qualify",
    "lat": 51.4739,
    "lng": 11.9223,
+   "lease_eur_mo": 5157,
+   "lease_eur_yr": 61884,
    "price_defined": true
   },
   {
@@ -30053,11 +30081,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/elegant-stilvoll-gemuetlich-cafe-bistro-in-beliebter-und-frequentierter-westend-lage-GYBXXJ",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown",
+   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown; rent ~5700 EUR/mo",
    "rooms_note": "no usable area given",
    "model_tier": "size_unknown",
    "lat": 50.1249,
    "lng": 8.6752,
+   "lease_eur_mo": 5700,
+   "lease_eur_yr": 68400,
    "price_defined": true
   },
   {
@@ -30079,11 +30109,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/gastroflaeche-in-der-arminiusmarkthalle-jetzt-chance-nutzen-GNFJNK",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown",
+   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown; rent ~2500 EUR/mo",
    "rooms_note": "no usable area given",
    "model_tier": "size_unknown",
    "lat": 52.5317,
    "lng": 13.3386,
+   "lease_eur_mo": 2500,
+   "lease_eur_yr": 30000,
    "price_defined": true
   },
   {
@@ -30105,11 +30137,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/attraktiver-gastronomiebetrieb-mit-grossem-biergarten-GRX8CM",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown",
+   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown; rent ~3000 EUR/mo",
    "rooms_note": "no usable area given",
    "model_tier": "size_unknown",
    "lat": 52.5796,
    "lng": 10.1979,
+   "lease_eur_mo": 3000,
+   "lease_eur_yr": 36000,
    "price_defined": true
   },
   {
@@ -30161,10 +30195,12 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/hotel-in-zentrale-ffm-bahnhofslage-zu-vermieten-78-betten-28-zi-abstandsfrei-GYBXXF",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:qualify",
+   "notes": "gastgewerbe; price stated on listing; MODEL:qualify; rent ~15000 EUR/mo",
    "model_tier": "qualify",
    "lat": 50.106,
    "lng": 8.6677,
+   "lease_eur_mo": 15000,
+   "lease_eur_yr": 180000,
    "price_defined": true
   },
   {
@@ -30238,11 +30274,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/etablierte-gemuetliche-bar-sucht-nachfolger-verschiedene-konzepte-moeglich-GYBXX8",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown",
+   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown; rent ~4200 EUR/mo",
    "rooms_note": "no usable area given",
    "model_tier": "size_unknown",
    "lat": 50.1192,
    "lng": 8.6983,
+   "lease_eur_mo": 4200,
+   "lease_eur_yr": 50400,
    "price_defined": true
   },
   {
@@ -30264,11 +30302,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/grosszuegige-gewerbeimmobilie-mit-3-127-m2-grundstueck-vielseitig-nutzbar-fuer-hotel-pflege-wohnen-o-GWMRBY",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:prime",
+   "notes": "gastgewerbe; price stated on listing; MODEL:prime; rent ~2900 EUR/mo",
    "rooms_note": "co-living capacity (est., 3127 m² ÷ 20)",
    "model_tier": "prime",
    "lat": 53.3582,
    "lng": 8.6549,
+   "lease_eur_mo": 2900,
+   "lease_eur_yr": 34800,
    "price_defined": true,
    "source_urls": [
     "https://www.ahgzimmo.de/immobilien/grosszuegige-gewerbeimmobilie-mit-3-127-m2-grundstueck-vielseitig-nutzbar-fuer-hotel-pflege-wohnen-o-GWMRBY",
@@ -30294,11 +30334,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/abloesefrei-halle-auf-2-ebenen-individuell-anmietbar-fuer-gastronomie-freizeit-oder-einzelhandel-bei-erkner-GJYCLT",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:prime",
+   "notes": "gastgewerbe; price stated on listing; MODEL:prime; rent ~19000 EUR/mo",
    "rooms_note": "co-living capacity (est., 1900 m² ÷ 20)",
    "model_tier": "prime",
    "lat": 52.4216,
    "lng": 13.8846,
+   "lease_eur_mo": 19000,
+   "lease_eur_yr": 228000,
    "price_defined": true,
    "source_urls": [
     "https://www.ahgzimmo.de/immobilien/abloesefrei-halle-auf-2-ebenen-individuell-anmietbar-fuer-gastronomie-freizeit-oder-einzelhandel-bei-erkner-GJYCLT",
@@ -30324,11 +30366,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/profi-gastronom-gesucht-neu-renovierte-kantinen-cateringflaeche-gr-lager-technikflaeche-im-ug-GXXLQQ",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:prime",
+   "notes": "gastgewerbe; price stated on listing; MODEL:prime; rent ~6100 EUR/mo",
    "rooms_note": "area may be plot, not building",
    "model_tier": "prime",
    "lat": 51.4196,
    "lng": 12.4258,
+   "lease_eur_mo": 6100,
+   "lease_eur_yr": 73200,
    "price_defined": true
   },
   {
@@ -30350,11 +30394,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/paechter-gesucht-bierthe-das-romantische-gasthaus-in-troisdorf-mit-schoener-sonnenterrasse-GJXCT5",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown",
+   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown; rent ~2300 EUR/mo",
    "rooms_note": "no usable area given",
    "model_tier": "size_unknown",
    "lat": 50.8191,
    "lng": 7.1575,
+   "lease_eur_mo": 2300,
+   "lease_eur_yr": 27600,
    "price_defined": true
   },
   {
@@ -30376,11 +30422,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/mcm-grosszuegiges-modernes-und-gut-gefuehrtes-restaurant-mit-konstanten-umsaetzen-GYBXWZ",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown",
+   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown; rent ~1750 EUR/mo",
    "rooms_note": "no usable area given",
    "model_tier": "size_unknown",
    "lat": 50.0507,
    "lng": 8.5235,
+   "lease_eur_mo": 1750,
+   "lease_eur_yr": 21000,
    "price_defined": true
   },
   {
@@ -30402,11 +30450,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/tolle-gewerbeflaeche-z-b-fuer-ein-cafe-oder-einen-laden-in-sehr-zentraler-lage-von-gera-GVMYPC",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown",
+   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown; rent ~440 EUR/mo",
    "rooms_note": "no usable area given",
    "model_tier": "size_unknown",
    "lat": 50.8805,
    "lng": 12.0805,
+   "lease_eur_mo": 440,
+   "lease_eur_yr": 5280,
    "price_defined": true,
    "source_urls": [
     "https://www.ahgzimmo.de/immobilien/tolle-gewerbeflaeche-z-b-fuer-ein-cafe-oder-einen-laden-in-sehr-zentraler-lage-von-gera-GVMYPC",
@@ -30432,11 +30482,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/kaffeekultur-trifft-uebernachtungskomfort-in-bad-oeynhausen-GW2NQP",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:qualify",
+   "notes": "gastgewerbe; price stated on listing; MODEL:qualify; rent ~2000 EUR/mo",
    "rooms_note": "co-living capacity (est., 744 m² ÷ 20)",
    "model_tier": "qualify",
    "lat": 52.1971,
    "lng": 8.7927,
+   "lease_eur_mo": 2000,
+   "lease_eur_yr": 24000,
    "price_defined": true
   },
   {
@@ -30458,11 +30510,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/historische-gaststaette-mit-charmantem-innenhof-im-herzen-von-diez-sucht-neuen-paechter-GWP9GJ",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown",
+   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown; rent ~1450 EUR/mo",
    "rooms_note": "no usable area given",
    "model_tier": "size_unknown",
    "lat": 50.3775,
    "lng": 8.0132,
+   "lease_eur_mo": 1450,
+   "lease_eur_yr": 17400,
    "price_defined": true
   },
   {
@@ -30484,11 +30538,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/brot-bier-projektierte-bar-in-buesums-bestlage-mietuebernahme-GXLSL8",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown",
+   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown; rent ~2400 EUR/mo",
    "rooms_note": "no usable area given",
    "model_tier": "size_unknown",
    "lat": 54.1645,
    "lng": 8.8407,
+   "lease_eur_mo": 2400,
+   "lease_eur_yr": 28800,
    "price_defined": true,
    "source_urls": [
     "https://www.ahgzimmo.de/immobilien/brot-bier-projektierte-bar-in-buesums-bestlage-mietuebernahme-GXLSL8",
@@ -30514,11 +30570,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/eupora-immobilien-gastro-raeume-in-der-altstadt-kirchheimbolanden-GY8734",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown",
+   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown; rent ~700 EUR/mo",
    "rooms_note": "no usable area given",
    "model_tier": "size_unknown",
    "lat": 49.667,
    "lng": 7.9801,
+   "lease_eur_mo": 700,
+   "lease_eur_yr": 8400,
    "price_defined": true
   },
   {
@@ -30592,11 +30650,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/komplett-ausgestattetes-modernes-restaurant-mit-terrasse-in-repraesentativer-lage-an-der-bundesallee-GS383G",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:qualify",
+   "notes": "gastgewerbe; price stated on listing; MODEL:qualify; rent ~9700 EUR/mo",
    "rooms_note": "co-living capacity (est., 400 m² ÷ 20)",
    "model_tier": "qualify",
    "lat": 52.4908,
    "lng": 13.3281,
+   "lease_eur_mo": 9700,
+   "lease_eur_yr": 116400,
    "price_defined": true,
    "source_urls": [
     "https://www.ahgzimmo.de/immobilien/komplett-ausgestattetes-modernes-restaurant-mit-terrasse-in-repraesentativer-lage-an-der-bundesallee-GS383G",
@@ -30622,11 +30682,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/voll-ausgestattetes-restaurant-in-top-lage-zu-vermieten-GLNTM2",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:qualify",
+   "notes": "gastgewerbe; price stated on listing; MODEL:qualify; rent ~1500 EUR/mo",
    "rooms_note": "co-living capacity (est., 580 m² ÷ 20)",
    "model_tier": "qualify",
    "lat": 52.0928,
    "lng": 8.4184,
+   "lease_eur_mo": 1500,
+   "lease_eur_yr": 18000,
    "price_defined": true
   },
   {
@@ -30648,11 +30710,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/vielseitige-gewerbeflaeche-in-innenstadtlage-GL9S28",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:prime",
+   "notes": "gastgewerbe; price stated on listing; MODEL:prime; rent ~6500 EUR/mo",
    "rooms_note": "co-living capacity (est., 1286 m² ÷ 20)",
    "model_tier": "prime",
    "lat": 48.8901,
    "lng": 8.6822,
+   "lease_eur_mo": 6500,
+   "lease_eur_yr": 78000,
    "price_defined": true,
    "source_urls": [
     "https://www.ahgzimmo.de/immobilien/vielseitige-gewerbeflaeche-in-innenstadtlage-GL9S28",
@@ -30704,11 +30768,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/attraktive-cocktailbar-lounge-in-hervorragender-lage-GJYPYK",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown",
+   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown; rent ~3200 EUR/mo",
    "rooms_note": "no usable area given",
    "model_tier": "size_unknown",
    "lat": 49.1411,
    "lng": 10.0493,
+   "lease_eur_mo": 3200,
+   "lease_eur_yr": 38400,
    "price_defined": true
   },
   {
@@ -30756,11 +30822,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/moeblierte-pension-wohnanlage-mit-5-haeusern-monatspacht-49-we-zus-ca-250-m2-lager-20-sp-GYL6TB",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:prime",
+   "notes": "gastgewerbe; price stated on listing; MODEL:prime; rent ~33000 EUR/mo",
    "rooms_note": "co-living capacity (est., 2200 m² ÷ 20)",
    "model_tier": "prime",
    "lat": 51.2938,
    "lng": 12.4315,
+   "lease_eur_mo": 33000,
+   "lease_eur_yr": 396000,
    "price_defined": true
   },
   {
@@ -30808,11 +30876,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/beliebte-leipziger-a-lage-maisonette-gewerbeflaeche-auf-der-karli-mit-vielseitiger-nutzung-GJYM4H",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown",
+   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown; rent ~5295 EUR/mo",
    "rooms_note": "no usable area given",
    "model_tier": "size_unknown",
    "lat": 51.3216,
    "lng": 12.3706,
+   "lease_eur_mo": 5295,
+   "lease_eur_yr": 63540,
    "price_defined": true
   },
   {
@@ -30834,11 +30904,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/attraktive-eg-flaechen-fuer-ihre-baeckerei-oder-cafe-im-neubau-aerztehaus-G588Y7",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:qualify",
+   "notes": "gastgewerbe; price stated on listing; MODEL:qualify; rent ~4000 EUR/mo",
    "rooms_note": "co-living capacity (est., 592 m² ÷ 20)",
    "model_tier": "qualify",
    "lat": 52.481,
    "lng": 13.5186,
+   "lease_eur_mo": 4000,
+   "lease_eur_yr": 48000,
    "price_defined": true
   },
   {
@@ -30860,11 +30932,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/komplettes-gewerbehaus-mit-10-sanierten-zimmern-flexibel-nutzbarer-eg-und-ausbaureserve-im-dg-GXGCXX",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:qualify",
+   "notes": "gastgewerbe; price stated on listing; MODEL:qualify; rent ~8500 EUR/mo",
    "rooms_note": "co-living capacity (est., 400 m² ÷ 20)",
    "model_tier": "qualify",
    "lat": 52.4342,
    "lng": 13.4561,
+   "lease_eur_mo": 8500,
+   "lease_eur_yr": 102000,
    "price_defined": true
   },
   {
@@ -30912,11 +30986,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/wo-luxus-auf-genuss-trifft-bar-restaurant-in-barmen-wuppertal-GJXFWZ",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown",
+   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown; rent ~1750 EUR/mo",
    "rooms_note": "no usable area given",
    "model_tier": "size_unknown",
    "lat": 51.2736,
    "lng": 7.2054,
+   "lease_eur_mo": 1750,
+   "lease_eur_yr": 21000,
    "price_defined": true
   },
   {
@@ -30938,11 +31014,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/top-eiscafe-dolomiti-zu-verpachten-ohne-abstand-GXCX5T",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown",
+   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown; rent ~1700 EUR/mo",
    "rooms_note": "no usable area given",
    "model_tier": "size_unknown",
    "lat": 47.9126,
    "lng": 7.6873,
+   "lease_eur_mo": 1700,
+   "lease_eur_yr": 20400,
    "price_defined": true
   },
   {
@@ -30990,11 +31068,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/provisionsfrei-ideen-verwirklichen-gastroflaeche-mit-moeglichkeit-zur-aussenbestuhlung-GJY57T",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:qualify",
+   "notes": "gastgewerbe; price stated on listing; MODEL:qualify; rent ~3681 EUR/mo",
    "rooms_note": "co-living capacity (est., 409 m² ÷ 20)",
    "model_tier": "qualify",
    "lat": 48.8901,
    "lng": 8.6822,
+   "lease_eur_mo": 3681,
+   "lease_eur_yr": 44172,
    "price_defined": true,
    "source_urls": [
     "https://www.ahgzimmo.de/immobilien/provisionsfrei-ideen-verwirklichen-gastroflaeche-mit-moeglichkeit-zur-aussenbestuhlung-GJY57T",
@@ -31020,11 +31100,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/vielseitig-nutzbares-ladenlokal-zu-vermieten-GW9KFL",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown",
+   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown; rent ~650 EUR/mo",
    "rooms_note": "no usable area given",
    "model_tier": "size_unknown",
    "lat": 49.1053,
    "lng": 12.4895,
+   "lease_eur_mo": 650,
+   "lease_eur_yr": 7800,
    "price_defined": true
   },
   {
@@ -31072,11 +31154,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/gaestehaus-mit-24-betten-zu-vermieten-GV3WSK",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown",
+   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown; rent ~4500 EUR/mo",
    "rooms_note": "no usable area given",
    "model_tier": "size_unknown",
    "lat": 52.2901,
    "lng": 7.9656,
+   "lease_eur_mo": 4500,
+   "lease_eur_yr": 54000,
    "price_defined": true
   },
   {
@@ -31098,11 +31182,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/rustikales-restaurant-in-toplage-von-usingen-GQ3DCT",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown",
+   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown; rent ~3400 EUR/mo",
    "rooms_note": "no usable area given",
    "model_tier": "size_unknown",
    "lat": 50.3552,
    "lng": 8.5436,
+   "lease_eur_mo": 3400,
+   "lease_eur_yr": 40800,
    "price_defined": true
   },
   {
@@ -31124,11 +31210,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/gewerberaeume-in-koenigstein-saechsische-schweiz-GWMQL6",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown",
+   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown; rent ~890 EUR/mo",
    "rooms_note": "no usable area given",
    "model_tier": "size_unknown",
    "lat": 50.872,
    "lng": 14.0426,
+   "lease_eur_mo": 890,
+   "lease_eur_yr": 10680,
    "price_defined": true
   },
   {
@@ -31150,11 +31238,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/bistro-kiosk-mit-lottoannahmestelle-GQ3DCV",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown",
+   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown; rent ~550 EUR/mo",
    "rooms_note": "no usable area given",
    "model_tier": "size_unknown",
    "lat": 50.1501,
    "lng": 8.5803,
+   "lease_eur_mo": 550,
+   "lease_eur_yr": 6600,
    "price_defined": true
   },
   {
@@ -31176,11 +31266,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/umsatzstarkes-restaurant-am-volkspark-friedrichshain-GJYCM9",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:qualify",
+   "notes": "gastgewerbe; price stated on listing; MODEL:qualify; rent ~7000 EUR/mo",
    "rooms_note": "co-living capacity (est., 395 m² ÷ 20)",
    "model_tier": "qualify",
    "lat": 52.5345,
    "lng": 13.4561,
+   "lease_eur_mo": 7000,
+   "lease_eur_yr": 84000,
    "price_defined": true
   },
   {
@@ -31202,11 +31294,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/hier-wurde-schon-vor-100-jahres-gegessen-und-getrunken-GJYB3M",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown",
+   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown; rent ~921 EUR/mo",
    "rooms_note": "no usable area given",
    "model_tier": "size_unknown",
    "lat": 50.6551,
    "lng": 12.1936,
+   "lease_eur_mo": 921,
+   "lease_eur_yr": 11052,
    "price_defined": true
   },
   {
@@ -31228,11 +31322,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/erfolgreiches-restaurant-in-attraktiver-lage-voll-ausgestattet-und-sofort-startklar-GXPSNN",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown",
+   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown; rent ~1500 EUR/mo",
    "rooms_note": "no usable area given",
    "model_tier": "size_unknown",
    "lat": 52.1017,
    "lng": 8.5898,
+   "lease_eur_mo": 1500,
+   "lease_eur_yr": 18000,
    "price_defined": true
   },
   {
@@ -31254,11 +31350,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/attraktive-gaststaette-zu-vermieten-zentral-in-bestlage-von-bad-saeckingen-GRVQW9",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:qualify",
+   "notes": "gastgewerbe; price stated on listing; MODEL:qualify; rent ~2500 EUR/mo",
    "rooms_note": "co-living capacity (est., 581 m² ÷ 20)",
    "model_tier": "qualify",
    "lat": 47.5749,
    "lng": 7.9822,
+   "lease_eur_mo": 2500,
+   "lease_eur_yr": 30000,
    "price_defined": true
   },
   {
@@ -31280,11 +31378,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/coole-bar-in-top-lage-GYFHYP",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown",
+   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown; rent ~1806 EUR/mo",
    "rooms_note": "no usable area given",
    "model_tier": "size_unknown",
    "lat": 48.8012,
    "lng": 8.998,
+   "lease_eur_mo": 1806,
+   "lease_eur_yr": 21672,
    "price_defined": true,
    "source_urls": [
     "https://www.ahgzimmo.de/immobilien/coole-bar-in-top-lage-GYFHYP",
@@ -31310,11 +31410,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/renovierte-gewerbeflaeche-fuer-cafe-oder-eisdiele-in-mutschelbach-zu-vermieten-GXHZNT",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown",
+   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown; rent ~720 EUR/mo",
    "rooms_note": "no usable area given",
    "model_tier": "size_unknown",
    "lat": 48.905,
    "lng": 8.5003,
+   "lease_eur_mo": 720,
+   "lease_eur_yr": 8640,
    "price_defined": true
   },
   {
@@ -31362,11 +31464,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/umsatzstarkes-restaurant-pizzeria-in-top-lage-GJXFKP",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown",
+   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown; rent ~1600 EUR/mo",
    "rooms_note": "no usable area given",
    "model_tier": "size_unknown",
    "lat": 52.0231,
    "lng": 8.5338,
+   "lease_eur_mo": 1600,
+   "lease_eur_yr": 19200,
    "price_defined": true
   },
   {
@@ -31388,11 +31492,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/gewerbeflaeche-in-guter-lage-im-fachmarktzentrum-GXKFG9",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown",
+   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown; rent ~630 EUR/mo",
    "rooms_note": "no usable area given",
    "model_tier": "size_unknown",
    "lat": 49.2092,
    "lng": 8.3743,
+   "lease_eur_mo": 630,
+   "lease_eur_yr": 7560,
    "price_defined": true
   },
   {
@@ -31414,11 +31520,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/top-gastronomie-in-der-stuttgarter-innenstadt-secret-sale-GTCLRB",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown",
+   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown; rent ~12000 EUR/mo",
    "rooms_note": "no usable area given",
    "model_tier": "size_unknown",
    "lat": 48.7701,
    "lng": 9.1693,
+   "lease_eur_mo": 12000,
+   "lease_eur_yr": 144000,
    "price_defined": true
   },
   {
@@ -31518,11 +31626,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/kultlokal-in-bestlage-GYBNF6",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown",
+   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown; rent ~2600 EUR/mo",
    "rooms_note": "no usable area given",
    "model_tier": "size_unknown",
    "lat": 49.492,
    "lng": 8.4557,
+   "lease_eur_mo": 2600,
+   "lease_eur_yr": 31200,
    "price_defined": true
   },
   {
@@ -31544,11 +31654,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/top-konzept-erfolgreich-uebernehmen-GYBNKV",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown",
+   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown; rent ~2142 EUR/mo",
    "rooms_note": "no usable area given",
    "model_tier": "size_unknown",
    "lat": 53.6744,
    "lng": 10.2354,
+   "lease_eur_mo": 2142,
+   "lease_eur_yr": 25704,
    "price_defined": true
   },
   {
@@ -31570,11 +31682,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/top-eingerichtetes-restaurant-in-der-nuernberger-suedstadt-mieten-sofort-starten-GBHXN9",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:qualify",
+   "notes": "gastgewerbe; price stated on listing; MODEL:qualify; rent ~1495 EUR/mo",
    "rooms_note": "co-living capacity (est., 400 m² ÷ 20)",
    "model_tier": "qualify",
    "lat": 49.4381,
    "lng": 11.0813,
+   "lease_eur_mo": 1495,
+   "lease_eur_yr": 17940,
    "price_defined": true,
    "source_urls": [
     "https://www.ahgzimmo.de/immobilien/top-eingerichtetes-restaurant-in-der-nuernberger-suedstadt-mieten-sofort-starten-GBHXN9",
@@ -31626,11 +31740,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/aelteste-kneipe-wittstocks-sucht-neuen-betreiber-GF3FZT",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:qualify",
+   "notes": "gastgewerbe; price stated on listing; MODEL:qualify; rent ~1900 EUR/mo",
    "rooms_note": "co-living capacity (est., 434 m² ÷ 20)",
    "model_tier": "qualify",
    "lat": 53.1212,
    "lng": 12.5153,
+   "lease_eur_mo": 1900,
+   "lease_eur_yr": 22800,
    "price_defined": true
   },
   {
@@ -31652,11 +31768,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/muelheim-an-der-ruhr-hochwertig-und-modern-GY5ZNW",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown",
+   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown; rent ~1900 EUR/mo",
    "rooms_note": "no usable area given",
    "model_tier": "size_unknown",
    "lat": 51.449,
    "lng": 6.8549,
+   "lease_eur_mo": 1900,
+   "lease_eur_yr": 22800,
    "price_defined": true
   },
   {
@@ -31678,11 +31796,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/top-restaurant-mit-grossem-potenzial-GY24YQ",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:qualify",
+   "notes": "gastgewerbe; price stated on listing; MODEL:qualify; rent ~5000 EUR/mo",
    "rooms_note": "co-living capacity (est., 634 m² ÷ 20)",
    "model_tier": "qualify",
    "lat": 53.6063,
    "lng": 10.168,
+   "lease_eur_mo": 5000,
+   "lease_eur_yr": 60000,
    "price_defined": true
   },
   {
@@ -31704,11 +31824,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/vielseitige-gastronomieflaeche-fuer-restaurant-veranstaltungen-und-events-GWM4X8",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:qualify",
+   "notes": "gastgewerbe; price stated on listing; MODEL:qualify; rent ~3000 EUR/mo",
    "rooms_note": "co-living capacity (est., 700 m² ÷ 20)",
    "model_tier": "qualify",
    "lat": 53.598,
    "lng": 9.8777,
+   "lease_eur_mo": 3000,
+   "lease_eur_yr": 36000,
    "price_defined": true
   },
   {
@@ -31754,11 +31876,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/zentral-gelegenes-cafe-sucht-neuen-eigentuemer-GJY6DG",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown",
+   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown; rent ~630 EUR/mo",
    "rooms_note": "no usable area given",
    "model_tier": "size_unknown",
    "lat": 50.0522,
    "lng": 8.6952,
+   "lease_eur_mo": 630,
+   "lease_eur_yr": 7560,
    "price_defined": true
   },
   {
@@ -31805,11 +31929,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/phi-aachen-idyllischer-landgasthof-am-perlenbach-in-monschau-hoefen-FGCPLX",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:qualify",
+   "notes": "gastgewerbe; price stated on listing; MODEL:qualify; rent ~2000 EUR/mo",
    "rooms_note": "co-living capacity (est., 786 m² ÷ 20)",
    "model_tier": "qualify",
    "lat": 50.5326,
    "lng": 6.2501,
+   "lease_eur_mo": 2000,
+   "lease_eur_yr": 24000,
    "price_defined": true
   },
   {
@@ -31857,11 +31983,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/gaestehaus-mit-24-betten-zu-vermieten-GV3BDH",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:qualify",
+   "notes": "gastgewerbe; price stated on listing; MODEL:qualify; rent ~4500 EUR/mo",
    "rooms_note": "co-living capacity (est., 675 m² ÷ 20)",
    "model_tier": "qualify",
    "lat": 52.2901,
    "lng": 7.9656,
+   "lease_eur_mo": 4500,
+   "lease_eur_yr": 54000,
    "price_defined": true
   },
   {
@@ -31909,11 +32037,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/wo-luxus-auf-genuss-trifft-bar-restaurant-in-barmen-wuppertal-FRC3YW",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:qualify",
+   "notes": "gastgewerbe; price stated on listing; MODEL:qualify; rent ~1750 EUR/mo",
    "rooms_note": "co-living capacity (est., 400 m² ÷ 20)",
    "model_tier": "qualify",
    "lat": 51.2736,
    "lng": 7.2054,
+   "lease_eur_mo": 1750,
+   "lease_eur_yr": 21000,
    "price_defined": true
   },
   {
@@ -31935,11 +32065,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/spaeti-im-bergmannkiez-G87JQJ",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown",
+   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown; rent ~2000 EUR/mo",
    "rooms_note": "no usable area given",
    "model_tier": "size_unknown",
    "lat": 52.4854,
    "lng": 13.3989,
+   "lease_eur_mo": 2000,
+   "lease_eur_yr": 24000,
    "price_defined": true
   },
   {
@@ -31961,11 +32093,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/attraktives-und-grosszuegiges-restaurant-in-der-nuernberger-suedstadt-G5JG8H",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:qualify",
+   "notes": "gastgewerbe; price stated on listing; MODEL:qualify; rent ~1495 EUR/mo",
    "rooms_note": "co-living capacity (est., 400 m² ÷ 20)",
    "model_tier": "qualify",
    "lat": 49.4394,
    "lng": 11.0682,
+   "lease_eur_mo": 1495,
+   "lease_eur_yr": 17940,
    "price_defined": true
   },
   {
@@ -31987,11 +32121,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/ludwigsburg-gastronomie-in-ludwigsburg-2-350-00-0-m2-GSN6VD",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown",
+   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown; rent ~2350 EUR/mo",
    "rooms_note": "no usable area given",
    "model_tier": "size_unknown",
    "lat": 48.9117,
    "lng": 9.1718,
+   "lease_eur_mo": 2350,
+   "lease_eur_yr": 28200,
    "price_defined": true
   },
   {
@@ -32013,11 +32149,13 @@
    "source_url": "https://www.ahgzimmo.de/immobilien/raritaet-gastronomieeinheit-in-der-in-der-kneipenstrasse-von-zwickau-cafe-imbiss-BDQCZB",
    "price_basis": "LISTED",
    "captured": "2026-07-02",
-   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown",
+   "notes": "gastgewerbe; price stated on listing; MODEL:size_unknown; rent ~1600 EUR/mo",
    "rooms_note": "no usable area given",
    "model_tier": "size_unknown",
    "lat": 50.7017,
    "lng": 12.4951,
+   "lease_eur_mo": 1600,
+   "lease_eur_yr": 19200,
    "price_defined": true
   },
   {
@@ -32147,6 +32285,8 @@
    "model_tier": "qualify",
    "lat": 50.4992,
    "lng": 7.2716,
+   "price_eur": 589000,
+   "eur_per_m2": 1173,
    "price_defined": true
   },
   {
@@ -32199,6 +32339,8 @@
    "model_tier": "prime",
    "lat": 52.7162,
    "lng": 7.2641,
+   "price_eur": 2490000,
+   "eur_per_m2": 1107,
    "price_defined": true
   },
   {
@@ -32225,6 +32367,8 @@
    "model_tier": "prime",
    "lat": 49.0844,
    "lng": 9.1949,
+   "price_eur": 1200000,
+   "eur_per_m2": 807,
    "price_defined": true
   },
   {
@@ -32276,6 +32420,8 @@
    "model_tier": "qualify",
    "lat": 48.1779,
    "lng": 11.2956,
+   "price_eur": 2100000,
+   "eur_per_m2": 3443,
    "price_defined": true
   },
   {
@@ -32327,6 +32473,8 @@
    "model_tier": "prime",
    "lat": 50.0434,
    "lng": 11.6653,
+   "price_eur": 949000,
+   "eur_per_m2": 1026,
    "price_defined": true
   },
   {
@@ -32403,6 +32551,8 @@
    "model_tier": "prime",
    "lat": 48.462,
    "lng": 8.4117,
+   "price_eur": 4900000,
+   "eur_per_m2": 1679,
    "price_defined": true
   },
   {
@@ -32504,6 +32654,8 @@
    "model_tier": "qualify",
    "lat": 48.0855,
    "lng": 8.418,
+   "price_eur": 3900000,
+   "eur_per_m2": 6084,
    "price_defined": true
   },
   {
@@ -32530,6 +32682,7 @@
    "model_tier": "size_unknown",
    "lat": 49.2271,
    "lng": 6.9154,
+   "price_eur": 900000,
    "price_defined": true
   },
   {
@@ -32556,6 +32709,7 @@
    "model_tier": "size_unknown",
    "lat": 48.2832,
    "lng": 10.7808,
+   "price_eur": 1800000,
    "price_defined": true
   },
   {
@@ -32582,6 +32736,8 @@
    "model_tier": "prime",
    "lat": 48.7758,
    "lng": 9.2529,
+   "price_eur": 2950000,
+   "eur_per_m2": 134,
    "price_defined": true
   },
   {
@@ -32634,6 +32790,8 @@
    "model_tier": "prime",
    "lat": 47.4465,
    "lng": 10.2403,
+   "price_eur": 2500000,
+   "eur_per_m2": 1563,
    "price_defined": true
   },
   {
@@ -32686,6 +32844,7 @@
    "model_tier": "size_unknown",
    "lat": 50.2679,
    "lng": 9.9933,
+   "price_eur": 892000,
    "price_defined": true
   },
   {
@@ -32738,6 +32897,8 @@
    "model_tier": "prime",
    "lat": 50.1482,
    "lng": 7.706,
+   "price_eur": 1390000,
+   "eur_per_m2": 908,
    "price_defined": true
   },
   {
@@ -32788,6 +32949,8 @@
    "model_tier": "qualify",
    "lat": 47.5396,
    "lng": 10.0575,
+   "price_eur": 780000,
+   "eur_per_m2": 1064,
    "price_defined": true
   },
   {
@@ -32814,6 +32977,7 @@
    "model_tier": "size_unknown",
    "lat": 49.4596,
    "lng": 10.9915,
+   "price_eur": 299900,
    "price_defined": true
   },
   {
@@ -32866,6 +33030,7 @@
    "model_tier": "size_unknown",
    "lat": 48.8765,
    "lng": 10.7185,
+   "price_eur": 949000,
    "price_defined": true
   },
   {
@@ -32892,6 +33057,8 @@
    "model_tier": "prime",
    "lat": 52.5024,
    "lng": 13.6612,
+   "price_eur": 1500000,
+   "eur_per_m2": 1000,
    "price_defined": true,
    "source_urls": [
     "https://www.ahgzimmo.de/immobilien/gastronomie-im-maerkisch-oderland-mit-1-500-m2-gartengrundstueck-zu-verkaufen-GVHMB5",
@@ -32922,6 +33089,8 @@
    "model_tier": "qualify",
    "lat": 52.275,
    "lng": 7.71,
+   "price_eur": 890000,
+   "eur_per_m2": 1045,
    "price_defined": true
   },
   {
@@ -32947,6 +33116,8 @@
    "model_tier": "prime",
    "lat": 51.0184,
    "lng": 12.1519,
+   "price_eur": 650000,
+   "eur_per_m2": 325,
    "price_defined": true
   },
   {
@@ -32972,6 +33143,8 @@
    "model_tier": "qualify",
    "lat": 50.793,
    "lng": 10.6132,
+   "price_eur": 430000,
+   "eur_per_m2": 4831,
    "price_defined": true
   },
   {
@@ -32998,6 +33171,7 @@
    "model_tier": "size_unknown",
    "lat": 49.3631,
    "lng": 6.7268,
+   "price_eur": 298000,
    "price_defined": true
   },
   {
@@ -33024,6 +33198,8 @@
    "model_tier": "qualify",
    "lat": 50.2213,
    "lng": 12.308,
+   "price_eur": 1840000,
+   "eur_per_m2": 2968,
    "price_defined": true
   },
   {
@@ -33050,6 +33226,8 @@
    "model_tier": "qualify",
    "lat": 49.0009,
    "lng": 9.2967,
+   "price_eur": 1300000,
+   "eur_per_m2": 3394,
    "price_defined": true,
    "source_urls": [
     "https://www.ahgzimmo.de/immobilien/cashflow-immobilie-mit-optimierungspotenzial-falc-immobilien-GWXCXZ",
@@ -33107,6 +33285,8 @@
    "model_tier": "prime",
    "lat": 49.7392,
    "lng": 6.59,
+   "price_eur": 24800000,
+   "eur_per_m2": 9920,
    "price_defined": true
   },
   {
@@ -33133,6 +33313,8 @@
    "model_tier": "prime",
    "lat": 51.4676,
    "lng": 11.9954,
+   "price_eur": 2600000,
+   "eur_per_m2": 279,
    "price_defined": true
   },
   {
@@ -33157,6 +33339,8 @@
    "notes": "gastgewerbe; price stated on listing; MODEL:qualify",
    "rooms_note": "co-living capacity (est., 511 m² ÷ 20)",
    "model_tier": "qualify",
+   "price_eur": 980000,
+   "eur_per_m2": 1918,
    "price_defined": true
   },
   {
@@ -33183,6 +33367,8 @@
    "model_tier": "qualify",
    "lat": 51.6076,
    "lng": 10.2202,
+   "price_eur": 595000,
+   "eur_per_m2": 1190,
    "price_defined": true,
    "source_urls": [
     "https://www.ahgzimmo.de/immobilien/ihr-hotel-mit-viel-potenzial-GQJ3VF",
@@ -33212,6 +33398,8 @@
    "model_tier": "prime",
    "lat": 49.6024,
    "lng": 11.0069,
+   "price_eur": 4900000,
+   "eur_per_m2": 3632,
    "price_defined": true
   },
   {
@@ -33238,6 +33426,8 @@
    "model_tier": "prime",
    "lat": 47.718,
    "lng": 12.3861,
+   "price_eur": 2650000,
+   "eur_per_m2": 2834,
    "price_defined": true
   },
   {
@@ -33264,6 +33454,7 @@
    "model_tier": "size_unknown",
    "lat": 50.1373,
    "lng": 7.1718,
+   "price_eur": 799000,
    "price_defined": true
   },
   {
@@ -33290,6 +33481,8 @@
    "model_tier": "qualify",
    "lat": 48.0918,
    "lng": 7.9814,
+   "price_eur": 1450000,
+   "eur_per_m2": 3288,
    "price_defined": true
   },
   {
@@ -33316,6 +33509,8 @@
    "model_tier": "qualify",
    "lat": 49.7821,
    "lng": 7.963,
+   "price_eur": 989000,
+   "eur_per_m2": 1966,
    "price_defined": true
   },
   {
@@ -33342,6 +33537,7 @@
    "model_tier": "size_unknown",
    "lat": 51.4202,
    "lng": 9.6857,
+   "price_eur": 975000,
    "price_defined": true
   },
   {
@@ -33368,6 +33564,8 @@
    "model_tier": "prime",
    "lat": 53.062,
    "lng": 11.4359,
+   "price_eur": 220000,
+   "eur_per_m2": 39,
    "price_defined": true
   },
   {
@@ -33419,6 +33617,8 @@
    "model_tier": "prime",
    "lat": 50.4042,
    "lng": 10.7078,
+   "price_eur": 170000,
+   "eur_per_m2": 53,
    "price_defined": true
   },
   {
@@ -33445,6 +33645,8 @@
    "model_tier": "prime",
    "lat": 53.0467,
    "lng": 8.1523,
+   "price_eur": 1200000,
+   "eur_per_m2": 1036,
    "price_defined": true
   },
   {
@@ -33497,6 +33699,8 @@
    "model_tier": "prime",
    "lat": 51.9845,
    "lng": 9.2866,
+   "price_eur": 1500000,
+   "eur_per_m2": 178,
    "price_defined": true
   },
   {
@@ -33549,6 +33753,8 @@
    "model_tier": "qualify",
    "lat": 53.1879,
    "lng": 10.7398,
+   "price_eur": 899000,
+   "eur_per_m2": 1574,
    "price_defined": true
   },
   {
@@ -33575,6 +33781,7 @@
    "model_tier": "size_unknown",
    "lat": 53.4563,
    "lng": 7.868,
+   "price_eur": 2000000,
    "price_defined": true
   },
   {
@@ -33599,6 +33806,8 @@
    "notes": "gastgewerbe; price stated on listing; MODEL:prime",
    "rooms_note": "co-living capacity (est., 6000 m² ÷ 20)",
    "model_tier": "prime",
+   "price_eur": 549000,
+   "eur_per_m2": 92,
    "price_defined": true
   },
   {
@@ -33625,6 +33834,8 @@
    "model_tier": "prime",
    "lat": 53.5822,
    "lng": 12.51,
+   "price_eur": 24450,
+   "eur_per_m2": 2,
    "price_defined": true
   },
   {
@@ -33677,6 +33888,8 @@
    "model_tier": "prime",
    "lat": 48.7037,
    "lng": 13.7941,
+   "price_eur": 2350000,
+   "eur_per_m2": 678,
    "price_defined": true
   },
   {
@@ -33703,6 +33916,8 @@
    "model_tier": "prime",
    "lat": 50.858,
    "lng": 10.5641,
+   "price_eur": 580000,
+   "eur_per_m2": 60,
    "price_defined": true
   },
   {
@@ -33729,6 +33944,8 @@
    "model_tier": "prime",
    "lat": 54.1978,
    "lng": 10.599,
+   "price_eur": 498000,
+   "eur_per_m2": 349,
    "price_defined": true
   },
   {
@@ -33755,6 +33972,8 @@
    "model_tier": "prime",
    "lat": 52.0182,
    "lng": 11.2196,
+   "price_eur": 1490000,
+   "eur_per_m2": 556,
    "price_defined": true
   },
   {
@@ -33781,6 +34000,8 @@
    "model_tier": "prime",
    "lat": 50.7731,
    "lng": 6.9684,
+   "price_eur": 695000,
+   "eur_per_m2": 762,
    "price_defined": true
   },
   {
@@ -33807,6 +34028,8 @@
    "model_tier": "qualify",
    "lat": 50.7073,
    "lng": 10.6013,
+   "price_eur": 370000,
+   "eur_per_m2": 721,
    "price_defined": true
   },
   {
@@ -33833,6 +34056,8 @@
    "model_tier": "prime",
    "lat": 49.4512,
    "lng": 11.0526,
+   "price_eur": 1200000,
+   "eur_per_m2": 1091,
    "price_defined": true,
    "source_urls": [
     "https://www.ahgzimmo.de/immobilien/einmalige-investitionschance-mehrere-nutzungsmoeglichkeiten-im-ehemaligen-hotel-GV9T2Q",
@@ -33863,6 +34088,8 @@
    "model_tier": "qualify",
    "lat": 54.0995,
    "lng": 11.8761,
+   "price_eur": 1290000,
+   "eur_per_m2": 2275,
    "price_defined": true
   },
   {
@@ -33889,6 +34116,8 @@
    "model_tier": "prime",
    "lat": 48.4425,
    "lng": 11.1182,
+   "price_eur": 2700000,
+   "eur_per_m2": 1350,
    "price_defined": true
   },
   {
@@ -33915,6 +34144,8 @@
    "model_tier": "prime",
    "lat": 48.9997,
    "lng": 11.3871,
+   "price_eur": 549000,
+   "eur_per_m2": 526,
    "price_defined": true
   },
   {
@@ -33941,6 +34172,8 @@
    "model_tier": "prime",
    "lat": 49.6175,
    "lng": 12.3293,
+   "price_eur": 549000,
+   "eur_per_m2": 211,
    "price_defined": true,
    "source_urls": [
     "https://www.ahgzimmo.de/immobilien/jetzt-guenstiger-ihre-chance-traditionsgasthof-mit-eventlocation-und-wohnpotenzial-GMGY6G",
@@ -33970,6 +34203,8 @@
    "model_tier": "prime",
    "lat": 48.0967,
    "lng": 11.6274,
+   "price_eur": 8500000,
+   "eur_per_m2": 4838,
    "price_defined": true
   },
   {
@@ -34022,6 +34257,8 @@
    "model_tier": "prime",
    "lat": 48.724,
    "lng": 8.4142,
+   "price_eur": 795000,
+   "eur_per_m2": 284,
    "price_defined": true
   },
   {
@@ -34048,6 +34285,8 @@
    "model_tier": "qualify",
    "lat": 48.2337,
    "lng": 9.5699,
+   "price_eur": 345000,
+   "eur_per_m2": 566,
    "price_defined": true
   },
   {
@@ -34074,6 +34313,8 @@
    "model_tier": "prime",
    "lat": 52.1141,
    "lng": 12.4558,
+   "price_eur": 1300000,
+   "eur_per_m2": 353,
    "price_defined": true
   },
   {
@@ -34100,6 +34341,8 @@
    "model_tier": "prime",
    "lat": 50.1973,
    "lng": 10.9667,
+   "price_eur": 179000,
+   "eur_per_m2": 138,
    "price_defined": true
   },
   {
@@ -34152,6 +34395,7 @@
    "model_tier": "size_unknown",
    "lat": 52.2358,
    "lng": 8.8016,
+   "price_eur": 849000,
    "price_defined": true
   },
   {
@@ -34178,6 +34422,8 @@
    "model_tier": "qualify",
    "lat": 53.9936,
    "lng": 9.6305,
+   "price_eur": 279000,
+   "eur_per_m2": 393,
    "price_defined": true,
    "source_urls": [
     "https://www.ahgzimmo.de/immobilien/g-o-l-d-g-r-u-b-e-sucht-aktiven-baeckermeister-GXTGKN",
@@ -34208,6 +34454,8 @@
    "model_tier": "prime",
    "lat": 49.0901,
    "lng": 7.673,
+   "price_eur": 490000,
+   "eur_per_m2": 82,
    "price_defined": true
   },
   {
@@ -34234,6 +34482,8 @@
    "model_tier": "prime",
    "lat": 48.4481,
    "lng": 13.0672,
+   "price_eur": 629000,
+   "eur_per_m2": 331,
    "price_defined": true
   },
   {
@@ -34260,6 +34510,8 @@
    "model_tier": "prime",
    "lat": 48.2678,
    "lng": 8.8546,
+   "price_eur": 499000,
+   "eur_per_m2": 285,
    "price_defined": true
   },
   {
@@ -34286,6 +34538,7 @@
    "model_tier": "size_unknown",
    "lat": 50.7988,
    "lng": 13.3218,
+   "price_eur": 187000,
    "price_defined": true
   },
   {
@@ -34312,6 +34565,8 @@
    "model_tier": "prime",
    "lat": 51.2274,
    "lng": 8.5001,
+   "price_eur": 990000,
+   "eur_per_m2": 83,
    "price_defined": true,
    "source_urls": [
     "https://www.ahgzimmo.de/immobilien/exklusive-ferienanlage-im-herzen-des-sauerlandes-GQZMPF",
@@ -34342,6 +34597,8 @@
    "model_tier": "prime",
    "lat": 48.2474,
    "lng": 12.7369,
+   "price_eur": 1800000,
+   "eur_per_m2": 1732,
    "price_defined": true
   },
   {
@@ -34368,6 +34625,8 @@
    "model_tier": "prime",
    "lat": 54.5083,
    "lng": 13.261,
+   "price_eur": 1699000,
+   "eur_per_m2": 1035,
    "price_defined": true
   },
   {
@@ -34420,6 +34679,8 @@
    "model_tier": "prime",
    "lat": 48.3294,
    "lng": 11.4502,
+   "price_eur": 750000,
+   "eur_per_m2": 411,
    "price_defined": true
   },
   {
@@ -34446,6 +34707,8 @@
    "model_tier": "qualify",
    "lat": 47.8074,
    "lng": 12.6648,
+   "price_eur": 2258000,
+   "eur_per_m2": 3321,
    "price_defined": true
   },
   {
@@ -34472,6 +34735,8 @@
    "model_tier": "prime",
    "lat": 48.2017,
    "lng": 12.4202,
+   "price_eur": 2900000,
+   "eur_per_m2": 2117,
    "price_defined": true
   },
   {
@@ -34498,6 +34763,8 @@
    "model_tier": "prime",
    "lat": 53.46,
    "lng": 7.1195,
+   "price_eur": 499000,
+   "eur_per_m2": 440,
    "price_defined": true
   },
   {
@@ -34524,6 +34791,8 @@
    "model_tier": "prime",
    "lat": 54.0499,
    "lng": 9.1952,
+   "price_eur": 449000,
+   "eur_per_m2": 157,
    "price_defined": true
   },
   {
@@ -34549,6 +34818,8 @@
    "model_tier": "qualify",
    "lat": 49.1447,
    "lng": 8.2082,
+   "price_eur": 1400000,
+   "eur_per_m2": 1867,
    "price_defined": true
   },
   {
@@ -34575,6 +34846,7 @@
    "model_tier": "size_unknown",
    "lat": 52.5019,
    "lng": 13.4554,
+   "price_eur": 99000,
    "price_defined": true
   },
   {
@@ -34601,6 +34873,8 @@
    "model_tier": "qualify",
    "lat": 53.9563,
    "lng": 8.9828,
+   "price_eur": 399000,
+   "eur_per_m2": 823,
    "price_defined": true
   },
   {
@@ -34627,6 +34901,8 @@
    "model_tier": "qualify",
    "lat": 48.2205,
    "lng": 9.4457,
+   "price_eur": 550000,
+   "eur_per_m2": 1345,
    "price_defined": true
   },
   {
@@ -34653,6 +34929,8 @@
    "model_tier": "prime",
    "lat": 50.8943,
    "lng": 9.9984,
+   "price_eur": 365000,
+   "eur_per_m2": 249,
    "price_defined": true
   },
   {
@@ -34679,6 +34957,8 @@
    "model_tier": "qualify",
    "lat": 49.6838,
    "lng": 10.2392,
+   "price_eur": 790000,
+   "eur_per_m2": 1975,
    "price_defined": true
   },
   {
@@ -34705,6 +34985,8 @@
    "model_tier": "prime",
    "lat": 49.1258,
    "lng": 9.7544,
+   "price_eur": 950000,
+   "eur_per_m2": 864,
    "price_defined": true,
    "source_urls": [
     "https://www.ahgzimmo.de/immobilien/attraktives-gasthaus-mit-hotelbetrieb-GGFZ9W",
@@ -34735,6 +35017,8 @@
    "model_tier": "prime",
    "lat": 49.7392,
    "lng": 6.59,
+   "price_eur": 24800000,
+   "eur_per_m2": 4888,
    "price_defined": true,
    "source_urls": [
     "https://www.ahgzimmo.de/immobilien/trier-boardinghouse-in-trier-mit-moderner-heiztechnik-und-guter-verkehrsanbindung-luxemburg-GQ642T",
@@ -34765,6 +35049,8 @@
    "model_tier": "prime",
    "lat": 49.4925,
    "lng": 10.6495,
+   "price_eur": 999000,
+   "eur_per_m2": 238,
    "price_defined": true
   },
   {
@@ -34791,6 +35077,8 @@
    "model_tier": "qualify",
    "lat": 48.458,
    "lng": 10.1957,
+   "price_eur": 349000,
+   "eur_per_m2": 884,
    "price_defined": true
   },
   {
@@ -34817,6 +35105,8 @@
    "model_tier": "qualify",
    "lat": 53.653,
    "lng": 14.1269,
+   "price_eur": 385000,
+   "eur_per_m2": 613,
    "price_defined": true
   },
   {
@@ -34843,6 +35133,8 @@
    "model_tier": "prime",
    "lat": 53.0516,
    "lng": 8.5436,
+   "price_eur": 1450000,
+   "eur_per_m2": 191,
    "price_defined": true
   },
   {
@@ -34869,6 +35161,7 @@
    "model_tier": "size_unknown",
    "lat": 53.0564,
    "lng": 13.1083,
+   "price_eur": 200000,
    "price_defined": true
   },
   {
@@ -34895,6 +35188,8 @@
    "model_tier": "qualify",
    "lat": 54.7442,
    "lng": 9.9033,
+   "price_eur": 990000,
+   "eur_per_m2": 1980,
    "price_defined": true
   },
   {
@@ -34921,6 +35216,8 @@
    "model_tier": "prime",
    "lat": 48.5621,
    "lng": 9.6253,
+   "price_eur": 470000,
+   "eur_per_m2": 470,
    "price_defined": true,
    "source_urls": [
     "https://www.ahgzimmo.de/immobilien/wiesensteig-historischer-forsthof-steuervorteil-bei-sanierung-GYM6Q8",
@@ -34952,6 +35249,8 @@
    "model_tier": "prime",
    "lat": 52.0819,
    "lng": 13.1771,
+   "price_eur": 1200000,
+   "eur_per_m2": 1330,
    "price_defined": true
   },
   {
@@ -34978,6 +35277,8 @@
    "model_tier": "qualify",
    "lat": 47.7608,
    "lng": 12.6498,
+   "price_eur": 950000,
+   "eur_per_m2": 1727,
    "price_defined": true
   },
   {
@@ -35004,6 +35305,8 @@
    "model_tier": "prime",
    "lat": 52.1282,
    "lng": 8.9512,
+   "price_eur": 299000,
+   "eur_per_m2": 322,
    "price_defined": true
   },
   {
@@ -35030,6 +35333,7 @@
    "model_tier": "size_unknown",
    "lat": 49.9643,
    "lng": 8.0717,
+   "price_eur": 499000,
    "price_defined": true
   },
   {
@@ -35056,6 +35360,7 @@
    "model_tier": "size_unknown",
    "lat": 52.2358,
    "lng": 8.8016,
+   "price_eur": 1250000,
    "price_defined": true
   },
   {
@@ -35082,6 +35387,8 @@
    "model_tier": "prime",
    "lat": 48.2205,
    "lng": 9.4457,
+   "price_eur": 550000,
+   "eur_per_m2": 253,
    "price_defined": true
   },
   {
@@ -35108,6 +35415,8 @@
    "model_tier": "prime",
    "lat": 48.8555,
    "lng": 9.7,
+   "price_eur": 935000,
+   "eur_per_m2": 180,
    "price_defined": true
   },
   {
@@ -35158,6 +35467,8 @@
    "notes": "gastgewerbe; price stated on listing; MODEL:prime",
    "rooms_note": "co-living capacity (est., 1425 m² ÷ 20)",
    "model_tier": "prime",
+   "price_eur": 995000,
+   "eur_per_m2": 698,
    "price_defined": true
   },
   {
@@ -35210,6 +35521,8 @@
    "model_tier": "prime",
    "lat": 49.739,
    "lng": 12.3553,
+   "price_eur": 249000,
+   "eur_per_m2": 98,
    "price_defined": true
   },
   {
@@ -35236,6 +35549,8 @@
    "model_tier": "prime",
    "lat": 51.725,
    "lng": 10.6115,
+   "price_eur": 549000,
+   "eur_per_m2": 267,
    "price_defined": true
   },
   {
@@ -35262,6 +35577,7 @@
    "model_tier": "size_unknown",
    "lat": 48.4407,
    "lng": 12.9545,
+   "price_eur": 350000,
    "price_defined": true
   },
   {
@@ -35314,6 +35630,7 @@
    "model_tier": "size_unknown",
    "lat": 48.164,
    "lng": 11.4345,
+   "price_eur": 1475000,
    "price_defined": true
   },
   {
@@ -35366,6 +35683,8 @@
    "model_tier": "qualify",
    "lat": 48.1902,
    "lng": 8.3488,
+   "price_eur": 745000,
+   "eur_per_m2": 1717,
    "price_defined": true
   },
   {
@@ -35392,6 +35711,8 @@
    "model_tier": "qualify",
    "lat": 49.3004,
    "lng": 8.1016,
+   "price_eur": 799000,
+   "eur_per_m2": 1148,
    "price_defined": true
   },
   {
@@ -35418,6 +35739,8 @@
    "model_tier": "prime",
    "lat": 50.2023,
    "lng": 11.9115,
+   "price_eur": 38000,
+   "eur_per_m2": 20,
    "price_defined": true
   },
   {
@@ -35444,6 +35767,7 @@
    "model_tier": "size_unknown",
    "lat": 54.1138,
    "lng": 13.8327,
+   "price_eur": 1580000,
    "price_defined": true
   },
   {
@@ -35470,6 +35794,8 @@
    "model_tier": "qualify",
    "lat": 53.9986,
    "lng": 11.4395,
+   "price_eur": 589000,
+   "eur_per_m2": 1118,
    "price_defined": true
   },
   {
@@ -35495,6 +35821,8 @@
    "model_tier": "prime",
    "lat": 54.3063,
    "lng": 9.643,
+   "price_eur": 4100000,
+   "eur_per_m2": 1344,
    "price_defined": true
   },
   {
@@ -35521,6 +35849,8 @@
    "model_tier": "prime",
    "lat": 48.2655,
    "lng": 12.6511,
+   "price_eur": 973000,
+   "eur_per_m2": 938,
    "price_defined": true
   },
   {
@@ -35547,6 +35877,8 @@
    "model_tier": "prime",
    "lat": 47.7805,
    "lng": 12.3244,
+   "price_eur": 589000,
+   "eur_per_m2": 160,
    "price_defined": true
   },
   {
@@ -35573,6 +35905,8 @@
    "model_tier": "qualify",
    "lat": 51.2395,
    "lng": 6.4169,
+   "price_eur": 440000,
+   "eur_per_m2": 875,
    "price_defined": true
   },
   {
@@ -35599,6 +35933,8 @@
    "model_tier": "qualify",
    "lat": 51.4509,
    "lng": 12.0797,
+   "price_eur": 185000,
+   "eur_per_m2": 394,
    "price_defined": true
   },
   {
@@ -35625,6 +35961,8 @@
    "model_tier": "prime",
    "lat": 52.7891,
    "lng": 11.7223,
+   "price_eur": 53400,
+   "eur_per_m2": 14,
    "price_defined": true
   },
   {
@@ -35651,6 +35989,8 @@
    "model_tier": "qualify",
    "lat": 49.7966,
    "lng": 9.5889,
+   "price_eur": 80000,
+   "eur_per_m2": 169,
    "price_defined": true
   },
   {
@@ -35677,6 +36017,8 @@
    "model_tier": "qualify",
    "lat": 52.1511,
    "lng": 14.149,
+   "price_eur": 352000,
+   "eur_per_m2": 490,
    "price_defined": true
   },
   {
@@ -35702,6 +36044,8 @@
    "model_tier": "prime",
    "lat": 50.1411,
    "lng": 8.0572,
+   "price_eur": 4310000,
+   "eur_per_m2": 980,
    "price_defined": true
   },
   {
@@ -35728,6 +36072,8 @@
    "model_tier": "prime",
    "lat": 52.095,
    "lng": 8.1602,
+   "price_eur": 544000,
+   "eur_per_m2": 185,
    "price_defined": true
   },
   {
@@ -35754,6 +36100,8 @@
    "model_tier": "prime",
    "lat": 51.0551,
    "lng": 12.686,
+   "price_eur": 225000,
+   "eur_per_m2": 232,
    "price_defined": true
   },
   {
@@ -35779,6 +36127,8 @@
    "model_tier": "prime",
    "lat": 53.7794,
    "lng": 11.0497,
+   "price_eur": 670000,
+   "eur_per_m2": 544,
    "price_defined": true,
    "source_urls": [
     "https://www.ahgzimmo.de/immobilien/demern-historischer-gutshof-mit-entwicklungsspielraum-GYM6PD",
@@ -35810,6 +36160,8 @@
    "model_tier": "prime",
    "lat": 52.7162,
    "lng": 7.2641,
+   "price_eur": 1950000,
+   "eur_per_m2": 957,
    "price_defined": true
   },
   {
@@ -35862,6 +36214,8 @@
    "model_tier": "prime",
    "lat": 48.1157,
    "lng": 11.264,
+   "price_eur": 432000,
+   "eur_per_m2": 152,
    "price_defined": true
   },
   {
@@ -35888,6 +36242,8 @@
    "model_tier": "prime",
    "lat": 51.2879,
    "lng": 12.2127,
+   "price_eur": 2800000,
+   "eur_per_m2": 2240,
    "price_defined": true
   },
   {
@@ -35914,6 +36270,8 @@
    "model_tier": "qualify",
    "lat": 52.2796,
    "lng": 11.6246,
+   "price_eur": 469000,
+   "eur_per_m2": 586,
    "price_defined": true
   },
   {
@@ -35940,6 +36298,8 @@
    "model_tier": "prime",
    "lat": 52.0819,
    "lng": 13.1771,
+   "price_eur": 1200000,
+   "eur_per_m2": 1133,
    "price_defined": true
   },
   {
@@ -35966,6 +36326,8 @@
    "model_tier": "qualify",
    "lat": 49.7392,
    "lng": 6.59,
+   "price_eur": 1080000,
+   "eur_per_m2": 1350,
    "price_defined": true
   },
   {
@@ -35992,6 +36354,8 @@
    "model_tier": "prime",
    "lat": 50.071,
    "lng": 7.0356,
+   "price_eur": 530000,
+   "eur_per_m2": 504,
    "price_defined": true
   },
   {
@@ -36018,6 +36382,8 @@
    "model_tier": "qualify",
    "lat": 48.7854,
    "lng": 10.099,
+   "price_eur": 2290000,
+   "eur_per_m2": 2593,
    "price_defined": true
   },
   {
@@ -36043,6 +36409,8 @@
    "model_tier": "prime",
    "lat": 48.79,
    "lng": 9.8724,
+   "price_eur": 1650000,
+   "eur_per_m2": 1084,
    "price_defined": true,
    "source_urls": [
     "https://www.ahgzimmo.de/immobilien/schwaebisch-gmuend-3-s-hotel-20-wohneinheiten-restaurant-biergarten-topzustand-toplage-GWVR9W",
@@ -36103,6 +36471,8 @@
    "model_tier": "prime",
    "lat": 53.9405,
    "lng": 12.8698,
+   "price_eur": 399000,
+   "eur_per_m2": 272,
    "price_defined": true
   },
   {
@@ -36129,6 +36499,8 @@
    "model_tier": "qualify",
    "lat": 48.9433,
    "lng": 9.2399,
+   "price_eur": 1249000,
+   "eur_per_m2": 1898,
    "price_defined": true
   },
   {
@@ -36153,6 +36525,8 @@
    "notes": "gastgewerbe; price stated on listing; MODEL:prime",
    "rooms_note": "co-living capacity (est., 1980 m² ÷ 20)",
    "model_tier": "prime",
+   "price_eur": 749000,
+   "eur_per_m2": 378,
    "price_defined": true
   },
   {
@@ -36179,6 +36553,7 @@
    "model_tier": "size_unknown",
    "lat": 53.3945,
    "lng": 8.1404,
+   "price_eur": 2600000,
    "price_defined": true,
    "source_urls": [
     "https://www.ahgzimmo.de/immobilien/gut-gefuehrte-gastronomie-direkt-an-der-nordsee-in-varel-GTQZQN",
@@ -36209,6 +36584,7 @@
    "model_tier": "size_unknown",
    "lat": 49.9803,
    "lng": 12.0645,
+   "price_eur": 291000,
    "price_defined": true
   },
   {
@@ -36235,6 +36611,8 @@
    "model_tier": "qualify",
    "lat": 48.4407,
    "lng": 12.9545,
+   "price_eur": 495000,
+   "eur_per_m2": 804,
    "price_defined": true
   },
   {
@@ -36261,6 +36639,8 @@
    "model_tier": "qualify",
    "lat": 51.8214,
    "lng": 10.4581,
+   "price_eur": 489000,
+   "eur_per_m2": 978,
    "price_defined": true
   },
   {
@@ -36287,6 +36667,8 @@
    "model_tier": "prime",
    "lat": 50.5175,
    "lng": 7.3086,
+   "price_eur": 1350000,
+   "eur_per_m2": 1039,
    "price_defined": true
   },
   {
@@ -36313,6 +36695,8 @@
    "model_tier": "qualify",
    "lat": 53.5316,
    "lng": 9.9853,
+   "price_eur": 2499000,
+   "eur_per_m2": 3085,
    "price_defined": true
   },
   {
@@ -36339,6 +36723,8 @@
    "model_tier": "prime",
    "lat": 50.8347,
    "lng": 12.6789,
+   "price_eur": 250000,
+   "eur_per_m2": 120,
    "price_defined": true
   },
   {
@@ -36365,6 +36751,7 @@
    "model_tier": "size_unknown",
    "lat": 48.1583,
    "lng": 11.5787,
+   "price_eur": 1200000,
    "price_defined": true
   },
   {
@@ -36391,6 +36778,8 @@
    "model_tier": "qualify",
    "lat": 52.4216,
    "lng": 13.8846,
+   "price_eur": 930000,
+   "eur_per_m2": 1394,
    "price_defined": true
   },
   {
@@ -36417,6 +36806,8 @@
    "model_tier": "prime",
    "lat": 52.7162,
    "lng": 7.2641,
+   "price_eur": 1950000,
+   "eur_per_m2": 867,
    "price_defined": true
   },
   {
@@ -36443,6 +36834,8 @@
    "model_tier": "prime",
    "lat": 54.4731,
    "lng": 9.5809,
+   "price_eur": 1200000,
+   "eur_per_m2": 923,
    "price_defined": true
   },
   {
@@ -36469,6 +36862,8 @@
    "model_tier": "qualify",
    "lat": 52.4943,
    "lng": 14.3604,
+   "price_eur": 740000,
+   "eur_per_m2": 1644,
    "price_defined": true,
    "source_urls": [
     "https://www.ahgzimmo.de/immobilien/immoberlin-de-etablierte-gastronomie-mit-einliegerwohnung-suedgarten-GYHR84",
@@ -36499,6 +36894,8 @@
    "model_tier": "prime",
    "lat": 54.4731,
    "lng": 9.5809,
+   "price_eur": 1200000,
+   "eur_per_m2": 75,
    "price_defined": true
   },
   {
@@ -36525,6 +36922,8 @@
    "model_tier": "qualify",
    "lat": 53.6459,
    "lng": 7.4305,
+   "price_eur": 165000,
+   "eur_per_m2": 213,
    "price_defined": true
   },
   {
@@ -36551,6 +36950,8 @@
    "model_tier": "prime",
    "lat": 49.4491,
    "lng": 7.1622,
+   "price_eur": 490000,
+   "eur_per_m2": 146,
    "price_defined": true
   },
   {
@@ -36577,6 +36978,8 @@
    "model_tier": "prime",
    "lat": 49.878,
    "lng": 12.3187,
+   "price_eur": 1000000,
+   "eur_per_m2": 143,
    "price_defined": true
   },
   {
@@ -36603,6 +37006,8 @@
    "model_tier": "prime",
    "lat": 49.8116,
    "lng": 11.2478,
+   "price_eur": 750000,
+   "eur_per_m2": 100,
    "price_defined": true
   },
   {
@@ -36629,6 +37034,8 @@
    "model_tier": "qualify",
    "lat": 50.872,
    "lng": 14.0426,
+   "price_eur": 800000,
+   "eur_per_m2": 1600,
    "price_defined": true
   },
   {
@@ -36655,6 +37062,8 @@
    "model_tier": "qualify",
    "lat": 49.8116,
    "lng": 11.2478,
+   "price_eur": 750000,
+   "eur_per_m2": 1000,
    "price_defined": true
   },
   {
@@ -36681,6 +37090,8 @@
    "model_tier": "prime",
    "lat": 54.7182,
    "lng": 8.5031,
+   "price_eur": 3800000,
+   "eur_per_m2": 1226,
    "price_defined": true
   },
   {
@@ -36707,6 +37118,8 @@
    "model_tier": "prime",
    "lat": 53.2066,
    "lng": 10.8273,
+   "price_eur": 330000,
+   "eur_per_m2": 55,
    "price_defined": true
   },
   {
@@ -36759,6 +37172,8 @@
    "model_tier": "qualify",
    "lat": 51.3502,
    "lng": 7.0541,
+   "price_eur": 259000,
+   "eur_per_m2": 515,
    "price_defined": true
   },
   {
@@ -36785,6 +37200,8 @@
    "model_tier": "qualify",
    "lat": 47.6538,
    "lng": 7.6234,
+   "price_eur": 1490000,
+   "eur_per_m2": 2685,
    "price_defined": true,
    "source_urls": [
     "https://www.ahgzimmo.de/immobilien/top-garnihotel-in-sonniger-lage-GY7WD8",
@@ -36813,6 +37230,8 @@
    "notes": "gastgewerbe; price stated on listing; MODEL:qualify",
    "rooms_note": "co-living capacity (est., 600 m² ÷ 20)",
    "model_tier": "qualify",
+   "price_eur": 1685000,
+   "eur_per_m2": 2808,
    "price_defined": true
   },
   {
@@ -36839,6 +37258,8 @@
    "model_tier": "qualify",
    "lat": 53.7154,
    "lng": 14.1598,
+   "price_eur": 370000,
+   "eur_per_m2": 503,
    "price_defined": true
   },
   {
@@ -36865,6 +37286,8 @@
    "model_tier": "prime",
    "lat": 53.3392,
    "lng": 14.3483,
+   "price_eur": 180000,
+   "eur_per_m2": 197,
    "price_defined": true,
    "source_urls": [
     "https://www.ahgzimmo.de/immobilien/krackow-horn-immobilien-beliebtes-eiscafe-und-restaurant-sucht-kaeufer-und-nachfolger-in-krackow-bei-penkun-GYCX7N",
@@ -36895,6 +37318,8 @@
    "model_tier": "prime",
    "lat": 50.8801,
    "lng": 12.7946,
+   "price_eur": 950000,
+   "eur_per_m2": 221,
    "price_defined": true
   },
   {
@@ -36921,6 +37346,8 @@
    "model_tier": "prime",
    "lat": 51.4887,
    "lng": 7.2474,
+   "price_eur": 2500000,
+   "eur_per_m2": 568,
    "price_defined": true
   },
   {
@@ -36945,6 +37372,8 @@
    "notes": "gastgewerbe; price stated on listing; MODEL:prime",
    "rooms_note": "co-living capacity (est., 2460 m² ÷ 20)",
    "model_tier": "prime",
+   "price_eur": 340000,
+   "eur_per_m2": 138,
    "price_defined": true
   },
   {
@@ -36971,6 +37400,8 @@
    "model_tier": "qualify",
    "lat": 51.4202,
    "lng": 9.6857,
+   "price_eur": 385000,
+   "eur_per_m2": 440,
    "price_defined": true
   },
   {
@@ -36997,6 +37428,8 @@
    "model_tier": "qualify",
    "lat": 48.5079,
    "lng": 9.6195,
+   "price_eur": 258000,
+   "eur_per_m2": 566,
    "price_defined": true
   },
   {
@@ -37023,6 +37456,8 @@
    "model_tier": "qualify",
    "lat": 49.5916,
    "lng": 8.7365,
+   "price_eur": 777000,
+   "eur_per_m2": 1009,
    "price_defined": true
   },
   {
@@ -37049,6 +37484,8 @@
    "model_tier": "prime",
    "lat": 47.8295,
    "lng": 7.9446,
+   "price_eur": 1290000,
+   "eur_per_m2": 1358,
    "price_defined": true
   },
   {
@@ -37075,6 +37512,8 @@
    "model_tier": "prime",
    "lat": 51.5878,
    "lng": 10.6117,
+   "price_eur": 400000,
+   "eur_per_m2": 421,
    "price_defined": true,
    "source_urls": [
     "https://www.ahgzimmo.de/immobilien/voll-ausgestattet-wirtschaftlich-etabliert-GXVLG6",
@@ -37104,6 +37543,8 @@
    "model_tier": "prime",
    "lat": 51.8899,
    "lng": 9.2689,
+   "price_eur": 950000,
+   "eur_per_m2": 238,
    "price_defined": true
   },
   {
@@ -37130,6 +37571,8 @@
    "model_tier": "qualify",
    "lat": 48.0736,
    "lng": 7.8842,
+   "price_eur": 549000,
+   "eur_per_m2": 811,
    "price_defined": true
   },
   {
@@ -37155,6 +37598,8 @@
    "model_tier": "prime",
    "lat": 49.8848,
    "lng": 6.9528,
+   "price_eur": 650000,
+   "eur_per_m2": 245,
    "price_defined": true,
    "source_urls": [
     "https://www.ahgzimmo.de/immobilien/moselperle-kueche-top-ausstattung-invest-GXZVFF",
@@ -37211,6 +37656,8 @@
    "model_tier": "qualify",
    "lat": 48.6143,
    "lng": 8.1868,
+   "price_eur": 890000,
+   "eur_per_m2": 2119,
    "price_defined": true
   },
   {
@@ -37289,6 +37736,8 @@
    "model_tier": "prime",
    "lat": 53.8609,
    "lng": 11.9439,
+   "price_eur": 749000,
+   "eur_per_m2": 30,
    "price_defined": true
   },
   {
@@ -37340,6 +37789,8 @@
    "model_tier": "prime",
    "lat": 48.0967,
    "lng": 11.6274,
+   "price_eur": 8500000,
+   "eur_per_m2": 5512,
    "price_defined": true
   },
   {
@@ -37366,6 +37817,8 @@
    "model_tier": "prime",
    "lat": 53.6823,
    "lng": 9.1308,
+   "price_eur": 849000,
+   "eur_per_m2": 849,
    "price_defined": true
   },
   {
@@ -37392,6 +37845,8 @@
    "model_tier": "prime",
    "lat": 49.9155,
    "lng": 8.535,
+   "price_eur": 850000,
+   "eur_per_m2": 664,
    "price_defined": true,
    "source_urls": [
     "https://www.ahgzimmo.de/immobilien/grosse-gaststaette-mit-kegelbahn-wohnung-und-fremdenzimmer-in-buettelborn-klein-gerau-GJYLQF",
@@ -37422,6 +37877,8 @@
    "model_tier": "prime",
    "lat": 52.5601,
    "lng": 13.9088,
+   "price_eur": 2200000,
+   "eur_per_m2": 65,
    "price_defined": true
   },
   {
@@ -37448,6 +37905,7 @@
    "model_tier": "size_unknown",
    "lat": 48.7758,
    "lng": 9.2529,
+   "price_eur": 385000,
    "price_defined": true
   },
   {
@@ -37472,6 +37930,8 @@
    "notes": "gastgewerbe; price stated on listing; MODEL:qualify",
    "rooms_note": "co-living capacity (est., 494 m² ÷ 20)",
    "model_tier": "qualify",
+   "price_eur": 569000,
+   "eur_per_m2": 1152,
    "price_defined": true
   },
   {
@@ -37498,6 +37958,7 @@
    "model_tier": "size_unknown",
    "lat": 54.3943,
    "lng": 10.1154,
+   "price_eur": 2500000,
    "price_defined": true
   },
   {
@@ -37524,6 +37985,7 @@
    "model_tier": "size_unknown",
    "lat": 47.6612,
    "lng": 9.172,
+   "price_eur": 1490000,
    "price_defined": true
   },
   {
@@ -37550,6 +38012,8 @@
    "model_tier": "prime",
    "lat": 49.589,
    "lng": 11.0119,
+   "price_eur": 4900000,
+   "eur_per_m2": 4459,
    "price_defined": true
   },
   {
@@ -37576,6 +38040,8 @@
    "model_tier": "qualify",
    "lat": 49.3401,
    "lng": 10.7896,
+   "price_eur": 498000,
+   "eur_per_m2": 696,
    "price_defined": true
   },
   {
@@ -37601,6 +38067,8 @@
    "model_tier": "prime",
    "lat": 51.8437,
    "lng": 10.7993,
+   "price_eur": 1200000,
+   "eur_per_m2": 196,
    "price_defined": true
   },
   {
@@ -37627,6 +38095,8 @@
    "model_tier": "qualify",
    "lat": 50.2483,
    "lng": 7.448,
+   "price_eur": 619997,
+   "eur_per_m2": 829,
    "price_defined": true
   },
   {
@@ -37653,6 +38123,8 @@
    "model_tier": "prime",
    "lat": 50.7073,
    "lng": 10.6013,
+   "price_eur": 30000,
+   "eur_per_m2": 31,
    "price_defined": true,
    "source_urls": [
     "https://www.ahgzimmo.de/immobilien/traeume-verwirklichen-abriss-oder-kernsanierung-GY9BTN",
@@ -37683,6 +38155,8 @@
    "model_tier": "qualify",
    "lat": 51.6109,
    "lng": 7.0195,
+   "price_eur": 292000,
+   "eur_per_m2": 398,
    "price_defined": true
   },
   {
@@ -37735,6 +38209,8 @@
    "model_tier": "qualify",
    "lat": 48.9319,
    "lng": 9.5767,
+   "price_eur": 999000,
+   "eur_per_m2": 1576,
    "price_defined": true,
    "source_urls": [
     "https://www.ahgzimmo.de/immobilien/off-market-gastronomieimmobilie-mit-betreiberwohnung-in-attraktiver-freizeit-und-naturlage-GXQX3R",
@@ -37765,6 +38241,8 @@
    "model_tier": "prime",
    "lat": 48.4425,
    "lng": 11.1182,
+   "price_eur": 2700000,
+   "eur_per_m2": 2700,
    "price_defined": true
   },
   {
@@ -37817,6 +38295,7 @@
    "model_tier": "size_unknown",
    "lat": 50.4058,
    "lng": 9.9918,
+   "price_eur": 735000,
    "price_defined": true
   },
   {
@@ -37843,6 +38322,8 @@
    "model_tier": "prime",
    "lat": 47.732,
    "lng": 8.0022,
+   "price_eur": 690000,
+   "eur_per_m2": 702,
    "price_defined": true
   },
   {
@@ -37869,6 +38350,7 @@
    "model_tier": "size_unknown",
    "lat": 50.2009,
    "lng": 6.8018,
+   "price_eur": 535000,
    "price_defined": true
   },
   {
@@ -37895,6 +38377,8 @@
    "model_tier": "prime",
    "lat": 51.4991,
    "lng": 10.8372,
+   "price_eur": 2000000,
+   "eur_per_m2": 769,
    "price_defined": true
   },
   {
@@ -37921,6 +38405,8 @@
    "model_tier": "prime",
    "lat": 48.1255,
    "lng": 10.7465,
+   "price_eur": 3500000,
+   "eur_per_m2": 121,
    "price_defined": true
   },
   {
@@ -37947,6 +38433,8 @@
    "model_tier": "qualify",
    "lat": 48.7701,
    "lng": 9.1693,
+   "price_eur": 370000,
+   "eur_per_m2": 875,
    "price_defined": true
   },
   {
@@ -37973,6 +38461,8 @@
    "model_tier": "prime",
    "lat": 54.4408,
    "lng": 9.8227,
+   "price_eur": 3615000,
+   "eur_per_m2": 2295,
    "price_defined": true
   },
   {
@@ -37999,6 +38489,8 @@
    "model_tier": "prime",
    "lat": 54.3239,
    "lng": 10.1315,
+   "price_eur": 3615000,
+   "eur_per_m2": 2295,
    "price_defined": true
   },
   {
@@ -38025,6 +38517,8 @@
    "model_tier": "prime",
    "lat": 54.3239,
    "lng": 10.1315,
+   "price_eur": 2500000,
+   "eur_per_m2": 2513,
    "price_defined": true
   },
   {
@@ -38077,6 +38571,7 @@
    "model_tier": "size_unknown",
    "lat": 51.327,
    "lng": 12.2704,
+   "price_eur": 2825000,
    "price_defined": true
   },
   {
@@ -38103,6 +38598,8 @@
    "model_tier": "qualify",
    "lat": 48.79,
    "lng": 9.8724,
+   "price_eur": 800000,
+   "eur_per_m2": 1171,
    "price_defined": true
   },
   {
@@ -38129,6 +38626,8 @@
    "model_tier": "qualify",
    "lat": 50.0961,
    "lng": 6.8275,
+   "price_eur": 475000,
+   "eur_per_m2": 905,
    "price_defined": true
   },
   {
@@ -38155,6 +38654,8 @@
    "model_tier": "qualify",
    "lat": 50.1233,
    "lng": 9.1975,
+   "price_eur": 1495000,
+   "eur_per_m2": 2492,
    "price_defined": true
   },
   {
@@ -38181,6 +38682,7 @@
    "model_tier": "size_unknown",
    "lat": 53.8567,
    "lng": 10.6578,
+   "price_eur": 6000000,
    "price_defined": true
   },
   {
@@ -38207,6 +38709,8 @@
    "model_tier": "prime",
    "lat": 50.6204,
    "lng": 12.3218,
+   "price_eur": 250000,
+   "eur_per_m2": 91,
    "price_defined": true
   },
   {
@@ -38233,6 +38737,8 @@
    "model_tier": "prime",
    "lat": 50.5328,
    "lng": 10.897,
+   "price_eur": 299000,
+   "eur_per_m2": 150,
    "price_defined": true
   },
   {
@@ -38259,6 +38765,8 @@
    "model_tier": "qualify",
    "lat": 50.4042,
    "lng": 10.7078,
+   "price_eur": 170000,
+   "eur_per_m2": 425,
    "price_defined": true,
    "source_urls": [
     "https://www.ahgzimmo.de/immobilien/hildburghausen-ein-ort-mit-geschichte-wartet-auf-ihre-ideen-das-restaurant-erdbeere-GR88HV",
@@ -38289,6 +38797,8 @@
    "model_tier": "prime",
    "lat": 54.3943,
    "lng": 10.1154,
+   "price_eur": 2500000,
+   "eur_per_m2": 1563,
    "price_defined": true
   },
   {
@@ -38315,6 +38825,8 @@
    "model_tier": "prime",
    "lat": 51.327,
    "lng": 12.2704,
+   "price_eur": 2825000,
+   "eur_per_m2": 1284,
    "price_defined": true
   },
   {
@@ -38366,6 +38878,8 @@
    "model_tier": "prime",
    "lat": 51.8899,
    "lng": 9.2689,
+   "price_eur": 950000,
+   "eur_per_m2": 633,
    "price_defined": true
   },
   {
@@ -38392,6 +38906,8 @@
    "model_tier": "qualify",
    "lat": 51.4887,
    "lng": 7.2474,
+   "price_eur": 2500000,
+   "eur_per_m2": 6173,
    "price_defined": true
   },
   {
@@ -38418,6 +38934,8 @@
    "model_tier": "prime",
    "lat": 50.5693,
    "lng": 12.3661,
+   "price_eur": 595000,
+   "eur_per_m2": 138,
    "price_defined": true
   },
   {
@@ -38444,6 +38962,8 @@
    "model_tier": "prime",
    "lat": 51.924,
    "lng": 12.2599,
+   "price_eur": 349000,
+   "eur_per_m2": 16,
    "price_defined": true
   },
   {
@@ -38470,6 +38990,8 @@
    "model_tier": "qualify",
    "lat": 50.1154,
    "lng": 8.6806,
+   "price_eur": 1250000,
+   "eur_per_m2": 2962,
    "price_defined": true
   },
   {
@@ -38496,6 +39018,8 @@
    "model_tier": "prime",
    "lat": 49.0177,
    "lng": 13.2378,
+   "price_eur": 2999000,
+   "eur_per_m2": 1153,
    "price_defined": true
   },
   {
@@ -38522,6 +39046,8 @@
    "model_tier": "qualify",
    "lat": 53.2066,
    "lng": 10.8273,
+   "price_eur": 330000,
+   "eur_per_m2": 585,
    "price_defined": true
   },
   {
@@ -38548,6 +39074,8 @@
    "model_tier": "qualify",
    "lat": 53.9024,
    "lng": 9.1151,
+   "price_eur": 599500,
+   "eur_per_m2": 799,
    "price_defined": true
   },
   {
@@ -38574,6 +39102,8 @@
    "model_tier": "prime",
    "lat": 54.5277,
    "lng": 13.5535,
+   "price_eur": 6900000,
+   "eur_per_m2": 4233,
    "price_defined": true
   },
   {
@@ -38600,6 +39130,8 @@
    "model_tier": "qualify",
    "lat": 53.6128,
    "lng": 7.2893,
+   "price_eur": 690000,
+   "eur_per_m2": 986,
    "price_defined": true
   },
   {
@@ -38626,6 +39158,8 @@
    "model_tier": "qualify",
    "lat": 48.417,
    "lng": 10.0031,
+   "price_eur": 950000,
+   "eur_per_m2": 1624,
    "price_defined": true
   },
   {
@@ -38704,6 +39238,8 @@
    "model_tier": "qualify",
    "lat": 49.239,
    "lng": 7.2595,
+   "price_eur": 169000,
+   "eur_per_m2": 302,
    "price_defined": true
   },
   {
@@ -38728,6 +39264,8 @@
    "notes": "gastgewerbe; price stated on listing; MODEL:prime",
    "rooms_note": "co-living capacity (est., 2460 m² ÷ 20)",
    "model_tier": "prime",
+   "price_eur": 340000,
+   "eur_per_m2": 138,
    "price_defined": true
   },
   {
@@ -38754,6 +39292,8 @@
    "model_tier": "qualify",
    "lat": 48.8626,
    "lng": 8.177,
+   "price_eur": 2200000,
+   "eur_per_m2": 2750,
    "price_defined": true
   },
   {
@@ -38810,6 +39350,8 @@
    "model_tier": "prime",
    "lat": 49.1342,
    "lng": 8.8981,
+   "price_eur": 5550000,
+   "eur_per_m2": 4625,
    "price_defined": true
   },
   {
@@ -38836,6 +39378,7 @@
    "model_tier": "size_unknown",
    "lat": 50.077,
    "lng": 8.8626,
+   "price_eur": 3400000,
    "price_defined": true
   },
   {
@@ -38862,6 +39405,8 @@
    "model_tier": "qualify",
    "lat": 48.6731,
    "lng": 11.9463,
+   "price_eur": 560000,
+   "eur_per_m2": 933,
    "price_defined": true
   },
   {
@@ -38888,6 +39433,8 @@
    "model_tier": "qualify",
    "lat": 49.6004,
    "lng": 6.5074,
+   "price_eur": 695000,
+   "eur_per_m2": 1250,
    "price_defined": true,
    "source_urls": [
     "https://www.ahgzimmo.de/immobilien/charaktervolles-hotelanwesen-mit-aussenterrasse-und-freiem-moselblick-im-herzen-des-weinorts-palzem-GWJKTC",
@@ -38918,6 +39465,8 @@
    "model_tier": "prime",
    "lat": 50.5306,
    "lng": 10.354,
+   "price_eur": 1500000,
+   "eur_per_m2": 789,
    "price_defined": true
   },
   {
@@ -38996,6 +39545,8 @@
    "model_tier": "prime",
    "lat": 54.3943,
    "lng": 10.1154,
+   "price_eur": 2500000,
+   "eur_per_m2": 1136,
    "price_defined": true
   },
   {
@@ -39022,6 +39573,8 @@
    "model_tier": "qualify",
    "lat": 51.7848,
    "lng": 9.5162,
+   "price_eur": 399000,
+   "eur_per_m2": 858,
    "price_defined": true
   },
   {
@@ -39074,6 +39627,8 @@
    "model_tier": "qualify",
    "lat": 50.9269,
    "lng": 11.6152,
+   "price_eur": 902000,
+   "eur_per_m2": 1388,
    "price_defined": true
   },
   {
@@ -39098,6 +39653,8 @@
    "notes": "gastgewerbe; price stated on listing; MODEL:prime",
    "rooms_note": "co-living capacity (est., 1565 m² ÷ 20)",
    "model_tier": "prime",
+   "price_eur": 3000000,
+   "eur_per_m2": 1917,
    "price_defined": true
   },
   {
@@ -39124,6 +39681,8 @@
    "model_tier": "qualify",
    "lat": 48.9489,
    "lng": 9.4331,
+   "price_eur": 2350000,
+   "eur_per_m2": 3329,
    "price_defined": true
   },
   {
@@ -39147,6 +39706,8 @@
    "captured": "2026-07-02",
    "notes": "gastgewerbe; price stated on listing; MODEL:prime",
    "model_tier": "prime",
+   "price_eur": 1300000,
+   "eur_per_m2": 520,
    "price_defined": true
   },
   {
@@ -39199,6 +39760,8 @@
    "model_tier": "prime",
    "lat": 48.5718,
    "lng": 13.4607,
+   "price_eur": 5800000,
+   "eur_per_m2": 518,
    "price_defined": true
   },
   {
@@ -39224,6 +39787,8 @@
    "model_tier": "prime",
    "lat": 53.0386,
    "lng": 8.9392,
+   "price_eur": 1490000,
+   "eur_per_m2": 1242,
    "price_defined": true
   },
   {
@@ -39249,6 +39814,8 @@
    "model_tier": "prime",
    "lat": 53.0648,
    "lng": 8.9466,
+   "price_eur": 3790000,
+   "eur_per_m2": 948,
    "price_defined": true
   },
   {
@@ -39275,6 +39842,8 @@
    "model_tier": "prime",
    "lat": 48.5676,
    "lng": 8.1525,
+   "price_eur": 659000,
+   "eur_per_m2": 191,
    "price_defined": true
   },
   {
@@ -39299,6 +39868,8 @@
    "notes": "gastgewerbe; price stated on listing; MODEL:qualify",
    "rooms_note": "co-living capacity (est., 494 m² ÷ 20)",
    "model_tier": "qualify",
+   "price_eur": 569000,
+   "eur_per_m2": 1152,
    "price_defined": true
   },
   {
@@ -39325,6 +39896,8 @@
    "model_tier": "qualify",
    "lat": 51.5374,
    "lng": 9.9436,
+   "price_eur": 1800000,
+   "eur_per_m2": 2182,
    "price_defined": true
   },
   {
@@ -39351,6 +39924,8 @@
    "model_tier": "qualify",
    "lat": 49.9681,
    "lng": 6.5423,
+   "price_eur": 969000,
+   "eur_per_m2": 1491,
    "price_defined": true
   },
   {
@@ -39377,6 +39952,7 @@
    "model_tier": "size_unknown",
    "lat": 53.6581,
    "lng": 11.4342,
+   "price_eur": 698000,
    "price_defined": true
   },
   {
@@ -39403,6 +39979,8 @@
    "model_tier": "qualify",
    "lat": 51.1482,
    "lng": 14.9754,
+   "price_eur": 649000,
+   "eur_per_m2": 998,
    "price_defined": true
   },
   {
@@ -39429,6 +40007,8 @@
    "model_tier": "prime",
    "lat": 52.0819,
    "lng": 13.1771,
+   "price_eur": 1390000,
+   "eur_per_m2": 927,
    "price_defined": true
   },
   {
@@ -39455,6 +40035,8 @@
    "model_tier": "qualify",
    "lat": 54.224,
    "lng": 11.0813,
+   "price_eur": 1075000,
+   "eur_per_m2": 1792,
    "price_defined": true
   },
   {
@@ -39479,6 +40061,8 @@
    "notes": "gastgewerbe; price stated on listing; MODEL:prime",
    "rooms_note": "co-living capacity (est., 2000 m² ÷ 20)",
    "model_tier": "prime",
+   "price_eur": 1499000,
+   "eur_per_m2": 750,
    "price_defined": true
   },
   {
@@ -39531,6 +40115,8 @@
    "model_tier": "qualify",
    "lat": 50.8073,
    "lng": 12.3476,
+   "price_eur": 290000,
+   "eur_per_m2": 644,
    "price_defined": true
   },
   {
@@ -39557,6 +40143,8 @@
    "model_tier": "qualify",
    "lat": 47.8164,
    "lng": 8.3374,
+   "price_eur": 990000,
+   "eur_per_m2": 1719,
    "price_defined": true
   },
   {
@@ -39607,6 +40195,8 @@
    "notes": "gastgewerbe; price stated on listing; MODEL:prime",
    "rooms_note": "co-living capacity (est., 940 m² ÷ 20)",
    "model_tier": "prime",
+   "price_eur": 2400000,
+   "eur_per_m2": 2553,
    "price_defined": true
   },
   {
@@ -39633,6 +40223,8 @@
    "model_tier": "prime",
    "lat": 51.8455,
    "lng": 6.243,
+   "price_eur": 579000,
+   "eur_per_m2": 626,
    "price_defined": true,
    "source_urls": [
     "https://www.ahgzimmo.de/immobilien/emmerich-multifunktionshalle-in-emmerich-G4L3Q6",
@@ -39688,6 +40280,8 @@
    "model_tier": "prime",
    "lat": 48.7581,
    "lng": 8.2223,
+   "price_eur": 4950000,
+   "eur_per_m2": 1707,
    "price_defined": true
   },
   {
@@ -39714,6 +40308,8 @@
    "model_tier": "prime",
    "lat": 51.9114,
    "lng": 10.4381,
+   "price_eur": 590000,
+   "eur_per_m2": 197,
    "price_defined": true
   },
   {
@@ -39739,6 +40335,8 @@
    "model_tier": "prime",
    "lat": 49.7401,
    "lng": 9.9505,
+   "price_eur": 4990000,
+   "eur_per_m2": 106170,
    "price_defined": true
   },
   {
@@ -39765,6 +40363,8 @@
    "model_tier": "prime",
    "lat": 53.8609,
    "lng": 11.9439,
+   "price_eur": 749000,
+   "eur_per_m2": 37,
    "price_defined": true
   },
   {
@@ -39791,6 +40391,8 @@
    "model_tier": "qualify",
    "lat": 48.8626,
    "lng": 8.177,
+   "price_eur": 2200000,
+   "eur_per_m2": 2857,
    "price_defined": true
   },
   {
@@ -39843,6 +40445,8 @@
    "model_tier": "qualify",
    "lat": 50.8801,
    "lng": 12.7946,
+   "price_eur": 950000,
+   "eur_per_m2": 1560,
    "price_defined": true
   },
   {
@@ -39869,6 +40473,8 @@
    "model_tier": "prime",
    "lat": 49.9426,
    "lng": 11.5745,
+   "price_eur": 990000,
+   "eur_per_m2": 114,
    "price_defined": true
   },
   {
@@ -39895,6 +40501,8 @@
    "model_tier": "prime",
    "lat": 51.327,
    "lng": 12.2704,
+   "price_eur": 2825000,
+   "eur_per_m2": 1361,
    "price_defined": true
   },
   {
@@ -39921,6 +40529,8 @@
    "model_tier": "qualify",
    "lat": 50.5936,
    "lng": 10.6973,
+   "price_eur": 320000,
+   "eur_per_m2": 552,
    "price_defined": true
   },
   {
@@ -39947,6 +40557,8 @@
    "model_tier": "qualify",
    "lat": 54.4243,
    "lng": 9.6854,
+   "price_eur": 649000,
+   "eur_per_m2": 1298,
    "price_defined": true
   },
   {
@@ -39973,6 +40585,8 @@
    "model_tier": "prime",
    "lat": 50.4774,
    "lng": 8.581,
+   "price_eur": 1300000,
+   "eur_per_m2": 574,
    "price_defined": true
   },
   {
@@ -39999,6 +40613,8 @@
    "model_tier": "qualify",
    "lat": 50.511,
    "lng": 8.2704,
+   "price_eur": 290000,
+   "eur_per_m2": 385,
    "price_defined": true
   },
   {
@@ -40103,6 +40719,8 @@
    "model_tier": "prime",
    "lat": 51.33,
    "lng": 12.6134,
+   "price_eur": 299000,
+   "eur_per_m2": 220,
    "price_defined": true
   },
   {
@@ -40155,6 +40773,8 @@
    "model_tier": "prime",
    "lat": 49.2569,
    "lng": 8.6265,
+   "price_eur": 900000,
+   "eur_per_m2": 469,
    "price_defined": true
   },
   {
@@ -40207,6 +40827,8 @@
    "model_tier": "qualify",
    "lat": 49.9803,
    "lng": 12.0645,
+   "price_eur": 291000,
+   "eur_per_m2": 485,
    "price_defined": true
   },
   {
@@ -40257,6 +40879,8 @@
    "notes": "gastgewerbe; price stated on listing; MODEL:qualify",
    "rooms_note": "co-living capacity (est., 400 m² ÷ 20)",
    "model_tier": "qualify",
+   "price_eur": 3350000,
+   "eur_per_m2": 8375,
    "price_defined": true
   },
   {
@@ -40283,6 +40907,8 @@
    "model_tier": "qualify",
    "lat": 50.5071,
    "lng": 12.1364,
+   "price_eur": 880000,
+   "eur_per_m2": 1147,
    "price_defined": true
   },
   {
@@ -40309,6 +40935,8 @@
    "model_tier": "qualify",
    "lat": 50.4823,
    "lng": 12.4322,
+   "price_eur": 289000,
+   "eur_per_m2": 482,
    "price_defined": true
   },
   {
@@ -40335,6 +40963,8 @@
    "model_tier": "qualify",
    "lat": 50.3933,
    "lng": 12.4781,
+   "price_eur": 330000,
+   "eur_per_m2": 851,
    "price_defined": true
   },
   {
@@ -40361,6 +40991,8 @@
    "model_tier": "qualify",
    "lat": 49.7955,
    "lng": 9.1548,
+   "price_eur": 590000,
+   "eur_per_m2": 724,
    "price_defined": true
   },
   {
@@ -40387,6 +41019,8 @@
    "model_tier": "prime",
    "lat": 51.5202,
    "lng": 14.7147,
+   "price_eur": 30000,
+   "eur_per_m2": 22,
    "price_defined": true
   },
   {
@@ -40439,6 +41073,8 @@
    "model_tier": "prime",
    "lat": 50.6551,
    "lng": 12.1936,
+   "price_eur": 165000,
+   "eur_per_m2": 103,
    "price_defined": true
   },
   {

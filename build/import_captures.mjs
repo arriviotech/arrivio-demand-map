@@ -169,9 +169,10 @@ function normalize(r, src) {
       rec.source_url = per;
     }
   }
-  // price_defined: does the lister state ANY price/rent figure? (NK/service charge does NOT count.)
-  // Drives the "Price on request" filter — false = negotiable/opportunity assets ("Preis auf Anfrage").
-  rec.price_defined = !!(rec.price_eur || rec.rent_eur_m2_mo || rec.lease_eur_mo || /price stated on listing/i.test(notesRaw));
+  // price_defined: does the row carry an ACTUAL price/rent figure? (NK/service charge does NOT count.)
+  // Since the ahgzimmo feed back-fill, "price stated on listing" without a captured number no longer
+  // counts — a row is priced only when a figure is really present ("Preis auf Anfrage" badge otherwise).
+  rec.price_defined = !!(rec.price_eur || rec.rent_eur_m2_mo || rec.lease_eur_mo);
   return rec;
 }
 

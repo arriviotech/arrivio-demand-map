@@ -1024,17 +1024,15 @@
   const stateInflow = (name, metric) => metric === 'total' ? stateTotal(name) : stateIntl(name);
   const stateTAM = (name, metric) => stateInflow(name, metric) * TAM_PER_PERSON;
   /* ---- domestic net migration per state (Destatis GENESIS 12711, 2022 — data/domestic_moves.json).
-     saldo = in − out across the Bundesland border, INCL. international in-migration — so the shading is
-     labelled "net migration", never "intra-state moves". The ~2.8M/yr intra-district churn figure is
-     NATIONAL context only (Destatis publishes no per-state split); it is never shown as a state number.
-     If the file is absent, DOM_MOVES is null and the toggle/line hide gracefully. */
+     Folded into the "+ Domestic" card view (no separate shading mode): the state card shows the
+     net-migration number + the in-state movement point there. saldo = in − out across the Bundesland
+     border, INCL. international in-migration — always labelled "net migration", never "intra-state
+     moves". The ~2.8M/yr intra-district churn figure is NATIONAL context only (no per-state split
+     exists). If the file is absent, DOM_MOVES is null and the card lines hide gracefully. */
   const DOM_MOVES = (typeof DOMESTIC_MOVES !== 'undefined' && DOMESTIC_MOVES && DOMESTIC_MOVES.states) ? Object.fromEntries(DOMESTIC_MOVES.states.map(s => [s.state, s])) : null;
-  const GREEN_RAMP = t => { const c0 = [234, 246, 239], c1 = [15, 111, 56], u = Math.max(0, Math.min(1, t)); return 'rgb(' + c0.map((a, i) => Math.round(a + (c1[i] - a) * u)).join(',') + ')'; }; // own ramp — distinct from the pink TAM shading
-  const statesValueFn = () => (S.stateMetric === 'saldo' ? (name => Math.max(0, (DOM_MOVES && DOM_MOVES[name] ? DOM_MOVES[name].saldo : 0))) : (name => stateTAM(name, S.stateMetric)));
-  const statesColorFn = () => (S.stateMetric === 'saldo' ? GREEN_RAMP : null);
+  const statesValueFn = () => (name => stateTAM(name, S.stateMetric));
   const stateLabelFn = () => (name => esc(STATE_SHORT[name] || name)); // name only — keeps labels compact, no overlap
   const statesFillOpacity = () => ((S.layers.clients || S.layers.hex || S.layers.commercial || S.layers.hotels) ? 0.32 : 0.8);
-  if (!DOM_MOVES) document.querySelectorAll('#state-metric [data-metric="saldo"]').forEach(b => b.remove()); // no data → no toggle
   /* ---- in-migration OVERLAY — DISTRICT (Kreis) choropleth, mixable with point layers ----
      Destatis Regionalstatistik 12711 (2024): GROSS arrivals (Zuzüge über die Kreisgrenzen) — the
      number of people who MOVED INTO each district = domestic city-to-city + international, absolute.
@@ -1089,7 +1087,7 @@
   function setStateMetric(metric) {
     S.stateMetric = metric;
     document.querySelectorAll('#state-metric [data-metric], #card-metric [data-metric]').forEach(x => x.setAttribute('aria-pressed', x.dataset.metric === metric));
-    if (S.base === 'states') { M.restyleStates(statesValueFn(), stateLabelFn(), statesFillOpacity(), statesColorFn()); updateStatesLegend(); }
+    if (S.base === 'states') { M.restyleStates(statesValueFn(), stateLabelFn(), statesFillOpacity()); updateStatesLegend(); }
     if (S.selStates.length) renderStateCard();
   }
   function selectState(name) {
@@ -1100,12 +1098,10 @@
     if (S.selStates.length) renderStateCard(); else closeSel();
   }
   function renderStateCard() {
-    const isSaldo = S.stateMetric === 'saldo';
-    const metric = isSaldo ? 'intl' : S.stateMetric, isT = metric === 'total';   // TAM math never runs on 'saldo'
-    const seg = `<div class="seg" id="card-metric" role="group" aria-label="Shading basis" style="margin:2px 0 10px">
-        <button data-metric="intl" aria-pressed="${!isT && !isSaldo}">International</button>
-        <button data-metric="total" aria-pressed="${isT}">+ Domestic</button>
-        ${DOM_MOVES ? `<button data-metric="saldo" aria-pressed="${isSaldo}">Net migration</button>` : ''}</div>`;
+    const metric = S.stateMetric, isT = metric === 'total';
+    const seg = `<div class="seg" id="card-metric" role="group" aria-label="Inflow basis" style="margin:2px 0 10px">
+        <button data-metric="intl" aria-pressed="${!isT}">International</button>
+        <button data-metric="total" aria-pressed="${isT}">+ Domestic</button></div>`;
     const multiBtn = `<button class="btn" id="state-multi" aria-pressed="${S.stateMulti}" style="width:100%;margin-top:8px">${S.stateMulti ? '✓ Comparing — click states to add/remove' : '+ Compare multiple states'}</button>`;
     let html;
     if (S.selStates.length > 1) {
@@ -1132,15 +1128,15 @@
         <tr><td><b>TAM · ${isT ? '+ domestic' : 'international'}</b></td><td class="num"><b style="color:var(--acct);font-size:1.15em">${eurShort(tam)}</b></td></tr>`;
       if (isT) rows += `<tr><td style="color:var(--t3)">· of which international</td><td class="num" style="color:var(--t2)">${eurShort(intlTAM)}</td></tr>
         <tr><td style="color:var(--t3)">· of which domestic</td><td class="num" style="color:var(--t2)">${eurShort(totTAM - intlTAM)}</td></tr>`;
-      if (dm) rows += `<tr><td>Net migration ’22</td><td class="num"><b style="color:#0f6f38">+${fmt(dm.saldo)}</b>/yr</td></tr>`;
+      if (isT && dm) rows += `<tr><td>Net migration ’22</td><td class="num"><b style="color:#0f6f38">+${fmt(dm.saldo)}</b>/yr</td></tr>`;
       html = `
         <div class="sname">${esc(name)}</div>
         <div class="splace">Total Addressable Market · €${TAM_PER_PERSON / 1000}k per person</div>
         ${seg}
         <table>${rows}</table>
         ${multiBtn}
-        ${dm ? `<p class="hint" style="margin-top:8px">Migration: <b>+${fmt(dm.saldo)}/yr net</b> (${fmt(dm.zuzuege)} in / ${fmt(dm.fortzuege)} out) — Destatis 2022. Germans relocating are core demand too: ~2.8M people/yr move across district lines nationally, most within their own state.</p>` : ''}
-        <p class="hint" style="margin-top:${dm ? 4 : 8}px">National inflow mix: ${esc(comp)}.</p>
+        ${isT && dm ? `<p class="hint" style="margin-top:8px"><b>In-state movement:</b> Germans relocating are core demand too — ~2.8M people/yr move across district lines nationally, most staying within their own state (Destatis). This state's net migration: <b>+${fmt(dm.saldo)}/yr</b> (${fmt(dm.zuzuege)} in / ${fmt(dm.fortzuege)} out, incl. international) — Destatis 2022.</p>` : ''}
+        <p class="hint" style="margin-top:${isT && dm ? 4 : 8}px">National inflow mix: ${esc(comp)}.</p>
         <p class="hint" style="margin-top:4px">Top origins: ${esc(INFLOW_TOP_ORIGINS)}. TAM = inflow × €${TAM_PER_PERSON / 1000}k. Source: Destatis 2024.</p>`;
     }
     showSelCard(html);
