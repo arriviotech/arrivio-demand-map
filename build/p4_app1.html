@@ -567,7 +567,8 @@
     const area = p.area_max_m2 || p.area_min_m2 || p.area_m2; if (!area) return null;
     const rooms = p.rooms || null;
     let asIs = p.rent_eur_m2_max != null ? p.rent_eur_m2_max : p.rent_eur_m2_min;
-    if (asIs == null && p.lease_eur_mo) asIs = Math.round(p.lease_eur_mo / area * 100) / 100;  // same figure, per m²
+    if (asIs == null && p.lease_eur_mo && impliedM2Ok(p)) asIs = Math.round(p.lease_eur_mo / area * 100) / 100;  // same figure, per m² — only when plausible
+    if (asIs != null && (asIs < LEASE_M2_BAND[0] || asIs > LEASE_M2_BAND[1])) asIs = null;     // outside the model band → no rent method (refurb + re-rating card)
     const refurbTotal = PROFORMA.CAPEX_PER_M2 * area;
     const out = { area, rooms, refurbPerM2: PROFORMA.CAPEX_PER_M2, refurbTotal, refurbPerRoom: rooms ? refurbTotal / rooms : null };
     if (asIs != null && asIs > 0) {
@@ -603,8 +604,12 @@
       priceRows = `<tr><td>Pacht (lease)</td><td class="num"><b style="color:var(--acct)">${eur(p.lease_eur_mo)}</b>/mo</td></tr>
         <tr><td></td><td class="num" style="color:var(--t2)">≈${eur(p.lease_eur_yr || p.lease_eur_mo * 12)}/yr${basis === 'MODELED' ? ' <span style="color:var(--warn)">est</span>' : ''}</td></tr>`;
       if (p.nk_eur_mo) priceRows += `<tr><td>Nebenkosten</td><td class="num">+${eur(p.nk_eur_mo)}/mo</td></tr>`;
-      if (p.rooms) priceRows += `<tr><td>Pacht / room</td><td class="num">${eur(Math.round(p.lease_eur_mo / p.rooms))}/mo</td></tr>`;
-      if (p.area_m2) priceRows += `<tr><td>Pacht / m²</td><td class="num">€${(p.lease_eur_mo / p.area_m2).toFixed(1).replace('.', ',')}/mo</td></tr>`;
+      if (impliedM2Ok(p)) {                                          // derived unit rates only when the €/mo plausibly covers the whole area
+        if (p.rooms) priceRows += `<tr><td>Pacht / room</td><td class="num">${eur(Math.round(p.lease_eur_mo / p.rooms))}/mo</td></tr>`;
+        if (p.area_m2) priceRows += `<tr><td>Pacht / m²</td><td class="num">€${(p.lease_eur_mo / p.area_m2).toFixed(1).replace('.', ',')}/mo</td></tr>`;
+      } else {
+        priceRows += `<tr><td></td><td class="num" style="color:var(--warn);font-weight:400;font-size:10px;white-space:normal;line-height:1.35">⚠ €/mo ÷ ${fmt(p.area_m2)} m² ≈ €${impliedM2(p).toFixed(2).replace('.', ',')}/m² — implausible; the listed rent likely covers only part of the space. Per-m²/room rates hidden.</td></tr>`;
+      }
     } else if (p.deal === 'sale' && p.price_eur) {
       priceRows = `<tr><td>${basis === 'MODELED' ? 'Est. purchase' : 'Asking price'}</td><td class="num"><b style="color:var(--acct)">${basis === 'MODELED' ? '≈' : ''}${eur(p.price_eur)}</b>${basis === 'MODELED' ? ' <span style="color:var(--warn)">est</span>' : ''}</td></tr>`;
       if (p.area_m2) priceRows += `<tr><td>€ / m²</td><td class="num">${eur(Math.round(p.price_eur / p.area_m2))}</td></tr>`;
@@ -685,14 +690,21 @@
     _save() { try { localStorage.setItem(FAV_KEY, JSON.stringify(this._m)); } catch (e) { } },
   };
   // derived metrics (computed per record, client-side)
-  const leasePerM2 = p => p.rent_eur_m2_mo != null ? p.rent_eur_m2_mo : (p.lease_eur_mo && p.area_m2 ? p.lease_eur_mo / p.area_m2 : null);
-  const pachtPerRoom = p => (p.lease_eur_mo && p.rooms ? p.lease_eur_mo / p.rooms : null);
+  // Sanity band for €/m²·mo rates DERIVED from monthly rent ÷ area: outside it the €/mo figure almost
+  // certainly covers only PART of the stated area (ohne-makler FSBO pattern: €219/mo on a 4.979 m²
+  // building = one office's rent). The listed €/mo stays on the card, but per-m², per-room and the
+  // pro-forma rent method are suppressed as unverified — never shown as if they were real unit rates.
+  const LEASE_M2_BAND = [2, 40];
+  const impliedM2 = p => (p.lease_eur_mo && p.area_m2) ? p.lease_eur_mo / p.area_m2 : null;
+  const impliedM2Ok = p => { const v = impliedM2(p); return v == null || (v >= LEASE_M2_BAND[0] && v <= LEASE_M2_BAND[1]); }; // no area = no signal to distrust
+  const leasePerM2 = p => p.rent_eur_m2_mo != null ? p.rent_eur_m2_mo : (p.lease_eur_mo && p.area_m2 && impliedM2Ok(p) ? p.lease_eur_mo / p.area_m2 : null);
+  const pachtPerRoom = p => (p.lease_eur_mo && p.rooms && impliedM2Ok(p) ? p.lease_eur_mo / p.rooms : null);
   const eurPerKey = p => (p.deal === 'sale' && p.price_eur && p.rooms ? p.price_eur / p.rooms : null);
   const saleM2 = p => (p.deal === 'sale' && p.price_eur && p.area_m2 ? (p.eur_per_m2 || p.price_eur / p.area_m2) : null);
   const m2Any = p => saleM2(p) != null ? saleM2(p) : leasePerM2(p);
   function headlineMetric(p) {
     if (p.deal === 'lease' && p.rent_eur_m2_mo != null) return '€' + NF.format(p.rent_eur_m2_mo) + '/m²·mo';
-    if (p.deal === 'lease' && p.lease_eur_mo) return '€' + kfmt(p.lease_eur_mo) + '/mo' + (p.rooms ? ' · €' + fmt(Math.round(p.lease_eur_mo / p.rooms)) + '/room' : '');
+    if (p.deal === 'lease' && p.lease_eur_mo) { const pr = pachtPerRoom(p); return '€' + kfmt(p.lease_eur_mo) + '/mo' + (pr ? ' · €' + fmt(Math.round(pr)) + '/room' : ''); }
     if (p.deal === 'sale' && p.price_eur) return '€' + kfmt(p.price_eur) + (p.rooms ? ' · €' + kfmt(Math.round(p.price_eur / p.rooms)) + '/key' : '');
     return 'on request';
   }
@@ -731,7 +743,7 @@
   const ALL_SOURCES = [...new Set(PROPS.map(p => p.source).filter(Boolean))].sort((a, b) => PROPS.filter(p => p.source === b).length - PROPS.filter(p => p.source === a).length); // dynamic, biggest first
   // (Model-fit tiers removed from the UI — MODEL:* stays in the data/notes as provenance only.
   //  Size is governed by the Area slider; non-room types stay behind the asset-type "+More" toggle.)
-  S.filter = { types: new Set(CORE_PRESENT), showOther: false, basis: 'all', states: new Set(), favOnly: false, sort: 'm2', ranges: {}, sources: new Set(), priceMode: 'all' };
+  S.filter = { types: new Set(CORE_PRESENT), showOther: false, states: new Set(), favOnly: false, sort: 'm2', ranges: {}, sources: new Set() };
   for (const f of FILTER_FIELDS) S.filter.ranges[f.key] = [..._ext[f.key]];
 
   function passRange(p, f) { const [lo, hi] = S.filter.ranges[f.key], [dlo, dhi] = _ext[f.key]; if (lo <= dlo + 1e-6 && hi >= dhi - 1e-6) return true; const v = f.get(p); if (v == null || !isFinite(v)) return false; return v >= lo && v <= hi; }
@@ -742,10 +754,6 @@
       if (S.propDeal !== 'all' && p.deal !== S.propDeal) return false;
       if (F.types.size && !F.types.has(p.asset_type || p.kind)) return false;
       if (F.sources.size && !F.sources.has(p.source)) return false;                       // source multi-select (empty = all)
-      if (F.priceMode === 'stated' && p.price_defined === false) return false;            // price toggle
-      if (F.priceMode === 'onreq' && p.price_defined !== false) return false;
-      if (F.basis === 'listed' && p.price_basis !== 'LISTED') return false;
-      if (F.basis === 'est' && !(p.price_basis === 'LISTED' || p.price_basis === 'MODELED')) return false;
       if (F.states.size && !F.states.has(p.state)) return false;
       if (F.favOnly && !favStore.has(p.id)) return false;
       for (const f of FILTER_FIELDS) if (!passRange(p, f)) return false;
@@ -792,7 +800,6 @@
     const add = (label, fn) => chips.push({ label, fn });
     if (S.propDeal !== 'all') add('Deal: ' + (S.propDeal === 'sale' ? 'For sale' : 'For lease'), () => setPropDeal('all'));
     if (F.sources.size) add('Source: ' + (F.sources.has(SRC_NONE) ? 'none' : F.sources.size > 2 ? F.sources.size + ' selected' : [...F.sources].join(', ')), () => { F.sources.clear(); buildControls(); applyFilter(); });
-    if (F.priceMode !== 'all') add(F.priceMode === 'stated' ? 'Price stated' : 'Preis auf Anfrage', () => { F.priceMode = 'all'; buildControls(); applyFilter(); });
     if (F.states.size) add('State: ' + (F.states.size > 2 ? F.states.size + ' selected' : [...F.states].map(s => STATE_SHORT[s] || s).join(', ')), () => { F.states.clear(); buildControls(); applyFilter(); });
     if (F.favOnly) add('Shortlist only', () => { F.favOnly = false; const fb = $('ffav'); if (fb) fb.classList.remove('on'); applyFilter(); });
     const narrowed = FILTER_FIELDS.filter(f => { const [lo, hi] = F.ranges[f.key], [dlo, dhi] = _ext[f.key]; return lo > dlo + 1e-6 || hi < dhi - 1e-6; });
@@ -826,12 +833,6 @@
       if (S.filter.showOther) OTHER_PRESENT.forEach(t => wrap.appendChild(mkChip(t)));
     }
     g.appendChild(wrap); return g;
-  }
-  function segRow(label, opts, onSel, def) {
-    const g = document.createElement('div'); g.className = 'fgrp'; g.innerHTML = `<div class="flabel"><span>${label}</span></div>`;
-    const seg = document.createElement('div'); seg.className = 'seg metric-seg'; seg.style.margin = '0';
-    opts.forEach(([v, l]) => { const b = document.createElement('button'); b.textContent = l; b.setAttribute('aria-pressed', v === def); b.onclick = () => { seg.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b)); onSel(v); }; seg.appendChild(b); });
-    g.appendChild(seg); return g;
   }
   function dualSlider(f) {
     const [dlo, dhi] = _ext[f.key], [clo, chi] = S.filter.ranges[f.key];
@@ -895,17 +896,40 @@
     }
     return g;
   }
+  // Location — region-grouped control (distinct from the source dropdown): four German regions,
+  // each with a group toggle + its state pills. Empty selection = all of Germany (same semantics).
+  const REGIONS = [
+    ['North', ['Schleswig-Holstein', 'Hamburg', 'Bremen', 'Niedersachsen', 'Mecklenburg-Vorpommern']],
+    ['East', ['Berlin', 'Brandenburg', 'Sachsen', 'Sachsen-Anhalt', 'Thüringen']],
+    ['West', ['Nordrhein-Westfalen', 'Hessen', 'Rheinland-Pfalz', 'Saarland']],
+    ['South', ['Baden-Württemberg', 'Bayern']],
+  ];
+  function regionGroup() {
+    const F = S.filter.states;
+    const g = document.createElement('div'); g.className = 'fgrp';
+    g.innerHTML = `<div class="flabel"><span>Location</span><b class="fval" style="font-weight:500;color:var(--t3)">${F.size ? F.size + ' state' + (F.size > 1 ? 's' : '') : 'all Germany'}</b></div>`;
+    for (const [name, sts] of REGIONS) {
+      const present = sts.filter(s => ALL_STATES.includes(s)); if (!present.length) continue;
+      const row = document.createElement('div'); row.className = 'region-row';
+      const rb = document.createElement('button'); rb.className = 'region-btn'; rb.textContent = name;
+      rb.title = 'Toggle all of ' + name; rb.setAttribute('aria-pressed', present.every(s => F.has(s)));
+      rb.onclick = () => { if (present.every(s => F.has(s))) present.forEach(s => F.delete(s)); else present.forEach(s => F.add(s)); buildControls(); applyFilter(); };
+      row.appendChild(rb);
+      const pills = document.createElement('div'); pills.className = 'region-pills';
+      for (const s of present) { const b = document.createElement('button'); b.className = 'chip2'; b.textContent = (typeof STATE_SHORT !== 'undefined' && STATE_SHORT[s]) || s; b.setAttribute('aria-pressed', F.has(s)); b.onclick = () => { if (F.has(s)) F.delete(s); else F.add(s); buildControls(); applyFilter(); }; pills.appendChild(b); }
+      row.appendChild(pills); g.appendChild(row);
+    }
+    return g;
+  }
   function buildControls() {
     const c = $('supply-controls'); if (!c) return; c.innerHTML = '';
     c.appendChild(dealSeg());
     c.appendChild(typeGroup());
-    c.appendChild(segRow('Price', [['all', 'All'], ['stated', 'Price stated'], ['onreq', 'On request']], v => { S.filter.priceMode = v; applyFilter(); }, S.filter.priceMode));
     c.appendChild(sourceGroup());
-    c.appendChild(segRow('Price basis', [['all', 'All'], ['listed', 'LISTED'], ['est', '+est']], v => { S.filter.basis = v; applyFilter(); }, S.filter.basis));
     for (const f of FILTER_FIELDS) { if (_ext[f.key][0] === _ext[f.key][1]) continue; c.appendChild(dualSlider(f)); }
-    c.appendChild(chipRow('Location (state)', ALL_STATES.map(s => ({ v: s, label: (typeof STATE_SHORT !== 'undefined' && STATE_SHORT[s]) || s })), S.filter.states));
+    c.appendChild(regionGroup());
   }
-  function resetFilter() { S.filter.types = new Set(CORE_PRESENT); S.filter.showOther = false; S.filter.states.clear(); S.filter.basis = 'all'; S.filter.favOnly = false; S.filter.sources.clear(); S.filter.priceMode = 'all'; S.propDeal = 'all'; document.querySelectorAll('#prop-deal [data-pd]').forEach(b => b.setAttribute('aria-pressed', b.dataset.pd === 'all')); for (const f of FILTER_FIELDS) S.filter.ranges[f.key] = [..._ext[f.key]]; const fb = $('ffav'); if (fb) fb.classList.remove('on'); buildControls(); applyFilter(); }
+  function resetFilter() { S.filter.types = new Set(CORE_PRESENT); S.filter.showOther = false; S.filter.states.clear(); S.filter.favOnly = false; S.filter.sources.clear(); S.propDeal = 'all'; document.querySelectorAll('#prop-deal [data-pd]').forEach(b => b.setAttribute('aria-pressed', b.dataset.pd === 'all')); for (const f of FILTER_FIELDS) S.filter.ranges[f.key] = [..._ext[f.key]]; const fb = $('ffav'); if (fb) fb.classList.remove('on'); buildControls(); applyFilter(); }
   function sourcesNote() {
     const bySrc = {}; for (const p of PROPS) { const s = p.source || '—'; const d = bySrc[s] = bySrc[s] || { n: 0, host: null, types: new Set(), cap: null }; d.n++; if (p.source_url && !d.host) d.host = p.source_url.replace(/^https?:\/\//, '').split('/')[0]; d.types.add(PROP_LABEL[p.asset_type || p.kind] || p.kind); if (p.captured && (!d.cap || p.captured > d.cap)) d.cap = p.captured; }
     const lines = Object.entries(bySrc).sort((a, b) => b[1].n - a[1].n).map(([s, d]) => `<div>• <b>${esc(s)}</b> — ${d.n} listings (${[...d.types].slice(0, 3).join(', ')})${d.cap ? ' · captured ' + esc(d.cap) : ''}${d.host ? ` · <a href="https://${esc(d.host)}" target="_blank" rel="noopener">view more ↗</a>` : ''}</div>`).join('');
