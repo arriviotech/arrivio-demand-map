@@ -17,6 +17,7 @@ const properties = (() => { try { const a = JSON.parse(read('../data/properties.
 const genesisBeds = (() => { try { return JSON.stringify(JSON.parse(read('../data/genesis_beds_by_land.json')).data); } catch (e) { return '{}'; } })();
 const pachtModelData = (() => { try { return read('../data/pacht_model.json').trim(); } catch (e) { return 'null'; } })();
 const deOutline = (() => { try { return read('../data/de_outline.json').trim(); } catch (e) { return 'null'; } })();
+const domesticMoves = (() => { try { return read('../data/domestic_moves.json').trim() || 'null'; } catch (e) { return 'null'; } })(); // absent file → null → UI hides the toggle
 const osmPart = '<script>\n' +
   'const COMMERCIAL_GRID=' + readJson('commercial_grid.json') + ';\n' +
   'const HOTEL_GRID=' + readJson('hotel_grid.json') + ';\n' +
@@ -29,7 +30,8 @@ const osmPart = '<script>\n' +
   'const LISTING_GRID=' + readJson('../data/listing_grid.json') + ';\n' +
   'const GENESIS_BEDS=' + genesisBeds + ';\n' +
   'const PACHT_MODEL=' + pachtModelData + ';\n' +
-  'const DE_OUTLINE=' + deOutline + ';\n</script>\n';
+  'const DE_OUTLINE=' + deOutline + ';\n' +
+  'const DOMESTIC_MOVES=' + domesticMoves + ';\n</script>\n';
 
 const out = [
   read('p1_head.html'),

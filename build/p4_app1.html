@@ -3,7 +3,7 @@
   'use strict';
   /* ============ helpers ============ */
   const $ = id => document.getElementById(id);
-  const NF = new Intl.NumberFormat('de-DE');
+  const NF = new Intl.NumberFormat('en-US'); // international format for a mixed Indian+European audience: 18,034,454 · €7.20 bn · 52.5 m²
   const fmt = n => NF.format(Math.round(n));
   const kfmt = n => n >= 1000 ? NF.format(Math.round(n / 100) / 10) + 'k' : fmt(n);
   const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]));
@@ -486,7 +486,7 @@
         ${match.nk_eur_mo ? `<tr><td>Nebenkosten</td><td class="num">+${eur(match.nk_eur_mo)}/mo</td></tr>` : ''}
         ${abl ? `<tr><td>Ablöse</td><td class="num">${abl}</td></tr>` : ''}
         ${perRoom ? `<tr><td>≈ €/room</td><td class="num">${eur(perRoom)}/mo</td></tr>` : ''}
-        ${match.area_m2 ? `<tr><td>≈ €/m²</td><td class="num">€${(match.lease_eur_mo / match.area_m2).toFixed(1).replace('.', ',')}/mo</td></tr>` : ''}
+        ${match.area_m2 ? `<tr><td>≈ €/m²</td><td class="num">€${(match.lease_eur_mo / match.area_m2).toFixed(1)}/mo</td></tr>` : ''}
         <tr><td>Basis</td><td class="num"><span style="color:#1a9e6c">● LISTED</span></td></tr>`;
       foot = `Pacht from a live listing (${esc(match.source)}). Nightly rate is an internal input only.`;
     } else {
@@ -606,9 +606,9 @@
       if (p.nk_eur_mo) priceRows += `<tr><td>Nebenkosten</td><td class="num">+${eur(p.nk_eur_mo)}/mo</td></tr>`;
       if (impliedM2Ok(p)) {                                          // derived unit rates only when the €/mo plausibly covers the whole area
         if (p.rooms) priceRows += `<tr><td>Pacht / room</td><td class="num">${eur(Math.round(p.lease_eur_mo / p.rooms))}/mo</td></tr>`;
-        if (p.area_m2) priceRows += `<tr><td>Pacht / m²</td><td class="num">€${(p.lease_eur_mo / p.area_m2).toFixed(1).replace('.', ',')}/mo</td></tr>`;
+        if (p.area_m2) priceRows += `<tr><td>Pacht / m²</td><td class="num">€${(p.lease_eur_mo / p.area_m2).toFixed(1)}/mo</td></tr>`;
       } else {
-        priceRows += `<tr><td></td><td class="num" style="color:var(--warn);font-weight:400;font-size:10px;white-space:normal;line-height:1.35">⚠ €/mo ÷ ${fmt(p.area_m2)} m² ≈ €${impliedM2(p).toFixed(2).replace('.', ',')}/m² — implausible; the listed rent likely covers only part of the space. Per-m²/room rates hidden.</td></tr>`;
+        priceRows += `<tr><td></td><td class="num" style="color:var(--warn);font-weight:400;font-size:10px;white-space:normal;line-height:1.35">⚠ €/mo ÷ ${fmt(p.area_m2)} m² ≈ €${impliedM2(p).toFixed(2)}/m² — implausible; the listed rent likely covers only part of the space. Per-m²/room rates hidden.</td></tr>`;
       }
     } else if (p.deal === 'sale' && p.price_eur) {
       priceRows = `<tr><td>${basis === 'MODELED' ? 'Est. purchase' : 'Asking price'}</td><td class="num"><b style="color:var(--acct)">${basis === 'MODELED' ? '≈' : ''}${eur(p.price_eur)}</b>${basis === 'MODELED' ? ' <span style="color:var(--warn)">est</span>' : ''}</td></tr>`;
@@ -617,8 +617,8 @@
       if (p.lease_eur_yr && basis === 'MODELED') priceRows += `<tr><td>Est. annual lease</td><td class="num" style="color:var(--t2)">≈${eur(p.lease_eur_yr)}/yr <span style="color:var(--warn)">est</span></td></tr>`;
     } else priceRows = `<tr><td>Price</td><td class="num" style="color:var(--t3)">on request</td></tr>`;
     // ---- pro-forma popup card: 4 numbers at a glance, <details> for the full math, everything est. ----
-  const eurS = v => '€' + (v >= 1e6 ? (Math.round(v / 1e5) / 10).toLocaleString('de-DE') + 'M' : v >= 1000 ? Math.round(v / 1000).toLocaleString('de-DE') + 'k' : Math.round(v).toLocaleString('de-DE'));
-  const r1 = v => (Math.round(v * 10) / 10).toLocaleString('de-DE');
+  const eurS = v => '€' + (v >= 1e6 ? (Math.round(v / 1e5) / 10).toLocaleString('en-US') + 'M' : v >= 1000 ? Math.round(v / 1000).toLocaleString('en-US') + 'k' : Math.round(v).toLocaleString('en-US'));
+  const r1 = v => (Math.round(v * 10) / 10).toLocaleString('en-US');
   function proformaBlock(p) {
     const at = p.asset_type || p.kind;
     if (at === 'apartment_building') return `<div class="pf-note">Already residential — furnishing ≈ €70/m² <sup class="est">est.</sup></div>`;
@@ -727,7 +727,7 @@
   const FILTER_FIELDS = [
     { key: 'rooms', label: 'Rooms', get: p => p.rooms, fmt: v => fmt(v), step: 1, tick: 150 },
     { key: 'area', label: 'Area m²', get: p => p.area_m2, fmt: v => fmt(v) + ' m²', step: 10, tick: 3750 },
-    { key: 'lpm2', label: 'Lease €/m²·mo', get: leasePerM2, fmt: v => '€' + (Math.round(v * 10) / 10).toLocaleString('de-DE'), step: 0.5, tick: 15 },
+    { key: 'lpm2', label: 'Lease €/m²·mo', get: leasePerM2, fmt: v => '€' + (Math.round(v * 10) / 10).toLocaleString('en-US'), step: 0.5, tick: 15 },
     { key: 'ppr', label: 'Pacht €/room·mo', get: pachtPerRoom, fmt: v => '€' + fmt(v), step: 5, tick: 375 },
   ];
   const _ext = {};
@@ -1002,7 +1002,7 @@
         <div class="pf-cell"><label>Rooms</label><b>${fmt(rooms)}</b><small>listed + est.</small></div>
       </div></div>`;
   }
-  const eurSl = v => '€' + (v >= 1e6 ? (Math.round(v / 1e5) / 10).toLocaleString('de-DE') + 'M' : Math.round(v / 1000).toLocaleString('de-DE') + 'k');
+  const eurSl = v => '€' + (v >= 1e6 ? (Math.round(v / 1e5) / 10).toLocaleString('en-US') + 'M' : Math.round(v / 1000).toLocaleString('en-US') + 'k');
   function computeProperties() {
     const pop0 = $('supply-pop');
     if (!S.layers.props) { M.setPropertiesVisible(false); if (pop0) pop0.hidden = true; return; }
@@ -1018,14 +1018,23 @@
     "Hamburg": "Hamburg", "Brandenburg": "Brandenburg", "Sachsen-Anhalt": "Sa.-Anhalt",
     "Thüringen": "Thüringen", "Mecklenburg-Vorpommern": "Meckl.-Vorp.", "Bremen": "Bremen", "Saarland": "Saarland"
   };
-  const eurShort = v => v >= 1e9 ? '€' + (v / 1e9).toFixed(2).replace('.', ',') + ' bn' : '€' + fmt(v / 1e6) + ' m';
+  const eurShort = v => v >= 1e9 ? '€' + (v / 1e9).toFixed(2) + ' bn' : '€' + fmt(v / 1e6) + ' m';
   const stateIntl = name => (STATES_DATA[name] || {}).intl || 0;
   const stateTotal = name => (STATES_DATA[name] || {}).total || 0;
   const stateInflow = (name, metric) => metric === 'total' ? stateTotal(name) : stateIntl(name);
   const stateTAM = (name, metric) => stateInflow(name, metric) * TAM_PER_PERSON;
-  const statesValueFn = () => (name => stateTAM(name, S.stateMetric));
+  /* ---- domestic net migration per state (Destatis GENESIS 12711, 2022 — data/domestic_moves.json).
+     saldo = in − out across the Bundesland border, INCL. international in-migration — so the shading is
+     labelled "net migration", never "intra-state moves". The ~2.8M/yr intra-district churn figure is
+     NATIONAL context only (Destatis publishes no per-state split); it is never shown as a state number.
+     If the file is absent, DOM_MOVES is null and the toggle/line hide gracefully. */
+  const DOM_MOVES = (typeof DOMESTIC_MOVES !== 'undefined' && DOMESTIC_MOVES && DOMESTIC_MOVES.states) ? Object.fromEntries(DOMESTIC_MOVES.states.map(s => [s.state, s])) : null;
+  const GREEN_RAMP = t => { const c0 = [234, 246, 239], c1 = [15, 111, 56], u = Math.max(0, Math.min(1, t)); return 'rgb(' + c0.map((a, i) => Math.round(a + (c1[i] - a) * u)).join(',') + ')'; }; // own ramp — distinct from the pink TAM shading
+  const statesValueFn = () => (S.stateMetric === 'saldo' ? (name => Math.max(0, (DOM_MOVES && DOM_MOVES[name] ? DOM_MOVES[name].saldo : 0))) : (name => stateTAM(name, S.stateMetric)));
+  const statesColorFn = () => (S.stateMetric === 'saldo' ? GREEN_RAMP : null);
   const stateLabelFn = () => (name => esc(STATE_SHORT[name] || name)); // name only — keeps labels compact, no overlap
   const statesFillOpacity = () => ((S.layers.clients || S.layers.hex || S.layers.commercial || S.layers.hotels) ? 0.32 : 0.8);
+  if (!DOM_MOVES) document.querySelectorAll('#state-metric [data-metric="saldo"]').forEach(b => b.remove()); // no data → no toggle
   /* ---- in-migration OVERLAY — DISTRICT (Kreis) choropleth, mixable with point layers ----
      Destatis Regionalstatistik 12711 (2024): GROSS arrivals (Zuzüge über die Kreisgrenzen) — the
      number of people who MOVED INTO each district = domestic city-to-city + international, absolute.
@@ -1080,7 +1089,7 @@
   function setStateMetric(metric) {
     S.stateMetric = metric;
     document.querySelectorAll('#state-metric [data-metric], #card-metric [data-metric]').forEach(x => x.setAttribute('aria-pressed', x.dataset.metric === metric));
-    if (S.base === 'states') { M.restyleStates(statesValueFn(), stateLabelFn(), statesFillOpacity()); updateStatesLegend(); }
+    if (S.base === 'states') { M.restyleStates(statesValueFn(), stateLabelFn(), statesFillOpacity(), statesColorFn()); updateStatesLegend(); }
     if (S.selStates.length) renderStateCard();
   }
   function selectState(name) {
@@ -1091,10 +1100,12 @@
     if (S.selStates.length) renderStateCard(); else closeSel();
   }
   function renderStateCard() {
-    const metric = S.stateMetric, isT = metric === 'total';
-    const seg = `<div class="seg" id="card-metric" role="group" aria-label="Inflow basis" style="margin:2px 0 10px">
-        <button data-metric="intl" aria-pressed="${!isT}">International</button>
-        <button data-metric="total" aria-pressed="${isT}">+ Domestic</button></div>`;
+    const isSaldo = S.stateMetric === 'saldo';
+    const metric = isSaldo ? 'intl' : S.stateMetric, isT = metric === 'total';   // TAM math never runs on 'saldo'
+    const seg = `<div class="seg" id="card-metric" role="group" aria-label="Shading basis" style="margin:2px 0 10px">
+        <button data-metric="intl" aria-pressed="${!isT && !isSaldo}">International</button>
+        <button data-metric="total" aria-pressed="${isT}">+ Domestic</button>
+        ${DOM_MOVES ? `<button data-metric="saldo" aria-pressed="${isSaldo}">Net migration</button>` : ''}</div>`;
     const multiBtn = `<button class="btn" id="state-multi" aria-pressed="${S.stateMulti}" style="width:100%;margin-top:8px">${S.stateMulti ? '✓ Comparing — click states to add/remove' : '+ Compare multiple states'}</button>`;
     let html;
     if (S.selStates.length > 1) {
@@ -1115,18 +1126,21 @@
       const name = S.selStates[0], d = STATES_DATA[name];
       const tam = stateTAM(name, metric), intlTAM = stateIntl(name) * TAM_PER_PERSON, totTAM = stateTotal(name) * TAM_PER_PERSON;
       const comp = INFLOW_COMPOSITION.map(c => `${c.label} ${c.pct}%`).join(' · ');
+      const dm = DOM_MOVES && DOM_MOVES[name];
       let rows = `<tr><td>Population</td><td class="num">${fmt(d.pop)}</td></tr>
         <tr><td>Inflow / yr (${isT ? 'total' : 'international'})</td><td class="num">${fmt(stateInflow(name, metric))}</td></tr>
         <tr><td><b>TAM · ${isT ? '+ domestic' : 'international'}</b></td><td class="num"><b style="color:var(--acct);font-size:1.15em">${eurShort(tam)}</b></td></tr>`;
       if (isT) rows += `<tr><td style="color:var(--t3)">· of which international</td><td class="num" style="color:var(--t2)">${eurShort(intlTAM)}</td></tr>
         <tr><td style="color:var(--t3)">· of which domestic</td><td class="num" style="color:var(--t2)">${eurShort(totTAM - intlTAM)}</td></tr>`;
+      if (dm) rows += `<tr><td>Net migration ’22</td><td class="num"><b style="color:#0f6f38">+${fmt(dm.saldo)}</b>/yr</td></tr>`;
       html = `
         <div class="sname">${esc(name)}</div>
         <div class="splace">Total Addressable Market · €${TAM_PER_PERSON / 1000}k per person</div>
         ${seg}
         <table>${rows}</table>
         ${multiBtn}
-        <p class="hint" style="margin-top:8px">National inflow mix: ${esc(comp)}.</p>
+        ${dm ? `<p class="hint" style="margin-top:8px">Migration: <b>+${fmt(dm.saldo)}/yr net</b> (${fmt(dm.zuzuege)} in / ${fmt(dm.fortzuege)} out) — Destatis 2022. Germans relocating are core demand too: ~2.8M people/yr move across district lines nationally, most within their own state.</p>` : ''}
+        <p class="hint" style="margin-top:${dm ? 4 : 8}px">National inflow mix: ${esc(comp)}.</p>
         <p class="hint" style="margin-top:4px">Top origins: ${esc(INFLOW_TOP_ORIGINS)}. TAM = inflow × €${TAM_PER_PERSON / 1000}k. Source: Destatis 2024.</p>`;
     }
     showSelCard(html);

@@ -1,0 +1,34 @@
+{
+  "_meta": {
+    "metric": "Migration across each Bundesland's border (Zuzüge = in-migration, Fortzüge = out-migration, saldo = net). Counts moves that cross the STATE border, from other German states AND from abroad. It is NOT purely intra-state city-to-city churn — Destatis does not publish per-state intra-state moves cleanly, and within-city moves are not registered as Wanderungen at all.",
+    "year": 2022,
+    "unit": "persons per year",
+    "source": "Destatis / Statistische Ämter des Bundes und der Länder — GENESIS 12711, 'Wanderungen über die Grenzen der Bundesländer'",
+    "source_url": "https://www.statistikportal.de/de/bevoelkerung/raeumliche-bevoelkerungsbewegung/wanderungen-ueber-die-grenzen-der-bundeslaender",
+    "national_totals": { "zuzuege": 3734478, "fortzuege": 2272389, "note": "national Zuzüge include international immigration (2022 was a high-immigration year)" },
+    "intra_state_context": {
+      "moves_across_district_borders_2022": 2800000,
+      "domestic_state_to_state_2023": 1035000,
+      "note": "~2.8M people/yr change residence across district (Kreis) boundaries in Germany; the MAJORITY of these internal moves stay within the same Bundesland (only ~1.0M/yr cross a state border). This is Arrivio's domestic relocation demand. Destatis does not publish the intra-state total per Bundesland, so use this as a NATIONAL context figure alongside the per-state net-migration shading below.",
+      "source_url": "https://www.destatis.de/DE/Themen/Gesellschaft-Umwelt/Bevoelkerung/Wanderungen/_inhalt.html"
+    }
+  },
+  "states": [
+    { "state": "Nordrhein-Westfalen", "state_code": "DE-NW", "zuzuege": 672810, "fortzuege": 389444, "saldo": 283366 },
+    { "state": "Bayern", "state_code": "DE-BY", "zuzuege": 569049, "fortzuege": 346481, "saldo": 222568 },
+    { "state": "Baden-Württemberg", "state_code": "DE-BW", "zuzuege": 504312, "fortzuege": 326080, "saldo": 178232 },
+    { "state": "Niedersachsen", "state_code": "DE-NI", "zuzuege": 378480, "fortzuege": 226235, "saldo": 152245 },
+    { "state": "Hessen", "state_code": "DE-HE", "zuzuege": 312508, "fortzuege": 198329, "saldo": 114179 },
+    { "state": "Berlin", "state_code": "DE-BE", "zuzuege": 235365, "fortzuege": 150781, "saldo": 84584 },
+    { "state": "Rheinland-Pfalz", "state_code": "DE-RP", "zuzuege": 198156, "fortzuege": 127657, "saldo": 70499 },
+    { "state": "Sachsen", "state_code": "DE-SN", "zuzuege": 158782, "fortzuege": 84236, "saldo": 74546 },
+    { "state": "Schleswig-Holstein", "state_code": "DE-SH", "zuzuege": 127720, "fortzuege": 78895, "saldo": 48825 },
+    { "state": "Hamburg", "state_code": "DE-HH", "zuzuege": 124493, "fortzuege": 85065, "saldo": 39428 },
+    { "state": "Brandenburg", "state_code": "DE-BB", "zuzuege": 119806, "fortzuege": 64285, "saldo": 55521 },
+    { "state": "Sachsen-Anhalt", "state_code": "DE-ST", "zuzuege": 92651, "fortzuege": 52294, "saldo": 40357 },
+    { "state": "Thüringen", "state_code": "DE-TH", "zuzuege": 88517, "fortzuege": 51447, "saldo": 37070 },
+    { "state": "Mecklenburg-Vorpommern", "state_code": "DE-MV", "zuzuege": 68571, "fortzuege": 36280, "saldo": 32291 },
+    { "state": "Saarland", "state_code": "DE-SL", "zuzuege": 42135, "fortzuege": 24265, "saldo": 17870 },
+    { "state": "Bremen", "state_code": "DE-HB", "zuzuege": 41123, "fortzuege": 30615, "saldo": 10508 }
+  ]
+}
