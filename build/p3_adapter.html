@@ -168,7 +168,7 @@ const M = {
     this.cl.on('clustermouseover', e => {
       const ms = e.propagatedFrom.getAllChildMarkers();
       const rooms = ms.reduce((s, m) => s + (m.options.rooms || 0), 0);
-      const rl = rooms >= 1000 ? ((Math.round(rooms / 100) / 10).toLocaleString('de-DE') + 'k') : Math.round(rooms).toLocaleString('de-DE');
+      const rl = rooms >= 1000 ? ((Math.round(rooms / 100) / 10).toLocaleString('en-US') + 'k') : Math.round(rooms).toLocaleString('en-US');
       e.propagatedFrom.bindTooltip(ms.length + ' clients · ≈' + rl + ' rooms', { direction: 'top', offset: [0, -8] }).openTooltip();
     });
     list.forEach(c => {
@@ -232,7 +232,7 @@ const M = {
     const fill = o.fillOpacity == null ? 0.6 : o.fillOpacity;
     const self = this;
     this._selStates = this._selStates || [];
-    this._baseStyle = nm => ({ color: '#ffffff', weight: 1.2, fillColor: rampColor(Math.sqrt((o.valueFn(nm) || 0) / self._statesMax)), fillOpacity: fill });
+    this._baseStyle = nm => ({ color: '#ffffff', weight: 1.2, fillColor: (o.colorFn || rampColor)(Math.sqrt((o.valueFn(nm) || 0) / self._statesMax)), fillOpacity: fill });
     this.statesL = L.geoJSON(DE_STATES_GEO, {
       style: f => self._baseStyle(f.properties.name),
       onEachFeature: (f, layer) => {
@@ -255,9 +255,10 @@ const M = {
   },
   _bringSelectedFront() { if (this.statesL) this.statesL.eachLayer(l => { if (this._selStates.indexOf(l._stateName) >= 0) l.bringToFront(); }); },
   setSelectedStates(names) { this._selStates = names || []; if (this.statesL) { this.statesL.eachLayer(l => this._applyStateStyle(l)); this._bringSelectedFront(); } },
-  restyleStates(valueFn, labelFn, fillOpacity) {
+  restyleStates(valueFn, labelFn, fillOpacity, colorFn) {
     if (!this.statesL) return;
     const o = this._statesOpts; o.valueFn = valueFn || o.valueFn; if (labelFn) o.labelFn = labelFn; if (fillOpacity != null) o.fillOpacity = fillOpacity;
+    o.colorFn = colorFn || null;                       // explicit per-metric ramp; null = default pink
     this.showStates(o);
   },
   hideStates() { if (this.statesL) { this.map.removeLayer(this.statesL); this.statesL = null; } },

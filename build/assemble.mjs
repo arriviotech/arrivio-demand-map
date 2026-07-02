@@ -13,10 +13,11 @@ const statesPart = read('p_states.html').replace('__STATES_GEO__', () => statesG
 const readJson = f => { try { return read(f).trim() || '[]'; } catch (e) { return '[]'; } };
 const kreiseGeo = (() => { try { return read('de_kreise.geojson').trim(); } catch (e) { return 'null'; } })();
 const inflowKreise = (() => { try { const o = JSON.parse(read('inflow_kreise.json')); return JSON.stringify(o.data || o); } catch (e) { return '[]'; } })();
-const properties = (() => { try { const a = JSON.parse(read('../data/properties.json')).properties || []; let c = []; try { c = JSON.parse(read('../data/captures.json')).properties || []; } catch (e) { } return JSON.stringify([...a, ...c]); } catch (e) { return '[]'; } })();
+const properties = (() => { try { const a = JSON.parse(read('../data/properties.json')).properties || []; let c = []; try { c = JSON.parse(read('../data/captures.json')).properties || []; } catch (e) { } const ids = new Set(c.map(r => r.id)); const uniq = a.filter(r => !ids.has(r.id)); return JSON.stringify([...uniq, ...c]); } catch (e) { return '[]'; } })(); // captures win on id collision (ahgzimmo rows now live in the broker CSV too)
 const genesisBeds = (() => { try { return JSON.stringify(JSON.parse(read('../data/genesis_beds_by_land.json')).data); } catch (e) { return '{}'; } })();
 const pachtModelData = (() => { try { return read('../data/pacht_model.json').trim(); } catch (e) { return 'null'; } })();
 const deOutline = (() => { try { return read('../data/de_outline.json').trim(); } catch (e) { return 'null'; } })();
+const domesticMoves = (() => { try { return read('../data/domestic_moves.json').trim() || 'null'; } catch (e) { return 'null'; } })(); // absent file → null → UI hides the toggle
 const osmPart = '<script>\n' +
   'const COMMERCIAL_GRID=' + readJson('commercial_grid.json') + ';\n' +
   'const HOTEL_GRID=' + readJson('hotel_grid.json') + ';\n' +
@@ -29,7 +30,8 @@ const osmPart = '<script>\n' +
   'const LISTING_GRID=' + readJson('../data/listing_grid.json') + ';\n' +
   'const GENESIS_BEDS=' + genesisBeds + ';\n' +
   'const PACHT_MODEL=' + pachtModelData + ';\n' +
-  'const DE_OUTLINE=' + deOutline + ';\n</script>\n';
+  'const DE_OUTLINE=' + deOutline + ';\n' +
+  'const DOMESTIC_MOVES=' + domesticMoves + ';\n</script>\n';
 
 const out = [
   read('p1_head.html'),

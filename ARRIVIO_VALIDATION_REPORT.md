@@ -141,3 +141,56 @@ Re-synced to the latest authorized-browser master (broker CSV **932 → 1,439** 
 **Master spreadsheet** rebuilt on 1,439: "Acquisition listings" 1,411 rows (deal-sorted, full cols incl. rooms/basis/note/loc_approx) · "Existing hotels (OSM context)" 6,000 · "Sources" (per-source counts/dates/URLs). 484 KB.
 
 Verified: **0 console errors**; deal filter two-way sync, default 5-core filter, favourites, inflow overlay, legend, approximate-location pins, and States·TAM all intact.
+
+## Rooms + conversion pro-forma + consolidation (2026-07-02, 2,859-row master)
+
+Re-synced to the model-filtered master (broker CSV **1,439 → 2,859 rows**, 9 sources: +Aengevelt 772, +ahgzimmo 464, +ohne-makler 438, +BNP Paribas RE 277, deeper Colliers/CBRE/E&V) and ran the full pipeline. **Map union: 1,411 → 2,751 listings (2,458 pins · 745 exact building coordinates from Aengevelt `geo:` · 124 approximate)**. The remaining 289 (mostly ohne-makler FSBO) publish no address at all — kept in the data + spreadsheet, honestly unpinned.
+
+**MODEL tiers (surfaced, not re-derived):** prime 1,553 · qualify 519 · size-unknown 420 · context 252. Four-category filter (Prime / Qualify / Size? / Context; defaults Prime+Qualify on) + tier badge on every popup/row.
+**Rooms (2,744 captures):** listed 53 · estimated 2,009 (floor(area÷20), est.-marked) · n/a 682 (land/parking/warehouse/no-area guards).
+**Price:** stated 1,906 · on request 838 → new All / Price stated / On request toggle + "Preis auf Anfrage" badge.
+**Source filter:** dynamic multi-select over all 10 sources (first click narrows to that source) + source badge everywhere. **Coverage tracker** panel: 9 sourced, 3 blocked (Savills CloudFront-gated · ImmoScout24 DataDome CAPTCHA · Immowelt same group) with view-directly links.
+
+**Conversion pro-forma (Office Conversion Model v6, Berlin Outskirts)** on every office/mixed-use/retail card: ① refurb capex €482/m² (low 310/high 782) ② new Pacht = as-is + €3,21/m²·mo (8% on spend) ③ Pacht/room ④ value €/m² as-is (9% cap) → post-conversion (6,5% cap), ≈+100%, with decomposition + 93%-occupancy refinement in the expandable detail. Sale-only rows show refurb + a flagged "+~100% re-rating" badge (no rent fabricated). Apartment buildings show only a furnishing note. Saving listings builds a **My-shortlist portfolio roll-up** (Σ capex, Σ monthly Pacht, Σ value uplift, rooms). Verified against the sheet: 4.292 m² @ €14,3 → capex €2,1M, Pacht €76k/mo, uplift €5,7M.
+
+**Heatmaps now data-driven:** commercial Rent legend spans the observed €5–15+/m² (was €16,5–58 city anchors), dots = our listings (size = rooms est., colour = real rent, click = listing card); Density = our listings per hex; Vacancy disabled ("no source yet"); hotel Rooms legend from real counts (≈112+ p95); Pacht legend p5–p95 of the model grid.
+
+**UI/UX pass:** active-filter chips + one-click Clear all, live "N listings · ~X rooms" count, consistent hover/focus-visible states, coverage/sources panels, responsive verified at 390 px (bottom-sheet panel, ≥36 px touch targets, no h-scroll), 820 px, 1400 px and 1920 px (root type scales up). Zero console errors; deal two-way sync, favourites, inflow overlay, approximate-pin banners and States·TAM all re-verified.
+
+## Combined revision: 2,590 master + filter cleanup (2026-07-02)
+
+**Re-sync:** broker CSV 2,859 → **2,590** (ohne-makler size-unknowns back-filled from detail pages: 269 sub-500 m² units removed per the ≥500 m² rule, 171 recovered a town/PLZ). Captures **2,495** → union **2,502 listings · 2,378 pins** (no-address rows down 289 → 120; size-unknown now 128, mostly ahgzimmo). 745 exact-geo and 124 approximate pins unchanged.
+
+**Filter cleanup:**
+- **Model-fit filter + tier badges deleted** (MODEL:* stays in data/notes/xlsx as provenance). Nothing hidden: default view rose to **2,129 listings** — the former "Size?" convertibles now show, governed only by the Area slider + asset-type filter; non-room types stay behind "+More".
+- **Source filter → "Filter by source ▾" dropdown** (checkboxes · Select all · Clear · live count on the button). Verified: untick Aengevelt → "9 of 10", 2,129→1,436; Clear → 0 shown + "Source: none" chip; Select all restores. Source badges kept on popups/rows.
+- **Removed the Asking price €, Sale €/key and Yield % sliders** (Area is the size control; Price stated/On-request toggle + €/m² and €/room sliders remain). No dead references, zero console errors.
+- **Price-less listings always render** (default All): ahgz-GVL2CD (Top-Hotel 3★ Wuppertal, 1.670 m²) confirmed pinned — its detail back-fill even recovered a rent note, so it now shows a stated price.
+
+**Pro-forma per-building re-verified after re-sync:** €5/m² office (2.518 m², 125 rm) → Pacht €5→€8,2/m², **€165/room**; €15/m² office (535 m², 26 rm) → €15→€18,2/m², **€375/room**; price-on-request office → refurb + "+~100 % re-rating (est.) · no as-is rent stated" — **no default rent is ever substituted; no flat €252/room anywhere**.
+
+Kept features re-verified: pro-forma + My-shortlist, coverage tracker, data-driven legends (rent €5–15+/m², vacancy disabled), deal two-way sync, favourites, inflow overlay, approximate-pin banners, States·TAM. Zero console errors.
+
+## Per-building rate guard + filter revision (2026-07-02)
+
+**Bug (user-reported, Kaiserslautern card):** ohne-makler FSBO listings state a monthly rent that often covers only ONE unit while the area column holds the whole building (e.g. €709/mo on 1.340 m² ⇒ €0,5/m²) — every derived number (Pacht/m², Pacht/room, pro-forma "+878 %") was arithmetic on that broken input. **Fix:** plausibility band **€2–40/m²** on all lease-derived unit rates (`LEASE_M2_BAND`). Outside it: the listed €/mo stays on the card, a ⚠ caveat explains the mismatch, per-m²/per-room rows are hidden, the €/m² & €/room sliders ignore the row, and the pro-forma falls back to refurb + "+~100 % re-rating" (a rent is never substituted). **87 listings guarded (all ohne-makler)**; direct listed €/m² fields are never gated; healthy cards unchanged (verified: implied €3/m² hotel keeps its rows; €13,5/m² office still shows €13,5→€16,7). One guarded case even self-confirms the diagnosis: "Büro/Lagerflächen 2100 QM / **ab 450 qm teilbar**" — €1.995/mo is for a partial unit.
+
+**Filter revision:** removed the **Price (All/stated/on-request)** and **Price basis (All/LISTED/+est)** controls (state + predicate + dead helper cleaned; "Preis auf Anfrage" badge stays on cards). **Location is now a region-grouped control** — North / East / West / South group toggles + state pills (distinct from the source dropdown). Verified: "South" → 75 listings, all BW/Bayern; active chip + Clear all restore 2.129. Zero console errors; all shipped features intact.
+
+## Real listing URLs + international numbers + domestic-migration layer (2026-07-03)
+
+**Re-sync (URLs):** master re-synced — ahgzimmo now links the real listing page on 422/424 imported rows (3 delisted stay generic; verified ahgz-GVL2CD opens its Wuppertal page, HTTP 200) and BNP Paribas RE on 268/270 (…/gewerbeimmobilien/{city}/buero-mieten/{id}/, two verified 200 with matching titles). Every popup/result "Source ↗" now opens the actual property.
+
+**International number format:** all display formatting switched de-DE → en-US through the shared helpers (NF/fmt/kfmt, eurShort, eurS/r1, cluster tooltips) and the four hand-rolled comma-decimal hacks removed. Verified live: counts "2,129 listings · ~324.8k rooms", TAM panel Population 18,034,454 · €5.17 bn, pro-forma €2.1M / €14.5→€17.7 / €1,933→€3,270, implausible-rent caveat €0.95/m² ÷ 2,110 m². Underlying data unchanged (xlsx writes raw numeric cells). No German-formatted number found in any part.
+
+**Domestic-movement layer (data/domestic_moves.json, Destatis GENESIS 12711, 2022 — no invented numbers):** the States base map gains a third shading mode **"Net migration"** — own green ramp + retitled legend ("Net migration", max +283.4k/yr) clearly separate from the pink TAM shading; honest label notes it includes international in-migration. State card adds "Net migration ’22 +283,366/yr" and the line "Migration: +283,366/yr net (672,810 in / 389,444 out) — Destatis 2022" (NRW verified) plus the NATIONAL context "~2.8M people/yr relocate across district lines — the majority within their own state" (never shown as a per-state number). If domestic_moves.json is absent the toggle and lines hide gracefully (button removed at init).
+
+All shipped features re-verified (pro-forma per-building, source dropdown, deal sync, favourites, inflow overlay, 124 approximate pins, rent-caveat guard). Zero console errors.
+
+## ahgzimmo price back-fill + migration folded into "+ Domestic" (2026-07-03)
+
+**Prices (user-reported):** every ahgzimmo card showed "on request" because the capture recorded only the PHRASE "price stated on listing" — 0/464 rows carried a number. New `build/backfill_ahgz_prices.mjs` joins the master CSV to the ahgzimmo Atom feed (plain fetch, cached + refreshed, throttled, idempotent, sentinel-guarded) by listing code → **369 real prices recovered (77 monthly Pacht + 292 sale prices)**; 93 are genuinely "Preis auf Anfrage" per the feed; 2 delisted. After re-import: **335/424 ahgzimmo listings priced** — the Marburg Tagungshotel now shows €40,500/mo (€3.2/m², €64/room) and Wuppertal €10,000/mo (€6.0/m²). `price_defined` tightened to figures-only, so the remaining 89 correctly wear the "Preis auf Anfrage" badge. Recovered rents pass the €2–40/m² plausibility guard naturally.
+
+**Migration (user-request):** the separate "Net migration" shading mode was removed; the data now lives inside the **"+ Domestic"** card view — an "In-state movement" point (~2.8M/yr national context, most moves stay within the same state) plus the state's own net-migration number (+283,366/yr = 672,810 in / 389,444 out for NRW, Destatis 2022) and a "Net migration ’22" table row. International view stays clean; legend stays TAM. `data/domestic_moves.json` + graceful-absence behaviour unchanged.
+
+Verified live on both screenshot cases; deal sync, filters, and all features intact; zero console errors.

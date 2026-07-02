@@ -3,7 +3,7 @@
   'use strict';
   /* ============ helpers ============ */
   const $ = id => document.getElementById(id);
-  const NF = new Intl.NumberFormat('de-DE');
+  const NF = new Intl.NumberFormat('en-US'); // international format for a mixed Indian+European audience: 18,034,454 · €7.20 bn · 52.5 m²
   const fmt = n => NF.format(Math.round(n));
   const kfmt = n => n >= 1000 ? NF.format(Math.round(n / 100) / 10) + 'k' : fmt(n);
   const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]));
@@ -391,25 +391,40 @@
   // as a baseline footprint, separate from the priced acquisition-target listings.
   const _primeLo = Math.min.apply(null, COMMERCIAL_DATA.map(c => c.prime));
   const _primeHi = Math.max.apply(null, COMMERCIAL_DATA.map(c => c.prime));
-  const _vacArr = COMMERCIAL_DATA.map(c => c.vac || 0);
-  const _vacLo = Math.min.apply(null, _vacArr), _vacHi = Math.max.apply(null, _vacArr);
+  // 2.11: the Office & commercial layer now derives from OUR CAPTURED LISTINGS, not city anchors.
+  // Rent legend spans the real observed range (quantiles computed from the data at load — model-filtered
+  // lease stock is ≤ €15/m², so ≈€3–15, never the old €16.5–58 anchors). Dot size = rooms (listed/est.),
+  // dot colour = the listing's own €/m² rent. Vacancy has no source → its toggle is disabled in the UI.
+  const COMM_TYPES = new Set(['office', 'mixed_use', 'retail', 'industrial_hall']);
+  let COMM_L = [], RENT_LO = 3, RENT_HI = 15, COMM_LGRID = [], _commLInit = false;
+  function commInit() {                       // lazy: PROPS is declared further down; layers render after full load
+    if (_commLInit) return; _commLInit = true;
+    COMM_L = PROPS.filter(p => p.lat != null && COMM_TYPES.has(p.asset_type || p.kind));
+    const s = COMM_L.map(p => p.rent_eur_m2_mo).filter(v => v != null && isFinite(v) && v > 0).sort((a, b) => a - b);
+    if (s.length) { RENT_LO = Math.floor(s[Math.floor(s.length * 0.05)]); RENT_HI = Math.ceil(s[Math.floor(s.length * 0.95)]); }
+    COMM_LGRID = COMM_L.map(p => [p.lat, p.lng, 1]);
+  }
+  const commR = p => Math.max(4, Math.min(13, 3.5 + Math.sqrt(p.rooms || 0) * 0.75));
   function commStyle(metric) {
-    return c => {
-      if (metric === 'rent') return { radius: 8, color: rampColor((c.prime - _primeLo) / ((_primeHi - _primeLo) || 1)), opacity: 0.95 };
-      if (metric === 'vacant') return { radius: 8, color: rampColor((_vacHi - _vacLo) ? ((c.vac || 0) - _vacLo) / (_vacHi - _vacLo) : 0), opacity: 0.95 }; // dark = higher vacancy %
-      return { radius: 5, color: '#1d2733', opacity: 0.9 };
+    return p => {
+      if (metric === 'rent') {
+        if (p.rent_eur_m2_mo == null) return { radius: Math.max(3, commR(p) - 1.5), color: '#94a3b8', opacity: 0.55 };   // no rent stated
+        return { radius: commR(p), color: rampColor(Math.max(0, Math.min(1, (p.rent_eur_m2_mo - RENT_LO) / ((RENT_HI - RENT_LO) || 1)))), opacity: 0.95 };
+      }
+      return { radius: 4, color: '#1d2733', opacity: 0.85 };
     };
   }
-  function renderCommDots(metric) { M.renderCommercialDots(COMMERCIAL_DATA, commStyle(metric || S.commMetric), selectCommercial, S.layers.commercial); }
+  function renderCommDots(metric) { commInit(); M.renderCommercialDots(COMM_L, commStyle(metric || S.commMetric), selectProperty, S.layers.commercial); }
   function computeCommercial() {
     if (typeof h3 === 'undefined') return;
+    commInit();
     if (!S.layers.commercial) { M.setHexLayerVisible('commercial', false); M.setCommercialDotsVisible(false); return; }
     renderCommDots(S.commMetric); M.setCommercialDotsVisible(true);
     if (S.commMetric === 'density') {
-      const res = supplyRes(), cells = aggHex(inViewPts(COMMERCIAL_GRID), res);
-      M.renderHexLayer('commercial', hexPolys(cells, globalMaxFor(COMMERCIAL_GRID, res, _commMax)), true);
+      const res = supplyRes(), cells = aggHex(inViewPts(COMM_LGRID), res);           // density of OUR listings
+      M.renderHexLayer('commercial', hexPolys(cells, globalMaxFor(COMM_LGRID, res, _commMax)), true);
     } else {
-      M.setHexLayerVisible('commercial', false); // rent/vacancy = real city markers only, no interpolated surface
+      M.setHexLayerVisible('commercial', false); // rent = real listing markers only, no interpolated surface
     }
   }
   function initCommercialDots() { renderCommDots(); }
@@ -471,7 +486,7 @@
         ${match.nk_eur_mo ? `<tr><td>Nebenkosten</td><td class="num">+${eur(match.nk_eur_mo)}/mo</td></tr>` : ''}
         ${abl ? `<tr><td>Ablöse</td><td class="num">${abl}</td></tr>` : ''}
         ${perRoom ? `<tr><td>≈ €/room</td><td class="num">${eur(perRoom)}/mo</td></tr>` : ''}
-        ${match.area_m2 ? `<tr><td>≈ €/m²</td><td class="num">€${(match.lease_eur_mo / match.area_m2).toFixed(1).replace('.', ',')}/mo</td></tr>` : ''}
+        ${match.area_m2 ? `<tr><td>≈ €/m²</td><td class="num">€${(match.lease_eur_mo / match.area_m2).toFixed(1)}/mo</td></tr>` : ''}
         <tr><td>Basis</td><td class="num"><span style="color:#1a9e6c">● LISTED</span></td></tr>`;
       foot = `Pacht from a live listing (${esc(match.source)}). Nightly rate is an internal input only.`;
     } else {
@@ -533,6 +548,42 @@
   const propColor = p => PROP_COLOR[p.asset_type] || PROP_COLOR[p.kind] || '#64748b';
   const dealLabel = p => p.deal === 'lease' ? 'For lease' : p.deal === 'sale' ? 'For sale' : '';
   const dealBadge = p => p.deal === 'sale' ? '<span class="deal-badge sale">FOR SALE</span>' : p.deal === 'lease' ? '<span class="deal-badge lease">FOR LEASE</span>' : '';
+  const srcBadge = p => p.source ? `<span class="src-badge">${esc(p.source)}</span>` : '';
+  const priceBadge = p => p.price_defined === false ? '<span class="preq-badge" title="The lister gives no price/rent figure — negotiable / on request">Preis auf Anfrage</span>' : '';
+
+  /* ===== Conversion pro-forma (Office Conversion Model v6, Berlin Outskirts) — all ESTIMATES ===== */
+  const PROFORMA = {
+    CAPEX_PER_M2: 482,          // € per m² GFA to convert (low 310 / high 782)
+    CAPEX_LOW: 310, CAPEX_HIGH: 782,
+    REQ_YIELD: 0.08,            // landlord's required yield on the conversion spend
+    OFFICE_CAP: 0.09,           // as-is office cap rate (outskirts)
+    COLIVING_CAP: 0.065,        // post-conversion co-living cap rate (mid case)
+    OCCUPANCY: 0.93,            // stabilised occupancy (tooltip refinement only)
+    get UPLIFT_PER_M2_MO() { return this.CAPEX_PER_M2 * this.REQ_YIELD / 12; },   // 3.21 €/m²/mo base
+  };
+  const PF_TYPES = new Set(['office', 'mixed_use', 'retail']);
+  function proformaOf(p) {
+    if (!PF_TYPES.has(p.asset_type || p.kind)) return null;
+    const area = p.area_max_m2 || p.area_min_m2 || p.area_m2; if (!area) return null;
+    const rooms = p.rooms || null;
+    let asIs = p.rent_eur_m2_max != null ? p.rent_eur_m2_max : p.rent_eur_m2_min;
+    if (asIs == null && p.lease_eur_mo && impliedM2Ok(p)) asIs = Math.round(p.lease_eur_mo / area * 100) / 100;  // same figure, per m² — only when plausible
+    if (asIs != null && (asIs < LEASE_M2_BAND[0] || asIs > LEASE_M2_BAND[1])) asIs = null;     // outside the model band → no rent method (refurb + re-rating card)
+    const refurbTotal = PROFORMA.CAPEX_PER_M2 * area;
+    const out = { area, rooms, refurbPerM2: PROFORMA.CAPEX_PER_M2, refurbTotal, refurbPerRoom: rooms ? refurbTotal / rooms : null };
+    if (asIs != null && asIs > 0) {
+      const nu = asIs + PROFORMA.UPLIFT_PER_M2_MO;
+      const asIsVal = asIs * 12 / PROFORMA.OFFICE_CAP, postVal = nu * 12 / PROFORMA.COLIVING_CAP;
+      Object.assign(out, {
+        asIsRent: asIs, newPacht: nu, pachtPerRoom: rooms ? nu * area / rooms : null,
+        asIsValM2: asIsVal, postValM2: postVal, upliftM2: postVal - asIsVal, upliftTotal: (postVal - asIsVal) * area,
+        upliftPct: postVal / asIsVal - 1,
+        capPart: asIs * 12 * (1 / PROFORMA.COLIVING_CAP - 1 / PROFORMA.OFFICE_CAP),
+        rentPart: (nu - asIs) * 12 / PROFORMA.COLIVING_CAP,
+      });
+    }
+    return out;                                                                    // no asIsRent ⇒ renderer shows refurb + re-rating only
+  }
   // single source of truth for the deal filter — keeps the sidebar (#prop-deal) and the popup
   // (#supply-deal) segments in lock-step, then re-filters pins + results. Either control calls this.
   function setPropDeal(v) {
@@ -553,20 +604,66 @@
       priceRows = `<tr><td>Pacht (lease)</td><td class="num"><b style="color:var(--acct)">${eur(p.lease_eur_mo)}</b>/mo</td></tr>
         <tr><td></td><td class="num" style="color:var(--t2)">≈${eur(p.lease_eur_yr || p.lease_eur_mo * 12)}/yr${basis === 'MODELED' ? ' <span style="color:var(--warn)">est</span>' : ''}</td></tr>`;
       if (p.nk_eur_mo) priceRows += `<tr><td>Nebenkosten</td><td class="num">+${eur(p.nk_eur_mo)}/mo</td></tr>`;
-      if (p.rooms) priceRows += `<tr><td>Pacht / room</td><td class="num">${eur(Math.round(p.lease_eur_mo / p.rooms))}/mo</td></tr>`;
-      if (p.area_m2) priceRows += `<tr><td>Pacht / m²</td><td class="num">€${(p.lease_eur_mo / p.area_m2).toFixed(1).replace('.', ',')}/mo</td></tr>`;
+      if (impliedM2Ok(p)) {                                          // derived unit rates only when the €/mo plausibly covers the whole area
+        if (p.rooms) priceRows += `<tr><td>Pacht / room</td><td class="num">${eur(Math.round(p.lease_eur_mo / p.rooms))}/mo</td></tr>`;
+        if (p.area_m2) priceRows += `<tr><td>Pacht / m²</td><td class="num">€${(p.lease_eur_mo / p.area_m2).toFixed(1)}/mo</td></tr>`;
+      } else {
+        priceRows += `<tr><td></td><td class="num" style="color:var(--warn);font-weight:400;font-size:10px;white-space:normal;line-height:1.35">⚠ €/mo ÷ ${fmt(p.area_m2)} m² ≈ €${impliedM2(p).toFixed(2)}/m² — implausible; the listed rent likely covers only part of the space. Per-m²/room rates hidden.</td></tr>`;
+      }
     } else if (p.deal === 'sale' && p.price_eur) {
       priceRows = `<tr><td>${basis === 'MODELED' ? 'Est. purchase' : 'Asking price'}</td><td class="num"><b style="color:var(--acct)">${basis === 'MODELED' ? '≈' : ''}${eur(p.price_eur)}</b>${basis === 'MODELED' ? ' <span style="color:var(--warn)">est</span>' : ''}</td></tr>`;
       if (p.area_m2) priceRows += `<tr><td>€ / m²</td><td class="num">${eur(Math.round(p.price_eur / p.area_m2))}</td></tr>`;
       if (p.rooms) priceRows += `<tr><td>€ / room (key)</td><td class="num">${eur(Math.round(p.price_eur / p.rooms))}</td></tr>`;
       if (p.lease_eur_yr && basis === 'MODELED') priceRows += `<tr><td>Est. annual lease</td><td class="num" style="color:var(--t2)">≈${eur(p.lease_eur_yr)}/yr <span style="color:var(--warn)">est</span></td></tr>`;
     } else priceRows = `<tr><td>Price</td><td class="num" style="color:var(--t3)">on request</td></tr>`;
-    const g = (assetOf(p) === 'hotel' || /gastro/.test(assetOf(p))) && p.state && GBEDS[p.state];
+    // ---- pro-forma popup card: 4 numbers at a glance, <details> for the full math, everything est. ----
+  const eurS = v => '€' + (v >= 1e6 ? (Math.round(v / 1e5) / 10).toLocaleString('en-US') + 'M' : v >= 1000 ? Math.round(v / 1000).toLocaleString('en-US') + 'k' : Math.round(v).toLocaleString('en-US'));
+  const r1 = v => (Math.round(v * 10) / 10).toLocaleString('en-US');
+  function proformaBlock(p) {
+    const at = p.asset_type || p.kind;
+    if (at === 'apartment_building') return `<div class="pf-note">Already residential — furnishing ≈ €70/m² <sup class="est">est.</sup></div>`;
+    const f = proformaOf(p); if (!f) return '';
+    const tip = 'Arrivio Office Conversion Model v6 (Berlin Outskirts): capex €' + PROFORMA.CAPEX_PER_M2 + '/m² (low €' + PROFORMA.CAPEX_LOW + ' / high €' + PROFORMA.CAPEX_HIGH + '), landlord yield ' + (PROFORMA.REQ_YIELD * 100) + '%, office cap ' + (PROFORMA.OFFICE_CAP * 100) + '%, co-living cap ' + (PROFORMA.COLIVING_CAP * 100) + '%. All figures are estimates, not from the listing.';
+    // No as-is €/m² rent (sale-only OR price-on-request): the rent method can't run and we NEVER
+    // substitute a default rent (that would show one flat Pacht on every price-less building).
+    // Honest treatment: the refurb line + the generic re-rating badge.
+    if (f.asIsRent == null) return `
+      <div class="pf" title="${esc(tip)}">
+        <div class="pf-hd"><span>Conversion pro-forma</span><sup class="est">est.</sup></div>
+        <div class="pf-grid two">
+          <div class="pf-cell"><label>Refurb capex</label><b>${eurS(f.refurbTotal)}</b><small>€${PROFORMA.CAPEX_PER_M2}/m² × ${fmt(f.area)} m²</small></div>
+          <div class="pf-cell"><label>On conversion</label><b class="up">+~100%</b><small>value re-rating <sup class="est">est.</sup> · no as-is rent stated</small></div>
+        </div>
+      </div>`;
+    const occ = PROFORMA.OCCUPANCY;
+    return `
+      <div class="pf">
+        <div class="pf-hd" title="${esc(tip)}"><span>Conversion pro-forma</span><sup class="est">est.</sup><i class="pf-i">ⓘ</i></div>
+        <div class="pf-grid">
+          <div class="pf-cell"><label>Refurb capex</label><b>${eurS(f.refurbTotal)}</b><small>€${PROFORMA.CAPEX_PER_M2}/m²${f.refurbPerRoom ? ' · ' + eurS(f.refurbPerRoom) + '/room' : ''}</small></div>
+          <div class="pf-cell"><label>New Pacht</label><b>€${r1(f.asIsRent)}→€${r1(f.newPacht)}</b><small>/m²·mo (+€${r1(PROFORMA.UPLIFT_PER_M2_MO)} for capex)</small></div>
+          <div class="pf-cell"><label>Pacht / room</label><b>${f.pachtPerRoom ? '€' + fmt(Math.round(f.pachtPerRoom)) : '—'}</b><small>/mo to landlord</small></div>
+          <div class="pf-cell"><label>Value / m²</label><b>€${fmt(Math.round(f.asIsValM2))}→€${fmt(Math.round(f.postValM2))}</b><small class="up">+${Math.round(f.upliftPct * 100)}% · ${eurS(f.upliftTotal)} total</small></div>
+        </div>
+        <details class="pf-detail"><summary>Full pro-forma</summary>
+          <table>
+            <tr><td>As-is rent (listing)</td><td class="num">€${r1(f.asIsRent)}/m²·mo</td></tr>
+            <tr><td>Conversion capex</td><td class="num">€${PROFORMA.CAPEX_PER_M2}/m² · low €${PROFORMA.CAPEX_LOW} / high €${PROFORMA.CAPEX_HIGH}</td></tr>
+            <tr><td>Capex-service uplift</td><td class="num">+€${r1(PROFORMA.UPLIFT_PER_M2_MO)}/m²·mo (8% on spend)</td></tr>
+            <tr><td>Value uplift split</td><td class="num">cap re-rating ${eurS(f.capPart)}/m² + rent ${eurS(f.rentPart)}/m²</td></tr>
+            <tr><td>At ${Math.round(occ * 100)}% occupancy</td><td class="num">€${fmt(Math.round(f.asIsValM2 * occ))}→€${fmt(Math.round(f.postValM2 * occ))}/m²</td></tr>
+          </table>
+          <p class="hint" style="margin:4px 0 0">Office Conversion Model v6 (Berlin Outskirts) — estimates, not listing data.</p>
+        </details>
+      </div>`;
+  }
+  const g = (assetOf(p) === 'hotel' || /gastro/.test(assetOf(p))) && p.state && GBEDS[p.state];
     const ctx = g && g.hotels_occupancy_pct != null ? `<tr><td>Region hotel occ. ’24</td><td class="num">${NF.format(g.hotels_occupancy_pct)}%</td></tr>` : '';
     const flag = basis === 'LISTED' ? `<span style="color:#1a9e6c">● LISTED</span>` : basis === 'MODELED' ? `<span style="color:var(--warn)">● est.</span>` : `<span style="color:var(--t3)">● on request</span>`;
     const html = `
       <div class="sname">${esc(p.name)}</div>
-      <div class="splace">${PROP_LABEL[assetOf(p)] || esc(assetOf(p))}${p.city ? ' · ' + esc(p.city) : ''}${p.state ? ', ' + esc(p.state) : ''} ${dealBadge(p)}</div>
+      <div class="splace">${PROP_LABEL[assetOf(p)] || esc(assetOf(p))}${p.city ? ' · ' + esc(p.city) : ''}${p.state ? ', ' + esc(p.state) : ''}</div>
+      <div class="badge-row">${dealBadge(p)}${priceBadge(p)}${srcBadge(p)}</div>
       ${p.loc_approx ? `<div style="margin:6px 0;padding:6px 8px;border:1px dashed #d68a00;border-radius:6px;background:rgba(214,138,0,.10);font-size:11px;line-height:1.4;color:#b06f00"><b>⚠ Approximate location</b> — this pin is placed at the ${p.loc_basis === 'region' ? 'region' : 'state'} centre, <b>not</b> the real address (the listing gives only ${p.loc_basis === 'region' ? 'a region' : 'a town/region'}). For the exact spot, <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((p.name || '') + ' ' + (p.city || p.state || ''))}" target="_blank" rel="noopener" style="color:#b06f00;text-decoration:underline">search it on Google Maps ↗</a></div>` : ''}
       <table>
         ${priceRows}
@@ -576,6 +673,7 @@
         ${ctx}
         <tr><td>Basis</td><td class="num">${flag}</td></tr>
       </table>
+      ${proformaBlock(p)}
       <div class="btnrow"><button class="btn card-star ${favStore.has(p.id) ? 'on' : ''}" data-id="${esc(p.id)}" data-act="fav">${favStore.has(p.id) ? '★ Saved' : '☆ Save'}</button><button class="btn" data-act="area">+ Area here</button>${p.source_url ? `<a class="btn" href="${esc(p.source_url)}" target="_blank" rel="noopener">Source ↗</a>` : ''}</div>
       <p class="hint" style="margin-top:6px">${esc(p.source)} · captured ${esc(p.captured)}${basis === 'MODELED' ? ' · estimate via €/key cost model (upper-bound lease)' : ''}</p>`;
     const wire = root => { const ab = root.querySelector('[data-act="area"]'); if (ab) ab.onclick = () => addAreaAt([p.lat, p.lng]); const fb = root.querySelector('[data-act="fav"]'); if (fb) fb.onclick = () => toggleFav(p); };
@@ -592,14 +690,21 @@
     _save() { try { localStorage.setItem(FAV_KEY, JSON.stringify(this._m)); } catch (e) { } },
   };
   // derived metrics (computed per record, client-side)
-  const leasePerM2 = p => p.rent_eur_m2_mo != null ? p.rent_eur_m2_mo : (p.lease_eur_mo && p.area_m2 ? p.lease_eur_mo / p.area_m2 : null);
-  const pachtPerRoom = p => (p.lease_eur_mo && p.rooms ? p.lease_eur_mo / p.rooms : null);
+  // Sanity band for €/m²·mo rates DERIVED from monthly rent ÷ area: outside it the €/mo figure almost
+  // certainly covers only PART of the stated area (ohne-makler FSBO pattern: €219/mo on a 4.979 m²
+  // building = one office's rent). The listed €/mo stays on the card, but per-m², per-room and the
+  // pro-forma rent method are suppressed as unverified — never shown as if they were real unit rates.
+  const LEASE_M2_BAND = [2, 40];
+  const impliedM2 = p => (p.lease_eur_mo && p.area_m2) ? p.lease_eur_mo / p.area_m2 : null;
+  const impliedM2Ok = p => { const v = impliedM2(p); return v == null || (v >= LEASE_M2_BAND[0] && v <= LEASE_M2_BAND[1]); }; // no area = no signal to distrust
+  const leasePerM2 = p => p.rent_eur_m2_mo != null ? p.rent_eur_m2_mo : (p.lease_eur_mo && p.area_m2 && impliedM2Ok(p) ? p.lease_eur_mo / p.area_m2 : null);
+  const pachtPerRoom = p => (p.lease_eur_mo && p.rooms && impliedM2Ok(p) ? p.lease_eur_mo / p.rooms : null);
   const eurPerKey = p => (p.deal === 'sale' && p.price_eur && p.rooms ? p.price_eur / p.rooms : null);
   const saleM2 = p => (p.deal === 'sale' && p.price_eur && p.area_m2 ? (p.eur_per_m2 || p.price_eur / p.area_m2) : null);
   const m2Any = p => saleM2(p) != null ? saleM2(p) : leasePerM2(p);
   function headlineMetric(p) {
     if (p.deal === 'lease' && p.rent_eur_m2_mo != null) return '€' + NF.format(p.rent_eur_m2_mo) + '/m²·mo';
-    if (p.deal === 'lease' && p.lease_eur_mo) return '€' + kfmt(p.lease_eur_mo) + '/mo' + (p.rooms ? ' · €' + fmt(Math.round(p.lease_eur_mo / p.rooms)) + '/room' : '');
+    if (p.deal === 'lease' && p.lease_eur_mo) { const pr = pachtPerRoom(p); return '€' + kfmt(p.lease_eur_mo) + '/mo' + (pr ? ' · €' + fmt(Math.round(pr)) + '/room' : ''); }
     if (p.deal === 'sale' && p.price_eur) return '€' + kfmt(p.price_eur) + (p.rooms ? ' · €' + kfmt(Math.round(p.price_eur / p.rooms)) + '/key' : '');
     return 'on request';
   }
@@ -617,14 +722,13 @@
     if (p.rooms) return ' · ' + fmt(p.rooms) + ' rm';
     return '';
   }
+  // sliders: Asking-price, Sale €/key and Yield % were removed (Area is the size control; price
+  // filtering happens via the Price stated/on-request toggle + the €/m² and €/room lease sliders)
   const FILTER_FIELDS = [
-    { key: 'price', label: 'Asking price €', get: p => p.price_eur, fmt: v => '€' + kfmt(v), step: 1000 },
     { key: 'rooms', label: 'Rooms', get: p => p.rooms, fmt: v => fmt(v), step: 1, tick: 150 },
     { key: 'area', label: 'Area m²', get: p => p.area_m2, fmt: v => fmt(v) + ' m²', step: 10, tick: 3750 },
-    { key: 'lpm2', label: 'Lease €/m²·mo', get: leasePerM2, fmt: v => '€' + (Math.round(v * 10) / 10).toLocaleString('de-DE'), step: 0.5, tick: 15 },
+    { key: 'lpm2', label: 'Lease €/m²·mo', get: leasePerM2, fmt: v => '€' + (Math.round(v * 10) / 10).toLocaleString('en-US'), step: 0.5, tick: 15 },
     { key: 'ppr', label: 'Pacht €/room·mo', get: pachtPerRoom, fmt: v => '€' + fmt(v), step: 5, tick: 375 },
-    { key: 'key', label: 'Sale €/key', get: eurPerKey, fmt: v => '€' + kfmt(v), step: 1000, tick: 67000 },
-    { key: 'yield', label: 'Yield %', get: p => p.yield_pct, fmt: v => (Math.round(v * 10) / 10) + '%', step: 0.1 },
   ];
   const _ext = {};
   for (const f of FILTER_FIELDS) { const st = f.step || 1, vs = PROPS.map(f.get).filter(v => typeof v === 'number' && isFinite(v)); if (vs.length) { let mn = Math.floor(Math.min.apply(null, vs) / st) * st, mx = Math.ceil(Math.max.apply(null, vs) / st) * st; if (mn === mx) mx = mn + st; _ext[f.key] = [Math.round(mn * 100) / 100, Math.round(mx * 100) / 100]; } else _ext[f.key] = [0, st]; } // step-aligned so the slider max is reachable
@@ -636,7 +740,10 @@
   const CORE_PRESENT = ALL_TYPES.filter(t => CORE_TYPES.has(t));
   const OTHER_PRESENT = ALL_TYPES.filter(t => !CORE_TYPES.has(t));
   const ALL_STATES = [...new Set(PROPS.map(p => p.state).filter(Boolean))].sort();
-  S.filter = { types: new Set(CORE_PRESENT), showOther: false, basis: 'all', states: new Set(), favOnly: false, sort: 'm2', ranges: {} };
+  const ALL_SOURCES = [...new Set(PROPS.map(p => p.source).filter(Boolean))].sort((a, b) => PROPS.filter(p => p.source === b).length - PROPS.filter(p => p.source === a).length); // dynamic, biggest first
+  // (Model-fit tiers removed from the UI — MODEL:* stays in the data/notes as provenance only.
+  //  Size is governed by the Area slider; non-room types stay behind the asset-type "+More" toggle.)
+  S.filter = { types: new Set(CORE_PRESENT), showOther: false, states: new Set(), favOnly: false, sort: 'm2', ranges: {}, sources: new Set() };
   for (const f of FILTER_FIELDS) S.filter.ranges[f.key] = [..._ext[f.key]];
 
   function passRange(p, f) { const [lo, hi] = S.filter.ranges[f.key], [dlo, dhi] = _ext[f.key]; if (lo <= dlo + 1e-6 && hi >= dhi - 1e-6) return true; const v = f.get(p); if (v == null || !isFinite(v)) return false; return v >= lo && v <= hi; }
@@ -646,8 +753,7 @@
       if (p.lat == null) return false;
       if (S.propDeal !== 'all' && p.deal !== S.propDeal) return false;
       if (F.types.size && !F.types.has(p.asset_type || p.kind)) return false;
-      if (F.basis === 'listed' && p.price_basis !== 'LISTED') return false;
-      if (F.basis === 'est' && !(p.price_basis === 'LISTED' || p.price_basis === 'MODELED')) return false;
+      if (F.sources.size && !F.sources.has(p.source)) return false;                       // source multi-select (empty = all)
       if (F.states.size && !F.states.has(p.state)) return false;
       if (F.favOnly && !favStore.has(p.id)) return false;
       for (const f of FILTER_FIELDS) if (!passRange(p, f)) return false;
@@ -660,7 +766,7 @@
     const on = favStore.toggle(p.id, { id: p.id, name: p.name, city: p.city, kind: p.asset_type || p.kind, deal: p.deal, metric: headlineMetric(p), source_url: p.source_url });
     if (btn) { btn.classList.toggle('on', on); btn.textContent = on ? '★' : '☆'; }
     document.querySelectorAll('.card-star').forEach(b => { if (b.dataset.id === p.id) { b.classList.toggle('on', on); b.textContent = on ? '★ Saved' : '☆ Save'; } });
-    updateFavBadge(); if (S.filter.favOnly) applyFilter();
+    updateFavBadge(); if (typeof updateShortlist === 'function') updateShortlist(); if (S.filter.favOnly) applyFilter();
   }
   function updateFavBadge() { const b = $('favbadge'); if (b) b.textContent = favStore.count(); }
   function flashRow(id) { const box = $('results-list'); if (!box) return; box.querySelectorAll('.rrow.hot').forEach(r => r.classList.remove('hot')); const row = box.querySelector('.rrow[data-id="' + (window.CSS && CSS.escape ? CSS.escape(id) : id) + '"]'); if (row) { row.classList.add('hot'); row.scrollIntoView({ block: 'nearest' }); } }
@@ -669,7 +775,7 @@
     const sorted = [...list].sort(SORTERS[S.filter.sort] || SORTERS.m2);
     box.innerHTML = sorted.slice(0, 400).map(p => { const at = p.asset_type || p.kind, fav = favStore.has(p.id);
       const sub = [PROP_LABEL[at] || at, p.city].filter(Boolean).join(' · ');
-      return `<div class="rrow" data-id="${esc(p.id)}"><span class="rdot" style="background:${propColor(p)}"></span><div class="rmain"><div class="rname">${esc(p.name || at)} ${dealBadge(p)}</div><div class="rsub">${esc(sub)}${roomsTag(p)}${p.area_m2 ? ' · ' + fmt(p.area_m2) + ' m²' : ''}</div><div class="rmetric">${headlineMetric(p)} <span style="color:var(--t3);font-weight:400">${p.price_basis === 'LISTED' ? '● LISTED' : p.price_basis === 'MODELED' ? '◐ est' : ''}</span></div></div><div class="ract"><button class="star ${fav ? 'on' : ''}" title="Favourite">${fav ? '★' : '☆'}</button>${p.source_url ? `<a class="rsrc" href="${esc(p.source_url)}" target="_blank" rel="noopener" title="Source">↗</a>` : ''}</div></div>`;
+      return `<div class="rrow" data-id="${esc(p.id)}"><span class="rdot" style="background:${propColor(p)}"></span><div class="rmain"><div class="rname">${esc(p.name || at)} ${dealBadge(p)}</div><div class="rsub">${esc(sub)}${roomsTag(p)}${p.area_m2 ? ' · ' + fmt(p.area_m2) + ' m²' : ''}</div><div class="rbadges">${priceBadge(p)}${srcBadge(p)}</div><div class="rmetric">${headlineMetric(p)} <span style="color:var(--t3);font-weight:400">${p.price_basis === 'LISTED' ? '● LISTED' : p.price_basis === 'MODELED' ? '◐ est' : ''}</span></div></div><div class="ract"><button class="star ${fav ? 'on' : ''}" title="Favourite">${fav ? '★' : '☆'}</button>${p.source_url ? `<a class="rsrc" href="${esc(p.source_url)}" target="_blank" rel="noopener" title="Source">↗</a>` : ''}</div></div>`;
     }).join('') || '<div class="snote">No properties match — widen a slider or press Reset.</div>';
     box.querySelectorAll('.rrow').forEach(row => { const id = row.dataset.id, p = PROPS.find(x => x.id === id); if (!p) return;
       row.onmouseenter = () => M.highlightProp(id, true); row.onmouseleave = () => M.highlightProp(id, false);
@@ -681,8 +787,27 @@
     if (!S.layers.props) return;
     const list = filtered();
     M.renderProperties(list, selectProperty, propColor, true, flashRow);
+    const roomsSum = list.reduce((a, p) => a + (p.rooms || 0), 0);
     [['n-props', NF.format(list.length)], ['fcount', NF.format(list.length)], ['fcount2', NF.format(list.length) + '/' + PROPS.length]].forEach(([id, t]) => { const el = $(id); if (el) el.textContent = t; });
+    const sc = document.querySelector('#supply-pop .sp-count'); if (sc) sc.innerHTML = `<b id="fcount">${NF.format(list.length)}</b> listings · ~${kfmt(roomsSum)} rooms`;
+    renderActiveChips();
     renderResults(list);
+  }
+  // active-filter chips with one-click removal + clear all (hidden when everything is at default)
+  function renderActiveChips() {
+    const el = $('active-chips'); if (!el) return;
+    const F = S.filter, chips = [];
+    const add = (label, fn) => chips.push({ label, fn });
+    if (S.propDeal !== 'all') add('Deal: ' + (S.propDeal === 'sale' ? 'For sale' : 'For lease'), () => setPropDeal('all'));
+    if (F.sources.size) add('Source: ' + (F.sources.has(SRC_NONE) ? 'none' : F.sources.size > 2 ? F.sources.size + ' selected' : [...F.sources].join(', ')), () => { F.sources.clear(); buildControls(); applyFilter(); });
+    if (F.states.size) add('State: ' + (F.states.size > 2 ? F.states.size + ' selected' : [...F.states].map(s => STATE_SHORT[s] || s).join(', ')), () => { F.states.clear(); buildControls(); applyFilter(); });
+    if (F.favOnly) add('Shortlist only', () => { F.favOnly = false; const fb = $('ffav'); if (fb) fb.classList.remove('on'); applyFilter(); });
+    const narrowed = FILTER_FIELDS.filter(f => { const [lo, hi] = F.ranges[f.key], [dlo, dhi] = _ext[f.key]; return lo > dlo + 1e-6 || hi < dhi - 1e-6; });
+    if (narrowed.length) add(narrowed.length + ' range' + (narrowed.length > 1 ? 's' : ''), () => { for (const f of narrowed) F.ranges[f.key] = [..._ext[f.key]]; buildControls(); applyFilter(); });
+    if (!chips.length) { el.hidden = true; el.innerHTML = ''; return; }
+    el.hidden = false; el.innerHTML = '';
+    for (const c of chips) { const b = document.createElement('button'); b.className = 'achip'; b.innerHTML = esc(c.label) + ' <i>×</i>'; b.onclick = c.fn; el.appendChild(b); }
+    const clr = document.createElement('button'); clr.className = 'achip clear'; clr.textContent = 'Clear all'; clr.onclick = resetFilter; el.appendChild(clr);
   }
   const _debApply = (typeof debounce === 'function') ? debounce(applyFilter, 110) : applyFilter;
 
@@ -709,12 +834,6 @@
     }
     g.appendChild(wrap); return g;
   }
-  function segRow(label, opts, onSel, def) {
-    const g = document.createElement('div'); g.className = 'fgrp'; g.innerHTML = `<div class="flabel"><span>${label}</span></div>`;
-    const seg = document.createElement('div'); seg.className = 'seg metric-seg'; seg.style.margin = '0';
-    opts.forEach(([v, l]) => { const b = document.createElement('button'); b.textContent = l; b.setAttribute('aria-pressed', v === def); b.onclick = () => { seg.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b)); onSel(v); }; seg.appendChild(b); });
-    g.appendChild(seg); return g;
-  }
   function dualSlider(f) {
     const [dlo, dhi] = _ext[f.key], [clo, chi] = S.filter.ranges[f.key];
     const g = document.createElement('div'); g.className = 'fgrp'; g.innerHTML = `<div class="flabel"><span>${f.label}</span><b class="fval">${f.fmt(clo)} – ${f.fmt(chi)}</b></div>`;
@@ -736,15 +855,81 @@
     [['all', 'All'], ['sale', 'For sale'], ['lease', 'For lease']].forEach(([v, l]) => { const b = document.createElement('button'); b.dataset.pd = v; b.textContent = l; b.setAttribute('aria-pressed', S.propDeal === v); b.onclick = () => setPropDeal(v); seg.appendChild(b); });
     g.appendChild(seg); return g;
   }
+  // Source — "Filter by source ▾" dropdown multi-select (checkboxes, select all / clear).
+  // State semantics: sources empty = ALL; '__none__' sentinel = explicit none (after Clear); else the ticked set.
+  const SRC_NONE = '__none__';
+  let _srcOpen = false;
+  function sourceGroup() {
+    const F = S.filter.sources;
+    const none = F.has(SRC_NONE);
+    const selCount = none ? 0 : (F.size || ALL_SOURCES.length);
+    const g = document.createElement('div'); g.className = 'fgrp';
+    const btn = document.createElement('button'); btn.className = 'src-dd-btn'; btn.setAttribute('aria-expanded', _srcOpen);
+    btn.innerHTML = `Filter by source <b>${selCount === ALL_SOURCES.length ? 'all' : selCount + ' of ' + ALL_SOURCES.length}</b> <span class="dd-car">${_srcOpen ? '▴' : '▾'}</span>`;
+    btn.onclick = () => { _srcOpen = !_srcOpen; buildControls(); };
+    g.appendChild(btn);
+    if (_srcOpen) {
+      const dd = document.createElement('div'); dd.className = 'src-dd';
+      const bar = document.createElement('div'); bar.className = 'src-dd-bar';
+      const selAll = document.createElement('button'); selAll.className = 'fbtn'; selAll.textContent = 'Select all';
+      selAll.onclick = () => { F.clear(); buildControls(); applyFilter(); };                       // empty = all
+      const clr = document.createElement('button'); clr.className = 'fbtn'; clr.textContent = 'Clear';
+      clr.onclick = () => { F.clear(); F.add(SRC_NONE); buildControls(); applyFilter(); };         // explicit none
+      bar.append(selAll, clr); dd.appendChild(bar);
+      for (const s of ALL_SOURCES) {
+        const n = PROPS.filter(p => p.source === s).length;
+        const row = document.createElement('label'); row.className = 'src-dd-row';
+        const cb = document.createElement('input'); cb.type = 'checkbox'; cb.checked = !none && (F.size === 0 || F.has(s));
+        cb.onchange = () => {
+          if (none) F.delete(SRC_NONE);
+          else if (F.size === 0) ALL_SOURCES.forEach(x => F.add(x));                               // materialise "all" then toggle
+          if (cb.checked) F.add(s); else F.delete(s);
+          if (F.size === ALL_SOURCES.length) F.clear();                                            // all ticked = back to "all"
+          if (F.size === 0 && !cb.checked) F.add(SRC_NONE);                                       // last untick = none
+          buildControls(); applyFilter();
+        };
+        const span = document.createElement('span'); span.textContent = s;
+        const cnt = document.createElement('i'); cnt.textContent = fmt(n);
+        row.append(cb, span, cnt); dd.appendChild(row);
+      }
+      g.appendChild(dd);
+    }
+    return g;
+  }
+  // Location — region-grouped control (distinct from the source dropdown): four German regions,
+  // each with a group toggle + its state pills. Empty selection = all of Germany (same semantics).
+  const REGIONS = [
+    ['North', ['Schleswig-Holstein', 'Hamburg', 'Bremen', 'Niedersachsen', 'Mecklenburg-Vorpommern']],
+    ['East', ['Berlin', 'Brandenburg', 'Sachsen', 'Sachsen-Anhalt', 'Thüringen']],
+    ['West', ['Nordrhein-Westfalen', 'Hessen', 'Rheinland-Pfalz', 'Saarland']],
+    ['South', ['Baden-Württemberg', 'Bayern']],
+  ];
+  function regionGroup() {
+    const F = S.filter.states;
+    const g = document.createElement('div'); g.className = 'fgrp';
+    g.innerHTML = `<div class="flabel"><span>Location</span><b class="fval" style="font-weight:500;color:var(--t3)">${F.size ? F.size + ' state' + (F.size > 1 ? 's' : '') : 'all Germany'}</b></div>`;
+    for (const [name, sts] of REGIONS) {
+      const present = sts.filter(s => ALL_STATES.includes(s)); if (!present.length) continue;
+      const row = document.createElement('div'); row.className = 'region-row';
+      const rb = document.createElement('button'); rb.className = 'region-btn'; rb.textContent = name;
+      rb.title = 'Toggle all of ' + name; rb.setAttribute('aria-pressed', present.every(s => F.has(s)));
+      rb.onclick = () => { if (present.every(s => F.has(s))) present.forEach(s => F.delete(s)); else present.forEach(s => F.add(s)); buildControls(); applyFilter(); };
+      row.appendChild(rb);
+      const pills = document.createElement('div'); pills.className = 'region-pills';
+      for (const s of present) { const b = document.createElement('button'); b.className = 'chip2'; b.textContent = (typeof STATE_SHORT !== 'undefined' && STATE_SHORT[s]) || s; b.setAttribute('aria-pressed', F.has(s)); b.onclick = () => { if (F.has(s)) F.delete(s); else F.add(s); buildControls(); applyFilter(); }; pills.appendChild(b); }
+      row.appendChild(pills); g.appendChild(row);
+    }
+    return g;
+  }
   function buildControls() {
     const c = $('supply-controls'); if (!c) return; c.innerHTML = '';
     c.appendChild(dealSeg());
     c.appendChild(typeGroup());
-    c.appendChild(segRow('Price basis', [['all', 'All'], ['listed', 'LISTED'], ['est', '+est']], v => { S.filter.basis = v; applyFilter(); }, S.filter.basis));
+    c.appendChild(sourceGroup());
     for (const f of FILTER_FIELDS) { if (_ext[f.key][0] === _ext[f.key][1]) continue; c.appendChild(dualSlider(f)); }
-    c.appendChild(chipRow('Location (state)', ALL_STATES.map(s => ({ v: s, label: (typeof STATE_SHORT !== 'undefined' && STATE_SHORT[s]) || s })), S.filter.states));
+    c.appendChild(regionGroup());
   }
-  function resetFilter() { S.filter.types = new Set(CORE_PRESENT); S.filter.showOther = false; S.filter.states.clear(); S.filter.basis = 'all'; S.filter.favOnly = false; S.propDeal = 'all'; document.querySelectorAll('#prop-deal [data-pd]').forEach(b => b.setAttribute('aria-pressed', b.dataset.pd === 'all')); for (const f of FILTER_FIELDS) S.filter.ranges[f.key] = [..._ext[f.key]]; const fb = $('ffav'); if (fb) fb.classList.remove('on'); buildControls(); applyFilter(); }
+  function resetFilter() { S.filter.types = new Set(CORE_PRESENT); S.filter.showOther = false; S.filter.states.clear(); S.filter.favOnly = false; S.filter.sources.clear(); S.propDeal = 'all'; document.querySelectorAll('#prop-deal [data-pd]').forEach(b => b.setAttribute('aria-pressed', b.dataset.pd === 'all')); for (const f of FILTER_FIELDS) S.filter.ranges[f.key] = [..._ext[f.key]]; const fb = $('ffav'); if (fb) fb.classList.remove('on'); buildControls(); applyFilter(); }
   function sourcesNote() {
     const bySrc = {}; for (const p of PROPS) { const s = p.source || '—'; const d = bySrc[s] = bySrc[s] || { n: 0, host: null, types: new Set(), cap: null }; d.n++; if (p.source_url && !d.host) d.host = p.source_url.replace(/^https?:\/\//, '').split('/')[0]; d.types.add(PROP_LABEL[p.asset_type || p.kind] || p.kind); if (p.captured && (!d.cap || p.captured > d.cap)) d.cap = p.captured; }
     const lines = Object.entries(bySrc).sort((a, b) => b[1].n - a[1].n).map(([s, d]) => `<div>• <b>${esc(s)}</b> — ${d.n} listings (${[...d.types].slice(0, 3).join(', ')})${d.cap ? ' · captured ' + esc(d.cap) : ''}${d.host ? ` · <a href="https://${esc(d.host)}" target="_blank" rel="noopener">view more ↗</a>` : ''}</div>`).join('');
@@ -763,21 +948,61 @@
     if ($('supply-pop')) return;
     const pop = document.createElement('div'); pop.className = 'supply-pop'; pop.id = 'supply-pop'; pop.hidden = true;
     pop.innerHTML = `<div class="sp-head"><b>Supply filter &amp; results</b><span class="sp-count"><b id="fcount">0</b> of ${PROPS.length}</span><button class="sp-min" id="sp-min" title="Minimise">▾</button></div>
-      <div class="sp-body"><div class="fwrap" id="supply-controls"></div>
+      <div class="sp-body"><div class="achips" id="active-chips"></div><div class="fwrap" id="supply-controls"></div>
       <div class="fmeta"><span class="cnt">Sort</span><span style="display:flex;gap:6px;align-items:center"><select id="fsort" title="Sort by"><option value="m2">€/m²</option><option value="room">€/room</option><option value="key">€/key</option><option value="price">Price</option><option value="rooms">Rooms</option><option value="area">Area</option><option value="newest">Newest</option></select><button class="fbtn" id="freset">Reset</button></span></div>
-      <div class="fmeta"><button class="fbtn" id="ffav">☆ Favourites <b id="favbadge">0</b></button><button class="fbtn" id="fclear" title="Clear favourites">clear</button><button class="fbtn" id="fsrc">ⓘ Sources</button></div>
-      <div class="snote" id="sources-note" hidden></div><div class="rlist" id="results-list"></div></div>`;
+      <div class="fmeta"><button class="fbtn" id="ffav">☆ Shortlist <b id="favbadge">0</b></button><button class="fbtn" id="fclear" title="Clear shortlist">clear</button><button class="fbtn" id="fsrc">ⓘ Sources</button><button class="fbtn" id="fcov">Coverage</button></div>
+      <div id="shortlist-roll" hidden></div>
+      <div class="snote" id="sources-note" hidden></div><div class="snote" id="coverage-note" hidden></div><div class="rlist" id="results-list"></div></div>`;
     document.body.appendChild(pop);
     makeDraggable(pop, pop.querySelector('.sp-head'));
     buildControls();
     $('fsort').onchange = e => { S.filter.sort = e.target.value; applyFilter(); };
     $('freset').onclick = resetFilter;
     $('ffav').onclick = () => { S.filter.favOnly = !S.filter.favOnly; $('ffav').classList.toggle('on', S.filter.favOnly); applyFilter(); };
-    $('fclear').onclick = () => { favStore.clear(); updateFavBadge(); applyFilter(); };
+    $('fclear').onclick = () => { favStore.clear(); updateFavBadge(); updateShortlist(); applyFilter(); };
     $('fsrc').onclick = () => { const n = $('sources-note'); n.hidden = !n.hidden; if (!n.hidden) n.innerHTML = sourcesNote(); };
+    $('fcov').onclick = () => { const n = $('coverage-note'); n.hidden = !n.hidden; if (!n.hidden) n.innerHTML = coverageNote(); };
     $('sp-min').onclick = () => { pop.classList.toggle('min'); $('sp-min').textContent = pop.classList.contains('min') ? '▸' : '▾'; };
-    updateFavBadge();
+    updateFavBadge(); updateShortlist();
   }
+  // ---- Source coverage tracker (honest in/out list; easy to extend) ----
+  const COVERAGE = [
+    { name: 'Aengevelt', status: 'sourced', note: 'incl. exact geo coords', url: 'https://www.aengevelt.com' },
+    { name: 'BNP Paribas RE', status: 'sourced', note: 'real €/m² rents', url: 'https://www.realestate.bnpparibas.de' },
+    { name: 'ahgzimmo.de', status: 'sourced', note: 'hotel/gastro lease+sale', url: 'https://www.ahgzimmo.de' },
+    { name: 'ohne-makler.net', status: 'sourced', note: 'FSBO; many without a public address', url: 'https://www.ohne-makler.net' },
+    { name: 'Engel & Völkers', status: 'sourced', note: 'investment + offices/land', url: 'https://www.engelvoelkers.com' },
+    { name: 'JLL', status: 'sourced', note: 'per-property pages', url: 'https://gewerbeimmobilien.jll.de' },
+    { name: 'Colliers', status: 'sourced', note: '', url: 'https://www.colliers.de' },
+    { name: 'CBRE', status: 'sourced', note: '', url: 'https://www.cbre.de' },
+    { name: 'Christie & Co', status: 'sourced', note: 'hotels', url: 'https://www.christie.com' },
+    { name: 'Savills', status: 'blocked', note: '16-item SSR teaser only; search engine CloudFront-gated', url: 'https://www.savills.de/immobiliensuche/' },
+    { name: 'ImmoScout24', status: 'blocked', note: 'DataDome CAPTCHA — not scrapeable (ToS)', url: 'https://www.immobilienscout24.de/gewerbe/' },
+    { name: 'Immowelt / Immonet', status: 'blocked', note: 'same anti-bot group — not attempted', url: 'https://www.immowelt.de/' },
+  ];
+  function coverageNote() {
+    const chip = s => s === 'sourced' ? '<span class="cov-chip ok">Sourced</span>' : s === 'queued' ? '<span class="cov-chip q">Queued</span>' : '<span class="cov-chip no">Blocked</span>';
+    const cnt = {}; PROPS.forEach(p => cnt[p.source] = (cnt[p.source] || 0) + 1);
+    return '<div style="margin-bottom:6px"><b>Source coverage</b> — what is in the data vs. still outstanding.</div>' + COVERAGE.map(c =>
+      `<div class="cov-row">${chip(c.status)}<b>${esc(c.name)}</b>${cnt[c.name] ? ' <span style="color:var(--t3)">' + fmt(cnt[c.name]) + '</span>' : ''}${c.note ? ` <span style="color:var(--t3)">— ${esc(c.note)}</span>` : ''}<a href="${esc(c.url)}" target="_blank" rel="noopener" style="margin-left:auto;white-space:nowrap">view directly ↗</a></div>`).join('');
+  }
+  // ---- My shortlist: portfolio pro-forma roll-up across saved commercial listings ----
+  function updateShortlist() {
+    const el = $('shortlist-roll'); if (!el) return;
+    const ids = Object.keys(favStore._m); const items = ids.map(id => PROPS.find(p => p.id === id)).filter(Boolean);
+    if (!items.length) { el.hidden = true; el.innerHTML = ''; return; }
+    let capex = 0, pacht = 0, uplift = 0, rooms = 0, nPF = 0;
+    for (const p of items) { const f = proformaOf(p); rooms += p.rooms || 0; if (f) { nPF++; capex += f.refurbTotal || 0; pacht += (f.newPacht && f.area) ? f.newPacht * f.area : 0; uplift += f.upliftTotal || 0; } }
+    el.hidden = false;
+    el.innerHTML = `<div class="pf sl"><div class="pf-hd"><span>My shortlist — portfolio</span><sup class="est">est.</sup><span style="margin-left:auto;color:var(--t3);font-weight:500">${items.length} saved · ${fmt(rooms)} rooms</span></div>
+      <div class="pf-grid">
+        <div class="pf-cell"><label>Refurb capex</label><b>${capex ? eurSl(capex) : '—'}</b><small>${nPF} commercial</small></div>
+        <div class="pf-cell"><label>Pacht to landlords</label><b>${pacht ? eurSl(pacht) : '—'}</b><small>/month</small></div>
+        <div class="pf-cell"><label>Value uplift created</label><b class="up">${uplift ? eurSl(uplift) : '—'}</b><small>on conversion</small></div>
+        <div class="pf-cell"><label>Rooms</label><b>${fmt(rooms)}</b><small>listed + est.</small></div>
+      </div></div>`;
+  }
+  const eurSl = v => '€' + (v >= 1e6 ? (Math.round(v / 1e5) / 10).toLocaleString('en-US') + 'M' : Math.round(v / 1000).toLocaleString('en-US') + 'k');
   function computeProperties() {
     const pop0 = $('supply-pop');
     if (!S.layers.props) { M.setPropertiesVisible(false); if (pop0) pop0.hidden = true; return; }
@@ -793,11 +1018,18 @@
     "Hamburg": "Hamburg", "Brandenburg": "Brandenburg", "Sachsen-Anhalt": "Sa.-Anhalt",
     "Thüringen": "Thüringen", "Mecklenburg-Vorpommern": "Meckl.-Vorp.", "Bremen": "Bremen", "Saarland": "Saarland"
   };
-  const eurShort = v => v >= 1e9 ? '€' + (v / 1e9).toFixed(2).replace('.', ',') + ' bn' : '€' + fmt(v / 1e6) + ' m';
+  const eurShort = v => v >= 1e9 ? '€' + (v / 1e9).toFixed(2) + ' bn' : '€' + fmt(v / 1e6) + ' m';
   const stateIntl = name => (STATES_DATA[name] || {}).intl || 0;
   const stateTotal = name => (STATES_DATA[name] || {}).total || 0;
   const stateInflow = (name, metric) => metric === 'total' ? stateTotal(name) : stateIntl(name);
   const stateTAM = (name, metric) => stateInflow(name, metric) * TAM_PER_PERSON;
+  /* ---- domestic net migration per state (Destatis GENESIS 12711, 2022 — data/domestic_moves.json).
+     Folded into the "+ Domestic" card view (no separate shading mode): the state card shows the
+     net-migration number + the in-state movement point there. saldo = in − out across the Bundesland
+     border, INCL. international in-migration — always labelled "net migration", never "intra-state
+     moves". The ~2.8M/yr intra-district churn figure is NATIONAL context only (no per-state split
+     exists). If the file is absent, DOM_MOVES is null and the card lines hide gracefully. */
+  const DOM_MOVES = (typeof DOMESTIC_MOVES !== 'undefined' && DOMESTIC_MOVES && DOMESTIC_MOVES.states) ? Object.fromEntries(DOMESTIC_MOVES.states.map(s => [s.state, s])) : null;
   const statesValueFn = () => (name => stateTAM(name, S.stateMetric));
   const stateLabelFn = () => (name => esc(STATE_SHORT[name] || name)); // name only — keeps labels compact, no overlap
   const statesFillOpacity = () => ((S.layers.clients || S.layers.hex || S.layers.commercial || S.layers.hotels) ? 0.32 : 0.8);
@@ -890,18 +1122,21 @@
       const name = S.selStates[0], d = STATES_DATA[name];
       const tam = stateTAM(name, metric), intlTAM = stateIntl(name) * TAM_PER_PERSON, totTAM = stateTotal(name) * TAM_PER_PERSON;
       const comp = INFLOW_COMPOSITION.map(c => `${c.label} ${c.pct}%`).join(' · ');
+      const dm = DOM_MOVES && DOM_MOVES[name];
       let rows = `<tr><td>Population</td><td class="num">${fmt(d.pop)}</td></tr>
         <tr><td>Inflow / yr (${isT ? 'total' : 'international'})</td><td class="num">${fmt(stateInflow(name, metric))}</td></tr>
         <tr><td><b>TAM · ${isT ? '+ domestic' : 'international'}</b></td><td class="num"><b style="color:var(--acct);font-size:1.15em">${eurShort(tam)}</b></td></tr>`;
       if (isT) rows += `<tr><td style="color:var(--t3)">· of which international</td><td class="num" style="color:var(--t2)">${eurShort(intlTAM)}</td></tr>
         <tr><td style="color:var(--t3)">· of which domestic</td><td class="num" style="color:var(--t2)">${eurShort(totTAM - intlTAM)}</td></tr>`;
+      if (isT && dm) rows += `<tr><td>Net migration ’22</td><td class="num"><b style="color:#0f6f38">+${fmt(dm.saldo)}</b>/yr</td></tr>`;
       html = `
         <div class="sname">${esc(name)}</div>
         <div class="splace">Total Addressable Market · €${TAM_PER_PERSON / 1000}k per person</div>
         ${seg}
         <table>${rows}</table>
         ${multiBtn}
-        <p class="hint" style="margin-top:8px">National inflow mix: ${esc(comp)}.</p>
+        ${isT && dm ? `<p class="hint" style="margin-top:8px"><b>In-state movement:</b> Germans relocating are core demand too — ~2.8M people/yr move across district lines nationally, most staying within their own state (Destatis). This state's net migration: <b>+${fmt(dm.saldo)}/yr</b> (${fmt(dm.zuzuege)} in / ${fmt(dm.fortzuege)} out, incl. international) — Destatis 2022.</p>` : ''}
+        <p class="hint" style="margin-top:${isT && dm ? 4 : 8}px">National inflow mix: ${esc(comp)}.</p>
         <p class="hint" style="margin-top:4px">Top origins: ${esc(INFLOW_TOP_ORIGINS)}. TAM = inflow × €${TAM_PER_PERSON / 1000}k. Source: Destatis 2024.</p>`;
     }
     showSelCard(html);

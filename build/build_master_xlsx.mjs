@@ -70,16 +70,19 @@ const caps = (rd('data/captures.json') || {}).properties || [];
 const props = (rd('data/properties.json') || {}).properties || [];
 const hotels = (() => { const h = rd('build/hotels_osm.json'); return Array.isArray(h) ? h : (h && h.features) || []; })();
 
-const ACQ_COLS = ['asset_type', 'deal', 'source', 'source_url', 'listing_id', 'name', 'district', 'plz', 'city', 'state', 'rent_eur_m2_min', 'rent_eur_m2_max', 'lease_eur_mo', 'price_eur', 'area_m2', 'rooms', 'rooms_basis', 'rooms_note', 'lat', 'lng', 'loc_approx', 'captured', 'notes'];
+const ACQ_COLS = ['asset_type', 'deal', 'source', 'source_url', 'listing_id', 'name', 'district', 'plz', 'city', 'state', 'rent_eur_m2_min', 'rent_eur_m2_max', 'lease_eur_mo', 'price_eur', 'price_defined', 'model_tier', 'area_m2', 'rooms', 'rooms_basis', 'rooms_note', 'lat', 'lng', 'loc_approx', 'captured', 'notes'];
 const acqRow = r => [
   r.asset_type || r.kind || '', r.deal || '', r.source || '', r.source_url || '', r.id || r.listing_id || '',
   r.name || '', r.district || '', r.plz || '', r.city || '', r.state || '',
-  r.rent_eur_m2_min ?? '', r.rent_eur_m2_max ?? '', r.lease_eur_mo ?? '', r.price_eur ?? '', r.area_m2 ?? '',
-  r.rooms ?? '', r.rooms_basis || (r.rooms ? 'listed' : ''), r.rooms_note || '',
+  r.rent_eur_m2_min ?? '', r.rent_eur_m2_max ?? '', r.lease_eur_mo ?? '', r.price_eur ?? '',
+  r.price_defined === false ? 'on request' : r.price_defined === true ? 'stated' : '', r.model_tier || '',
+  r.area_m2 ?? '', r.rooms ?? '', r.rooms_basis || (r.rooms ? 'listed' : ''), r.rooms_note || '',
   r.lat ?? '', r.lng ?? '', r.loc_approx ? 'yes' : '', r.captured || '', r.notes || '',
 ];
-// deal is the FIRST sort key so for-sale and for-lease never blur together when scanning (then source, then city)
-const acqData = [...caps, ...props].sort((a, b) => (a.deal || 'zz').localeCompare(b.deal || 'zz') || (a.source || '').localeCompare(b.source || '') || (a.city || '').localeCompare(b.city || ''));
+// deal is the FIRST sort key so for-sale and for-lease never blur together when scanning (then source, then city).
+// Same id-dedupe as the map union: captures win over portal rows (ahgzimmo listings now live in the broker CSV too).
+const _capIds = new Set(caps.map(r => r.id));
+const acqData = [...caps, ...props.filter(p => !_capIds.has(p.id))].sort((a, b) => (a.deal || 'zz').localeCompare(b.deal || 'zz') || (a.source || '').localeCompare(b.source || '') || (a.city || '').localeCompare(b.city || ''));
 const acqRows = [ACQ_COLS, ...acqData.map(acqRow)];
 
 const OSM_COLS = ['name', 'city', 'stars', 'rooms', 'lat', 'lng', 'source', 'note'];

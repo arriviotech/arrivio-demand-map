@@ -122,7 +122,7 @@
         <div class="seg metric-seg" id="comm-metric" role="group" aria-label="Office metric" hidden>
           <button data-cm="density" aria-pressed="true">Density</button>
           <button data-cm="rent">Rent</button>
-          <button data-cm="vacant">Vacancy %</button>
+          <button data-cm="vacant" disabled title="No vacancy source yet — we don't invent numbers" style="opacity:.45;cursor:not-allowed">Vacancy %</button>
         </div>
         <div class="lrow off" data-lrow="hotels"><span class="sw grad"></span><span class="lname">Small / family hotels</span>
           <button class="eye" data-layer="hotels" aria-pressed="false" aria-label="Toggle small family hotels"><svg class="ic"><use href="#i-eye-off"/></svg></button></div>
@@ -231,14 +231,14 @@
 
 <!-- states TAM legend -->
 <div id="states-legend" class="glass" hidden>
-  <h3>Total Addressable Market</h3>
+  <h3 id="states-legend-title">Total Addressable Market</h3>
   <div class="seg" id="state-metric" role="group" aria-label="Inflow basis">
     <button data-metric="intl" aria-pressed="true">International</button>
     <button data-metric="total" aria-pressed="false">+ Domestic</button>
   </div>
-  <div class="gbar" style="margin-top:8px"></div>
+  <div class="gbar" id="states-gbar" style="margin-top:8px"></div>
   <div class="glab"><span>lower</span><span id="states-legend-max">higher</span></div>
-  <p class="hint" style="margin:6px 0 0">Color = TAM (inflow × €15k per person). Click a state for the full breakdown.</p>
+  <p class="hint" id="states-legend-hint" style="margin:6px 0 0">Color = TAM (inflow × €15k per person). Click a state for the full breakdown.</p>
 </div>
 
 <!-- overview -->

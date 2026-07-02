@@ -1,0 +1,476 @@
+asset_type,deal,source,source_url,listing_id,name,district,plz,city,state,rent_eur_m2_min,rent_eur_m2_max,price_eur,area_min_m2,area_max_m2,rooms,captured,notes
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/37876/,ohm-37876,"Büro-/Praxisräume, 90 m2, direkt am Bahnhof Otterfing",,83624,Otterfing,,,,,,,,2026-07-02,rent ~840 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/75893/,ohm-75893,"Loftbüro mit viel Licht in Neukölln,Hohe Decken, Lastenaufzug vorhande",,,,,,,,,,,2026-07-02,rent ~1.314 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/93610/,ohm-93610,"Top Büroflächen mit vielen Möglichkeiten, EUR 15,- bis 17,- pro qm war",,72202,Nagold,,,,,,,,2026-07-02,rent ~12 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/101108/,ohm-101108,"Büro- u. Praxisflächen im TaT Themenpark, repräsentativ, m",,48432,Rheine,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/128926/,ohm-128926,Repräsentative & flexible Bürofläche in Moordorf – Ideal für Synergien,,,,,,,,,,,2026-07-02,rent ~2.064 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/130684/,ohm-130684,Büro - Praxis - Kanzlei - Lager - barrierefrei - Größen vo,,,,,,,,,16,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/147976/,ohm-147976,gewerbliche Mietfläche zentrale Innenstadtlage,,,,,,,,,,,2026-07-02,rent ~1.800 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/168584/,ohm-168584,"Moderne Büros ab 297,- Euro inkl. aller Nebenkosten",,,,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/172664/,ohm-172664,"1000 qm Büro - Praxis - Kanzlei - barrierefrei auf einer Ebene, renovi",,,,,,,,,,,2026-07-02,rent ~3.000 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/177105/,ohm-177105,"Full-Service-Büroplatz, frisch renoviert + möbliert",,15806,Zossen,,,,,,,,2026-07-02,rent ~250 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/185933/,ohm-185933,PROVISIONSFREI | Office Center | VIELSEITIG NUTZBAR | MODE,,63755,Alzenau,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/195530/,ohm-195530,*Penzberg* - Hochwertige und attraktive Praxis- / Office- Gewerberäume,,82377,Penzberg,,,,,,,,2026-07-02,rent ~1.350 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/196803/,ohm-196803,Toller Laden/Büro/Praxis in Pirmasens zum Durchstarten!,,66954,Pirmasens,,,,,,,,2026-07-02,rent ~750 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/206356/,ohm-206356,"Flexible Coworking-, Büro-, Besprechungs- und Seminarräume",,,,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/207149/,ohm-207149,"Büro in Bad Bramstedt 120,00 m² / 6,0 pro m² / 3 Stellplätze Kostenfre",,24576,Bad Bramstedt,,,,,,0,,2026-07-02,rent ~720 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/210353/,ohm-210353,Vielfältig nutzbare Gewerbeeinheit in kleinem Wohn- und Geschäftshaus,,97469,Gochsheim,,,,,,,,2026-07-02,rent ~680 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/211244/,ohm-211244,Möblierte Büroflächen,,85640,Putzbrunn,,,,,,,,2026-07-02,rent ~500 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/211640/,ohm-211640,"Flexibel & zentral: (Praxis)Räume für Coaching, Therapie, Beratung, …",,68159,Mannheim,,,,,,,,2026-07-02,rent ~22 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/216073/,ohm-216073,Exclusiver möblierte Büroraum mit Klima zu vermieten,,,,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/216969/,ohm-216969,BÜRO / GEWERBE im Gewerbegebiet Wolfsleben / Neuching,,,,,,,,,,,2026-07-02,rent ~640 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/221440/,ohm-221440,Büro mit Elbblick am Hamburger Fischmarkt – 100 m² in repräsentativer,,,,,18.4,18.4,,,100,,2026-07-02,rent ~1.837 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/235092/,ohm-235092,Hannover: Ladenlokal mit 77m² und großen Schaufenstern-Parkplätze vor,,,,,9,9,,,77,,2026-07-02,rent ~690 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/237453/,ohm-237453,"MARIENBORN: Helles, großzügiges Einzelbüro mit optimaler Anbindung",,55127,Mainz,,,,,,,,2026-07-02,rent ~278 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/242740/,ohm-242740,54 m² Gewerbefläche | Schaufenster | Bahnhof fußläufig | nur 510 € Kal,,52134,Herzogenrath,,9.4,9.4,,,54,,2026-07-02,rent ~510 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/243738/,ohm-243738,Heller Laden in Top-Lage (ca.80m² Ladenfläche und ca.100m² Souterrain),,,,,28.8,28.8,,,80,,2026-07-02,rent ~2.300 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/243918/,ohm-243918,Büro,,66954,Pirmasens,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/246702/,ohm-246702,Winnenden: Heller Eck-Büroraum in bester Lage! Ideal für Home-Office!,,,,,,,,,,,2026-07-02,rent ~490 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/251235/,ohm-251235,"Verwaltungsgebäude, bei Bedarf mit kleiner Halle, Ortsteil",,,,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/253376/,ohm-253376,"Engelsbrand, verschiedene Büros,",,75399,Engelsbrand,,,,,,,,2026-07-02,rent ~6 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/255703/,ohm-255703,CoWorking in Gemeinschaftsbüro 12 oder 25 m2,,,,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/255901/,ohm-255901,**Premium-Büro in Karlsruhe – Repräsentativ & voll ausgestattet**,,,,,,,,,,,2026-07-02,rent ~999 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/260063/,ohm-260063,"Büro-, Verkaufs- und Werkstattfläche",,71711,Steinheim an der Murr,,,,,,,,2026-07-02,rent ~1.902 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/261934/,ohm-261934,Praxis / Büro in zentraler Lage Titisee-Neustadt,,,,,,,,,,,2026-07-02,rent ~1.600 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/269089/,ohm-269089,Bürofläche in Sömmerda,,99610,Sömmerda,,,,,,,,2026-07-02,rent ~696 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/269902/,ohm-269902,Individuelle Geschäftsräume in alter Bartholomäus Kapelle,,19370,Parchim,,,,,,,,2026-07-02,rent ~896 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/273643/,ohm-273643,CoWorking Space im Herzen von Opladen,,,,,,,,,,,2026-07-02,rent ~99 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/277600/,ohm-277600,"gepflegte, helle Räume für ihren Erfolg: Praxis, Therapie,",,,,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/281284/,ohm-281284,Einzelbüros in der Bürogemeinschaft Baalsdorf,,,,,,,,,,,2026-07-02,rent ~230 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/281614/,ohm-281614,"1A–Lage für Büro, Praxis, Studio und flexibel nutzbare Geschäftsräume",,,,,,,,,,,2026-07-02,rent ~650 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/282440/,ohm-282440,"2x Büro, Praxis, Studio",,,,,,,,,,,2026-07-02,rent ~12 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/283826/,ohm-283826,Provisionsfrei! Einzelbüros! Lichtdurchflutete Büros in Ba,,,,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/285054/,ohm-285054,Einzelbüros in Bürogemeinschaft in verschiedenen Größen zu,,,,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/286565/,ohm-286565,Büro oder Praxis in begehrter Altstadtlage,,24937,Flensburg,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/287227/,ohm-287227,1 oder 2 Büros 15-35qm einzeln oder zusammen direkt vom Ei,,46539,Dinslaken,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/287956/,ohm-287956,Neue Büro- + Praxisflächen im REGIOBUS-HAUS am Busbahnhof Döbeln,,04720,Döbeln,,,,,,,,2026-07-02,rent ~950 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/288419/,ohm-288419,"REPRÄSENTATIVE BÜRO/PRAXIS-RÄUME IN MEERBUSCH BÜDERICH NEUSSERSTR. 26,",,,,,,,,,,,2026-07-02,rent ~2.700 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/290903/,ohm-290903,"Helle, großzügige Büro-/Praxisfläche in zentraler Lage von Bingen am R",,55411,Bingen am Rhein,,,,,,,,2026-07-02,rent ~2.920 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/295712/,ohm-295712,Attraktive Bürofläche direkt vom Eigentümer,,63755,Alzenau,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/298302/,ohm-298302,Repräsentatives und helles Büro/Kanzlei in S-Bahn-Nähe (400 m) in Herr,,71083,Herrenberg,,,,,,,,2026-07-02,rent ~1.420 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/298744/,ohm-298744,"Hamburger Randgebiet Ellerbek - BÜRO hell, freundlich, 20qm - courtage",,,,,,,,,,,2026-07-02,rent ~290 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/299955/,ohm-299955,Helles Büro oder Handelsfläche mit 3 Stellplätzen,,82269,Geltendorf,,,,,,,,2026-07-02,rent ~989 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/301352/,ohm-301352,Langfristige Untervermietung | Moderne Co-Working Arbeitsp,,,,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/301959/,ohm-301959,Moderne Co-Working Arbeitsplätze | Hürth-Gleuel nahe Autob,,50354,Hürth,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/302769/,ohm-302769,Büro- und Lagerflächen zu vermieten - Lassen Sie uns gemeinsam Ihre Tr,,,,,,,,,,,2026-07-02,rent ~2.575 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/304084/,ohm-304084,Exklusiv: Büro I Firmensitz I Coworking am See in Leverkusen - sparen,,51371,Leverkusen,,,,,,,,2026-07-02,rent ~99 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/306614/,ohm-306614,Büro - CoWorking Place - virtuelle attraktive Geschäftsadresse,,15806,Zossen,,,,,,,,2026-07-02,rent ~120 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/307941/,ohm-307941,Helle Bürofläche in Kaltenkirchen,,24568,Kaltenkirchen,,,,,,,,2026-07-02,rent ~930 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/309065/,ohm-309065,"Büro/Apartment in Kaiserswerth, Zweitbezug nach Kernsanierung, Terrass",,,,,,,,,,,2026-07-02,rent ~740 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/310004/,ohm-310004,Helles Loftbüro / Schulung / Praxis,,47804,Krefeld,,,,,,,,2026-07-02,rent ~940 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/311580/,ohm-311580,Bürofläche in Stuttgart Sommerrain zu vermieten - 4 Räume mit insg. 12,,,,,,,,,122,,2026-07-02,rent ~10 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/314072/,ohm-314072,Provisionsfrei: 320 m² moderne Bürofläche in Unterschleißheim – „Plug,,85716,Unterschleißheim,,8.4,8.4,,,320,,2026-07-02,rent ~2.700 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/316948/,ohm-316948,Frisch sanierte Praxisfläche in Top Lage von Nottuln Appel,,,,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/316977/,ohm-316977,Exklusive Büros zur Miete im Westhafen Frankfurt!,,,,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/318528/,ohm-318528,"AB 315,- im Monat. 36 m2 Büro im Arsterdamm 70, Bremen, courtagefrei,",,,,,,,,,,,2026-07-02,rent ~315 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/319320/,ohm-319320,Büro/Lagerflächen 2100 QM/ab 450 qm teilbar Mietkauf spätere Kaufoptio,,,,,,,,,,,2026-07-02,rent ~1.995 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/320152/,ohm-320152,"151 qm am Wasserturm, große Laden-/Büro- Praxisräume in zentraler Lage",,04416,Markkleeberg,,,,,,,,2026-07-02,rent ~1.390 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/321270/,ohm-321270,"Traum-Office mit Dachterrasse, Blick in's Grüne & Gemeinschaftsküche m",,,,,,,,,,,2026-07-02,rent ~990 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/321345/,ohm-321345,"Repräsentatives Chefbüro 60 m² + Büro 38 m² – ab 750 € all-in, FFM",,,,,12.5,12.5,,,60,,2026-07-02,rent ~750 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/321479/,ohm-321479,Attraktive Gewerberäume in ruhiger Waldrandlage,,,,,,,,,,,2026-07-02,rent ~9 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/322096/,ohm-322096,Arbeiten und Wohnen unter einem Dach! Tolles Haus für vielseitige Zwec,,48432,Rheine,,,,,,,,2026-07-02,rent ~1.921 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/323267/,ohm-323267,Neu möblierte Bürofläche im Veranstaltungszentrum Kiel zu vermieten,,,,,,,,,,,2026-07-02,rent ~10 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/324408/,ohm-324408,"Gewerbeeinheit 3 Räume, Küche,Gäste-Wc, 109 qm + Stellplätze",,,,,,,,,,,2026-07-02,rent ~750 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/325130/,ohm-325130,Exklusive Büro und Praxisräume provisionsfrei zu vermieten,,18198,Kritzmow,,,,,,,,2026-07-02,rent ~960 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/327842/,ohm-327842,Büroräume und Coworking Arbeitsplätze zu mieten,,33659,Bielefeld,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/328387/,ohm-328387,"All-in-One Büros in Goslar – bezugsfertig, sofort startkla",,38642,Goslar,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/329209/,ohm-329209,Hochwertige Bürofläche mit Galerie in modernem Gewerbeobjekt – provisi,,,,,,,,,,,2026-07-02,rent ~2.145 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/331054/,ohm-331054,Frisches Design-Büro/Kanzlei/Praxis/CoWorking im grünen Ge,,,,,,,,,50,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/332314/,ohm-332314,"2 x (Café, Weinbar, LuxusGYM, ShowRoom) 135 m² / 265 m² -",,,,,,,,,135,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/332791/,ohm-332791,Hoch frequentierte Büro-/Praxisetage (ca. 130 m²) in zentraler Lage de,,76532,Baden-Baden,,11.3,11.3,,,130,,2026-07-02,rent ~1.470 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/337289/,ohm-337289,"Office mit eigenem Balkon, Blick in's Grüne & Gemeinschaftsküche mitte",,,,,,,,,,,2026-07-02,rent ~990 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/339276/,ohm-339276,Exklusive Bürofläche in repräsentativer Stadtvilla zur Miete – Direkt,,,,,,,,,,,2026-07-02,rent ~2.875 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/346398/,ohm-346398,Separates Bürogebäude/Ausstellungsräume mit kleiner Außenf,,42859,Remscheid,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/347046/,ohm-347046,Workspace in Top-Lage: 3 Floors für dein Team im Herzen Mü,,,,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/349145/,ohm-349145,*** Büro am Marienplatz Stuttgart sofort frei ***,,,,,,,,,,,2026-07-02,rent ~2.000 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/350755/,ohm-350755,"Moderne, repräsentative Büroräume im Wittenberger Weg",,24941,Flensburg,,,,,,,,2026-07-02,rent ~4.642 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/350766/,ohm-350766,Baienfurt - Gewerbefläche in zentraler Lage zu vermieten,,88255,Baienfurt,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/353534/,ohm-353534,Helle freundliche Büro- Praxis- Kanzlei- Gewerbefläche in,,86926,Greifenberg,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/353990/,ohm-353990,"einzigartige Buero/Geschäftsräume im Allgäu bei Kempten, See- und Berg",,,,,,,,,,,2026-07-02,rent ~10 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/354242/,ohm-354242,Platz für Praxis oder Praxisgemeinschaft im Ärztehaus,,27753,Delmenhorst,,,,,,,,2026-07-02,rent ~1.895 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/360006/,ohm-360006,Büro- / Praxisflächen im Technischen Rathaus Dinslaken | T,,46537,Dinslaken,,,,,,81,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/360990/,ohm-360990,Büroräume in repräsentativem Gebäude,,64673,Zwingenberg,,,,,,,,2026-07-02,rent ~714 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/361058/,ohm-361058,Hochwertige Bürofläche 76-300qm in Denkmal Fachwerkhaus im,,48324,Sendenhorst,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/361683/,ohm-361683,Provisionsfreie Büro- und Praxisflächen in denkmalgeschütz,,,,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/362151/,ohm-362151,Ansprechende Büroflächen in,,,,,,,,,,,2026-07-02,rent ~6 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/362692/,ohm-362692,Flexible Gewerbefläche in Marktoberdorf Nord – ideal für P,,87616,Marktoberdorf,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/369101/,ohm-369101,moderne Büro- und/oder Lager- und Palettenstellplätze im Z,,72488,Sigmaringen,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/369261/,ohm-369261,Loft-Teil-/Gewerbeeinheit im berühmten Riehmers Hofgarten mit zwei Ter,,,,,,,,,,,2026-07-02,rent ~2.900 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/372320/,ohm-372320,Moderne Bürofläche in Top-Lage Winterhude/Uhlenhorst – courtagefrei,,,,,,,,,,,2026-07-02,rent ~2.400 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/373218/,ohm-373218,Büro- oder Unterrichtsräume in Augsburgs bester Innenstadtlage,,,,,,,,,,,2026-07-02,rent ~2.000 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/373787/,ohm-373787,Loft / Schulung 1. OG. / Stilvoll eingerichtet / Krefeld Forstwald,,47804,Krefeld,,,,,,,,2026-07-02,rent ~900 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/374626/,ohm-374626,1-2 Arbeitsplätze in Bürogemeinschaft in Kreativfabrik – All-in-Miete,,,,,,,,,,,2026-07-02,rent ~250 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/382156/,ohm-382156,Praxisflächen mit 170qm und 300 qm Oswaldstr.,,,,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/382170/,ohm-382170,repräsentative Bürofläche in Hildesheim (Ausstattung und G,,,,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/382220/,ohm-382220,Moderne und möblierte Bürofläche in zentraler Lage in Achern / Fläche,,77855,Achern,,,,,,,,2026-07-02,rent ~4.200 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/382956/,ohm-382956,Gewerbefläche – ca. 170m² (bis 305 m² erweiterbar) in Innenstadtlage N,,91413,Neustadt an der Aisch,,11.5,11.5,,,170,,2026-07-02,rent ~1.950 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/383759/,ohm-383759,"300 qm exklusive EG, Büros/Praxisräume",,91349,Egloffstein,,,,,,,,2026-07-02,rent ~3.200 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/384036/,ohm-384036,"Werkstatt, Handwerk, Lager -190 m2, und Büro -196 m2 - top Lage Leinfe",,,,,,,,,,,2026-07-02,rent ~3.474 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/384796/,ohm-384796,"Das wohl beeindruckendste Büro Fürths – voll möbliert, zen",,90762,Fürth,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/386491/,ohm-386491,Einzelbüros All Inclusive mit Klima ! Letzte Büros! 14m² 21m² oder 36m,,,,,15.7,15.7,,,14,,2026-07-02,rent ~220 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/388575/,ohm-388575,Modernes Büro in Lübbecke – sofort verfügbar!,,,,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/389682/,ohm-389682,"Gewerbefläche Büro, Lager, Sport, Gastro oder Praxis",,,,,,,,,,,2026-07-02,rent ~2.000 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/389960/,ohm-389960,Ladenlokal/Büro/Praxis,,,,,,,,,,,2026-07-02,rent ~1.775 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/391847/,ohm-391847,Schreibtischplatz im Grünen & doch zentral im Stuttgarter Norden (befr,,,,,,,,,,,2026-07-02,rent ~350 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/391860/,ohm-391860,Repräsentative Büro- oder Verkaufsfläche mit großzügigem Lager und Gar,,85356,Freising,,,,,,,,2026-07-02,rent ~11 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/393993/,ohm-393993,Münchner Freiheit – Moderne Bürofläche in Top-Lage,,,,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/395322/,ohm-395322,**New** Moderne Bürofläche mit großer Terrasse im Gewerbegebiet Koblen,,56070,Koblenz,,,,,,,,2026-07-02,rent ~1.250 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/396689/,ohm-396689,"Büro-/Praxisfläche, 5 Zimmer, 106 m², zentral gelegen. Seh",,17389,Anklam,,,,,,106,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/397258/,ohm-397258,Bürofläche in Sömmerda,,99610,Sömmerda,,,,,,,,2026-07-02,rent ~268 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/399184/,ohm-399184,Büro/ Praxisetage in bester Lage in Wolfenbüttel mit Parkplätzen,,38304,Wolfenbüttel,,,,,,,,2026-07-02,rent ~3.360 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/399463/,ohm-399463,"Repräsentative, flexible Büroflächen in erstklassiger Lage",,75179,Pforzheim,,,,,,,,2026-07-02,rent ~3.690 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/399795/,ohm-399795,Büroräume mit Freifläche,,32312,Lübbecke,,,,,,,,2026-07-02,rent ~4.875 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/400917/,ohm-400917,Büro oder Gewerbefläche mitten im Herzen Neuköllns,,,,,,,,,,,2026-07-02,rent ~670 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/401294/,ohm-401294,** Schicke Büroeinheit für Ihre Expansion **,,61118,Bad Vilbel,,,,,,,,2026-07-02,rent ~2.800 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/401540/,ohm-401540,Moderne Büros & Coworking in Göppingen – vom Arbeitsplatz bis zur 200,,73033,Göppingen,,,,,,200,,2026-07-02,rent ~250 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/402453/,ohm-402453,"Büros ab 273,- in Münster - St. Mauritz verkehrsgünstig in",,48157,Münster,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/402558/,ohm-402558,270 m² Bürofläche | Stuttgart-Vaihingen | flexibel nutzbar | sofort fr,,,,,9.1,9.1,,,270,,2026-07-02,rent ~2.450 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/402781/,ohm-402781,Helle Büro- bzw Praxisräume in zentraler Lage von Schwetzingen,,68723,Schwetzingen,,,,,,,,2026-07-02,rent ~1.400 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/403048/,ohm-403048,"Büro-/Geschäftsräume zwischen 18 und 450m² ab 9€/m², barri",,68799,Reilingen,,,,,,450,,2026-07-02,rent ~9 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/404336/,ohm-404336,Vielseitig nutzbare Gewerbefläche mit großem Gestaltungssp,,68799,Reilingen,,,,,,,,2026-07-02,rent ~8 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/404635/,ohm-404635,Klimatisierte Büroräume in Bischofsheim Ortsmitte -Neubau-,,65474,Bischofsheim,,,,,,,,2026-07-02,rent ~1.090 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/404707/,ohm-404707,Zentrumsnahe vielseitig nutzbare Gewerberäume - Teilbar nach Rücksprac,,23795,Bad Segeberg,,,,,,,,2026-07-02,rent ~599 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/405559/,ohm-405559,REPRÄSENTATIVES MAISSONETTE BÜRO in TOP DESIGNER HAUS 330 qm auf 2 Eta,,,,,,,,,,,2026-07-02,rent ~3.300 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/406416/,ohm-406416,Büroflächen für expandierende Unternehmen aus der Region |,,,,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/406608/,ohm-406608,GEWERBEFLÄCHE Ladenlokal Gastronomie Stellplätze zu vermie,,,,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/408544/,ohm-408544,Top-Standort am Kreuz Köln-West: 265 m² flexible Gewerbefläche -Provis,,,,,6.6,6.6,,,265,,2026-07-02,rent ~1.746 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/409461/,ohm-409461,Vielseitige Gewerbefläche mit charmantem Innenhof – flexibel nutzbar f,,87719,Mindelheim,,,,,,,,2026-07-02,rent ~1.500 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/410540/,ohm-410540,Büros ab 25m²,,41464,Neuss,,10,10,,,25,,2026-07-02,rent ~250 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/411149/,ohm-411149,"Modernes Büro am Neumarkt – 90m², provisionsfrei & sofort verfügbar!",,,,,19.4,19.4,,,90,,2026-07-02,rent ~1.750 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/411179/,ohm-411179,Westsite München*Moderne Bürofläche mit exzellenter Anbindung und Sich,,,,,,,,,,,2026-07-02,rent ~4.740 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/411259/,ohm-411259,Büro/Lagerfläche im Gewerbepark Hunderdorf - zur Miete 05,,,,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/411260/,ohm-411260,Büro/Lagerfläche im Gewerbepark Hunderdorf - zur Miete 11,,,,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/411261/,ohm-411261,*Innovum Nürnberg*Nürnberg West: Top-Bürofläche*U-Bahn-Anschluss direk,,,,,,,,,,,2026-07-02,rent ~2.900 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/411468/,ohm-411468,"Bürofläche im Zuckerspeicher (2. Etage, 225 m², 17 Arbeits",,,,,,,,,225,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/411523/,ohm-411523,"sweetMix – Private Offices im Zuckerspeicher (Kleinbüro, E",,,,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/417285/,ohm-417285,Attraktives Büro in zentraler Lage von Sankt Augustin – provisionsfrei,,,,,,,,,,,2026-07-02,rent ~3.105 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/417663/,ohm-417663,Büro / Firmensitz / Co-Working in Monheim am Rhein: bis zu 50 % Gewerb,,40789,Monheim am Rhein,,,,,,,,2026-07-02,rent ~99 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/417809/,ohm-417809,Schicke Büros im wunderschönen denkmalgeschützten Bahnhof 1A LAGE,,49356,Diepholz,,,,,,,,2026-07-02,rent ~990 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/418125/,ohm-418125,"Moderne, repräsentative Büroräume im Wittenberger Weg",,24941,Flensburg,,,,,,,,2026-07-02,rent ~9.284 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/418560/,ohm-418560,"Büroräume Fellbach, ca. 230 qm",,,,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/418743/,ohm-418743,Bürofläche im EG in Neuss,,41464,Neuss,,,,,,,,2026-07-02,rent ~1.600 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/418751/,ohm-418751,"Helle Gewerbefläche in Gunzenhausen Top-Zustand, flexible Nutzung & ei",,91710,Gunzenhausen,,,,,,,,2026-07-02,rent ~1.500 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/418924/,ohm-418924,Büroetage im 1.OG in Neuss,,41464,Neuss,,,,,,,,2026-07-02,rent ~4.999 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/418966/,ohm-418966,"Zentrales Ladengeschäft oder Büro an Singener Automeile, *provisionsfr",,,,,,,,,,,2026-07-02,rent ~590 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/419192/,ohm-419192,160 m² Gewerbefläche in guter Lage (B3) - direkt vom Eigen,,29221,Celle,,,,,,160,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/419283/,ohm-419283,"Repräsentative, flexibel nutzbare Gewerbefläche im Komponistenviertel",,,,,,,,,,,2026-07-02,rent ~2.450 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/419867/,ohm-419867,Vielseitig nutzbare Gewerbeflächen in St. Georg – frisch renoviert,,,,,,,,,,,2026-07-02,rent ~940 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/419993/,ohm-419993,"Vollmöblierte, moderne Bürofläche im Arnulfpark, dem Herze",,,,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/420596/,ohm-420596,Modernes Einzelbüro in Wolfratshausen – Sofort bezugsferti,,82515,Wolfratshausen,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/421455/,ohm-421455,Gewerbeeinheit direkt an B172 für Büro / Laden / Praxis,,,,,,,,,,,2026-07-02,rent ~780 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/422013/,ohm-422013,Büro - Praxisräume,,,,,,,,,,,2026-07-02,rent ~1.400 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/422056/,ohm-422056,Nachmieter für Büro-/Schulungs-/ Werkstatträume gesucht,,07745,Jena,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/422358/,ohm-422358,!!! Courtagefrei !!! Flexibel gestaltbare Lade- bzw. Bürofläche zu sof,,,,,,,,,,,2026-07-02,rent ~790 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/422636/,ohm-422636,Nur noch 2 Einzelbüros frei | 17–37 m² | Augsburg-Lechhausen | inkl. N,,,,,,,,,37,,2026-07-02,rent ~10 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/423513/,ohm-423513,Moderne Büro- und Praxisflächen nähe Audi-Sportpark (Erstbezug),,85053,Ingolstadt,,,,,,,,2026-07-02,rent ~9.280 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/423578/,ohm-423578,Büro- Praxisräume zu Miete - provisionsfrei,,36037,Fulda,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/424424/,ohm-424424,Helle Büro-/Praxisräume 110 qm in bester Lage,,74613,Öhringen,,,,,,,,2026-07-02,rent ~880 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/424584/,ohm-424584,"Hochwertige Büroflächen in zentraler Lage, Wilh. Allee 320",,34131,Kassel,,,,,,,,2026-07-02,rent ~2.500 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/425687/,ohm-425687,Ideal für Physiotherapie als Gemeinschaftspraxis – ca. 245 m² + 102 m²,,,,,10,10,,,245,,2026-07-02,rent ~2.450 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/426004/,ohm-426004,Gewerberäume (Lager / Werkstatt / Archiv / ggf. Büro) + Pa,,67655,Kaiserslautern,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/426367/,ohm-426367,"1-3 Büros in Bürogemeinschaft für je 1-2 Pers. ab 450,- +MwSt. all ink",,,,,,,,,,,2026-07-02,rent ~450 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/427187/,ohm-427187,"Hochwertige, möblierte Bürofläche im Oeder Weg zu vermieten - Toplage",,,,,,,,,,,2026-07-02,rent ~2.200 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/429260/,ohm-429260,2 Büroetagen in Kerpen-Sindorf,,,,,,,,,,,2026-07-02,rent ~1.550 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/429440/,ohm-429440,Repräsentative Büro-Villa in HH-Boberg – flexible Büroflächen & Cowork,,,,,13.8,13.8,,,40,,2026-07-02,rent ~550 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/429995/,ohm-429995,Büro in Osnabrück Fledder - PROVISIONSFREI,,49084,Osnabrück,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/430192/,ohm-430192,"Moderne Gewerbefläche in Neustrelitz, zentral gelegen inkl. Stellplätz",,17235,Neustrelitz,,,,,,,,2026-07-02,rent ~750 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/430293/,ohm-430293,"Schöne, helle Gewerbeeinheit - ideal für Freiberufler und private Proj",,,,,,,,,,,2026-07-02,rent ~925 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/430350/,ohm-430350,Lichtdurchflutete Gewerbefläche in Top-Lage,,,,,,,,,,,2026-07-02,rent ~827 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/431365/,ohm-431365,Schöne Büroräume mit Blick auf die Zitadelle Spandau,,,,,,,,,,,2026-07-02,rent ~4.564 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/431748/,ohm-431748,Büro Egelstraße 3,,,,,,,,,,,2026-07-02,rent ~2.594 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/432575/,ohm-432575,Wunderschöne kernsanierte Büroräume/Praxis mit 5 Zimmer im Erdgeschoss,,78166,Donaueschingen,,,,,,,,2026-07-02,rent ~1.300 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/433292/,ohm-433292,„The Gateway“ – Ihr repräsentatives Flagship,,,,,,,,,,,2026-07-02,rent ~1.750 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/433295/,ohm-433295,„The Flow-Hub“ – Industrielle Eleganz für kreative Köpfe,,,,,,,,,,,2026-07-02,rent ~2.800 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/433436/,ohm-433436,Flexibler Raum in Hamburgs Mitte,,,,,,,,,,,2026-07-02,rent ~5.587 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/434286/,ohm-434286,"Büroetage in Jena, Damenviertel zentrale Lage 137 qm (optional möblier",,07743,Jena,,,,,,,,2026-07-02,rent ~1.644 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/434348/,ohm-434348,Büroflächen ab 20 m² - einzelne Zimmer #Gewerbesteuersatz 300%,,22145,Hamburg,,30,30,,,20,,2026-07-02,rent ~600 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/435158/,ohm-435158,"Büro-, und Lagerfläche",,,,,,,,,,,2026-07-02,rent ~784 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/435577/,ohm-435577,Top-sanierte Praxis / Ladeneinheit / Praxis in Bestlage / Loftwohnung,,07607,Eisenberg,,,,,,,,2026-07-02,rent ~1.380 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/436608/,ohm-436608,Praxis-/Therapieflächen mit Entwicklungspotenzial für Gesundheitsanbie,,47506,Neukirchen-Vluyn,,,,,,,,2026-07-02,rent ~2.995 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/436618/,ohm-436618,Moderne Bürofläche in bester Innenstadtlage Hamburg,,,,,,,,,,,2026-07-02,rent ~5.150 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/437207/,ohm-437207,Attraktive Gewerbefläche in Bayreuth – große helle Fensterfront & sepa,,95444,Bayreuth,,,,,,,,2026-07-02,rent ~1.550 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/437611/,ohm-437611,"Friedrich-Ebert-Str. Loftetagen mit 160qm, Meeting CoWorki",,,,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/438494/,ohm-438494,Praxisraum / Bürofläche Gemeinschaft in Kaltenkirchen Teilfläche ab so,,24568,Kaltenkirchen,,,,,,,,2026-07-02,rent ~680 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/438845/,ohm-438845,220qm mit hoher Sichtbarkeit & Parkplätzen - perfekte Fläche für Diens,,02625,Bautzen,,,,,,,,2026-07-02,rent ~1.298 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/439756/,ohm-439756,"Gesamte Büroetage 2. OG - 395m² - 8,35 / m² Kaltmiete - nahe S-Bahn Di",,71254,Ditzingen,,8.4,8.4,,,395,,2026-07-02,rent ~3.300 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/440347/,ohm-440347,klimatisierte Schulungsäume Konferenzräume Seminarräume Co-Workingspac,,68799,Reilingen,,3.6,3.6,,,22,,2026-07-02,rent ~80 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/440681/,ohm-440681,Moderne Bürofläche in Top-Lage am Marktplatz von Gaggenau,,76571,Gaggenau,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/440818/,ohm-440818,Provisionsfrei - Repräsentative Büroräume nahe Nymphenburger Schloss,,,,,,,,,,,2026-07-02,rent ~4.360 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/441305/,ohm-441305,Ihr neuer Erfolgsstandort in Bestlage - individuelle Gewer,,94121,Salzweg,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/441419/,ohm-441419,Attraktive Gewerbeeinheit in zentraler Lage von St. Georgen – vielseit,,,,,,,,,,,2026-07-02,rent ~650 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/442757/,ohm-442757,"Repräsentative Büroflächen in Bestlage – Marker Allee 48,",,59063,Hamm,,,,,,,,2026-07-02,rent ~2.200 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/443071/,ohm-443071,Attraktive Maisonette-Gewerbefläche: Modernes Arbeiten auf zwei Ebenen,,,,,,,,,,,2026-07-02,rent ~1.438 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/443192/,ohm-443192,Kernsanierte Büroeinheit im Erdgeschoss mit Gemeinschaftsflächen in at,,47608,Geldern,,,,,,,,2026-07-02,rent ~10 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/443650/,ohm-443650,ab sofort / Büro / Praxis / Einzelhandel / Gastronomie / Gewerbefläche,,35576,Wetzlar,,,,,,,,2026-07-02,rent ~1.500 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/444089/,ohm-444089,140qm moderne Bürofläche mit 4-5 Zimmern,,33699,Bielefeld,,,,,,,,2026-07-02,rent ~1.190 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/444122/,ohm-444122,Büro-/Praxisräume mit 105 m²,,,,,11.2,11.2,,,105,,2026-07-02,rent ~1.180 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/444297/,ohm-444297,Die Solitärfläche in Düsseldorf : Exklusivität unter dem Dach,,,,,,,,,,,2026-07-02,rent ~1.000 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/444302/,ohm-444302,Exklusive und repräsentative Büroflächen in Rheinbach - ge,,53359,Rheinbach,,,,,,190,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/444988/,ohm-444988,Flexible Bürofläche / Business-Studio mit Terrasse,,38440,Wolfsburg,,,,,,,,2026-07-02,rent ~950 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/445056/,ohm-445056,Büro Leipzig Zentrum,,,,,,,,,,,2026-07-02,rent ~3.200 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/445171/,ohm-445171,"Perfekte Basis für Ihr Gewerbe, flexibel nutzbar",,16278,Angermünde,,,,,,,,2026-07-02,rent ~360 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/446121/,ohm-446121,Büro/ Praxis/ Atelier,,69509,Mörlenbach,,,,,,,,2026-07-02,rent ~900 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/446188/,ohm-446188,Moderne Bürofläche 65m² All Inclusive Miete Oststraße Norderstedt,,,,,10,10,,,65,,2026-07-02,rent ~650 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/446512/,ohm-446512,Büro in attraktivem Büro- und Geschäftshaus als Erstbezug,,,,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/446534/,ohm-446534,"Günstige Miete, großzügige Räume gewerblich nutzbar in Solln, Aidenbac",,,,,,,,,,,2026-07-02,rent ~1.400 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/446807/,ohm-446807,Frei gestaltbare Büroetagen in Darmstadt West - High-Speed,,64293,Darmstadt,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/446970/,ohm-446970,"Etageneinheit für Praxis, Büro od. Gewerbe , ca. 184qm",,76571,Gaggenau,,,,,,,,2026-07-02,rent ~1.990 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/447054/,ohm-447054,Büroeinheit mit mehreren Räumen - Ideal für Ihr Unternehme,,49084,Osnabrück,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/447281/,ohm-447281,Repräsentative Praxis zu vermieten,,,,,,,,,,,2026-07-02,rent ~10.000 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/447458/,ohm-447458,"Gewerbefläche 250 m² in zentraler Lage von Kiel , Provisionsfrei",,,,,10,10,,,250,,2026-07-02,rent ~2.500 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/448041/,ohm-448041,Büro mit/ohne Lager,,91466,Gerhardshofen,,,,,,,,2026-07-02,rent ~1.730 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/448562/,ohm-448562,exklusive Büro-/Praxisfläche im Penthouse mit 2 Dachterrassen - provis,,,,,,,,,,,2026-07-02,rent ~4.340 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/448583/,ohm-448583,"Friseurladen, Ladenlokal, Lager oder...",,,,,,,,,,,2026-07-02,rent ~700 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/448807/,ohm-448807,Modernisierte Bürofläche | sofort bezugsbereit | Internet und EDV bere,,,,,,,,,,,2026-07-02,rent ~1.634 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/449027/,ohm-449027,150m² bis 500 m² Bürofläche und Lager in 1A BAB u. ÖVPN-La,,,,,,,,,150,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/449442/,ohm-449442,Premium Büro-/Praxisfläche am Hauptbahnhof Koblenz – 213 m² im Medeco,,56068,Koblenz,,11,11,,,213,,2026-07-02,rent ~2.350 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/449489/,ohm-449489,Flexible Büroflächen (148qm) in zentraler Lage Pforzheim – ideal für K,,75175,Pforzheim,,,,,,,,2026-07-02,rent ~1.350 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/450125/,ohm-450125,Eitorf Zentrum: Büro- und Praxisfläche zu vermieten. Posthof.,,53783,Eitorf,,,,,,,,2026-07-02,rent ~2.616 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/450226/,ohm-450226,"Moderne Büro-/Ladenfläche im EG (66 m²) – möbliert, Schaufenster & Ste",,99734,Nordhausen,,8.3,8.3,,,66,,2026-07-02,rent ~550 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/450305/,ohm-450305,Praxis | Büro | Lager | Einzelhandel | Ausstellung im Parthe Centrum,,04425,Taucha,,,,,,,,2026-07-02,rent ~2.200 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/450498/,ohm-450498,Büro / Praxis in Freigericht - Somborn zu vermieten,,,,,,,,,,,2026-07-02,rent ~890 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/450681/,ohm-450681,"Attraktive Bürofläche in zentraler Lage von Seligenthal – modern, groß",,,,,,,,,,,2026-07-02,rent ~600 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/450794/,ohm-450794,Büro Kurfürstendamm (Ku’damm) in Top Lage (251 m²),,,,,22.5,22.5,,,251,,2026-07-02,rent ~5.650 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/451162/,ohm-451162,Urban. Ruhig. Zentral. – Bürofläche nahe Alex zur Miete,,,,,,,,,,,2026-07-02,rent ~5.950 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/451193/,ohm-451193,Großzügige Gewerbefläche im Erdgeschoss eines Wohnhauses zu vermieten,,,,,,,,,,,2026-07-02,rent ~2.952 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/451508/,ohm-451508,Schönes helles Büro mit Gartenblick und eigner Toilette und incl. Stro,,,,,,,,,,,2026-07-02,rent ~805 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/452150/,ohm-452150,Büroflächen - direkt vom Eigentümer und provisionsfrei mie,,85057,Ingolstadt,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/452324/,ohm-452324,"Innenliegende Studios für Podcast, YouTube, Musik – ab 600 € all-in, F",,,,,,,,,,,2026-07-02,rent ~600 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/452482/,ohm-452482,"Helles Büro 32,63 m² nahe S-Bahn Adlershof – flexibel teilbar, ab 01.0",,,,,10.9,10.9,,,63,,2026-07-02,rent ~689 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/452700/,ohm-452700,Attraktive Gewerbefläche mit großer Ausstellungs-/ Bürofläche in Top L,,79804,Dogern,,,,,,,,2026-07-02,rent ~3.400 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/453459/,ohm-453459,"EXKLUSIVE FLÄCHE FÜR BÜRO, STUDIO, SCHULUNGSRAUM ODER KANZLEI",,,,,,,,,,,2026-07-02,rent ~995 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/453619/,ohm-453619,Flexible Projekt- & Wachstumsfläche im RockyWood Offenbach | sofort ve,,,,,,,,,,,2026-07-02,rent ~7.991 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/453831/,ohm-453831,"Repräsentative klimatisierte Büroflächen, Gesamtfläche 470qm, in Brühl",,50321,Brühl,,,,,,,,2026-07-02,rent ~4.348 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/453875/,ohm-453875,"Exclusive Büroetage mit Loftcharakter, 306 m² in Brühl Ost.",,50321,Brühl,,9.2,9.2,,,306,,2026-07-02,rent ~2.827 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/453960/,ohm-453960,"Moderne Büroflächen in gepflegten Gewerbeobjekt, 180 m² auf einer Etag",,50321,Brühl,,9.9,9.9,,,180,,2026-07-02,rent ~1.785 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/453961/,ohm-453961,"Schreibtisch + Geschäftsadresse Frankfurt – 250 € all-in, alles inklus",,,,,,,,,,,2026-07-02,rent ~250 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/453968/,ohm-453968,"Klimatisiert: Moderne Bürofläche mit Glasbüros + Lounge, möbliert mögl",,,,,,,,,,,2026-07-02,rent ~8.800 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/454006/,ohm-454006,"Moderne Loftbüros in hochwertiger Architektur ab 86m² bis 93m² ab 9,25",,50321,Brühl,,9.3,9.3,,,86,,2026-07-02,rent ~796 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/454191/,ohm-454191,Großzügige Büro-/Praxisfläche,,,,,,,,,,,2026-07-02,rent ~572 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/454261/,ohm-454261,"67qm, 142qm oder 209qm Bürofläche in 1A BAB u. ÖVPN-Lage i",,,,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/454323/,ohm-454323,Attraktive Bürofläche mit Aufzug in zentraler Lage Nürnbergs – 188 m²,,,,,10.6,10.6,,,188,,2026-07-02,rent ~1.990 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/454568/,ohm-454568,"reserviert: Studio-, Praxis- oder Büro-Raum direkt beim LAGO, an hervo",,78462,Konstanz,,,,,,,,2026-07-02,rent ~1 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/455110/,ohm-455110,"Alternative Homeoffice, kleine 1-2 Zimmerbüros im 1. OG. auf Gutshof",,47804,Krefeld,,,,,,,,2026-07-02,rent ~310 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/455147/,ohm-455147,Exklusive Büroräume im Zentrum von Weil der Stadt,,71263,Weil der Stadt,,,,,,,,2026-07-02,rent ~1.500 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/455356/,ohm-455356,14 bis 125m² - einzelne oder mehrere modulare Büroflächen zu vermieten,,,,,9.6,9.6,,,125,,2026-07-02,rent ~1.200 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/455488/,ohm-455488,Moderne Bürofläche mit Balkon und Fernblick in Mainz-Hechtsheim,,,,,,,,,,,2026-07-02,rent ~1.125 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/456223/,ohm-456223,Voll eingerichtete Praxisräume in Gera-Zentrum,,07545,Gera,,,,,,,,2026-07-02,rent ~1.250 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/457338/,ohm-457338,Bürofläche in absoluter Toplage – Berlin-Mitte,,,,,,,,,,,2026-07-02,rent ~1.617 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/457604/,ohm-457604,Angermund - Gartenbüro - Full-Service - 40 qm - bis 4 Arbeitsplätze -,,,,,,,,,,,2026-07-02,rent ~620 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/457644/,ohm-457644,Helle Büro-/Praxisräume in verkehrsgünstiger Lage,,48683,Ahaus,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/457663/,ohm-457663,Büro 20 m² modern All Inclusive Oststraße 122 B mit Fahrstuhl,,,,,15,15,,,20,,2026-07-02,rent ~300 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/457703/,ohm-457703,"*NEU* Büro-/Praxisfläche - Therapiezentrum, Sänitär, Kanzlei, Praxis i",,08525,Plauen,,,,,,,,2026-07-02,rent ~5 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/457874/,ohm-457874,Repräsentative Büro-/Praxisfläche in zentraler Lage von Ba,,,,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/457950/,ohm-457950,Büro- und Gewerbeflächen zu vermieten - Träume wahr werden lassen,,,,,,,,,,,2026-07-02,rent ~1.200 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/457974/,ohm-457974,Attraktive Bürofläche direkt an der Hochschule Offenburg,,77652,Offenburg,,,,,,,,2026-07-02,rent ~1.113 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/458013/,ohm-458013,Bürozimmer in Altona direkt am Bahnhof #Kaiserhöfe,,,,,,,,,,,2026-07-02,rent ~600 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/458303/,ohm-458303,Großzügige Büro-/Praxisfläche in der Ahauser Innenstadt,,48683,Ahaus,,,,,,,,2026-07-02,rent ~650 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/458348/,ohm-458348,Lohmühle: Bürofläche ca. 100 m^2,,,,,,,,,,,2026-07-02,rent ~1.600 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/458636/,ohm-458636,"Moderne, lichtdurchflutete Bürofläche, 5 Stellplätze, repräsentativ, b",,,,,,,,,,,2026-07-02,rent ~2.320 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/458873/,ohm-458873,Repräsentatives Loft-Büro in der Lübecker Altstadt – Erstbezug nach Sa,,,,,,,,,,,2026-07-02,rent ~2.490 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/459121/,ohm-459121,Helle Praxis-/Büroflächen in zentraler Lage in Neufahrn i. NB – flexib,,,,,,,,,,,2026-07-02,rent ~10 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/459394/,ohm-459394,Lichtdurchflutete Bürofläche mit Dachterrasse & modernem Raumkonzept,,01723,Kesselsdorf,,,,,,,,2026-07-02,rent ~2.277 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/459713/,ohm-459713,Zentrumsnaher vielseitig nutzbarer Gewerberaum,,23795,Bad Segeberg,,,,,,,,2026-07-02,rent ~245 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/460007/,ohm-460007,"Zentrale Büroflächen: Kernsaniert, modern & maßgeschneidert",,64293,Darmstadt,,,,,,,,2026-07-02,rent ~2.958 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/460082/,ohm-460082,Repräsentative Gewerbefläche auf der Wilferdinger Höhe,,75179,Pforzheim,,,,,,,,2026-07-02,rent ~1.100 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/460098/,ohm-460098,Pronájem kanceláře 1.597 m²,,,,,,,,,1597,,2026-07-02,rent ~859 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/460213/,ohm-460213,Praxis/Büro,,,,,,,,,,,2026-07-02,rent ~4.500 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/460225/,ohm-460225,"1-und/oder 2-Zimmer-Gewerbeeinheiten mit großer Terrasse (Neubau 2022,",,,,,,,,,,,2026-07-02,rent ~880 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/460243/,ohm-460243,"Bürofläche, zentral gelegen",,,,,,,,,,,2026-07-02,rent ~990 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/460256/,ohm-460256,Friseurladen / Ladenlokal mit ca. 43 m² ab 01.07.2026 zu vermieten,,78713,Schramberg,,8.1,8.1,,,43,,2026-07-02,rent ~350 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/460467/,ohm-460467,Repräsentative Gewerbefläche in City-West - Luxuriöser Neubau · flexib,,,,,,,,,,,2026-07-02,rent ~6.356 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/460507/,ohm-460507,Repräsentative Gewerbeeinheit im EG mit 157 m² & Parkplätzen,,07806,Neustadt an der Orla,,5.7,5.7,,,157,,2026-07-02,rent ~900 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/460533/,ohm-460533,Büro / Praxis am Treptower Park,,,,,,,,,,,2026-07-02,rent ~1.776 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/460614/,ohm-460614,High-Traffic-Fläche in Witten: Ihre Business-Bühne an der Galenstraße,,58452,Witten,,,,,,,,2026-07-02,rent ~350 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/460635/,ohm-460635,Büro / Atelier / Schulungsraum direkt am Treptower Park,,,,,,,,,,,2026-07-02,rent ~1.430 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/460826/,ohm-460826,Cooles Loftbüro im Gewerbepark Cassellapark-Fechenheim-Nord,,,,,,,,,,,2026-07-02,rent ~1.580 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/460883/,ohm-460883,"Charmante Büro-, Praxis- oder Studiofläche mit eigenem Eingang – zentr",,91054,Erlangen,,,,,,,,2026-07-02,rent ~1.000 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/461123/,ohm-461123,Ansprechende Büro- oder Praxisfläche in bester Kurgebietslage,,55543,Bad Kreuznach,,,,,,,,2026-07-02,rent ~1.000 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/461286/,ohm-461286,Gewerbefläche zu vermieten – Im Herzen von Melle-Buer,,,,,,,,,,,2026-07-02,rent ~850 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/461304/,ohm-461304,Büro mit 56 m² zu vermieten,,53797,Lohmar,,9.5,9.5,,,56,,2026-07-02,rent ~530 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/461346/,ohm-461346,"314 m²-Bürofläche mit 10 Räumen, Glasfaseranschluss, Parkplatz u. Kell",,,,,7.9,7.9,,,314,,2026-07-02,rent ~2.496 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/461513/,ohm-461513,Helle Gewerbefläche in Ecklage,,29410,Salzwedel,,,,,,,,2026-07-02,rent ~470 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/461691/,ohm-461691,"Moderne, teilbare Büroflächen im denkmalgeschützten Wasserwerk-Haus",,,,,,,,,,,2026-07-02,rent ~1.555 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/461706/,ohm-461706,Repräsentative Bürofläche/ Büro/ Office (146 m²) in Alt-Bogenhausen –,,,,,27,27,,,146,,2026-07-02,rent ~3.942 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/461740/,ohm-461740,Gewerbefläche 250 m² in zentraler Lage von Kiel,,,,,10,10,,,250,,2026-07-02,rent ~2.500 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/461861/,ohm-461861,Flexible Gewerbefläche mit 4 Stellplätzen in zentraler Lage von Eppste,,,,,,,,,,,2026-07-02,rent ~1.200 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/461963/,ohm-461963,Pronájem kanceláře 987 m²,,63263,Neu-Isenburg,,,,,,987,,2026-07-02,rent ~279 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/461971/,ohm-461971,Pronájem kanceláře 1.110 m²,,,,,,,,,1110,,2026-07-02,rent ~559 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/461972/,ohm-461972,Pronájem kanceláře 1.880 m²,,,,,,,,,1880,,2026-07-02,rent ~619 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/461973/,ohm-461973,Pronájem kanceláře 1.394 m²,,,,,,,,,1394,,2026-07-02,rent ~1.339 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/461974/,ohm-461974,Pronájem kanceláře 1.156 m²,,,,,,,,,1156,,2026-07-02,rent ~1.039 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/461975/,ohm-461975,Pronájem kanceláře 1.082 m²,,,,,,,,,1082,,2026-07-02,rent ~659 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/461976/,ohm-461976,Pronájem kanceláře 2.130 m²,,41460,Neuss,,,,,,2130,,2026-07-02,rent ~379 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/461977/,ohm-461977,Pronájem kanceláře 1.090 m²,,,,,,,,,1090,,2026-07-02,rent ~889 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/461978/,ohm-461978,Pronájem kanceláře 1.484 m²,,,,,,,,,1484,,2026-07-02,rent ~929 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/461979/,ohm-461979,Pronájem kanceláře 6.572 m²,,,,,,,,,6572,,2026-07-02,rent ~1.999 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/461980/,ohm-461980,Pronájem kanceláře 815 m²,,90411,Nuremberg,,,,,,815,,2026-07-02,rent ~599 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/461981/,ohm-461981,Pronájem kanceláře 1.347 m²,,,,,,,,,1347,,2026-07-02,rent ~269 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/461982/,ohm-461982,Pronájem kanceláře 2.070 m²,,85774,Unterföhring,,,,,,2070,,2026-07-02,rent ~629 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/461984/,ohm-461984,Pronájem kanceláře 986 m²,,49074,Osnabrück,,,,,,986,,2026-07-02,rent ~539 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/461985/,ohm-461985,Pronájem kanceláře 5.354 m²,,,,,,,,,5354,,2026-07-02,rent ~1.179 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/461987/,ohm-461987,Pronájem kanceláře 1.152 m²,,,,,,,,,1152,,2026-07-02,rent ~99 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/461988/,ohm-461988,Pronájem kanceláře 1.230 m²,,,,,,,,,1230,,2026-07-02,rent ~679 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/461989/,ohm-461989,Pronájem kanceláře 1.340 m²,,67657,Kaiserslautern,,,,,,1340,,2026-07-02,rent ~709 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/461990/,ohm-461990,Pronájem kanceláře 1.461 m²,,,,,,,,,1461,,2026-07-02,rent ~799 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/461991/,ohm-461991,Pronájem kanceláře 3.235 m²,,,,,,,,,3235,,2026-07-02,rent ~319 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/461992/,ohm-461992,Pronájem kanceláře 753 m²,,,,,,,,,753,,2026-07-02,rent ~479 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/461993/,ohm-461993,Pronájem kanceláře 933 m²,,,,,,,,,933,,2026-07-02,rent ~1.149 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/461994/,ohm-461994,Pronájem kanceláře 1.346 m²,,,,,,,,,1346,,2026-07-02,rent ~1.190 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/461995/,ohm-461995,Pronájem kanceláře 1.578 m²,,,,,,,,,1578,,2026-07-02,rent ~929 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/461996/,ohm-461996,Pronájem kanceláře 851 m²,,,,,,,,,851,,2026-07-02,rent ~629 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/461997/,ohm-461997,Pronájem kanceláře 2.062 m²,,,,,,,,,2062,,2026-07-02,rent ~309 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/461998/,ohm-461998,Pronájem kanceláře 1.265 m²,,,,,,,,,1265,,2026-07-02,rent ~789 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/461999/,ohm-461999,Pronájem kanceláře 2.487 m²,,,,,,,,,2487,,2026-07-02,rent ~429 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/462000/,ohm-462000,Pronájem kanceláře 1.011 m²,,,,,,,,,1011,,2026-07-02,rent ~2.739 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/462001/,ohm-462001,Pronájem kanceláře 873 m²,,68723,Schwetzingen,,,,,,873,,2026-07-02,rent ~389 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/462002/,ohm-462002,Pronájem kanceláře 600 m²,,72555,Metzingen,,,,,,600,,2026-07-02,rent ~1.019 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/462003/,ohm-462003,Pronájem kanceláře 1.000 m²,,32756,Detmold,,,,,,1000,,2026-07-02,rent ~259 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/462004/,ohm-462004,Pronájem kanceláře 780 m²,,,,,,,,,780,,2026-07-02,rent ~1.289 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/462005/,ohm-462005,Pronájem kanceláře 820 m²,,58636,Iserlohn,,,,,,820,,2026-07-02,rent ~469 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/462006/,ohm-462006,Pronájem kanceláře 455 m²,,,,,,,,,455,,2026-07-02,rent ~739 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/462007/,ohm-462007,Pronájem kanceláře 1.000 m²,,,,,,,,,1000,,2026-07-02,rent ~99 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/462008/,ohm-462008,Pronájem kanceláře 1.030 m²,,,,,,,,,1030,,2026-07-02,rent ~379 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/462009/,ohm-462009,Pronájem kanceláře 1.200 m²,,,,,,,,,1200,,2026-07-02,rent ~279 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/462010/,ohm-462010,Pronájem kanceláře 1.374 m²,,,,,,,,,1374,,2026-07-02,rent ~99 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/462011/,ohm-462011,Pronájem kanceláře 915 m²,,53721,Siegburg,,,,,,915,,2026-07-02,rent ~99 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/462012/,ohm-462012,Pronájem kanceláře 162 m²,,,,,,,,,162,,2026-07-02,rent ~315 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/462113/,ohm-462113,Begehrtes 2 Zimmer Büro (ca. 51 qm) mit schönem Blick in der Industrie,,,,,,,,,,,2026-07-02,rent ~763 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/462130/,ohm-462130,"Praxis- oder Gewerbeimmobilie 93,2m² in Buckau – frisch-sanierter Erst",,,,,,,,,2,,2026-07-02,rent ~1.678 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/462131/,ohm-462131,Repräsentatives und gut sichtbares Büro/Ladenlokal am Kudamm | Mietbeg,,,,,,,,,,,2026-07-02,rent ~4.750 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/462143/,ohm-462143,Praxis- oder Gewerbeimmobilie 49m² in Buckau – frisch-sanierter Erstbe,,,,,20.4,20.4,,,49,,2026-07-02,rent ~998 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/462276/,ohm-462276,"Vielseitige Flächen für Praxis, Therapiezentrum oder Büro in Dormagen-",,,,,,,,,,,2026-07-02,rent ~1.500 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/462389/,ohm-462389,Attraktive Bürofläche in ruhiger Hoflage in Berlin Schöneberg,,,,,,,,,,,2026-07-02,rent ~3.800 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/462592/,ohm-462592,Sehr schöne Bürofläche (93 m²) im 1. OG mitten in Darmstadt-Eberstadt,,,,,13.4,13.4,,,93,,2026-07-02,rent ~1.250 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/462958/,ohm-462958,Attraktive Büroräume in zentraler Lage zu vermieten,,,,,,,,,,,2026-07-02,rent ~795 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/463145/,ohm-463145,Laden-/Büro-/Praxisfläche in Toplage,,45888,Gelsenkirchen,,,,,,,,2026-07-02,rent ~572 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/463245/,ohm-463245,Gewerbeflächen in zentraler Lage – Moosburg a.d. Isar,,,,,,,,,,,2026-07-02,rent ~1.400 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/463297/,ohm-463297,Gewerbeeinheit direkt am Emser Platz ideal für Büro/Praxis... (provisi,,,,,,,,,,,2026-07-02,rent ~1.450 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/463346/,ohm-463346,Rinteln Gewerbefläche am Kirchplatz in der Innenstadt zu v,,31737,Rinteln,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/463349/,ohm-463349,"Büro, Kanzlei oder Firmensitz 200m2 Gewerbefläche nahe Landshut",,84032,Altdorf,,,,,,,,2026-07-02,rent ~1.300 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/463494/,ohm-463494,Voll klimatisierte Büro-/Praxisfläche mit 108 m² | Klimaanlage | LAN |,,,,,12,12,,,108,,2026-07-02,rent ~1.296 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/463642/,ohm-463642,Flexible Büroflächen mit optional anmietbarer Archivfläche,,,,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/463752/,ohm-463752,"Büroplätze, Arbeitsplätze an der Elbe provisionsfrei mieten",,,,,,,,,,,2026-07-02,rent ~395 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/463900/,ohm-463900,++Laden/Büro - Studio in attraktiver Altstadtlage zu vermieten ++,,85049,Ingolstadt,,,,,,,,2026-07-02,rent ~850 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/463961/,ohm-463961,Helle Büros für helle Köpfe,,52070,Aachen,,,,,,,,2026-07-02,rent ~4.635 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/464054/,ohm-464054,Mit Weitblick in modernen Räumen arbeiten,,65604,Elz,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/464127/,ohm-464127,Klimatisiertes Büro im Herzen von Leverkusen Opladen,,,,,,,,,,,2026-07-02,rent ~1.900 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/464132/,ohm-464132,Flexible Gewerbeflächen zu vermieten,,84032,Altdorf,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/464161/,ohm-464161,LOFT Büro Studio Atelier Tanzstudio Jogastudio Eventlocation Gewerbeei,,,,,,,,,,,2026-07-02,rent ~3.900 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/464365/,ohm-464365,"Nachmieter gesucht | 410 m² Bürofläche | ab 8,99 €/m² netto | 4 Stellp",,,,,9,9,,,410,,2026-07-02,rent ~3.687 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/464395/,ohm-464395,Freundliche Bürofläche zu vermieten,,,,,,,,,,,2026-07-02,rent ~1.300 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/464441/,ohm-464441,Etablierter Fahrschulstandort in bester Sichtlage in Nürnberg – ab sof,,,,,,,,,,,2026-07-02,rent ~1.400 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/464455/,ohm-464455,Moderne Praxisfläche in Top-Lage am Marktplatz von Gaggena,,76571,Gaggenau,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/464458/,ohm-464458,Repräsentative 56 m² Bürofläche in Cadolzburg,,90556,Cadolzburg,,8.5,8.5,,,56,,2026-07-02,rent ~476 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/464566/,ohm-464566,Praxis-/Büroräume hochwertige Ausstattung / Maisonette-Wohnung z.B. fü,,,,,,,,,,,2026-07-02,rent ~1.980 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/464747/,ohm-464747,Moderne Gewerbefläche in hochfrequentierter Top Lage individuell aufte,,73312,Geislingen an der Steige,,5.5,5.5,,,360,,2026-07-02,rent ~1.990 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/464792/,ohm-464792,Arbeiten mit Charakter: Ehemalige Feuerwehrhaus zu vermiet,,,,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/464813/,ohm-464813,Moderne Bürofläche umgeben von Klassikern zu vermieten,,,,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/464962/,ohm-464962,Moderne Büroräume in Erlangen mieten – mehrere Einheiten verfügbar,,91088,Bubenreuth,,,,,,,,2026-07-02,rent ~1.400 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/464987/,ohm-464987,Neu renovierte Büroräume zu vermieten in Karlsruhe-Hagsfeld,,,,,,,,,,,2026-07-02,rent ~310 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/465069/,ohm-465069,"Repräsentatives Büro für 12–25 köpfiges Unternehmen ideal für IT, Engi",,,,,,,,,,,2026-07-02,rent ~2.900 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/465136/,ohm-465136,Erdgeschoss-Gewerbefläche in verkehrsgünstiger Lage,,,,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/465239/,ohm-465239,Zwei lichtdurchflutete Büroräume zu vermieten,,33154,Salzkotten,,,,,,,,2026-07-02,rent ~720 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/465631/,ohm-465631,Premium Office – Sofort bezugsfertiges Büro mit Glaswänden und Top-Aus,,,,,,,,,,,2026-07-02,rent ~2.813 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/465749/,ohm-465749,"Gewerbeobjekt (KI Fabrik,Rechenzentrum, Büros) und Betrieb",,16775,Gransee,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/466021/,ohm-466021,"Meersburg, helle Büro-/Praxisflächen",,88709,Meersburg,,,,,,,,2026-07-02,rent ~1.675 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/466481/,ohm-466481,Attraktive Büro- / Praxisfläche im 1. OG – 320 m² in Bad Neuenahr-Lohr,,,,,6.3,6.3,,,320,,2026-07-02,rent ~2.000 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/466482/,ohm-466482,Repräsentativer Arbeitsplatz für Freiberufler / Berater (m/w/d) in Kan,,74912,Kirchardt,,,,,,,,2026-07-02,rent ~714 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/466616/,ohm-466616,Helle EG Praxis oder Büro im sanierten Altbau,,,,,,,,,,,2026-07-02,rent ~1.400 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/466757/,ohm-466757,Repräsentative Büroflächen in Adendorf direkt vom Eigentüm,,21365,Adendorf,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/466849/,ohm-466849,Büro gegenüber Zollhafen in historischem Gebäude,,55118,Mainz,,,,,,,,2026-07-02,rent ~1.200 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/466886/,ohm-466886,"Kleines, helles Büro mit Sichtdachstuhl",,,,,,,,,,,2026-07-02,rent ~350 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/466943/,ohm-466943,Gewerbeeinheit mit exklusiver Außenfläche im Gärtnerplatzviertel (prov,,,,,,,,,,,2026-07-02,rent ~3.500 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/467024/,ohm-467024,Gewerbeinheit in Langenau,,89129,Langenau,,,,,,,,2026-07-02,rent ~8 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/467288/,ohm-467288,Stilvolle Bürofläche mit Charme in repräsentativer Lage am Schillerpla,,35578,Wetzlar,,,,,,,,2026-07-02,rent ~1.100 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/467325/,ohm-467325,Helle Büro-/Gewerbefläche in Top‑Lage München Ost,,,,,,,,,,,2026-07-02,rent ~13.585 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/467340/,ohm-467340,Büro- oder Praxisräume in Top Lage!,,,,,,,,,,,2026-07-02,rent ~2.255 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/467349/,ohm-467349,Gewerbliche Archiv- und Lagerflächen in Cadolzburg – 105 m,,90556,Cadolzburg,,,,,,105,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/467524/,ohm-467524,347-440 m² Büroflächen mit Option auf zusätzlich 800-2100,,24576,Weddelbrook,,,,,,440,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/467528/,ohm-467528,"Büro, Arbeitsplatz, Kursräume, Schulungsräume, Coworking s",,73431,Aalen,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/467536/,ohm-467536,Charmantes Büro-/Geschäftshaus im denkmalgeschützten Fachwerkhaus,,65307,Bad Schwalbach,,,,,,,,2026-07-02,rent ~1.490 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/467647/,ohm-467647,"LAGER MIT 2 BÜROS, KÜCHE & LASTENAUFZUG – SICHER, ÜBERWACHT, 24/7 NUTZ",,58453,Witten,,,,,,,,2026-07-02,rent ~1.225 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/467817/,ohm-467817,Büro-oder Praxisfläche in Innenstadtlage mit Balkon,,,,,,,,,,,2026-07-02,rent ~1.600 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/468049/,ohm-468049,Repräsentative Büroflächen im historischen Pädagogium am C,,18581,Putbus,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/468229/,ohm-468229,BÜRO / RAUM / EINHEIT / STUDIO *provisionsfrei* in Stuttgart Botnang z,,,,,,,,,,,2026-07-02,rent ~842 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/468515/,ohm-468515,Attraktive Praxis und Therapieräume in Fellbach zu vermieten - 90 m²,,70734,Fellbach,,10,10,,,90,,2026-07-02,rent ~900 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/468595/,ohm-468595,Großzügige Loft-Bürofläche in Kreuzberger Top-Lage Nähe Paul-Lincke-Uf,,,,,,,,,,,2026-07-02,rent ~13.810 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/468799/,ohm-468799,"Moderne Büroetage mit 20–360 m² | Empfang, Besprechungsraum, Parkplätz",,75177,Pforzheim,,,,,,360,,2026-07-02,rent ~12 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/468964/,ohm-468964,Bürountermiete in 3-geschossiger Remise *Berlin Kreuzberg,,,,,,,,,,,2026-07-02,rent ~1.365 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/469085/,ohm-469085,Gewerbeflächen verfügbar 150–573 m² für Praxis oder Büro –,,46240,Bottrop,,,,,,573,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/469089/,ohm-469089,Moderne Gewerbefläche im Victoria Carré – 98 m² Bürofläche in bester I,,44787,Bochum,,10.1,10.1,,,98,,2026-07-02,rent ~990 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/469134/,ohm-469134,Gewerbeeinheit 112qm mit Garage im Bonner Zentrum - erste Rheinlage,,,,,,,,,,,2026-07-02,rent ~2.500 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/469180/,ohm-469180,EIN BÜRO WIE KEIN ZWEITES – EXKLUSIVE BRÜCKENFLÄCHE IM HISTORISCHEN WU,,,,,,,,,,,2026-07-02,rent ~525 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/469188/,ohm-469188,EXKLUSIVES BÜRO – HISTORISCHES HAUS HERBEDE – 69 m² – STELLPLÄTZE INKL,,,,,13.5,13.5,,,69,,2026-07-02,rent ~930 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/469191/,ohm-469191,Sofort bezugsfertige Bürofläche für 15–25 Mitarbeiter – Top-Anbindung,,58453,Witten,,,,,,,,2026-07-02,rent ~1.890 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/469193/,ohm-469193,BÜRO / PRAXIS – 6 RÄUME – KÜCHE – 1A-LAGE IM HBF Witten – opt. STELLPL,,58452,Witten,,,,,,,,2026-07-02,rent ~2.770 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/469232/,ohm-469232,"Büroraum am Marienplatz in Bürogemeinschaft, ab 13,70 €/m² Büro",,,,,,,,,,,2026-07-02,rent ~340 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/469412/,ohm-469412,"Praxis, Büro- oder Ladenfläche in Bahnhofnähe",,,,,,,,,,,2026-07-02,rent ~470 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/469516/,ohm-469516,Helles Büro in Bullenhausen,,,,,,,,,,,2026-07-02,rent ~600 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/469540/,ohm-469540,Großräumige helle Büroflächen ** Provisionsfrei ** Auf Wun,,63739,Aschaffenburg,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/469903/,ohm-469903,"Repräsentative Praxis-, Büro- und Dienstleistungsfläche in",,,,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/469904/,ohm-469904,Repräsentatives Ladenlokal/Büro (43 m²) in zentraler Lage von Duisburg,,,,,12.2,12.2,,,43,,2026-07-02,rent ~525 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470060/,ohm-470060,Ab sofort schickes Büro 2 große Räume Nymphenburg/Obermenzing zu vermi,,,,,,,,,,,2026-07-02,rent ~1.340 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470107/,ohm-470107,"Kleines Büro mit 12,48 m² in zentraler Innenstadtlage von Bühl!",,77815,Bühl,,3.5,3.5,,,48,,2026-07-02,rent ~170 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470112/,ohm-470112,Gewerbeimmobilie in Fehrbellin nahe Berlin zu vermieten,,16833,Fehrbellin,,,,,,,,2026-07-02,
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470209/,ohm-470209,! Provisionsfrei ! Büro-/Praxisfläche (am Karlstor) in zentraler Lage,,,,,,,,,,,2026-07-02,rent ~2.800 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470287/,ohm-470287,attraktives Büro mit 174 m² im Technologiepark Bad Aibling,,,,,11.2,11.2,,,174,,2026-07-02,rent ~1.950 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470288/,ohm-470288,Pronájem kanceláře 753 m²,,,,,,,,,753,,2026-07-02,rent ~969 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470289/,ohm-470289,Pronájem kanceláře 915 m²,,,,,,,,,915,,2026-07-02,rent ~529 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470290/,ohm-470290,Pronájem kanceláře 1.403 m²,,,,,,,,,1403,,2026-07-02,rent ~939 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470291/,ohm-470291,Pronájem kanceláře 846 m²,,,,,,,,,846,,2026-07-02,rent ~1.219 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470292/,ohm-470292,Pronájem kanceláře 1.992 m²,,,,,,,,,1992,,2026-07-02,rent ~1.019 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470293/,ohm-470293,Pronájem kanceláře 1.170 m²,,,,,,,,,1170,,2026-07-02,rent ~1.199 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470294/,ohm-470294,Pronájem kanceláře 4.617 m²,,,,,,,,,4617,,2026-07-02,rent ~1.189 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470296/,ohm-470296,Pronájem kanceláře 2.035 m²,,,,,,,,,2035,,2026-07-02,rent ~929 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470297/,ohm-470297,Pronájem kanceláře 1.601 m²,,,,,,,,,1601,,2026-07-02,rent ~1.079 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470298/,ohm-470298,Pronájem kanceláře 5.594 m²,,,,,,,,,5594,,2026-07-02,rent ~1.019 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470299/,ohm-470299,Pronájem kanceláře 1.511 m²,,,,,,,,,1511,,2026-07-02,rent ~1.699 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470300/,ohm-470300,Pronájem kanceláře 2.377 m²,,,,,,,,,2377,,2026-07-02,rent ~269 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470301/,ohm-470301,Pronájem kanceláře 1.312 m²,,,,,,,,,1312,,2026-07-02,rent ~499 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470302/,ohm-470302,Pronájem kanceláře 1.565 m²,,40880,Ratingen,,,,,,1565,,2026-07-02,rent ~389 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470303/,ohm-470303,Pronájem kanceláře 1.372 m²,,,,,,,,,1372,,2026-07-02,rent ~809 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470304/,ohm-470304,Pronájem kanceláře 639 m²,,,,,,,,,639,,2026-07-02,rent ~679 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470305/,ohm-470305,Pronájem kanceláře 1.589 m²,,,,,,,,,1589,,2026-07-02,rent ~299 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470306/,ohm-470306,Pronájem kanceláře 570 m²,,65760,Eschborn,,,,,,570,,2026-07-02,rent ~499 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470307/,ohm-470307,Pronájem kanceláře 1.048 m²,,,,,,,,,1048,,2026-07-02,rent ~489 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470308/,ohm-470308,Pronájem kanceláře 1.020 m²,,12529,Schönefeld,,,,,,1020,,2026-07-02,rent ~1.129 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470309/,ohm-470309,Pronájem kanceláře 5.375 m²,,,,,,,,,5375,,2026-07-02,rent ~299 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470310/,ohm-470310,Pronájem kanceláře 1.440 m²,,85737,Ismaning,,,,,,1440,,2026-07-02,rent ~519 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470311/,ohm-470311,Pronájem kanceláře 6.879 m²,,,,,,,,,6879,,2026-07-02,rent ~819 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470312/,ohm-470312,Pronájem kanceláře 2.830 m²,,,,,,,,,2830,,2026-07-02,rent ~719 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470313/,ohm-470313,Pronájem kanceláře 1.321 m²,,,,,,,,,1321,,2026-07-02,rent ~649 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470314/,ohm-470314,Pronájem kanceláře 4.979 m²,,61352,Bad Homburg vor der Höhe,,,,,,4979,,2026-07-02,rent ~219 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470315/,ohm-470315,Pronájem kanceláře 2.060 m²,,,,,,,,,2060,,2026-07-02,rent ~631 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470324/,ohm-470324,Pronájem kanceláře 1.662 m²,,,,,,,,,1662,,2026-07-02,rent ~979 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470325/,ohm-470325,Pronájem kanceláře 1.282 m²,,64295,Darmstadt,,,,,,1282,,2026-07-02,rent ~489 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470327/,ohm-470327,Pronájem kanceláře 4.204 m²,,,,,,,,,4204,,2026-07-02,rent ~969 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470328/,ohm-470328,Pronájem kanceláře 1.913 m²,,,,,,,,,1913,,2026-07-02,rent ~949 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470329/,ohm-470329,Pronájem kanceláře 1.413 m²,,,,,,,,,1413,,2026-07-02,rent ~469 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470330/,ohm-470330,Pronájem kanceláře 1.377 m²,,,,,,,,,1377,,2026-07-02,rent ~639 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470331/,ohm-470331,Pronájem kanceláře 1.220 m²,,,,,,,,,1220,,2026-07-02,rent ~679 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470332/,ohm-470332,Pronájem kanceláře 1.694 m²,,,,,,,,,1694,,2026-07-02,rent ~479 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470333/,ohm-470333,Pronájem kanceláře 2.268 m²,,,,,,,,,2268,,2026-07-02,rent ~689 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470334/,ohm-470334,Pronájem kanceláře 1.283 m²,,,,,,,,,1283,,2026-07-02,rent ~859 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470335/,ohm-470335,Pronájem kanceláře 1.098 m²,,,,,,,,,1098,,2026-07-02,rent ~949 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470336/,ohm-470336,Pronájem kanceláře 1.456 m²,,,,,,,,,1456,,2026-07-02,rent ~659 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470337/,ohm-470337,Pronájem kanceláře 1.330 m²,,,,,,,,,1330,,2026-07-02,rent ~1.009 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470338/,ohm-470338,Pronájem kanceláře 4.383 m²,,,,,,,,,4383,,2026-07-02,rent ~599 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470339/,ohm-470339,Pronájem kanceláře 775 m²,,,,,,,,,775,,2026-07-02,rent ~859 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470340/,ohm-470340,Pronájem kanceláře 1.362 m²,,,,,,,,,1362,,2026-07-02,rent ~1.139 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470341/,ohm-470341,Pronájem kanceláře 1.446 m²,,65189,Wiesbaden,,,,,,1446,,2026-07-02,rent ~629 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470342/,ohm-470342,Pronájem kanceláře 2.157 m²,,,,,,,,,2157,,2026-07-02,rent ~859 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470343/,ohm-470343,Pronájem kanceláře 1.328 m²,,,,,,,,,1328,,2026-07-02,rent ~299 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470344/,ohm-470344,Pronájem kanceláře 2.434 m²,,,,,,,,,2434,,2026-07-02,rent ~269 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470345/,ohm-470345,Pronájem kanceláře 2.008 m²,,,,,,,,,2008,,2026-07-02,rent ~419 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470346/,ohm-470346,Pronájem kanceláře 924 m²,,,,,,,,,924,,2026-07-02,rent ~409 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470347/,ohm-470347,Pronájem kanceláře 1.693 m²,,40882,Ratingen,,,,,,1693,,2026-07-02,rent ~659 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470744/,ohm-470744,Komplette Etage als Büro- oder Praxisfläche nach Generalsanierung,,,,,,,,,,,2026-07-02,rent ~2.650 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470751/,ohm-470751,Bürofläche mit Skyline-Blick,,,,,,,,,,,2026-07-02,rent ~8.000 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470833/,ohm-470833,„Klimatisiertes Plug-&-Play Büro für bis zu 6 Personen in Neu-Ulm – in,,89231,Neu-Ulm,,,,,,,,2026-07-02,rent ~2.000 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470897/,ohm-470897,Büro- oder Gewerbefläche mit Küche und Sanitärbereich in Leverkusen-Op,,,,,,,,,,,2026-07-02,rent ~525 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470910/,ohm-470910,"attraktive Gewerbefläche im Herzen von Senftenberg, direkt am Markt",,,,,,,,,,,2026-07-02,rent ~1.040 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470977/,ohm-470977,Vielseitige Büro- und Gewerbefläche mit optionaler Doppelgarage,,63150,Heusenstamm,,,,,,,,2026-07-02,rent ~1.100 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/470989/,ohm-470989,Charmante Bürofläche in bester Lage,,35112,Fronhausen,,,,,,,,2026-07-02,rent ~580 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/471160/,ohm-471160,Standort mit Zukunft – Attraktives Ladenlokal am Central Living ca. 80,,,,,9.4,9.4,,,80,,2026-07-02,rent ~750 EUR/mo
+office,lease,ohne-makler.net,https://www.ohne-makler.net/immobilie/471193/,ohm-471193,Hochwertige Gewerbeeinheit in Neubau-Erdgeschoss (A+),,,,,,,,,,,2026-07-02,rent ~2.150 EUR/mo
